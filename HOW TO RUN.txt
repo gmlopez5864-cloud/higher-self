@@ -1,0 +1,6 @@
+HOW TO RUN
+1. Unzip this folder.
+2. Mac: double-click "Start Higher Self.command" (if macOS blocks it: right-click → Open).
+3. Windows: double-click "Start Higher Self.bat" (needs Python installed).
+4. Browser opens at http://localhost:8765
+5. Phone: open that page, then Add to Home Screen.

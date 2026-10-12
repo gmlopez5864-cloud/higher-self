@@ -1,5 +1,5 @@
 /* Higher Self — offline shell for install / Add to Home Screen */
-const CACHE = "higher-self-v10";
+const CACHE = "higher-self-v11";
 const PRECACHE = [
   "./",
   "./index.html",
@@ -37,7 +37,6 @@ const PRECACHE = [
   "./icons/pull-control.jpg",
   "./icons/pull-people-pleasing.jpg",
   "./icons/pull-numbness.jpg",
-  "./icons/opp-acceptance.jpg",
   "./icons/opp-belonging.jpg",
   "./icons/opp-boundary.jpg",
   "./icons/opp-calm.jpg",
@@ -65,7 +64,27 @@ const PRECACHE = [
   "./icons/steer-savoring.jpg",
   "./icons/steer-steadiness.jpg",
   "./icons/steer-trust.jpg",
-  "./icons/opp-endurance.jpg"
+  "./icons/opp-endurance.jpg",
+  "./icons/library/chain.jpg",
+  "./icons/library/crack.jpg",
+  "./icons/library/empty-cup.jpg",
+  "./icons/library/flame.jpg",
+  "./icons/library/knot.jpg",
+  "./icons/library/mask.jpg",
+  "./icons/library/maze.jpg",
+  "./icons/library/screen.jpg",
+  "./icons/library/spiral.jpg",
+  "./icons/library/storm.jpg",
+  "./icons/library/wave.jpg",
+  "./icons/library/weight.jpg",
+  "./icons/paths/athlete.jpg",
+  "./icons/paths/builder.jpg",
+  "./icons/paths/custom.jpg",
+  "./icons/paths/martial-artist.jpg",
+  "./icons/paths/musician.jpg",
+  "./icons/paths/parent.jpg",
+  "./icons/paths/partner.jpg",
+  "./icons/paths/writer.jpg"
 ];
 
 self.addEventListener("install", (event) => {
