@@ -1,0 +1,2936 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dawn">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#C47A3A" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<meta name="apple-mobile-web-app-title" content="Higher Self" />
+<meta name="description" content="Private growth journal with encrypted vault and soft season check-ins." />
+<title>Higher Self</title>
+<link rel="manifest" href="manifest.webmanifest" />
+<link rel="icon" href="icons/icon-192.png" type="image/png" />
+<link rel="icon" href="icons/app-mark.jpg" />
+<link rel="apple-touch-icon" href="icons/icon-180.png" />
+<style>
+  html[data-theme="dawn"] {
+    --bg: #F7F1E8;
+    --panel: #FFFCF7;
+    --text: #2C2416;
+    --muted: #7A6E5C;
+    --accent: #C47A3A;
+    --border: #E5D9C8;
+    --on-accent: #2C2416;
+    --onBtn: #2C2416;
+    --card: #FFFCF7;
+    --line: #E5D9C8;
+    --field: #F7F1E8;
+    --shadow: 0 10px 30px rgba(44, 36, 22, 0.06);
+    --good: #2F7D4A;
+    --warn: #9A4D2F;
+    color-scheme: light;
+  }
+  html[data-theme="dusk"] {
+    --bg: #12141C;
+    --panel: #1C2030;
+    --text: #E8E6F0;
+    --muted: #9A96B0;
+    --accent: #7B8CFF;
+    --border: #2A3148;
+    --on-accent: #12141C;
+    --onBtn: #12141C;
+    --card: #1C2030;
+    --line: #2A3148;
+    --field: #12141C;
+    --shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+    --good: #8FDBB0;
+    --warn: #F0B0A4;
+    color-scheme: dark;
+  }
+  html[data-theme="grove"] {
+    --bg: #E8F0E9;
+    --panel: #F4FAF5;
+    --text: #1E2E22;
+    --muted: #5F7364;
+    --accent: #3D7A55;
+    --border: #C5D6C9;
+    --on-accent: #F4FAF5;
+    --onBtn: #F4FAF5;
+    --card: #F4FAF5;
+    --line: #C5D6C9;
+    --field: #E8F0E9;
+    --shadow: 0 10px 28px rgba(30, 46, 34, 0.06);
+    --good: #1E6B3A;
+    --warn: #8A4B32;
+    color-scheme: light;
+  }
+
+  html[data-theme="forest"] {
+    --bg: #12382C;
+    --panel: #1B4A3A;
+    --card: #1B4A3A;
+    --text: #F4FBF6;
+    --muted: #C6D9CE;
+    --accent: #F0C14A;
+    --border: #24604C;
+    --line: #24604C;
+    --on-accent: #12382C;
+    --onBtn: #12382C;
+    --field: #12382C;
+    --shadow: 0 12px 32px rgba(0, 0, 0, 0.32);
+    --good: #8FDBB0;
+    --warn: #F0C2B4;
+    color-scheme: dark;
+  }
+  html[data-theme="city"] {
+    --bg: #1C212B;
+    --panel: #2A3140;
+    --card: #2A3140;
+    --text: #F4F6FA;
+    --muted: #B0B7C4;
+    --accent: #FF5C39;
+    --border: #3C4558;
+    --line: #3C4558;
+    --on-accent: #1C212B;
+    --onBtn: #1C212B;
+    --field: #1C212B;
+    --shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+    --good: #8FDBB0;
+    --warn: #F0B0A4;
+    color-scheme: dark;
+  }
+  html[data-theme="desert"] {
+    --bg: #F8E2C4;
+    --panel: #FFF6E8;
+    --card: #FFF6E8;
+    --text: #5A3014;
+    --muted: #8D6844;
+    --accent: #D85A2A;
+    --border: #E8CBA6;
+    --line: #E8CBA6;
+    --on-accent: #FFF6E8;
+    --onBtn: #FFF6E8;
+    --field: #F8E2C4;
+    --shadow: 0 10px 28px rgba(90, 48, 20, 0.08);
+    --good: #2F7D4A;
+    --warn: #9A4D2F;
+    color-scheme: light;
+  }
+  html[data-theme="ocean"] {
+    --bg: #083848;
+    --panel: #0E4A5E;
+    --card: #0E4A5E;
+    --text: #E9F7FB;
+    --muted: #A9D3E0;
+    --accent: #2EC4B6;
+    --border: #166078;
+    --line: #166078;
+    --on-accent: #062E3C;
+    --onBtn: #062E3C;
+    --field: #083848;
+    --shadow: 0 12px 32px rgba(0, 0, 0, 0.32);
+    --good: #8FDBB0;
+    --warn: #F0B0A4;
+    color-scheme: dark;
+  }
+  html[data-theme="mountain"] {
+    --bg: #2A3A4A;
+    --panel: #36485A;
+    --card: #36485A;
+    --text: #F3F6F8;
+    --muted: #C5D0DA;
+    --accent: #E8A05A;
+    --border: #46586A;
+    --line: #46586A;
+    --on-accent: #241E18;
+    --onBtn: #241E18;
+    --field: #2A3A4A;
+    --shadow: 0 12px 32px rgba(0, 0, 0, 0.32);
+    --good: #8FDBB0;
+    --warn: #F0B0A4;
+    color-scheme: dark;
+  }
+  html[data-theme="spectrum"] {
+    --bg: #FFF8FB;
+    --panel: #FFFFFF;
+    --card: #FFFFFF;
+    --text: #2C2440;
+    --muted: #6E6680;
+    /* No accent hex was specified; #7A5CFF is only the focus/button fallback. The Spectrum control itself is the gradient. */
+    --accent: #7A5CFF;
+    --border: #E4DCEC;
+    --line: #E4DCEC;
+    --on-accent: #FFFFFF;
+    --onBtn: #FFFFFF;
+    --field: #FFF8FB;
+    --shadow: 0 10px 28px rgba(44, 36, 64, 0.06);
+    --good: #1E6B3A;
+    --warn: #9A4D2F;
+    color-scheme: light;
+  }
+  html[data-theme="light"] {
+    --bg: #F6F7F9;
+    --panel: #FFFFFF;
+    --card: #FFFFFF;
+    --text: #16181D;
+    --muted: #5C6570;
+    --accent: #2F6FED;
+    --border: #E1E5EB;
+    --line: #E1E5EB;
+    --on-accent: #FFFFFF;
+    --onBtn: #FFFFFF;
+    --field: #F6F7F9;
+    --shadow: 0 10px 28px rgba(22, 24, 29, 0.06);
+    --good: #1E6B3A;
+    --warn: #9A4D2F;
+    color-scheme: light;
+  }
+  html[data-theme="dark"] {
+    --bg: #101114;
+    --panel: #1A1C22;
+    --card: #1A1C22;
+    --text: #F3F4F6;
+    --muted: #A1A6B0;
+    --accent: #D6DBE4;
+    --border: #2A2E36;
+    --line: #2A2E36;
+    --on-accent: #101114;
+    --onBtn: #101114;
+    --field: #101114;
+    --shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+    --good: #8FDBB0;
+    --warn: #F0B0A4;
+    color-scheme: dark;
+  }
+  html[data-theme="water"] {
+    --bg: #E4F5FB;
+    --panel: #F5FCFF;
+    --card: #F5FCFF;
+    --text: #0B3A4E;
+    --muted: #3E6A7E;
+    --accent: #128FBF;
+    --border: #C3E4F2;
+    --line: #C3E4F2;
+    --on-accent: #F5FCFF;
+    --onBtn: #F5FCFF;
+    --field: #E4F5FB;
+    --shadow: 0 10px 28px rgba(11, 58, 78, 0.06);
+    --good: #1E6B3A;
+    --warn: #9A4D2F;
+    color-scheme: light;
+  }
+  html[data-theme="fire"] {
+    --bg: #3A120E;
+    --panel: #4E1C16;
+    --card: #4E1C16;
+    --text: #FFF3EC;
+    --muted: #F0C2B4;
+    --accent: #FF6A1A;
+    --border: #6E3026;
+    --line: #6E3026;
+    --on-accent: #2A0E0A;
+    --onBtn: #2A0E0A;
+    --field: #3A120E;
+    --shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+    --good: #8FDBB0;
+    --warn: #F0B0A4;
+    color-scheme: dark;
+  }
+  html[data-theme="earth"] {
+    --bg: #EFE4D2;
+    --panel: #F8F3E8;
+    --card: #F8F3E8;
+    --text: #2E2618;
+    --muted: #6E5A42;
+    --accent: #6E8A32;
+    --border: #DDD0B8;
+    --line: #DDD0B8;
+    --on-accent: #F8F3E8;
+    --onBtn: #F8F3E8;
+    --field: #EFE4D2;
+    --shadow: 0 10px 28px rgba(46, 38, 24, 0.07);
+    --good: #2F7D4A;
+    --warn: #9A4D2F;
+    color-scheme: light;
+  }
+  html[data-theme="wind"] {
+    --bg: #E7F2F6;
+    --panel: #F7FBFD;
+    --card: #F7FBFD;
+    --text: #1E3340;
+    --muted: #5A7080;
+    --accent: #3A9BC4;
+    --border: #D0E3EC;
+    --line: #D0E3EC;
+    --on-accent: #F7FBFD;
+    --onBtn: #F7FBFD;
+    --field: #E7F2F6;
+    --shadow: 0 10px 28px rgba(30, 51, 64, 0.06);
+    --good: #1E6B3A;
+    --warn: #9A4D2F;
+    color-scheme: light;
+  }
+  html[data-theme="metal"] {
+    --bg: #E6E8EB;
+    --panel: #F6F7F8;
+    --card: #F6F7F8;
+    --text: #1A1D22;
+    --muted: #5C636C;
+    --accent: #A68448;
+    --border: #D2D6DB;
+    --line: #D2D6DB;
+    --on-accent: #F6F7F8;
+    --onBtn: #F6F7F8;
+    --field: #E6E8EB;
+    --shadow: 0 10px 28px rgba(26, 29, 34, 0.06);
+    --good: #1E6B3A;
+    --warn: #9A4D2F;
+    color-scheme: light;
+  }
+
+  :root {
+    --career: #5B9FD4;
+    --personal: #3ECF8E;
+    --social: #E07A9A;
+    --spiritual: #9B7EDE;
+    --time: #E6B84D;
+    --gold: #C4A265;
+    --radius: 16px;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.45;
+    min-height: 100vh;
+  }
+  button, input, select, textarea { font: inherit; color: inherit; }
+  button { cursor: pointer; }
+  button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 1.25rem 1.1rem 3rem; }
+  header.top { display: flex; flex-direction: column; gap: 0.85rem; }
+  .brand-row, .stat-row { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; justify-content: space-between; }
+  h1 {
+    font-family: Georgia, "Iowan Old Style", Palatino, serif;
+    font-weight: 500;
+    font-size: 1.85rem;
+    letter-spacing: -0.03em;
+    margin: 0;
+  }
+  .brand p { margin: 0.15rem 0 0; color: var(--muted); font-size: 0.88rem; }
+  .themes { display: flex; flex-wrap: wrap; gap: 0.35rem; background: var(--panel); border: 1px solid var(--border); border-radius: 16px; padding: 0.35rem; max-width: 100%; justify-content: flex-start; }
+  #optionsDialog .themes { margin-top: 0.35rem; }
+  .themes button {
+    border: 0; background: transparent; color: var(--muted);
+    border-radius: 999px; padding: 0.32rem 0.62rem; font-size: 0.78rem;
+  }
+  .themes button[aria-pressed="true"] { background: var(--accent); color: var(--onBtn); font-weight: 650; }
+  .themes button[data-theme="spectrum"] {
+    background: linear-gradient(to right, #FF5A5A, #F5A623, #E2C200, #3CB87A, #3D8BFF, #7A5CFF);
+    color: #FFFFFF;
+    font-weight: 650;
+  }
+  .themes button[data-theme="spectrum"][aria-pressed="true"] {
+    background: linear-gradient(to right, #FF5A5A, #F5A623, #E2C200, #3CB87A, #3D8BFF, #7A5CFF);
+    color: #FFFFFF;
+    box-shadow: inset 0 0 0 2px #FFFFFF;
+  }
+  .theme-note { font-size: 0.75rem; color: var(--muted); margin: 0.35rem 0 0; text-align: right; }
+  .stats { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .stat {
+    background: var(--panel); border: 1px solid var(--border); border-radius: 12px;
+    padding: 0.55rem 0.75rem; min-width: 7.5rem; box-shadow: var(--shadow);
+  }
+  .stat b { display: block; font-size: 1.02rem; font-variant-numeric: tabular-nums; }
+  .stat span { font-size: 0.68rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+  .money-pos { color: var(--good); }
+  .money-neg { color: var(--warn); }
+  .coach {
+    background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 0.9rem 1rem 1rem; box-shadow: var(--shadow);
+  }
+  .coach .kicker { font-size: 0.68rem; letter-spacing: 0.11em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin: 0 0 0.35rem; }
+  .coach .missed { margin: 0 0 0.55rem; font-size: 1.02rem; }
+  .coach-line { margin: 0; font-size: 1.05rem; }
+  .coach-line + .coach-line { margin-top: 0.2rem; }
+  .coach .soft { margin: 0.45rem 0 0; color: var(--muted); font-size: 0.85rem; }
+  .strip {
+    margin-top: 0.9rem;
+    display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 0.4rem;
+  }
+  .day-btn {
+    background: var(--panel); border: 1px solid var(--border); border-radius: 12px;
+    padding: 0.45rem 0.2rem 0.5rem; color: var(--text);
+    display: flex; flex-direction: column; align-items: center; gap: 0.08rem; min-width: 0;
+  }
+  .day-btn .dow { font-size: 0.68rem; letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted); }
+  .day-btn .num { font-family: Georgia, serif; font-size: 1.05rem; }
+  .day-btn .hrs { font-size: 0.72rem; font-variant-numeric: tabular-nums; color: var(--muted); }
+  .day-btn[aria-pressed="true"] { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+  .day-btn.is-today .dow { color: var(--accent); }
+  .mark { width: 6px; height: 6px; border-radius: 50%; background: transparent; }
+  .mark.on { background: var(--accent); }
+  .mark.back { background: var(--gold); }
+  .panel {
+    margin-top: 0.9rem; background: var(--panel); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 1rem 1rem 1.1rem; box-shadow: var(--shadow);
+  }
+  .panel h2, .block h2, .side h2 {
+    margin: 0 0 0.65rem; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); font-weight: 700;
+  }
+  .sleep-row, .q-block { margin-top: 0.85rem; }
+  .q-title { margin: 0 0 0.35rem; font-size: 1rem; }
+  .hint { color: var(--muted); font-size: 0.82rem; margin: 0.2rem 0 0.45rem; }
+  .row-actions, .pulls, .time-row { display: flex; flex-wrap: wrap; gap: 0.45rem; align-items: flex-end; }
+  .pulls { align-items: stretch; }
+  button.btn.pull-btn {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    padding: 0.35rem 0.7rem 0.35rem 0.35rem;
+  }
+  button.btn.pull-btn img.pull-icon {
+    width: 28px; height: 28px; border-radius: 7px; object-fit: cover;
+    border: 1px solid var(--border); flex: 0 0 28px; display: block;
+  }
+  button.btn.pull-btn[aria-pressed="true"] img.pull-icon { border-color: transparent; }
+  .steer-map {
+    margin-top: 0.65rem; display: grid; gap: 0.45rem;
+    grid-template-columns: 1fr 1fr;
+  }
+  .steer-chip {
+    display: flex; align-items: center; gap: 0.45rem;
+    border: 1px solid var(--border); border-radius: 12px;
+    padding: 0.4rem 0.55rem; background: var(--field);
+  }
+  .steer-chip img {
+    width: 32px; height: 32px; border-radius: 8px; object-fit: cover;
+    border: 1px solid var(--border); flex: 0 0 32px;
+  }
+  .steer-chip .k { display: block; font-size: 0.68rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
+  .steer-chip .v { display: block; font-size: 0.95rem; font-weight: 650; }
+  @media (max-width: 520px) { .steer-map { grid-template-columns: 1fr; } }
+  button.btn, .ghost {
+    border: 1px solid var(--border); background: var(--field); border-radius: 999px;
+    padding: 0.45rem 0.8rem; font-size: 0.86rem;
+  }
+  button.btn.primary { background: var(--accent); border-color: transparent; color: var(--onBtn); font-weight: 700; }
+  button.btn[aria-pressed="true"] { background: var(--accent); border-color: transparent; color: var(--onBtn); font-weight: 700; }
+  button.btn:disabled, button.btn[aria-disabled="true"] { opacity: 0.45; cursor: not-allowed; }
+  label.field { display: flex; flex-direction: column; gap: 0.2rem; font-size: 0.75rem; color: var(--muted); flex: 1; min-width: 140px; }
+  input[type="text"], input[type="password"], input[type="number"], input[type="time"], input[type="date"], select, textarea {
+    background: var(--field); border: 1px solid var(--border); border-radius: 10px;
+    padding: 0.5rem 0.6rem; width: 100%;
+  }
+  textarea { min-height: 4.2rem; resize: vertical; }
+  .sleep-read { font-family: Georgia, serif; font-size: 1.35rem; margin: 0.35rem 0; }
+  .short-note { color: var(--warn); font-size: 0.88rem; margin: 0.25rem 0 0; }
+  .private-box { margin-top: 0.35rem; border: 1px dashed var(--border); border-radius: 12px; padding: 0.7rem 0.75rem; }
+  .gate {
+    margin-top: 0.75rem; font-size: 0.86rem; color: var(--muted);
+    background: var(--field); border-radius: 10px; padding: 0.55rem 0.7rem;
+  }
+  .areas {
+    margin-top: 0.9rem;
+    display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 0.7rem;
+  }
+  .area { grid-column: span 2; background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); padding: 0.85rem 0.85rem 1rem; min-width: 0; box-shadow: var(--shadow); }
+  .area:nth-child(4), .area:nth-child(5) { grid-column: span 3; }
+  .area-head { display: flex; justify-content: space-between; gap: 0.5rem; align-items: flex-start; }
+  .area-head h3 { margin: 0; font-size: 0.98rem; display: flex; gap: 0.45rem; align-items: center; flex: 1; min-width: 0; }
+  .area-head .hrs { font-size: 0.78rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .areas-hint { margin: 0.9rem 0 0.35rem; }
+  .area { position: relative; }
+  .area.dragging { opacity: 0.55; }
+  .area.drag-over { outline: 2px dashed var(--accent); outline-offset: 2px; }
+  .area-controls { display: flex; flex-direction: column; gap: 0.15rem; flex: 0 0 auto; margin-left: 0.25rem; }
+  .area-controls button {
+    border: 1px solid var(--border); background: var(--field); color: var(--muted);
+    border-radius: 8px; width: 28px; height: 24px; padding: 0; font-size: 0.72rem; line-height: 1; cursor: pointer;
+  }
+  .area-controls button:disabled { opacity: 0.35; cursor: not-allowed; }
+  .area-controls button:not(:disabled):hover { color: var(--text); border-color: var(--accent); }
+  .drag-handle {
+    cursor: grab; color: var(--muted); font-size: 0.85rem; letter-spacing: 0.05em;
+    user-select: none; touch-action: none; padding: 0.1rem 0.15rem; align-self: center;
+  }
+  .drag-handle:active { cursor: grabbing; }
+  .icon { width: 22px; height: 22px; flex: 0 0 auto; }
+  .card {
+    margin-top: 0.5rem; border: 1px solid var(--border); border-radius: 12px; padding: 0.6rem 0.65rem; background: var(--field);
+  }
+  .card .top { display: flex; justify-content: space-between; gap: 0.4rem; align-items: baseline; }
+  .card strong { font-size: 0.9rem; }
+  .status { font-size: 0.72rem; text-transform: lowercase; color: var(--muted); }
+  .status.doing { color: var(--accent); }
+  .status.done { color: var(--good); }
+  .meta { margin-top: 0.2rem; font-size: 0.78rem; color: var(--muted); }
+  .bar { height: 6px; background: var(--border); border-radius: 99px; overflow: hidden; margin-top: 0.4rem; }
+  .bar > i { display: block; height: 100%; border-radius: 99px; }
+  .starter { margin-top: 0.55rem; font-size: 0.82rem; }
+  .starter button { margin-top: 0.35rem; }
+  .split { margin-top: 0.9rem; display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 0.7rem; }
+  .side { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); padding: 0.9rem 1rem 1rem; box-shadow: var(--shadow); }
+  .pie-layout { display: flex; gap: 0.8rem; align-items: center; flex-wrap: wrap; }
+  svg.pie { width: 180px; height: 180px; flex: 0 0 auto; }
+  .legend { list-style: none; margin: 0; padding: 0; flex: 1; min-width: 180px; }
+  .legend li { display: grid; grid-template-columns: 12px 1fr auto; gap: 0.4rem; align-items: center; font-size: 0.84rem; padding: 0.18rem 0; }
+  .swatch { width: 12px; height: 12px; border-radius: 3px; }
+  .trophies { display: flex; flex-direction: column; gap: 0.45rem; }
+  .trophy { display: flex; gap: 0.55rem; border: 1px solid var(--border); border-radius: 12px; padding: 0.5rem 0.6rem; background: var(--field); }
+  .trophy.earned { box-shadow: inset 3px 0 0 var(--gold); }
+  .trophy strong { display: block; font-size: 0.88rem; }
+  .trophy p { margin: 0.12rem 0 0; color: var(--muted); font-size: 0.76rem; }
+  .cup { width: 26px; height: 26px; flex: 0 0 auto; }
+  .log-list { list-style: none; margin: 0; padding: 0; }
+  .log-list li { display: flex; justify-content: space-between; gap: 0.75rem; padding: 0.4rem 0; border-bottom: 1px solid var(--border); font-size: 0.88rem; }
+  .log-list li:last-child { border-bottom: 0; }
+  .money-list { list-style: none; margin: 0; padding: 0; }
+  .money-list li { display: flex; justify-content: space-between; gap: 0.6rem; font-size: 0.86rem; padding: 0.32rem 0; border-bottom: 1px solid var(--border); }
+  .tools { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  dialog {
+    border: 1px solid var(--border); border-radius: 16px; background: var(--panel); color: var(--text);
+    padding: 1.1rem 1.15rem 1rem; width: min(440px, calc(100% - 2rem)); box-shadow: var(--shadow);
+  }
+  dialog::backdrop { background: rgba(20, 16, 12, 0.45); }
+  dialog h3 { margin: 0 0 0.4rem; font-family: Georgia, serif; font-weight: 500; }
+  dialog .actions { display: flex; justify-content: flex-end; gap: 0.4rem; margin-top: 0.9rem; }
+  .domain-picks { display: flex; flex-direction: column; gap: 0.35rem; margin: 0.4rem 0 0.6rem; }
+  .domain-picks label { display: flex; gap: 0.45rem; align-items: center; font-size: 0.9rem; color: var(--text); }
+  .empty { color: var(--muted); font-size: 0.86rem; margin: 0.2rem 0; }
+  @media (max-width: 900px) {
+    .areas { grid-template-columns: 1fr 1fr; }
+    .area, .area:nth-child(4), .area:nth-child(5) { grid-column: auto; }
+    .split { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 640px) {
+    .wrap { padding: 0.85rem 0.75rem 2.5rem; padding-bottom: max(2.5rem, env(safe-area-inset-bottom)); }
+    .areas { grid-template-columns: 1fr; gap: 0.85rem; }
+    .area { padding: 0.9rem 0.8rem 1.05rem; }
+    h1 { font-size: 1.45rem; }
+    .theme-note { text-align: left; }
+    .themes { max-width: 100%; justify-content: flex-start; }
+    .themes button { padding: 0.42rem 0.72rem; min-height: 36px; font-size: 0.8rem; }
+    .stat { min-width: calc(50% - 0.3rem); flex: 1 1 7rem; }
+    .strip {
+      display: flex; overflow-x: auto; -webkit-overflow-scrolling: touch;
+      scroll-snap-type: x proximity; gap: 0.45rem; padding-bottom: 0.25rem;
+      grid-template-columns: none;
+    }
+    .day-btn {
+      flex: 0 0 3.4rem; min-height: 4.2rem; scroll-snap-align: start;
+      padding: 0.5rem 0.25rem;
+    }
+    button.btn, .ghost, .chip {
+      min-height: 44px; padding: 0.55rem 0.95rem; font-size: 0.9rem;
+    }
+    .area-controls button {
+      width: 36px; height: 32px; font-size: 0.8rem;
+    }
+    .drag-handle {
+      font-size: 1.15rem; padding: 0.35rem 0.45rem; min-width: 36px; min-height: 44px;
+      display: inline-flex; align-items: center; justify-content: center;
+    }
+    .area-head { align-items: center; flex-wrap: wrap; }
+    .area-head h3 { font-size: 1rem; width: 100%; order: 2; margin-top: 0.25rem; }
+    .area-head .hrs { order: 3; }
+    .drag-handle { order: 1; }
+    .area-controls { order: 4; flex-direction: row; margin-left: auto; }
+    .goals-row { grid-template-columns: 1fr !important; }
+    .account-grid { grid-template-columns: 1fr 1fr; }
+    .pie-layout { flex-direction: column; align-items: stretch; }
+    svg.pie { width: min(220px, 70vw); height: auto; margin: 0 auto; }
+    .legend { min-width: 0; width: 100%; }
+    .row-actions { gap: 0.5rem; }
+    .reeval-card .row-actions { flex-direction: column; align-items: stretch; }
+    .reeval-card .row-actions .btn { width: 100%; text-align: center; }
+    .lock-bar { justify-content: stretch; }
+    .lock-bar .btn { flex: 1 1 auto; }
+    label.field { min-width: 0; }
+    .time-row.composer { flex-direction: column; align-items: stretch; }
+    .time-row.composer .btn { width: 100%; }
+    dialog { width: calc(100% - 1.25rem); max-height: calc(100vh - 2rem); overflow: auto; }
+    .vault-screen { margin: 1.5rem auto; }
+  }
+  @media (max-width: 380px) {
+    .account-grid { grid-template-columns: 1fr; }
+    .stat { min-width: 100%; }
+  }
+  .goal-edit {
+    display: flex; flex-wrap: wrap; gap: 0.35rem; align-items: center; margin-top: 0.35rem;
+  }
+  .goal-edit label { font-size: 0.72rem; color: var(--muted); display: flex; align-items: center; gap: 0.3rem; }
+  .goal-edit input[type="number"] {
+    width: 5.5rem; padding: 0.35rem 0.45rem; min-height: 36px;
+  }
+  .install-hint {
+    margin-top: 0.75rem; padding: 0.65rem 0.75rem; border-radius: 12px;
+    border: 1px dashed var(--border); background: var(--field); font-size: 0.82rem; color: var(--muted);
+  }
+  .install-hint code {
+    display: block; margin: 0.35rem 0; padding: 0.45rem 0.55rem;
+    background: var(--panel); border: 1px solid var(--border); border-radius: 8px;
+    font-size: 0.8rem; color: var(--text); word-break: break-all;
+  }
+
+  .book-slot {
+    display: inline-flex; align-items: center; gap: 0.55rem;
+    color: var(--muted); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 700;
+  }
+  .book { width: 42px; height: 42px; flex: 0 0 42px; display: block; object-fit: cover; border: 1px solid var(--border); border-radius: 8px; }
+  .book-set { display: inline-flex; align-items: center; gap: 0.3rem; }
+  .book.app-mark { width: 36px; height: 36px; flex: 0 0 36px; }
+  .brand-mark { display: flex; align-items: center; gap: 0.55rem; }
+  .title-book { display: flex; align-items: center; gap: 0.5rem; }
+  .area-notes { margin-top: 0.7rem; border-top: 1px solid var(--line); padding-top: 0.55rem; }
+  .area-goals {
+    margin-top: 0.65rem; padding-top: 0.55rem; border-top: 1px solid var(--line);
+  }
+  .area-goals .goals-title {
+    margin: 0 0 0.35rem; font-size: 0.78rem; letter-spacing: 0.08em;
+    text-transform: uppercase; font-weight: 700; color: var(--muted);
+  }
+  .area-goals .goals-row {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 0.45rem;
+  }
+  .area-goals .goals-row .field { margin: 0; }
+  .area-goals .goals-hint { margin: 0.35rem 0 0; font-size: 0.78rem; color: var(--muted); }
+  .area-goals .season-block {
+    margin-top: 0.5rem; padding: 0.55rem 0.65rem; border-radius: 12px;
+    border: 1px dashed var(--border); background: var(--field);
+  }
+  .area-goals .season-block .goals-title { color: var(--accent); }
+  .area-goals .season-block .goals-hint { margin-top: 0.3rem; }
+  .area-goals .season-actions { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.4rem; }
+  .reeval-card {
+    margin-top: 0.55rem; padding: 0.65rem 0.75rem; border-radius: 12px;
+    border: 1px solid var(--border); background: var(--field);
+  }
+  .reeval-card .coach-line { font-size: 0.98rem; }
+  .reeval-card .soft { margin: 0.35rem 0 0; }
+  .reeval-card .row-actions { margin-top: 0.5rem; }
+  .note-list, .entry-list { list-style: none; margin: 0.35rem 0 0; padding: 0; }
+  .note-list li, .entry-list li {
+    display: flex; justify-content: space-between; gap: 0.55rem; align-items: flex-start;
+    padding: 0.38rem 0; border-bottom: 1px solid var(--line); font-size: 0.84rem;
+  }
+  .note-list li:last-child, .entry-list li:last-child { border-bottom: 0; }
+  .note-list time, .entry-meta { display: block; color: var(--muted); font-size: 0.72rem; }
+  .note-body { min-width: 0; }
+  .tiny {
+    border: 0; background: transparent; color: var(--muted); font-size: 0.75rem; padding: 0.15rem 0.2rem;
+  }
+  .composer { margin-top: 0.55rem; }
+  .purpose-name { margin-top: 0.55rem; }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+
+  .subpanel { margin-top: 0.85rem; border-top: 1px solid var(--line); padding-top: 0.7rem; }
+  .subpanel h3 { margin: 0 0 0.35rem; font-size: 0.95rem; font-family: Georgia, serif; font-weight: 500; }
+  .chip-row { display: flex; flex-wrap: wrap; gap: 0.35rem; margin: 0.35rem 0 0.55rem; }
+  .chip {
+    border: 1px solid var(--border); background: var(--field); border-radius: 999px;
+    padding: 0.35rem 0.7rem; font-size: 0.8rem; text-align: left;
+  }
+  .chip[aria-pressed="true"] { background: var(--accent); border-color: transparent; color: var(--onBtn); font-weight: 700; }
+  .offer {
+    margin-top: 0.55rem; padding: 0.65rem 0.75rem; border-radius: 12px;
+    border: 1px dashed var(--border); background: var(--field);
+  }
+  .offer strong { display: block; margin-bottom: 0.2rem; }
+  .account-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr)); gap: 0.45rem; margin: 0.45rem 0 0.7rem; }
+  .account-card {
+    border: 1px solid var(--border); border-radius: 12px; padding: 0.55rem 0.65rem; background: var(--field);
+    cursor: pointer; text-align: left; width: 100%; font: inherit; color: inherit;
+  }
+  .account-card:hover, .account-card:focus-visible { border-color: var(--accent); outline: none; }
+  .account-card .name { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+  .account-card .bal { font-family: Georgia, serif; font-size: 1.1rem; margin-top: 0.15rem; }
+  .week-sum { font-size: 0.86rem; color: var(--muted); margin: 0.35rem 0 0.55rem; }
+  .tag { display: inline-block; font-size: 0.72rem; color: var(--muted); margin-left: 0.35rem; }
+  .mark-row { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.35rem; }
+  .returns-banner {
+    margin: 0.55rem 0 0; padding: 0.65rem 0.75rem; border-radius: 12px;
+    border: 1px solid var(--border); background: var(--field);
+  }
+  .returns-banner b { display: block; font-size: 1.05rem; }
+  dialog.wide { width: min(520px, calc(100% - 2rem)); }
+  .preset-block { margin: 0.45rem 0 0.65rem; }
+  .preset-block .hint { margin-bottom: 0.35rem; }
+
+  .vault-screen {
+    max-width: 420px; margin: 3rem auto; padding: 1.4rem 1.3rem 1.5rem;
+    background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius);
+    box-shadow: var(--shadow);
+  }
+  .vault-screen h1 { font-family: Georgia, serif; font-weight: 500; font-size: 1.55rem; margin: 0 0 0.35rem; }
+  .vault-screen .actions { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.9rem; }
+  .vault-err { color: var(--warn); font-size: 0.86rem; margin: 0.45rem 0 0; }
+  .lock-bar {
+    display: flex; flex-wrap: wrap; gap: 0.4rem; align-items: center; justify-content: flex-end;
+    margin-top: 0.55rem;
+  }
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
+</style>
+</head>
+<body>
+<div id="vaultGate" class="wrap" hidden></div>
+<div id="appRoot" class="wrap" hidden>
+  <header class="top">
+    <div class="brand-row">
+      <div class="brand">
+        <h1 class="brand-mark"><img class="book app-mark" src="icons/app-mark.jpg" alt="" />Higher Self</h1>
+        <p id="todayLabel"></p>
+      </div>
+      <div>
+        <div class="header-actions" style="display:flex;flex-wrap:wrap;gap:0.4rem;justify-content:flex-end;align-items:center">
+          <button type="button" class="btn" id="btnOptions">Options · Dawn</button>
+        </div>
+        <div class="lock-bar">
+          <button type="button" class="btn" id="btnBackup">Back up the encrypted file.</button>
+          <button type="button" class="btn" id="btnRestore">Restore from a backup.</button>
+          <button type="button" class="btn" id="btnLock">Lock</button>
+        </div>
+        <p class="hint" style="text-align:right;margin:0.25rem 0 0">Your data stays on this phone, encrypted. Cloud sync (Google Drive) is coming — for now, save the backup file wherever you like.</p>
+      </div>
+    </div>
+    <div class="stat-row">
+      <div class="stats" aria-label="Today at a glance">
+        <div class="stat"><span>Hours used</span><b id="hoursUsed">—</b></div>
+        <div class="stat"><span>Hours left</span><b id="hoursLeft">—</b></div>
+        <div class="stat"><span>Money</span><b id="moneyNet">—</b><span id="moneySplit" style="letter-spacing:0;text-transform:none;font-size:0.75rem"></span></div>
+      </div>
+      <div class="tools">
+        <button type="button" class="btn primary" id="btnAddTask">Add task</button>
+        <button type="button" class="btn" id="btnAddGoal">Add goal</button>
+        <button type="button" class="btn" id="btnAddMoney">Add money</button>
+      </div>
+    </div>
+    <section class="coach" id="coach" aria-live="polite"></section>
+  </header>
+
+  <div class="strip" id="strip" role="tablist" aria-label="This week, Sunday through Saturday"></div>
+
+  <section class="panel" id="checkin" aria-labelledby="checkinTitle">
+    <h2 id="checkinTitle">Check-in</h2>
+    <div id="checkinBody"></div>
+  </section>
+
+  <p class="hint areas-hint">Drag to put what you&#39;re focusing on first right now on top.</p>
+  <p class="hint" style="margin:0 0 0.45rem">The order is yours. Change it when your path shifts.</p>
+  <div class="areas" id="areas"></div>
+
+  <section class="panel" id="replacementPanel" aria-labelledby="replTitle">
+    <h2 id="replTitle">Replacement list</h2>
+    <div class="book-slot"><img class="book" src="icons/shadow.jpg" alt="" /><span>When an urge hits</span></div>
+    <p class="hint">Actions you picked ahead for when an urge hits.</p>
+    <p class="hint">When a pull shows up, offer one from this list.</p>
+    <ul class="entry-list" id="replList"></ul>
+    <div class="time-row composer">
+      <label class="field">Add one.<input id="replText" type="text" maxlength="200" placeholder="A next move you already chose" /></label>
+      <button type="button" class="btn" id="replAdd">Add one.</button>
+    </div>
+    <p class="hint">It may not make the pull leave. It gives you the next move.</p>
+  </section>
+
+  <section class="panel" id="purposePanel" aria-labelledby="purposeTitle">
+    <h2 id="purposeTitle">Purpose</h2>
+    <div class="book-slot" title="Purpose icon"><img class="book" src="icons/purpose.jpg" alt="" /><span>Purpose</span></div>
+    <p class="hint">A note on how you're walking the path you already picked. Not a new choice, and not a finish.</p>
+
+    <div class="subpanel">
+      <h3>Purpose you chose</h3>
+      <label class="field purpose-name">Name the path
+        <input id="purposeChosen" type="text" maxlength="140" placeholder="The purpose you're choosing" />
+      </label>
+      <ul class="entry-list" id="purposeWalkList"></ul>
+      <div class="time-row composer">
+        <label class="field">Date<input id="purposeDate" type="date" /></label>
+        <label class="field">Note<input id="purposeNote" type="text" maxlength="400" placeholder="How the path went" /></label>
+        <button type="button" class="btn" id="purposeAdd">Add note</button>
+      </div>
+    </div>
+
+    <div class="subpanel">
+      <h3>Purpose someone else gave you</h3>
+      <ul class="entry-list" id="purposeGivenList"></ul>
+      <div class="time-row composer">
+        <label class="field">What they gave you<input id="givenText" type="text" maxlength="280" placeholder="A purpose assigned from outside" /></label>
+        <button type="button" class="btn" id="givenAdd">Add</button>
+      </div>
+    </div>
+
+    <div class="subpanel">
+      <h3>Roles you've pictured for someone else</h3>
+      <p class="hint">If it was never said, it isn't their debt.</p>
+      <p class="hint">If you let them believe it, say the sentence.</p>
+      <ul class="entry-list" id="purposePicturedList"></ul>
+      <div class="time-row composer">
+        <label class="field">Role you pictured<input id="picturedText" type="text" maxlength="280" placeholder="What you pictured for them" /></label>
+        <button type="button" class="btn" id="picturedAdd">Add</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="diaryPanel" aria-labelledby="diaryTitle">
+    <h2 id="diaryTitle">Diary · higher self and shadow</h2>
+    <div class="book-slot" title="Diary and shadow icons">
+      <span class="book-set">
+        <img class="book" src="icons/diary.jpg" alt="" />
+        <img class="book" src="icons/shadow.jpg" alt="" />
+      </span>
+      <span>Diary / Shadow</span>
+    </div>
+    <p class="hint">The shadow you noticed, and whether you steered it. Not a score.</p>
+    <div id="replOffer" class="offer" hidden></div>
+    <ul class="entry-list" id="diaryList"></ul>
+    <div class="time-row composer">
+      <label class="field">Date<input id="diaryDate" type="date" /></label>
+      <label class="field">Pull noticed
+        <select id="diaryPull">
+          <option value="">Optional</option>
+        </select>
+      </label>
+      <label class="field">Note<input id="diaryNote" type="text" maxlength="400" placeholder="Optional. Coming back is the entry." /></label>
+      <button type="button" class="btn" id="diaryAdd">Add entry</button>
+    </div>
+  </section>
+
+  <div class="split">
+    <section class="side" aria-labelledby="pieTitle">
+      <h2 id="pieTitle" class="title-book"><img class="book" src="icons/time-pie.jpg" alt="" />Time by area</h2>
+      <div class="pie-layout">
+        <svg class="pie" id="pie" viewBox="0 0 200 200" role="img" aria-label="Pie chart of time by area"></svg>
+        <ul class="legend" id="legend"></ul>
+      </div>
+      <p class="hint" id="pieNote"></p>
+    </section>
+    <section class="side" aria-labelledby="trophyTitle">
+      <h2 id="trophyTitle" class="title-book"><img class="book" src="icons/trophies.jpg" alt="" />Returns to practice</h2>
+      <div class="returns-banner" id="returnsBanner"></div>
+      <p class="hint">No broken streak. Only days you returned. Trophies mark return days — not a goal target.</p>
+      <div class="trophies" id="trophies"></div>
+    </section>
+  </div>
+
+  <div class="split">
+    <section class="side" aria-labelledby="logTitle">
+      <h2 id="logTitle">The record</h2>
+      <p class="hint">Did you notice the pull and steer it? That is the record, not a purity score.</p>
+      <ul class="log-list" id="logList"></ul>
+    </section>
+    <section class="side" aria-labelledby="moneyTitle">
+      <h2 id="moneyTitle" class="title-book"><img class="book" src="icons/money.jpg" alt="" />Money tracker</h2>
+      <div class="account-grid" id="accountGrid"></div>
+      <p class="week-sum" id="weekSum"></p>
+      <ul class="money-list" id="moneyList"></ul>
+      <div class="time-row" style="margin-top:0.55rem">
+        <button type="button" class="btn" id="btnAddAccount">Add account</button>
+      </div>
+    </section>
+  </div>
+</div>
+
+<dialog id="taskDialog" class="wide">
+  <h3 id="taskDialogTitle">Add task</h3>
+  <p class="hint">Higher self is not a sixth list. Pick one of the five areas.</p>
+  <div class="domain-picks" id="taskDomains"></div>
+  <div class="preset-block" id="taskPresetBlock">
+    <p class="hint">Common tasks</p>
+    <div class="chip-row" id="taskPresets"></div>
+  </div>
+  <label class="field" id="taskTitleWrap" hidden>Title<input id="taskTitle" type="text" maxlength="120" /></label>
+  <label class="field" style="margin-top:0.45rem">Hours<input id="taskHours" type="number" min="0" max="24" step="0.25" value="0.5" /></label>
+  <label class="field" style="margin-top:0.45rem">Notes <span class="hint" style="display:inline;font-weight:400">(optional)</span><textarea id="taskNotes" rows="2" maxlength="400" placeholder="Anything to remember about this move"></textarea></label>
+  <label class="check" style="display:flex;align-items:flex-start;gap:0.45rem;margin-top:0.55rem;font-size:0.9rem">
+    <input id="taskExpand7" type="checkbox" style="margin-top:0.2rem" />
+    <span>Also add to next 7 days</span>
+  </label>
+  <div class="actions">
+    <button type="button" class="btn" id="taskCancel">Cancel</button>
+    <button type="button" class="btn primary" id="taskSave">Save task</button>
+  </div>
+</dialog>
+
+<dialog id="goalDialog" class="wide">
+  <h3>Add goal</h3>
+  <p class="hint">A goal lives in one of the five areas. Returns to practice is not a goal.</p>
+  <div class="domain-picks" id="goalDomains"></div>
+  <div class="preset-block">
+    <p class="hint">Common goals</p>
+    <div class="chip-row" id="goalPresets"></div>
+  </div>
+  <label class="field" id="goalTitleWrap" hidden>Title<input id="goalTitle" type="text" maxlength="120" /></label>
+  <div class="time-row" style="margin-top:0.45rem">
+    <label class="field">Direction
+      <select id="goalDir">
+        <option value="up">Up toward target</option>
+        <option value="down">Down toward target</option>
+        <option value="complete">Complete</option>
+      </select>
+    </label>
+    <label class="field">Start<input id="goalStart" type="number" step="0.1" value="0" /></label>
+    <label class="field">Current<input id="goalNow" type="number" step="0.1" value="0" /></label>
+    <label class="field">Target<input id="goalTarget" type="number" step="0.1" value="10" /></label>
+  </div>
+  <div class="time-row" style="margin-top:0.45rem">
+    <label class="field">Unit
+      <select id="goalUnit">
+        <option value="$">$</option>
+        <option value="hours">hours</option>
+        <option value="lbs">lbs</option>
+        <option value="kg">kg</option>
+        <option value="%">%</option>
+        <option value="credits">credits</option>
+        <option value="pages">pages</option>
+        <option value="minutes">minutes</option>
+        <option value="miles">miles</option>
+        <option value="km">km</option>
+        <option value="reps">reps</option>
+        <option value="days">days</option>
+        <option value="custom">custom</option>
+      </select>
+    </label>
+    <label class="field" id="goalUnitCustomWrap" hidden>Custom unit<input id="goalUnitCustom" type="text" maxlength="20" /></label>
+  </div>
+  <div class="actions">
+    <button type="button" class="btn" id="goalCancel">Cancel</button>
+    <button type="button" class="btn primary" id="goalSave">Save goal</button>
+  </div>
+</dialog>
+
+<dialog id="moneyDialog" class="wide">
+  <h3>Add money</h3>
+  <div class="chip-row" id="moneyTypeRow">
+    <button type="button" class="chip" data-mtype="income" aria-pressed="true">Income</button>
+    <button type="button" class="chip" data-mtype="expense" aria-pressed="false">Expense</button>
+  </div>
+  <label class="field">Account
+    <select id="moneyAccount"></select>
+  </label>
+  <label class="field" style="margin-top:0.45rem">Amount<input id="moneyAmt" type="number" step="0.01" min="0" /></label>
+  <label class="field" id="moneySourceWrap" style="margin-top:0.45rem">Where it came from.
+    <select id="moneySource">
+      <option value="paycheck">Paycheck</option>
+      <option value="side">Side work</option>
+      <option value="gift">Gift</option>
+      <option value="refund">Refund</option>
+      <option value="other">Other</option>
+    </select>
+  </label>
+  <label class="field" id="moneyExpenseWrap" style="margin-top:0.45rem" hidden>What it was for.
+    <select id="moneyExpense">
+      <option value="bill">Bill</option>
+      <option value="date">Date/dinner</option>
+      <option value="groceries">Groceries</option>
+      <option value="project">Project</option>
+      <option value="transfer">Transfer</option>
+      <option value="other">Other</option>
+    </select>
+  </label>
+  <label class="field" id="moneyOtherWrap" style="margin-top:0.45rem" hidden>Label<input id="moneyOther" type="text" maxlength="80" /></label>
+  <label class="field" id="moneyGoalWrap" style="margin-top:0.45rem" hidden>Put toward a project.
+    <select id="moneyGoal"><option value="">None</option></select>
+  </label>
+  <p class="hint">Money is a tracker, not a sixth area.</p>
+  <div class="actions">
+    <button type="button" class="btn" id="moneyCancel">Cancel</button>
+    <button type="button" class="btn primary" id="moneySave">Save</button>
+  </div>
+</dialog>
+
+<dialog id="accountDialog">
+  <h3 id="accountDialogTitle">Add account</h3>
+  <div class="chip-row" id="accountPresets">
+    <button type="button" class="chip" data-acc="Checking">Checking</button>
+    <button type="button" class="chip" data-acc="Savings">Savings</button>
+    <button type="button" class="chip" data-acc="Cash">Cash</button>
+    <button type="button" class="chip" data-acc="Credit">Credit</button>
+    <button type="button" class="chip" data-acc="__custom">Custom…</button>
+  </div>
+  <label class="field" id="accountCustomWrap" hidden>Name<input id="accountName" type="text" maxlength="40" /></label>
+  <label class="field" id="accountBalanceWrap" style="margin-top:0.45rem">Balance<input id="accountBalance" type="number" step="0.01" value="0" /></label>
+  <p class="hint" id="accountBalanceHint">Opening balance. Transactions add or subtract from here.</p>
+  <div class="actions">
+    <button type="button" class="btn" id="accountCancel">Cancel</button>
+    <button type="button" class="btn primary" id="accountSave">Save</button>
+  </div>
+</dialog>
+
+<dialog id="optionsDialog" class="wide">
+  <h3>Options</h3>
+  <p class="hint">Color scheme</p>
+  <div class="themes" role="radiogroup" aria-label="Theme">
+    <button type="button" role="radio" data-theme="dawn" aria-pressed="true">Dawn</button>
+    <button type="button" role="radio" data-theme="dusk" aria-pressed="false">Dusk</button>
+    <button type="button" role="radio" data-theme="grove" aria-pressed="false">Grove</button>
+    <button type="button" role="radio" data-theme="forest" aria-pressed="false">Forest</button>
+    <button type="button" role="radio" data-theme="city" aria-pressed="false">City</button>
+    <button type="button" role="radio" data-theme="desert" aria-pressed="false">Desert</button>
+    <button type="button" role="radio" data-theme="ocean" aria-pressed="false">Ocean</button>
+    <button type="button" role="radio" data-theme="mountain" aria-pressed="false">Mountain</button>
+    <button type="button" role="radio" data-theme="spectrum" aria-pressed="false">Spectrum</button>
+    <button type="button" role="radio" data-theme="light" aria-pressed="false">Light</button>
+    <button type="button" role="radio" data-theme="dark" aria-pressed="false">Dark</button>
+    <button type="button" role="radio" data-theme="water" aria-pressed="false">Water</button>
+    <button type="button" role="radio" data-theme="fire" aria-pressed="false">Fire</button>
+    <button type="button" role="radio" data-theme="earth" aria-pressed="false">Earth</button>
+    <button type="button" role="radio" data-theme="wind" aria-pressed="false">Wind</button>
+    <button type="button" role="radio" data-theme="metal" aria-pressed="false">Metal</button>
+  </div>
+  <p class="theme-note" style="text-align:left">Dawn is daytime. Dusk is for night and sleep. Grove is quieter. Area colors stay the same in every theme.</p>
+  <div class="actions">
+    <button type="button" class="btn primary" id="optionsClose">Done</button>
+  </div>
+</dialog>
+
+
+<input type="file" id="restoreFile" accept=".hsbak,.json,application/json,application/octet-stream" hidden />
+
+<script>
+// Time-pie coach thresholds. Soft and optional: edit these, or set one to null to turn that flag off.
+// Hours are a rolling 7 days ending on the selected day. There is no equal-time rule.
+const PIE_COACH = {
+  socialThin: 2,        // Soft default min if user left Social unset
+  spiritThin: 1,        // Soft default min if user left Spirit unset
+  hobbiesThin: 2,       // Soft default min if user left Hobbies unset
+  personalThin: 2,      // Soft default min if user left Personal unset
+  careerThin: null,     // Career has no soft thin default
+  careerHeavy: 50,      // Soft default max if user left Career unset
+  personalHeavy: null,
+  socialHeavy: null,
+  spiritHeavy: null,
+  hobbiesHeavy: null,
+  minWeekHours: 3,      // below this, the pie stays quiet: not enough week to read
+  heavySeasonDays: 21,  // "This is a heavy season." sets reevaluate ~3 weeks out
+  extremeMinAtOrBelow: 1,  // near-zero min needs a reevaluate date
+  extremeMaxAtOrAbove: 60, // maxed / very high max needs a reevaluate date
+  reevaluateSuggestDays: 60 // ~2 months suggestion for "How long is this season?"
+};
+const PIE_KEY = { career: "career", personal: "personal", social: "social", spiritual: "spirit", time: "hobbies" };
+const THIN_MOVES = {
+  career: "Finish one owed task.",
+  personal: "Practice a skill (25 min).",
+  social: "Reply to someone waiting, or put a friend on the calendar.",
+  spiritual: "Sit with no phone (10 min).",
+  time: "Hobby time (30 min)."
+};
+const AREAS = [
+  { id: "career", img: "icons/career.jpg", name: "Career and responsibilities", color: "#5B9FD4", starter: "Finish one owed task." },
+  { id: "personal", img: "icons/personal-development.jpg", name: "Personal development", color: "#3ECF8E", starter: "Practice a skill (25 min)." },
+  { id: "social", img: "icons/social.jpg", name: "Social development", color: "#E07A9A", starter: "Reply to someone waiting." },
+  { id: "spiritual", img: "icons/spirit.jpg", name: "Spirit development", color: "#9B7EDE", starter: "Sit with no phone (10 min)." },
+  { id: "time", img: "icons/hobbies.jpg", name: "Hobbies", color: "#E6B84D", starter: "Hobby time (30 min)." }
+];
+const DEFAULT_AREA_ORDER = AREAS.map(a => a.id);
+function blankAreaGoal() { return { min: null, max: null, reevaluateBy: null }; }
+function blankAreaGoals() {
+  const out = {};
+  AREAS.forEach(a => { out[a.id] = blankAreaGoal(); });
+  return out;
+}
+function normalizeAreaGoals(raw) {
+  const out = blankAreaGoals();
+  if (!raw || typeof raw !== "object") return out;
+  AREAS.forEach(a => {
+    const g = raw[a.id] || {};
+    const min = g.min == null || g.min === "" ? null : Number(g.min);
+    const max = g.max == null || g.max === "" ? null : Number(g.max);
+    out[a.id] = {
+      min: (typeof min === "number" && !Number.isNaN(min) && min >= 0) ? min : null,
+      max: (typeof max === "number" && !Number.isNaN(max) && max >= 0) ? max : null,
+      reevaluateBy: (typeof g.reevaluateBy === "string" && /^\d{4}-\d{2}-\d{2}$/.test(g.reevaluateBy)) ? g.reevaluateBy : null
+    };
+  });
+  return out;
+}
+function ensureAreaGoals() {
+  if (!data) return blankAreaGoals();
+  data.areaGoals = normalizeAreaGoals(data.areaGoals);
+  return data.areaGoals;
+}
+function areaGoal(id) {
+  const goals = ensureAreaGoals();
+  return goals[id] || blankAreaGoal();
+}
+const TASK_PRESETS = {
+  career: [
+    { title: "Go to work", hours: 8 },
+    { title: "Finish one owed task", hours: 1 },
+    { title: "Send emails", hours: 0.5 },
+    { title: "Pay or schedule a bill", hours: 0.5 },
+    { title: "Project work", hours: 2 },
+    { title: "Answer a put-off message", hours: 0.25 }
+  ],
+  personal: [
+    { title: "Workout", hours: 1 },
+    { title: "Study", hours: 1 },
+    { title: "Read", hours: 0.5 },
+    { title: "Errand", hours: 0.5 },
+    { title: "Practice a skill (25 min)", hours: 0.5 }
+  ],
+  social: [
+    { title: "Family time", hours: 1 },
+    { title: "Call someone", hours: 0.25 },
+    { title: "Date/dinner", hours: 2 },
+    { title: "Reply to someone waiting", hours: 0.25 }
+  ],
+  spiritual: [
+    { title: "Bible reading", hours: 0.5 },
+    { title: "Prayer/quiet", hours: 0.25 },
+    { title: "Service", hours: 1 },
+    { title: "Sit with no phone (10 min)", hours: 0.2 }
+  ],
+  time: [
+    { title: "Hobby time", hours: 0.5 },
+    { title: "Cook/play/make", hours: 1 },
+    { title: "Watch/show", hours: 1 },
+    { title: "Do the thing with no goal", hours: 0.5 }
+  ]
+};
+const GOAL_PRESETS = [
+  { id: "save", title: "Save toward a target", unit: "$", direction: "up", start: 0, current: 0, target: 1000 },
+  { id: "hours", title: "Hours this week in an area", unit: "hours", direction: "up", start: 0, current: 0, target: 5 },
+  { id: "custom", title: "Custom…", unit: "custom", direction: "up", start: 0, current: 0, target: 10 }
+];
+const DEFAULT_PULLS = [
+  { id: "pride", label: "Pride", img: "icons/pull-pride.jpg" },
+  { id: "greed", label: "Greed", img: "icons/pull-greed.jpg" },
+  { id: "lust", label: "Lust", img: "icons/pull-lust.jpg" },
+  { id: "envy", label: "Envy", img: "icons/pull-envy.jpg" },
+  { id: "gluttony", label: "Gluttony", img: "icons/pull-gluttony.jpg" },
+  { id: "wrath", label: "Wrath", img: "icons/pull-wrath.jpg" },
+  { id: "sloth", label: "Sloth", img: "icons/pull-sloth.jpg" }
+];
+const EXTRA_PULLS = [
+  { id: "fear", label: "Fear", img: "icons/pull-fear.jpg" },
+  { id: "anxiety", label: "Anxiety", img: "icons/pull-anxiety.jpg" },
+  { id: "shame", label: "Shame", img: "icons/pull-shame.jpg" },
+  { id: "despair", label: "Despair", img: "icons/pull-despair.jpg" },
+  { id: "control", label: "Control", img: "icons/pull-control.jpg" },
+  { id: "people-pleasing", label: "People-pleasing", img: "icons/pull-people-pleasing.jpg" },
+  { id: "numbness", label: "Numbness", img: "icons/pull-numbness.jpg" }
+];
+const LEGACY_PULLS = [
+  { id: "anger", label: "Anger", img: "icons/pull-wrath.jpg" },
+  { id: "appetite", label: "Appetite", img: "icons/pull-gluttony.jpg" },
+  { id: "avoidance", label: "Avoidance", img: "icons/pull-sloth.jpg" }
+];
+// Steer (upgrade) and opposite — shown after they mark that they steered.
+const PULL_UPGRADES = {
+  pride: { label: "Honor", img: "icons/steer-honor.jpg" },
+  greed: { label: "Aspiration", img: "icons/steer-aspiration.jpg" },
+  lust: { label: "Respect", img: "icons/steer-respect.jpg" },
+  envy: { label: "Admiration", img: "icons/steer-admiration.jpg" },
+  gluttony: { label: "Savoring", img: "icons/steer-savoring.jpg" },
+  wrath: { label: "Fortitude", img: "icons/steer-fortitude.jpg" },
+  sloth: { label: "Discipline", img: "icons/steer-discipline.jpg" },
+  fear: { label: "Courage", img: "icons/steer-courage.jpg" },
+  anxiety: { label: "Steadiness", img: "icons/steer-steadiness.jpg" },
+  shame: { label: "Dignity", img: "icons/steer-dignity.jpg" },
+  despair: { label: "Hope", img: "icons/steer-hope.jpg" },
+  control: { label: "Trust", img: "icons/steer-trust.jpg" },
+  "people-pleasing": { label: "Honesty", img: "icons/steer-honesty.jpg" },
+  numbness: { label: "Feeling", img: "icons/steer-feeling.jpg" }
+};
+const PULL_OPPOSITES = {
+  pride: { label: "Humility", img: "icons/opp-humility.jpg" },
+  greed: { label: "Generosity", img: "icons/opp-generosity.jpg" },
+  lust: { label: "Chastity", img: "icons/opp-chastity.jpg" },
+  envy: { label: "Gratitude", img: "icons/opp-gratitude.jpg" },
+  gluttony: { label: "Temperance", img: "icons/opp-temperance.jpg" },
+  wrath: { label: "Patience", img: "icons/opp-patience.jpg" },
+  sloth: { label: "Zeal", img: "icons/opp-zeal.jpg" },
+  fear: { label: "Calm", img: "icons/opp-calm.jpg" },
+  anxiety: { label: "Ease", img: "icons/opp-ease.jpg" },
+  shame: { label: "Belonging", img: "icons/opp-belonging.jpg" },
+  despair: { label: "Endurance", img: "icons/opp-endurance.jpg" },
+  control: { label: "Release", img: "icons/opp-release.jpg" },
+  "people-pleasing": { label: "Boundary", img: "icons/opp-boundary.jpg" },
+  numbness: { label: "Presence", img: "icons/opp-presence.jpg" }
+};
+// Legacy anger/appetite/avoidance map to major triad
+PULL_UPGRADES.anger = PULL_UPGRADES.wrath;
+PULL_UPGRADES.appetite = PULL_UPGRADES.gluttony;
+PULL_UPGRADES.avoidance = PULL_UPGRADES.sloth;
+PULL_OPPOSITES.anger = PULL_OPPOSITES.wrath;
+PULL_OPPOSITES.appetite = PULL_OPPOSITES.gluttony;
+PULL_OPPOSITES.avoidance = PULL_OPPOSITES.sloth;
+const PULLS = DEFAULT_PULLS; // alias for older call sites
+const INCOME_SOURCES = { paycheck: "Paycheck", side: "Side work", gift: "Gift", refund: "Refund", other: "Other" };
+const EXPENSE_TYPES = { bill: "Bill", date: "Date/dinner", groceries: "Groceries", project: "Project", transfer: "Transfer", other: "Other" };
+const ACCOUNT_DEFAULTS = ["Checking", "Savings", "Cash"];
+const KEY = "higherSelfApp.v2.enc";
+const KEY_LEGACY = "higherSelfApp.v1";
+const SLEEP_SHORT = 7;
+const DAY_NAMES = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+const DAY_SHORT = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+const THEMES = ["dawn","dusk","grove","forest","city","desert","ocean","mountain","spectrum","light","dark","water","fire","earth","wind","metal"];
+const PBKDF2_ITERS = 210000;
+
+function iso(d) {
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return y + "-" + m + "-" + day;
+}
+function parseISO(s) {
+  const [y, m, d] = s.split("-").map(Number);
+  return new Date(y, m - 1, d);
+}
+function shift(s, n) {
+  const d = parseISO(s);
+  d.setDate(d.getDate() + n);
+  return iso(d);
+}
+function startOfWeek(s) {
+  const d = parseISO(s);
+  d.setDate(d.getDate() - d.getDay());
+  return iso(d);
+}
+function fmtHours(n) {
+  const r = Math.round(n * 10) / 10;
+  return Number.isInteger(r) ? String(r) : r.toFixed(1);
+}
+function esc(s) {
+  return String(s == null ? "" : s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+}
+function moneyFmt(n) {
+  const v = Math.round(Number(n) * 100) / 100;
+  const abs = Math.abs(v).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 2 });
+  return (v < 0 ? "−$" : (v > 0 ? "+$" : "$")) + abs;
+}
+function moneyPlain(n) {
+  const v = Math.round(Number(n) * 100) / 100;
+  const abs = Math.abs(v).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 2 });
+  return (v < 0 ? "−$" : "$") + abs;
+}
+function sleepHours(bed, wake) {
+  if (!bed || !wake) return null;
+  const [bh, bm] = bed.split(":").map(Number);
+  const [wh, wm] = wake.split(":").map(Number);
+  if ([bh, bm, wh, wm].some(x => Number.isNaN(x))) return null;
+  let mins = (wh * 60 + wm) - (bh * 60 + bm);
+  if (mins <= 0) mins += 24 * 60;
+  return Math.round((mins / 60) * 10) / 10;
+}
+function prettyDate(s) {
+  const d = parseISO(s);
+  return DAY_SHORT[d.getDay()] + " " + d.toLocaleDateString(undefined, { month: "short", day: "numeric" });
+}
+function uid(prefix) { return prefix + Date.now().toString(36) + Math.random().toString(36).slice(2, 7); }
+function b64(buf) {
+  const bytes = buf instanceof ArrayBuffer ? new Uint8Array(buf) : buf;
+  let s = "";
+  for (let i = 0; i < bytes.length; i++) s += String.fromCharCode(bytes[i]);
+  return btoa(s);
+}
+function fromB64(str) {
+  const bin = atob(str);
+  const out = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) out[i] = bin.charCodeAt(i);
+  return out;
+}
+async function deriveKey(passphrase, salt) {
+  const enc = new TextEncoder();
+  const base = await crypto.subtle.importKey("raw", enc.encode(passphrase), "PBKDF2", false, ["deriveKey"]);
+  return crypto.subtle.deriveKey(
+    { name: "PBKDF2", salt, iterations: PBKDF2_ITERS, hash: "SHA-256" },
+    base,
+    { name: "AES-GCM", length: 256 },
+    false,
+    ["encrypt", "decrypt"]
+  );
+}
+async function encryptPayload(obj, passphrase) {
+  const salt = crypto.getRandomValues(new Uint8Array(16));
+  const iv = crypto.getRandomValues(new Uint8Array(12));
+  const key = await deriveKey(passphrase, salt);
+  const plain = new TextEncoder().encode(JSON.stringify(obj));
+  const ct = await crypto.subtle.encrypt({ name: "AES-GCM", iv }, key, plain);
+  return { v: 2, alg: "AES-GCM", kdf: "PBKDF2-SHA256", iter: PBKDF2_ITERS, salt: b64(salt), iv: b64(iv), ciphertext: b64(ct) };
+}
+async function decryptPayload(envelope, passphrase) {
+  if (!envelope || !envelope.ciphertext || !envelope.salt || !envelope.iv) throw new Error("bad envelope");
+  const salt = fromB64(envelope.salt);
+  const iv = fromB64(envelope.iv);
+  const key = await deriveKey(passphrase, salt);
+  const ct = fromB64(envelope.ciphertext);
+  const plain = await crypto.subtle.decrypt({ name: "AES-GCM", iv }, key, ct);
+  return JSON.parse(new TextDecoder().decode(plain));
+}
+const TODAY = iso(new Date());
+function blankDay() {
+  return { sleep: null, role: "", better: "", pull: "", motive: "", steered: null };
+}
+function blankPurpose() {
+  return { chosen: "", walkNotes: [], given: [], pictured: [] };
+}
+function defaultAccounts() {
+  return ACCOUNT_DEFAULTS.map(name => ({ id: uid("a"), name, openingBalance: 0 }));
+}
+
+function blankData() {
+  let theme = "dawn";
+  try { const h = new Date().getHours(); if (h >= 20 || h < 6) theme = "dusk"; } catch (e) {}
+  return {
+    theme, selected: TODAY, tasks: [], goals: [], accounts: defaultAccounts(), money: [], days: {},
+    notes: [], purpose: blankPurpose(), diary: [], customPulls: [],
+    areaOrder: DEFAULT_AREA_ORDER.slice(),
+    areaGoals: blankAreaGoals(),
+    heavySeasonUntil: null,
+    replacements: []
+  };
+}
+
+function wantDemoSeed() {
+  try { return new URLSearchParams(location.search).get("demo") === "1"; } catch (e) { return false; }
+}
+
+function seed() {
+  const sun = startOfWeek(TODAY);
+  const days = {};
+  function put(date, extra) { days[date] = Object.assign(blankDay(), extra); }
+  put(shift(TODAY, -14), { sleep: { hours: 8, source: "confirm" }, role: "coworker", better: "Say the clear thing and stop.", pull: "anger", motive: "PRIVATE-SEED-14", steered: true });
+  put(shift(TODAY, -12), { sleep: { hours: 7.5, source: "times", bed: "23:00", wake: "06:30" }, role: "friend", better: "Show up without keeping score.", pull: "avoidance", motive: "PRIVATE-SEED-12", steered: true });
+  put(shift(TODAY, -8), { sleep: { hours: 8, source: "confirm" }, role: "son", better: "Call before they have to.", pull: "avoidance", motive: "PRIVATE-SEED-8", steered: false });
+  put(shift(TODAY, -6), { sleep: { hours: 6.5, source: "times", bed: "00:30", wake: "07:00" }, role: "partner", better: "Put the phone down for the meal.", pull: "appetite", motive: "PRIVATE-SEED-6", steered: true });
+  const accounts = defaultAccounts();
+  const checking = accounts[0].id;
+  const tasks = [
+    { id: "t1", area: "career", title: "Finish one owed task", hours: 1, status: "doing", date: sun },
+    { id: "t2", area: "career", title: "Pay or schedule a bill", hours: 0.5, status: "todo", date: sun },
+    { id: "t3", area: "personal", title: "Practice a skill (25 min)", hours: 0.5, status: "todo", date: shift(sun, 1) },
+    { id: "t4", area: "social", title: "Reply to someone waiting", hours: 0.25, status: "todo", date: sun },
+    { id: "t5", area: "spiritual", title: "Sit with no phone (10 min)", hours: 0.2, status: "todo", date: shift(sun, 2) },
+    { id: "t6", area: "time", title: "Hobby time (30 min)", hours: 0.5, status: "todo", date: shift(sun, 3) }
+  ];
+  const goals = [
+    { id: "g1", area: "career", title: "Save toward a target", start: 0, current: 2400, target: 10000, unit: "$", direction: "up" },
+    { id: "g2", area: "personal", title: "Hours this week in an area", start: 0, current: 2, target: 5, unit: "hours", direction: "up" }
+  ];
+  const money = [
+    { id: "m1", type: "income", amount: 2450, accountId: checking, category: "paycheck", date: sun, goalId: "", label: "" },
+    { id: "m2", type: "expense", amount: 86, accountId: checking, category: "groceries", date: shift(TODAY, -1), goalId: "", label: "" },
+    { id: "m3", type: "expense", amount: 420, accountId: checking, category: "project", date: sun, goalId: "g1", label: "Remodel materials" },
+    { id: "m4", type: "expense", amount: 14, accountId: checking, category: "date", date: sun, goalId: "", label: "" }
+  ];
+  let theme = "dawn";
+  try { const h = new Date().getHours(); if (h >= 20 || h < 6) theme = "dusk"; } catch (e) {}
+  const notes = [{ id: "n1", area: "career", date: shift(TODAY, -1), text: "tired pop had to get a new one, only save $30 not $200" }];
+  return {
+    theme, selected: TODAY, tasks, goals, accounts, money, days, notes,
+    purpose: blankPurpose(),
+    diary: [],
+    customPulls: [],
+    areaOrder: DEFAULT_AREA_ORDER.slice(),
+    areaGoals: blankAreaGoals(),
+    heavySeasonUntil: null,
+    replacements: [
+      { id: "r1", text: "Drink a full glass of water and step outside for two minutes." },
+      { id: "r2", text: "Text one honest line to someone you trust." }
+    ]
+  };
+}
+function migrateLegacy(raw) {
+  const d = raw || blankData();
+  if (!d.accounts) {
+    d.accounts = defaultAccounts();
+    const first = d.accounts[0].id;
+    d.money = (d.money || []).map(m => ({
+      id: m.id || uid("m"),
+      type: Number(m.amount) < 0 ? "expense" : "income",
+      amount: Math.abs(Number(m.amount) || 0),
+      accountId: m.accountId || first,
+      category: m.category || "other",
+      label: m.label || "",
+      date: m.date || TODAY,
+      goalId: m.goalId || ""
+    }));
+  }
+  if (!Array.isArray(d.tasks)) d.tasks = [];
+  d.tasks = d.tasks.map(t => ({
+    id: t.id || uid("t"),
+    area: t.area || "career",
+    title: t.title || "Task",
+    hours: Number(t.hours) || 0,
+    status: t.status || "todo",
+    date: t.date || TODAY,
+    notes: typeof t.notes === "string" ? t.notes : "",
+    repeat: t.repeat === "daily" ? "daily" : ""
+  }));
+  if (!Array.isArray(d.goals)) d.goals = [];
+  d.goals = d.goals.map(g => ({
+    id: g.id || uid("g"), area: g.area || "personal", title: g.title || "Goal",
+    start: g.start != null ? Number(g.start) : 0,
+    current: g.current != null ? Number(g.current) : (g.now != null ? Number(g.now) : 0),
+    target: Number(g.target) || 1, unit: g.unit || "hours", unitCustom: g.unitCustom || "",
+    direction: g.direction || "up"
+  }));
+  if (!d.days || typeof d.days !== "object") d.days = {};
+  if (!Array.isArray(d.notes)) d.notes = [];
+  if (!Array.isArray(d.diary)) d.diary = [];
+  if (!Array.isArray(d.replacements)) d.replacements = [];
+  if (!Array.isArray(d.customPulls)) d.customPulls = [];
+  const migratedCustoms = [];
+  (d.customPulls || []).forEach(p => {
+    const label = String(p.label || "").trim() || "Custom";
+    const id = p.id || slugPull(label, migratedCustoms);
+    migratedCustoms.push({ id, label });
+  });
+  d.customPulls = migratedCustoms;
+  if (!d.purpose || Array.isArray(d.purpose) || typeof d.purpose !== "object") {
+    d.purpose = blankPurpose();
+  } else {
+    if (typeof d.purpose.chosen !== "string") d.purpose.chosen = d.purpose.name || "";
+    if (!Array.isArray(d.purpose.walkNotes)) d.purpose.walkNotes = Array.isArray(d.purpose.notes) ? d.purpose.notes : [];
+    if (!Array.isArray(d.purpose.given)) d.purpose.given = [];
+    if (!Array.isArray(d.purpose.pictured)) d.purpose.pictured = [];
+  }
+  if (!d.selected) d.selected = TODAY;
+  if (!d.theme) d.theme = "dawn";
+  if (!Array.isArray(d.accounts)) d.accounts = defaultAccounts();
+  d.accounts = d.accounts.map(a => ({
+    id: a.id || uid("a"),
+    name: a.name || "Account",
+    openingBalance: a.openingBalance != null && !Number.isNaN(Number(a.openingBalance)) ? Number(a.openingBalance) : 0
+  }));
+  if (!Array.isArray(d.money)) d.money = [];
+  d.areaOrder = normalizeAreaOrder(d.areaOrder);
+  d.areaGoals = normalizeAreaGoals(d.areaGoals);
+  if (d.heavySeasonUntil != null && typeof d.heavySeasonUntil !== "string") d.heavySeasonUntil = null;
+  return d;
+}
+let data = null;
+let sessionPass = null;
+let taskPresetChoice = null;
+let editingTaskId = null;
+let editingAccountId = null;
+let goalPresetChoice = null;
+let moneyType = "income";
+let accountPick = "Checking";
+function areaById(id) { return AREAS.find(a => a.id === id); }
+function normalizeAreaOrder(order) {
+  const ids = AREAS.map(a => a.id);
+  const seen = new Set();
+  const out = [];
+  (Array.isArray(order) ? order : []).forEach(id => {
+    if (ids.includes(id) && !seen.has(id)) { seen.add(id); out.push(id); }
+  });
+  ids.forEach(id => { if (!seen.has(id)) out.push(id); });
+  return out;
+}
+function ensureAreaOrder() {
+  if (!data) return DEFAULT_AREA_ORDER.slice();
+  data.areaOrder = normalizeAreaOrder(data.areaOrder);
+  return data.areaOrder;
+}
+function orderedAreas() {
+  return ensureAreaOrder().map(id => areaById(id)).filter(Boolean);
+}
+function moveArea(id, dir) {
+  const order = ensureAreaOrder();
+  const i = order.indexOf(id);
+  if (i < 0) return;
+  const j = i + dir;
+  if (j < 0 || j >= order.length) return;
+  order.splice(i, 1);
+  order.splice(j, 0, id);
+  data.areaOrder = order;
+  save();
+  renderDerived();
+}
+function reorderAreaTo(fromId, toId) {
+  if (!fromId || !toId || fromId === toId) return;
+  const order = ensureAreaOrder();
+  const from = order.indexOf(fromId);
+  const to = order.indexOf(toId);
+  if (from < 0 || to < 0) return;
+  order.splice(from, 1);
+  order.splice(to, 0, fromId);
+  data.areaOrder = order;
+  save();
+  renderDerived();
+}
+function day(date) {
+  if (!data.days[date]) data.days[date] = blankDay();
+  return data.days[date];
+}
+function hoursFor(date) {
+  const map = { career: 0, personal: 0, social: 0, spiritual: 0, time: 0 };
+  data.tasks.forEach(t => { if (t.date === date && map[t.area] != null) map[t.area] += Number(t.hours) || 0; });
+  return map;
+}
+function dayUsed(date) {
+  const h = hoursFor(date);
+  const taskH = AREAS.reduce((s, a) => s + h[a.id], 0);
+  const sleepH = (data.days[date] && data.days[date].sleep) ? data.days[date].sleep.hours : 0;
+  return { taskH, sleepH, used: taskH + sleepH };
+}
+function checked(date) {
+  const d = data.days[date];
+  if (!d || d.steered == null) return false;
+  return !!(String(d.role || "").trim() && d.pull && String(d.motive || "").trim());
+}
+function isReturn(date) {
+  if (!checked(date)) return false;
+  if (checked(shift(date, -1))) return false;
+  return Object.keys(data.days).some(k => k < date && checked(k));
+}
+function returnCount() { return Object.keys(data.days).filter(isReturn).length; }
+function returnDays() { return Object.keys(data.days).filter(isReturn).sort(); }
+function missedYesterday() { return !checked(shift(TODAY, -1)); }
+function cameBackToday() {
+  if (!checked(TODAY)) return false;
+  return data.tasks.some(t => t.date === TODAY) || isReturn(TODAY);
+}
+function gate(date) {
+  const d = data.days[date] || blankDay();
+  if (!d.sleep) return { ok: false, code: "sleep", msg: "Sleep comes first. Confirm 8h, or enter bedtime and wake, before a task." };
+  if (!String(d.role || "").trim()) return { ok: false, code: "role", msg: "Name the role you're in before a task." };
+  if (!String(d.better || "").trim()) return { ok: false, code: "better", msg: "What would the better version of that role do? One line is enough." };
+  if (!d.pull) return { ok: false, code: "pull", msg: "Which pull showed up?" };
+  if (!String(d.motive || "").trim()) return { ok: false, code: "motive", msg: "The private reason is still empty. Only you see it. It is not written into the log." };
+  if (d.steered == null) return { ok: false, code: "log", msg: "Did you notice the pull and steer it? That answer is the record." };
+  return { ok: true, code: "ok", msg: "Check-in is in. Tasks are open. The private reason stays encrypted on this device." };
+}
+function weekHours(date) {
+  const map = { career: 0, personal: 0, social: 0, spiritual: 0, time: 0 };
+  const from = shift(date, -6);
+  data.tasks.forEach(t => { if (t.date >= from && t.date <= date && map[t.area] != null) map[t.area] += Number(t.hours) || 0; });
+  return map;
+}
+function softDefault(areaId, kind) {
+  const v = PIE_COACH[PIE_KEY[areaId] + kind];
+  return (typeof v === "number" && v >= 0) ? v : null;
+}
+// User min/max first; fall back to soft PIE_COACH defaults if unset.
+function pieLimit(areaId, kind) {
+  const g = areaGoal(areaId);
+  if (kind === "Thin") {
+    if (g.min != null) return g.min;
+    return softDefault(areaId, "Thin");
+  }
+  if (kind === "Heavy") {
+    if (g.max != null) return g.max;
+    return softDefault(areaId, "Heavy");
+  }
+  return null;
+}
+function isNearZeroMin(g) { return g.min != null && g.min <= PIE_COACH.extremeMinAtOrBelow; }
+function isMaxedMax(g) { return g.max != null && g.max >= PIE_COACH.extremeMaxAtOrAbove; }
+function isExtremeGoal(g) { return isNearZeroMin(g) || isMaxedMax(g); }
+function needsReevaluateDate(g) { return isExtremeGoal(g) && !g.reevaluateBy; }
+function insideReevaluateWindow(g, date) {
+  return !!(g.reevaluateBy && date <= g.reevaluateBy);
+}
+function reevaluateDue(g, date) {
+  return !!(g.reevaluateBy && date >= g.reevaluateBy);
+}
+// Quiet thin nag only when the extreme is a near-zero min and we're still inside the window.
+function thinQuiet(areaId, date) {
+  const g = areaGoal(areaId);
+  return isNearZeroMin(g) && insideReevaluateWindow(g, date);
+}
+// Quiet heavy nag when max is extreme and inside window, or legacy global heavy season.
+function heavyQuiet(date, areaId) {
+  if (data.heavySeasonUntil && date <= data.heavySeasonUntil) return true;
+  if (!areaId) return false;
+  const g = areaGoal(areaId);
+  return isMaxedMax(g) && insideReevaluateWindow(g, date);
+}
+function areaShort(a) { return a.name.replace(/ development| and responsibilities/i, ""); }
+function moveText(id) { return String(THIN_MOVES[id] || AREAS.find(a => a.id === id).starter).replace(/\.$/, ""); }
+function dueReevaluateAreas(date) {
+  return orderedAreas().filter(a => reevaluateDue(areaGoal(a.id), date));
+}
+// Lowest hours relative to its own soft line. Career only if nothing else is a candidate.
+function pickCrowded(hours, exclude) {
+  const pool = AREAS.filter(a => a.id !== exclude && a.id !== "career");
+  const score = a => { const t = pieLimit(a.id, "Thin"); return t ? hours[a.id] / t : hours[a.id] + 1000; };
+  const order = orderedAreas().map(a => a.id);
+  const list = pool.length ? pool : AREAS.filter(a => a.id !== exclude);
+  return list.slice().sort((a, b) => (score(a) - score(b)) || (order.indexOf(a.id) - order.indexOf(b.id)))[0];
+}
+function balance(date) {
+  const hours = weekHours(date);
+  const total = AREAS.reduce((s, a) => s + hours[a.id], 0);
+  if (total < PIE_COACH.minWeekHours) {
+    return { kind: "none", lines: ["Log a few hours first. The pie only speaks once there's a week to read."], note: "", hours, total };
+  }
+  // Heavy: only past the max you set (or soft default), never equal-time.
+  const heavy = AREAS.map(a => ({ a, lim: pieLimit(a.id, "Heavy") }))
+    .filter(x => x.lim != null && hours[x.a.id] > x.lim && !heavyQuiet(date, x.a.id))
+    .sort((x, y) => (hours[y.a.id] - y.lim) - (hours[x.a.id] - x.lim))[0];
+  if (heavy) {
+    const area = pickCrowded(hours, heavy.a.id);
+    const setByYou = areaGoal(heavy.a.id).max != null;
+    return {
+      kind: "heavy", area: area.id, heavy: heavy.a.id, hours, total,
+      lines: ["Name the role that got crowded out.", "One small move: " + moveText(area.id) + ". It doesn't have to be a duty."],
+      note: areaShort(heavy.a) + " is past the " + fmtHours(heavy.lim) + "h/week " + (setByYou ? "you set" : "soft default") + " (" + fmtHours(hours[heavy.a.id]) + "h in the last 7 days)."
+    };
+  }
+  // Thin: under the min you set (or soft default), unless quieted by a near-zero season window.
+  const thin = AREAS.filter(a => {
+    const t = pieLimit(a.id, "Thin");
+    return t != null && hours[a.id] < t && !thinQuiet(a.id, date);
+  });
+  if (thin.length) {
+    const order = orderedAreas().map(a => a.id);
+    const area = thin.slice().sort((a, b) => (hours[a.id] / pieLimit(a.id, "Thin") - hours[b.id] / pieLimit(b.id, "Thin")) || (order.indexOf(a.id) - order.indexOf(b.id)))[0];
+    const setByYou = areaGoal(area.id).min != null;
+    return {
+      kind: "thin", area: area.id, hours, total,
+      lines: ["Name the role you're in.", "One move: " + moveText(area.id) + "."],
+      note: areaShort(area) + " has had " + fmtHours(hours[area.id]) + "h in the last 7 days, under about " + fmtHours(pieLimit(area.id, "Thin")) + "h" + (setByYou ? "" : " (soft default)") + ". Open " + areaShort(area) + " if it matters to you this week."
+    };
+  }
+  return { kind: "even", lines: ["This week looks balanced enough. Let it land."], note: "", hours, total };
+}
+function accountTxnSum(id) {
+  return data.money.reduce((s, m) => {
+    if (m.accountId !== id) return s;
+    return s + (m.type === "income" ? Number(m.amount) : -Number(m.amount));
+  }, 0);
+}
+function accountBal(id) {
+  const acc = data.accounts.find(a => a.id === id);
+  const opening = acc && acc.openingBalance != null ? Number(acc.openingBalance) : 0;
+  return opening + accountTxnSum(id);
+}
+function signedAmount(m) { return m.type === "income" ? Number(m.amount) : -Number(m.amount); }
+function weekMoneySummary() {
+  const sun = startOfWeek(data.selected);
+  const end = shift(sun, 6);
+  let inn = 0, out = 0;
+  data.money.forEach(m => {
+    if (m.date < sun || m.date > end) return;
+    if (m.type === "income") inn += Number(m.amount); else out += Number(m.amount);
+  });
+  return { inn, out, net: inn - out, sun, end };
+}
+function goalPct(gl) {
+  const start = Number(gl.start) || 0;
+  const cur = Number(gl.current) || 0;
+  const target = Number(gl.target) || 0;
+  if (gl.direction === "complete") return cur >= target ? 100 : Math.max(0, Math.min(100, Math.round((cur / (target || 1)) * 100)));
+  if (gl.direction === "down") {
+    if (start === target) return cur <= target ? 100 : 0;
+    return Math.max(0, Math.min(100, Math.round(((start - cur) / (start - target)) * 100)));
+  }
+  if (target === start) return cur >= target ? 100 : 0;
+  return Math.max(0, Math.min(100, Math.round(((cur - start) / (target - start)) * 100)));
+}
+function slugPull(label, existing) {
+  const base = String(label || "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || "custom";
+  let id = "c-" + base;
+  const taken = new Set([
+    ...DEFAULT_PULLS.map(p => p.id),
+    ...EXTRA_PULLS.map(p => p.id),
+    ...LEGACY_PULLS.map(p => p.id),
+    ...((existing) || (data && data.customPulls) || []).map(p => p.id)
+  ]);
+  if (!taken.has(id)) return id;
+  let n = 2;
+  while (taken.has(id + "-" + n)) n++;
+  return id + "-" + n;
+}
+
+function pullUpgrade(id) { return id && PULL_UPGRADES[id] ? PULL_UPGRADES[id] : null; }
+function pullOpposite(id) { return id && PULL_OPPOSITES[id] ? PULL_OPPOSITES[id] : null; }
+function steerMapHtml(pullId, steered) {
+  if (steered !== true) return "";
+  const up = pullUpgrade(pullId);
+  const opp = pullOpposite(pullId);
+  if (!up && !opp) return "";
+  let html = '<div class="steer-map" aria-label="Steer and opposite">';
+  if (up) {
+    html += '<div class="steer-chip"><img src="' + esc(up.img) + '" alt="" /><div><span class="k">The upgrade is</span><span class="v">' + esc(up.label) + '</span></div></div>';
+  }
+  if (opp) {
+    html += '<div class="steer-chip"><img src="' + esc(opp.img) + '" alt="" /><div><span class="k">The opposite is</span><span class="v">' + esc(opp.label) + '</span></div></div>';
+  }
+  html += '</div>';
+  return html;
+}
+
+function allPullDefs() {
+  const custom = (data && Array.isArray(data.customPulls)) ? data.customPulls : [];
+  return DEFAULT_PULLS.concat(EXTRA_PULLS).concat(custom.map(p => p.img ? p : Object.assign({}, p, { img: "icons/pull-custom.jpg" })));
+}
+function pullLabel(id) {
+  if (!id) return "";
+  const known = allPullDefs().concat(LEGACY_PULLS).find(x => x.id === id);
+  if (known) return known.label;
+  return String(id);
+}
+function fillDiaryPullOptions(selected) {
+  const sel = document.getElementById("diaryPull");
+  if (!sel) return;
+  const cur = selected != null ? selected : sel.value;
+  const opts = ['<option value="">Optional</option>']
+    .concat(allPullDefs().map(p => '<option value="' + esc(p.id) + '">' + esc(p.label) + '</option>'))
+    .concat(LEGACY_PULLS.map(p => '<option value="' + esc(p.id) + '">' + esc(p.label) + ' (legacy)</option>'));
+  sel.innerHTML = opts.join("");
+  if (cur) sel.value = cur;
+}
+function addCustomPull(label) {
+  const clean = String(label || "").trim().slice(0, 40);
+  if (!clean) return null;
+  if (!data.customPulls) data.customPulls = [];
+  const exists = data.customPulls.find(p => p.label.toLowerCase() === clean.toLowerCase())
+    || DEFAULT_PULLS.find(p => p.label.toLowerCase() === clean.toLowerCase())
+    || EXTRA_PULLS.find(p => p.label.toLowerCase() === clean.toLowerCase())
+    || LEGACY_PULLS.find(p => p.label.toLowerCase() === clean.toLowerCase());
+  if (exists) return exists.id;
+  const id = slugPull(clean);
+  data.customPulls.push({ id, label: clean, img: "icons/pull-custom.jpg" });
+  save();
+  return id;
+}
+function sortedDesc(list) { return list.slice().sort((a, b) => a.date < b.date ? 1 : a.date > b.date ? -1 : 0); }
+function bookSlot(label) {
+  return '<span class="book-slot" title="Area notes"><img class="book" src="icons/area-note.jpg" alt="" /><span>' + esc(label) + '</span></span>';
+}
+function pickReplacement() {
+  if (!data.replacements.length) return null;
+  return data.replacements[Math.floor(Math.random() * data.replacements.length)];
+}
+async function persist() {
+  if (!sessionPass || !data) return;
+  try {
+    const envelope = await encryptPayload(data, sessionPass);
+    localStorage.setItem(KEY, JSON.stringify(envelope));
+  } catch (e) { console.error("persist failed", e); }
+}
+function save() { persist(); }
+function applyTheme(theme) {
+  if (!THEMES.includes(theme)) theme = "dawn";
+  data.theme = theme;
+  document.documentElement.setAttribute("data-theme", theme);
+  document.querySelectorAll(".themes button").forEach(btn => {
+    btn.setAttribute("aria-pressed", btn.dataset.theme === theme ? "true" : "false");
+  });
+  const opt = document.getElementById("btnOptions");
+  if (opt) {
+    const label = theme.charAt(0).toUpperCase() + theme.slice(1);
+    opt.textContent = "Options · " + label;
+  }
+  save();
+}
+
+function scrollToAreaGoals(areaId, focusReeval) {
+  const el = document.querySelector('[data-area-id="' + areaId + '"]');
+  if (!el) return;
+  el.scrollIntoView({ behavior: "smooth", block: "start" });
+  const sel = focusReeval ? '[data-goal-reeval="' + areaId + '"]' : '[data-goal-min="' + areaId + '"]';
+  const f = el.querySelector(sel) || el.querySelector("[data-starter]");
+  if (f) f.focus({ preventScroll: true });
+}
+function setAreaReevaluate(areaId, until) {
+  ensureAreaGoals();
+  const g = data.areaGoals[areaId] || blankAreaGoal();
+  g.reevaluateBy = until;
+  data.areaGoals[areaId] = g;
+}
+function renderCoach() {
+  const date = data.selected;
+  const b = balance(date);
+  const parts = [];
+  parts.push('<p class="kicker">Coach</p>');
+  parts.push('<p class="missed">Returns to practice. Not a streak.</p>');
+  if (date === TODAY && missedYesterday() && !cameBackToday()) {
+    parts.push('<p class="coach-line">You came back. That counts.</p>');
+    parts.push('<p class="soft">Three questions, then one small move.</p>');
+  } else if (isReturn(date) || (date === TODAY && cameBackToday())) {
+    parts.push('<p class="coach-line">You came back. That counts.</p>');
+  }
+  parts.push('<p class="soft">No broken streak. Only days you returned.</p>');
+  const sleep = (data.days[date] || {}).sleep;
+  if (!sleep) parts.push('<p class="soft">Sleep check-in first, before tasks.</p>');
+  else if (sleep.hours < SLEEP_SHORT) parts.push('<p class="soft">Sleep was short. You checked it in before tasks.</p>');
+
+  const due = dueReevaluateAreas(date);
+  due.forEach(a => {
+    const short = areaShort(a);
+    parts.push(
+      '<div class="reeval-card" data-reeval-area="' + esc(a.id) + '">' +
+      '<p class="coach-line">This season&#39;s date is here. Keep the range, change it, or feed this area again?</p>' +
+      '<p class="soft">A quiet season isn&#39;t a failure. You gave it an end date, and now you get to look again.</p>' +
+      '<p class="soft">Time to look at ' + esc(short) + ' again.</p>' +
+      '<div class="row-actions">' +
+      '<button type="button" class="btn" data-reeval-keep="' + esc(a.id) + '">Keep the range</button>' +
+      '<button type="button" class="btn" data-reeval-change="' + esc(a.id) + '">Change the range</button>' +
+      '<button type="button" class="btn primary" data-reeval-feed="' + esc(a.id) + '">Feed this area again</button>' +
+      '</div></div>'
+    );
+  });
+
+  b.lines.forEach(line => { parts.push('<p class="coach-line">' + esc(line) + '</p>'); });
+  if (b.note) parts.push('<p class="soft">' + esc(b.note) + '</p>');
+  const btns = [];
+  if (b.kind === "thin" || b.kind === "heavy") btns.push('<button type="button" class="btn" id="coachOpenArea" data-area="' + esc(b.area) + '">Open ' + esc(areaShort(AREAS.find(a => a.id === b.area))) + '</button>');
+  if (b.kind === "heavy") btns.push('<button type="button" class="btn" id="coachHeavySeason" data-heavy="' + esc(b.heavy) + '">This is a heavy season.</button>');
+  // Quiet notices: per-area season windows + legacy global heavy season
+  const quietNotes = [];
+  orderedAreas().forEach(a => {
+    const g = areaGoal(a.id);
+    if (!insideReevaluateWindow(g, date)) return;
+    if (isNearZeroMin(g) || isMaxedMax(g)) {
+      quietNotes.push(areaShort(a) + " quiet until " + prettyDate(g.reevaluateBy));
+    }
+  });
+  if (data.heavySeasonUntil && date <= data.heavySeasonUntil) {
+    quietNotes.push("Heavy season quiet until " + prettyDate(data.heavySeasonUntil));
+  }
+  if (quietNotes.length) {
+    btns.push('<span class="soft">' + esc(quietNotes.join(" · ")) +
+      (data.heavySeasonUntil && date <= data.heavySeasonUntil ? ' <button type="button" class="tiny" id="coachHeavyEnd">End it</button>' : "") +
+      '</span>');
+  }
+  if (btns.length) parts.push('<div class="row-actions" style="margin-top:0.5rem">' + btns.join(" ") + '</div>');
+  const coach = document.getElementById("coach");
+  coach.innerHTML = parts.join("");
+  const openBtn = document.getElementById("coachOpenArea");
+  if (openBtn) openBtn.onclick = () => {
+    const el = document.querySelector('[data-area-id="' + openBtn.dataset.area + '"]');
+    if (el) { el.scrollIntoView({ behavior: "smooth", block: "start" }); const f = el.querySelector("[data-starter]"); if (f) f.focus({ preventScroll: true }); }
+  };
+  const seasonBtn = document.getElementById("coachHeavySeason");
+  if (seasonBtn) seasonBtn.onclick = () => {
+    const heavyId = seasonBtn.dataset.heavy;
+    const until = shift(date, PIE_COACH.heavySeasonDays);
+    // Integrate with reevaluate dates: stamp this area's season end; global quiet still covers heavy flags.
+    if (heavyId) setAreaReevaluate(heavyId, until);
+    data.heavySeasonUntil = until;
+    save(); renderCoach(); renderPie(); renderAreas();
+  };
+  const endBtn = document.getElementById("coachHeavyEnd");
+  if (endBtn) endBtn.onclick = () => { data.heavySeasonUntil = null; save(); renderCoach(); renderPie(); };
+  coach.querySelectorAll("[data-reeval-keep]").forEach(btn => {
+    btn.onclick = () => {
+      const id = btn.dataset.reevalKeep;
+      setAreaReevaluate(id, shift(date, PIE_COACH.reevaluateSuggestDays));
+      save(); renderCoach(); renderPie(); renderAreas();
+    };
+  });
+  coach.querySelectorAll("[data-reeval-change]").forEach(btn => {
+    btn.onclick = () => scrollToAreaGoals(btn.dataset.reevalChange, false);
+  });
+  coach.querySelectorAll("[data-reeval-feed]").forEach(btn => {
+    btn.onclick = () => {
+      const id = btn.dataset.reevalFeed;
+      setAreaReevaluate(id, null);
+      save();
+      const el = document.querySelector('[data-area-id="' + id + '"]');
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+        const f = el.querySelector("[data-starter]");
+        if (f) f.focus({ preventScroll: true });
+      }
+      renderCoach(); renderPie(); renderAreas();
+    };
+  });
+}
+function renderStats() {
+  const u = dayUsed(data.selected);
+  const left = Math.round((24 - u.used) * 10) / 10;
+  document.getElementById("hoursUsed").textContent = fmtHours(u.used) + "h";
+  const leftEl = document.getElementById("hoursLeft");
+  leftEl.textContent = left >= 0 ? fmtHours(left) + "h" : fmtHours(Math.abs(left)) + "h over";
+  const inn = data.money.filter(m => m.type === "income").reduce((s, m) => s + Number(m.amount), 0);
+  const out = data.money.filter(m => m.type === "expense").reduce((s, m) => s + Number(m.amount), 0);
+  const net = inn - out;
+  const moneyEl = document.getElementById("moneyNet");
+  moneyEl.textContent = moneyFmt(net);
+  moneyEl.className = net >= 0 ? "money-pos" : "money-neg";
+  document.getElementById("moneySplit").textContent = moneyFmt(inn) + " in · " + moneyFmt(-out) + " out";
+  const d = parseISO(TODAY);
+  document.getElementById("todayLabel").textContent = DAY_NAMES[d.getDay()] + " · " + d.toLocaleDateString(undefined, { month: "long", day: "numeric" }) + " · five areas, not a sixth list";
+}
+function renderStrip() {
+  const sun = startOfWeek(data.selected);
+  const html = [];
+  for (let i = 0; i < 7; i++) {
+    const date = shift(sun, i);
+    const u = dayUsed(date);
+    const pressed = date === data.selected ? "true" : "false";
+    const todayCls = date === TODAY ? " is-today" : "";
+    let mark = "mark";
+    if (isReturn(date)) mark = "mark back";
+    else if (checked(date)) mark = "mark on";
+    html.push('<button type="button" class="day-btn' + todayCls + '" role="tab" data-date="' + date + '" aria-pressed="' + pressed + '" aria-label="' + esc(DAY_NAMES[i] + " " + date) + '"><span class="' + mark + '"></span><span class="dow">' + DAY_SHORT[i] + '</span><span class="num">' + parseISO(date).getDate() + '</span><span class="hrs">' + (u.used ? fmtHours(u.used) + "h" : "—") + '</span></button>');
+  }
+  const strip = document.getElementById("strip");
+  strip.innerHTML = html.join("");
+  strip.querySelectorAll(".day-btn").forEach(btn => {
+    btn.onclick = () => { data.selected = btn.dataset.date; save(); syncComposerDates(); renderCheckin(); renderDerived(); };
+  });
+}
+function renderCheckin() {
+  const date = data.selected;
+  const d = day(date);
+  const sleep = d.sleep;
+  let sleepHtml = "";
+  if (sleep) {
+    const how = sleep.source === "confirm" ? "Confirmed 8h" : esc(sleep.bed) + " → " + esc(sleep.wake);
+    sleepHtml = '<p class="sleep-read">' + fmtHours(sleep.hours) + 'h</p><p class="hint">' + how + ' · <button type="button" class="btn" id="sleepEdit">Change</button></p>';
+    if (sleep.hours < SLEEP_SHORT) sleepHtml += '<p class="short-note">Sleep was short. This check-in comes before tasks.</p>';
+  } else {
+    sleepHtml =
+      '<div class="row-actions"><button type="button" class="btn primary" id="confirm8">Confirm 8h</button></div>' +
+      '<p class="hint">Or bedtime and wake.</p>' +
+      '<div class="time-row"><label class="field">Bedtime<input id="bed" type="time" /></label><label class="field">Wake<input id="wake" type="time" /></label><button type="button" class="btn" id="saveSleep">Save sleep</button></div>' +
+      '<p class="hint" id="sleepPreview"></p>';
+  }
+  const pullDefs = allPullDefs().slice();
+  if (d.pull && !pullDefs.some(p => p.id === d.pull)) {
+    const legacy = LEGACY_PULLS.find(p => p.id === d.pull);
+    pullDefs.push(legacy || { id: d.pull, label: pullLabel(d.pull) });
+  }
+  const pulls = pullDefs.map(p => {
+    const img = p.img || "icons/pull-custom.jpg";
+    return '<button type="button" class="btn pull-btn" data-pull="' + p.id + '" aria-pressed="' + (d.pull === p.id ? "true" : "false") + '"><img class="pull-icon" src="' + esc(img) + '" alt="" /><span>' + esc(p.label) + '</span></button>';
+  }).join("")
+    + '<button type="button" class="btn pull-btn" id="addPullBtn"><img class="pull-icon" src="icons/pull-custom.jpg" alt="" /><span>Add pull…</span></button>';
+  const body =
+    '<div class="sleep-row"><p class="q-title title-book"><img class="book" src="icons/sleep.jpg" alt="" />How did last night go?</p>' + sleepHtml + '</div>' +
+    '<div class="q-block"><p class="q-title">What role am I in, and what would the better version do?</p>' +
+      '<label class="field">Name the role you\'re in.<input id="role" type="text" maxlength="80" placeholder="Name the role you\'re in." value="' + esc(d.role) + '" /></label>' +
+      '<p class="hint">Friend, parent, partner, coworker, son or daughter, stranger, or whoever you are right now.</p>' +
+      '<label class="field">What would the better version do?<input id="better" type="text" maxlength="160" value="' + esc(d.better) + '" /></label></div>' +
+    '<div class="q-block"><p class="q-title">Which pull showed up?</p><div class="pulls" id="pulls">' + pulls + '</div></div>' +
+    '<div class="q-block"><p class="q-title">Is the reason you gave yourself the real one?</p>' +
+      '<div class="private-box"><p class="hint">Private. Encrypted on this device. It does not appear in the log, the shelf, or the day record.</p>' +
+      '<button type="button" class="btn" id="motiveOpen" aria-expanded="false">Write the reason</button>' +
+      '<div id="motiveWrap" hidden><label class="field" style="margin-top:0.45rem">The real reason<input id="motive" type="text" autocomplete="off" autocapitalize="sentences" spellcheck="true" data-private="true" maxlength="280" value="' + esc(d.motive) + '" /></label></div></div></div>' +
+    '<div class="q-block"><p class="q-title">Did you notice the pull and steer it?</p><p class="hint">That\'s the record, not a purity score.</p>' +
+      '<div class="row-actions"><button type="button" class="btn" id="steerYes" aria-pressed="' + (d.steered === true ? "true" : "false") + '">Yes, I noticed and steered</button>' +
+      '<button type="button" class="btn" id="steerNo" aria-pressed="' + (d.steered === false ? "true" : "false") + '">Not this time</button></div>' +
+      steerMapHtml(d.pull, d.steered) +
+      '</div>' +
+    '<p class="gate" id="gateMsg"></p>';
+  document.getElementById("checkinBody").innerHTML = body;
+  bindCheckin();
+}
+function bindCheckin() {
+  const d = day(data.selected);
+  const confirm = document.getElementById("confirm8");
+  if (confirm) confirm.onclick = () => { d.sleep = { hours: 8, source: "confirm", acked: true }; save(); renderCheckin(); renderDerived(); };
+  const saveSleep = document.getElementById("saveSleep");
+  if (saveSleep) {
+    const preview = () => {
+      const hrs = sleepHours(document.getElementById("bed").value, document.getElementById("wake").value);
+      const el = document.getElementById("sleepPreview");
+      if (!el) return;
+      el.textContent = hrs == null ? "" : (hrs + "h" + (hrs < SLEEP_SHORT ? " · short night. Check this in before a task." : ""));
+    };
+    document.getElementById("bed").addEventListener("input", preview);
+    document.getElementById("wake").addEventListener("input", preview);
+    preview();
+    saveSleep.onclick = () => {
+      const bed = document.getElementById("bed").value;
+      const wake = document.getElementById("wake").value;
+      const hrs = sleepHours(bed, wake);
+      if (hrs == null) return;
+      d.sleep = { hours: hrs, source: "times", bed, wake, acked: true };
+      save(); renderCheckin(); renderDerived();
+    };
+  }
+  const edit = document.getElementById("sleepEdit");
+  if (edit) edit.onclick = () => { d.sleep = null; save(); renderCheckin(); renderDerived(); };
+  document.getElementById("role").addEventListener("input", e => { d.role = e.target.value; save(); renderDerived(); });
+  document.getElementById("better").addEventListener("input", e => { d.better = e.target.value; save(); renderDerived(); });
+  document.querySelectorAll("#pulls [data-pull]").forEach(btn => {
+    btn.onclick = () => { d.pull = btn.dataset.pull; save(); renderCheckin(); renderDerived(); maybeOfferReplacement(d.pull); };
+  });
+  const addPullBtn = document.getElementById("addPullBtn");
+  if (addPullBtn) addPullBtn.onclick = () => {
+    const label = prompt("Name a pull that shows up for you (short label).\n\ne.g. Fear, Anxiety");
+    if (label == null) return;
+    const id = addCustomPull(label);
+    if (!id) return;
+    d.pull = id;
+    save();
+    fillDiaryPullOptions(document.getElementById("diaryPull") ? document.getElementById("diaryPull").value : "");
+    renderCheckin();
+    renderDerived();
+    maybeOfferReplacement(d.pull);
+  };
+  document.getElementById("motiveOpen").onclick = () => {
+    const wrap = document.getElementById("motiveWrap");
+    const open = wrap.hidden;
+    wrap.hidden = !open;
+    document.getElementById("motiveOpen").setAttribute("aria-expanded", open ? "true" : "false");
+    if (open) document.getElementById("motive").focus();
+  };
+  document.getElementById("motive").addEventListener("input", () => { d.motive = document.getElementById("motive").value; save(); renderDerived(); });
+  document.getElementById("steerYes").onclick = () => { d.steered = true; save(); renderCheckin(); renderDerived(); };
+  document.getElementById("steerNo").onclick = () => { d.steered = false; save(); renderCheckin(); renderDerived(); };
+}
+function maybeOfferReplacement(pull) {
+  const box = document.getElementById("replOffer");
+  if (!box) return;
+  if (!pull || !data.replacements.length) { box.hidden = true; return; }
+  const r = pickReplacement();
+  box.hidden = false;
+  box.innerHTML = '<strong>When a pull shows up, offer one from this list.</strong><p style="margin:0.25rem 0 0">' + esc(r.text) + '</p><p class="hint" style="margin:0.35rem 0 0">It may not make the pull leave. It gives you the next move.</p>';
+}
+
+function renderAreas() {
+  const date = data.selected;
+  const hours = hoursFor(date);
+  const g = gate(date);
+  const root = document.getElementById("areas");
+  const areas = orderedAreas();
+  root.innerHTML = areas.map((area, idx) => {
+    const tasks = data.tasks.filter(t => t.area === area.id && t.date === date);
+    const goals = data.goals.filter(gl => gl.area === area.id);
+    const taskHtml = tasks.length ? tasks.map(t =>
+      '<article class="card"><div class="top"><strong>' + esc(t.title) + '</strong><span class="status ' + esc(t.status) + '">' + esc(t.status) + '</span></div>' +
+      '<div class="meta">' + fmtHours(t.hours) + 'h' + (t.notes ? ' · ' + esc(t.notes) : '') + '</div>' +
+      '<div class="row-actions" style="margin-top:0.4rem"><button type="button" class="btn" data-edit-task="' + t.id + '">Edit</button><button type="button" class="btn" data-cycle="' + t.id + '">Next status</button></div></article>'
+    ).join("") : (goals.length ? "" : '<p class="empty">Nothing in this area today.</p>');
+    const goalHtml = goals.map(gl => {
+      const pct = goalPct(gl);
+      const unit = gl.unit === "custom" && gl.unitCustom ? gl.unitCustom : gl.unit;
+      const label = unit === "$" ? ("$" + gl.current + " → $" + gl.target) : (gl.current + " → " + gl.target + " " + unit);
+      const step = unit === "$" ? "1" : "0.5";
+      return '<article class="card"><div class="top"><strong>' + esc(gl.title) + '</strong><span class="meta">' + pct + '%</span></div><div class="meta">' + esc(label) + ' · ' + esc(gl.direction) + '</div><div class="bar"><i style="width:' + pct + '%;background:' + area.color + '"></i></div>' +
+        '<div class="goal-edit"><label>Now <input type="number" data-goal-current="' + esc(gl.id) + '" value="' + esc(String(gl.current)) + '" step="' + step + '" inputmode="decimal" aria-label="Current value for ' + esc(gl.title) + '" /></label></div></article>';
+    }).join("");
+    const notes = data.notes.filter(n => n.area === area.id).slice().sort((a, b) => a.date < b.date ? 1 : a.date > b.date ? -1 : 0);
+    const noteHtml = notes.length
+      ? notes.map(n => '<li><div class="note-body"><time datetime="' + esc(n.date) + '">' + esc(prettyDate(n.date)) + '</time>' + esc(n.text) + '</div><button type="button" class="tiny" data-del-note="' + esc(n.id) + '">Remove</button></li>').join("")
+      : '<li><span class="empty">No notes in this area yet.</span></li>';
+    const ag = areaGoal(area.id);
+    const minVal = ag.min == null ? "" : String(ag.min);
+    const maxVal = ag.max == null ? "" : String(ag.max);
+    const reVal = ag.reevaluateBy || "";
+    const extreme = isExtremeGoal(ag);
+    const nearZero = isNearZeroMin(ag);
+    const suggest = shift(date, PIE_COACH.reevaluateSuggestDays);
+    let seasonHtml = "";
+    if (extreme) {
+      seasonHtml =
+        '<div class="season-block">' +
+        '<p class="goals-title">How long is this season?</p>' +
+        '<label class="field">Reevaluate by:<input type="date" data-goal-reeval="' + area.id + '" value="' + esc(reVal) + '" /></label>' +
+        '<p class="goals-hint">Inside this window, no flag. At the date, a soft check-in.</p>' +
+        (nearZero ? '<p class="goals-hint">Does someone count on your time here? Tell them about this season.</p>' : "") +
+        '<div class="season-actions">' +
+        '<button type="button" class="btn" data-goal-suggest="' + area.id + '" data-until="' + esc(suggest) + '">About 2 months</button>' +
+        '<button type="button" class="btn" data-goal-suggest="' + area.id + '" data-until="' + esc(shift(date, PIE_COACH.heavySeasonDays)) + '">About 3 weeks</button>' +
+        (reVal ? '<button type="button" class="tiny" data-goal-clear-reeval="' + area.id + '">Clear date</button>' : "") +
+        '</div>' +
+        (needsReevaluateDate(ag) ? '<p class="goals-hint">Pick a reevaluate date for this extreme range — soft check-in, not a failure.</p>' : "") +
+        (insideReevaluateWindow(ag, date) ? '<p class="goals-hint">Quiet until ' + esc(prettyDate(ag.reevaluateBy)) + '.</p>' : "") +
+        (reevaluateDue(ag, date) ? '<p class="goals-hint">Time to look at ' + esc(areaShort(area)) + ' again.</p>' : "") +
+        '</div>';
+    }
+    const goalsHtml =
+      '<div class="area-goals">' +
+      '<p class="goals-title">Your range this season.</p>' +
+      '<div class="goals-row">' +
+      '<label class="field">Minimum hours a week.<input type="number" min="0" max="168" step="0.5" data-goal-min="' + area.id + '" value="' + esc(minVal) + '" placeholder="—" /></label>' +
+      '<label class="field">Maximum hours a week.<input type="number" min="0" max="168" step="0.5" data-goal-max="' + area.id + '" value="' + esc(maxVal) + '" placeholder="—" /></label>' +
+      '</div>' +
+      '<p class="goals-hint">Career might be 40–75. Social might be 2–6. Yours, not equal.</p>' +
+      seasonHtml +
+      '</div>';
+    return '<section class="area" data-area-id="' + area.id + '" aria-label="' + esc(area.name) + '"><div class="area-head">' +
+      '<span class="drag-handle" draggable="true" title="Drag to reorder" aria-hidden="true">⠿</span>' +
+      '<h3><img class="book" src="' + area.img + '" alt="" />' + esc(area.name) + '</h3>' +
+      '<span class="hrs">' + fmtHours(hours[area.id]) + 'h</span>' +
+      '<div class="area-controls" role="group" aria-label="Reorder ' + esc(area.name) + '">' +
+      '<button type="button" data-move-up="' + area.id + '" aria-label="Move ' + esc(area.name) + ' up"' + (idx === 0 ? " disabled" : "") + '>▲</button>' +
+      '<button type="button" data-move-down="' + area.id + '" aria-label="Move ' + esc(area.name) + ' down"' + (idx === areas.length - 1 ? " disabled" : "") + '>▼</button>' +
+      '</div></div>' +
+      goalsHtml +
+      taskHtml + goalHtml +
+      '<div class="starter"><div class="hint">Starter</div><div>' + esc(area.starter) + '</div><button type="button" class="btn" data-starter="' + area.id + '"' + (g.ok ? "" : ' aria-disabled="true"') + '>Add this move</button></div>' +
+      '<div class="area-notes">' + bookSlot("Notes") +
+      '<ul class="note-list">' + noteHtml + '</ul>' +
+      '<div class="time-row composer"><label class="field">Date<input type="date" data-note-date="' + area.id + '" value="' + esc(date) + '" /></label>' +
+      '<label class="field">Note<input type="text" data-note-text="' + area.id + '" maxlength="400" placeholder="What happened in this area" /></label>' +
+      '<button type="button" class="btn" data-add-note="' + area.id + '">Add note</button></div></div></section>';
+  }).join("");
+  root.querySelectorAll("[data-cycle]").forEach(btn => {
+    btn.onclick = () => {
+      const t = data.tasks.find(x => x.id === btn.dataset.cycle);
+      if (!t) return;
+      t.status = t.status === "todo" ? "doing" : t.status === "doing" ? "done" : "todo";
+      save(); renderDerived();
+    };
+  });
+  root.querySelectorAll("[data-edit-task]").forEach(btn => {
+    btn.onclick = () => openTaskDialog(btn.dataset.editTask);
+  });
+  root.querySelectorAll("[data-starter]").forEach(btn => {
+    btn.onclick = () => {
+      const area = btn.dataset.starter;
+      const title = areaById(area).starter.replace(/\.$/, "");
+      const presets = TASK_PRESETS[area] || [];
+      const match = presets.find(p => p.title.toLowerCase() === title.toLowerCase() || title.toLowerCase().startsWith(p.title.toLowerCase()));
+      addTask(area, title, match ? match.hours : 0.5);
+    };
+  });
+  root.querySelectorAll("[data-add-note]").forEach(btn => {
+    btn.onclick = () => {
+      const area = btn.dataset.addNote;
+      const textEl = root.querySelector('[data-note-text="' + area + '"]');
+      const dateEl = root.querySelector('[data-note-date="' + area + '"]');
+      const noteText = (textEl.value || "").trim();
+      if (!noteText) return;
+      data.notes.push({ id: uid("n"), area, date: dateEl.value || data.selected, text: noteText });
+      save(); renderAreas();
+    };
+  });
+  root.querySelectorAll("[data-del-note]").forEach(btn => {
+    btn.onclick = () => { data.notes = data.notes.filter(n => n.id !== btn.dataset.delNote); save(); renderAreas(); };
+  });
+  function readGoalNumber(el) {
+    const raw = (el.value || "").trim();
+    if (raw === "") return null;
+    const n = Number(raw);
+    if (Number.isNaN(n) || n < 0) return null;
+    return Math.round(n * 10) / 10;
+  }
+  function commitAreaGoal(areaId, patch) {
+    ensureAreaGoals();
+    const cur = data.areaGoals[areaId] || blankAreaGoal();
+    const next = Object.assign({}, cur, patch);
+    if (next.min != null && next.max != null && next.min > next.max) {
+      // Keep both; coach still works. Soft swap for sanity.
+      const t = next.min; next.min = next.max; next.max = t;
+    }
+    data.areaGoals[areaId] = next;
+    save();
+    renderCoach();
+    renderPie();
+    renderAreas();
+  }
+  root.querySelectorAll("[data-goal-min]").forEach(inp => {
+    inp.onchange = () => commitAreaGoal(inp.dataset.goalMin, { min: readGoalNumber(inp) });
+  });
+  root.querySelectorAll("[data-goal-max]").forEach(inp => {
+    inp.onchange = () => commitAreaGoal(inp.dataset.goalMax, { max: readGoalNumber(inp) });
+  });
+  root.querySelectorAll("[data-goal-reeval]").forEach(inp => {
+    inp.onchange = () => {
+      const v = (inp.value || "").trim();
+      commitAreaGoal(inp.dataset.goalReeval, { reevaluateBy: /^\d{4}-\d{2}-\d{2}$/.test(v) ? v : null });
+    };
+  });
+  root.querySelectorAll("[data-goal-suggest]").forEach(btn => {
+    btn.onclick = () => commitAreaGoal(btn.dataset.goalSuggest, { reevaluateBy: btn.dataset.until });
+  });
+  root.querySelectorAll("[data-goal-clear-reeval]").forEach(btn => {
+    btn.onclick = () => commitAreaGoal(btn.dataset.goalClearReeval, { reevaluateBy: null });
+  });
+  root.querySelectorAll("[data-goal-current]").forEach(inp => {
+    inp.onchange = () => {
+      const gl = data.goals.find(g => g.id === inp.dataset.goalCurrent);
+      if (!gl) return;
+      const n = Number(inp.value);
+      if (Number.isNaN(n)) return;
+      gl.current = Math.round(n * 100) / 100;
+      save();
+      renderAreas();
+      renderDerived();
+    };
+  });
+  root.querySelectorAll("[data-move-up]").forEach(btn => {
+    btn.onclick = (e) => { e.stopPropagation(); moveArea(btn.dataset.moveUp, -1); };
+  });
+  root.querySelectorAll("[data-move-down]").forEach(btn => {
+    btn.onclick = (e) => { e.stopPropagation(); moveArea(btn.dataset.moveDown, 1); };
+  });
+  let dragId = null;
+  function clearDragClasses() {
+    root.querySelectorAll(".area").forEach(a => a.classList.remove("dragging", "drag-over"));
+  }
+  function areaUnderPoint(x, y) {
+    const stack = document.elementsFromPoint(x, y);
+    for (const node of stack) {
+      const area = node.closest && node.closest(".area");
+      if (area && root.contains(area)) return area;
+    }
+    return null;
+  }
+  root.querySelectorAll(".area").forEach(el => {
+    const handle = el.querySelector(".drag-handle");
+    if (handle) {
+      handle.addEventListener("dragstart", (e) => {
+        dragId = el.dataset.areaId;
+        el.classList.add("dragging");
+        try { e.dataTransfer.setData("text/plain", dragId); e.dataTransfer.effectAllowed = "move"; } catch (err) {}
+      });
+      handle.addEventListener("dragend", () => {
+        dragId = null;
+        clearDragClasses();
+      });
+      // Pointer / touch reorder (HTML5 DnD is unreliable on phones)
+      handle.addEventListener("pointerdown", (e) => {
+        if (e.pointerType === "mouse" && e.button !== 0) return;
+        if (e.pointerType === "mouse") return; // mouse keeps native drag
+        e.preventDefault();
+        dragId = el.dataset.areaId;
+        el.classList.add("dragging");
+        try { handle.setPointerCapture(e.pointerId); } catch (err) {}
+        const onMove = (ev) => {
+          clearDragClasses();
+          el.classList.add("dragging");
+          const over = areaUnderPoint(ev.clientX, ev.clientY);
+          if (over && over.dataset.areaId !== dragId) over.classList.add("drag-over");
+        };
+        const onUp = (ev) => {
+          const over = areaUnderPoint(ev.clientX, ev.clientY);
+          const to = over && over.dataset.areaId;
+          const from = dragId;
+          dragId = null;
+          clearDragClasses();
+          handle.removeEventListener("pointermove", onMove);
+          handle.removeEventListener("pointerup", onUp);
+          handle.removeEventListener("pointercancel", onUp);
+          try { handle.releasePointerCapture(ev.pointerId); } catch (err) {}
+          if (from && to) reorderAreaTo(from, to);
+        };
+        handle.addEventListener("pointermove", onMove);
+        handle.addEventListener("pointerup", onUp);
+        handle.addEventListener("pointercancel", onUp);
+      });
+    }
+    el.addEventListener("dragover", (e) => {
+      e.preventDefault();
+      try { e.dataTransfer.dropEffect = "move"; } catch (err) {}
+      if (el.dataset.areaId !== dragId) el.classList.add("drag-over");
+    });
+    el.addEventListener("dragleave", () => { el.classList.remove("drag-over"); });
+    el.addEventListener("drop", (e) => {
+      e.preventDefault();
+      el.classList.remove("drag-over");
+      const from = dragId || (e.dataTransfer && e.dataTransfer.getData("text/plain"));
+      const to = el.dataset.areaId;
+      reorderAreaTo(from, to);
+    });
+  });
+}
+
+function renderReplacements() {
+  const list = document.getElementById("replList");
+  list.innerHTML = data.replacements.length
+    ? data.replacements.map(r => '<li><div class="note-body">' + esc(r.text) + '</div><button type="button" class="tiny" data-del-repl="' + esc(r.id) + '">Remove</button></li>').join("")
+    : '<li><span class="empty">No replacements yet. Add one.</span></li>';
+  list.querySelectorAll("[data-del-repl]").forEach(btn => {
+    btn.onclick = () => { data.replacements = data.replacements.filter(r => r.id !== btn.dataset.delRepl); save(); renderReplacements(); };
+  });
+}
+function renderPurpose() {
+  const nameEl = document.getElementById("purposeChosen");
+  if (nameEl && document.activeElement !== nameEl) nameEl.value = data.purpose.chosen || "";
+  const walk = document.getElementById("purposeWalkList");
+  const notes = sortedDesc(data.purpose.walkNotes);
+  walk.innerHTML = notes.length
+    ? notes.map(n => '<li><div class="note-body"><time datetime="' + esc(n.date) + '">' + esc(prettyDate(n.date)) + '</time>' + esc(n.text) + '</div><button type="button" class="tiny" data-del-walk="' + esc(n.id) + '">Remove</button></li>').join("")
+    : '<li><span class="empty">No path notes yet.</span></li>';
+  walk.querySelectorAll("[data-del-walk]").forEach(btn => {
+    btn.onclick = () => { data.purpose.walkNotes = data.purpose.walkNotes.filter(n => n.id !== btn.dataset.delWalk); save(); renderPurpose(); };
+  });
+  const given = document.getElementById("purposeGivenList");
+  given.innerHTML = data.purpose.given.length
+    ? data.purpose.given.map(g =>
+        '<li><div class="note-body">' + esc(g.text) +
+        '<div class="mark-row">' +
+        '<button type="button" class="btn" data-given-said="' + esc(g.id) + '" aria-pressed="' + (g.status === "said" ? "true" : "false") + '">This was said</button>' +
+        '<button type="button" class="btn" data-given-never="' + esc(g.id) + '" aria-pressed="' + (g.status === "never" ? "true" : "false") + '">This was never said</button>' +
+        '</div></div><button type="button" class="tiny" data-del-given="' + esc(g.id) + '">Remove</button></li>'
+      ).join("")
+    : '<li><span class="empty">Nothing listed yet.</span></li>';
+  given.querySelectorAll("[data-given-said]").forEach(btn => {
+    btn.onclick = () => { const g = data.purpose.given.find(x => x.id === btn.dataset.givenSaid); if (g) { g.status = "said"; save(); renderPurpose(); } };
+  });
+  given.querySelectorAll("[data-given-never]").forEach(btn => {
+    btn.onclick = () => { const g = data.purpose.given.find(x => x.id === btn.dataset.givenNever); if (g) { g.status = "never"; save(); renderPurpose(); } };
+  });
+  given.querySelectorAll("[data-del-given]").forEach(btn => {
+    btn.onclick = () => { data.purpose.given = data.purpose.given.filter(g => g.id !== btn.dataset.delGiven); save(); renderPurpose(); };
+  });
+  const pictured = document.getElementById("purposePicturedList");
+  pictured.innerHTML = data.purpose.pictured.length
+    ? data.purpose.pictured.map(p =>
+        '<li><div class="note-body">' + esc(p.text) +
+        (p.status === "never" ? '<span class="tag">If it was never said, it isn\'t their debt.</span>' : "") +
+        (p.status === "said" ? '<span class="tag">If you let them believe it, say the sentence.</span>' : "") +
+        '<div class="mark-row">' +
+        '<button type="button" class="btn" data-pic-said="' + esc(p.id) + '" aria-pressed="' + (p.status === "said" ? "true" : "false") + '">This was said</button>' +
+        '<button type="button" class="btn" data-pic-never="' + esc(p.id) + '" aria-pressed="' + (p.status === "never" ? "true" : "false") + '">This was never said</button>' +
+        '</div></div><button type="button" class="tiny" data-del-pic="' + esc(p.id) + '">Remove</button></li>'
+      ).join("")
+    : '<li><span class="empty">No pictured roles yet.</span></li>';
+  pictured.querySelectorAll("[data-pic-said]").forEach(btn => {
+    btn.onclick = () => { const p = data.purpose.pictured.find(x => x.id === btn.dataset.picSaid); if (p) { p.status = "said"; save(); renderPurpose(); } };
+  });
+  pictured.querySelectorAll("[data-pic-never]").forEach(btn => {
+    btn.onclick = () => { const p = data.purpose.pictured.find(x => x.id === btn.dataset.picNever); if (p) { p.status = "never"; save(); renderPurpose(); } };
+  });
+  pictured.querySelectorAll("[data-del-pic]").forEach(btn => {
+    btn.onclick = () => { data.purpose.pictured = data.purpose.pictured.filter(p => p.id !== btn.dataset.delPic); save(); renderPurpose(); };
+  });
+}
+function renderDiary() {
+  const list = document.getElementById("diaryList");
+  const rows = sortedDesc(data.diary);
+  list.innerHTML = rows.length
+    ? rows.map(e => {
+        const pull = e.pull ? pullLabel(e.pull) : "No pull named";
+        const note = e.note ? esc(e.note) : "Came back.";
+        const offer = e.offered ? '<span class="entry-meta">Next move: ' + esc(e.offered) + '</span>' : "";
+        return '<li><div class="note-body"><time datetime="' + esc(e.date) + '">' + esc(prettyDate(e.date)) + '</time><span class="entry-meta">' + esc(pull) + '</span>' + offer + note + '</div><button type="button" class="tiny" data-del-diary="' + esc(e.id) + '">Remove</button></li>';
+      }).join("")
+    : '<li><span class="empty">No diary entries yet. Coming back is the whole point.</span></li>';
+  list.querySelectorAll("[data-del-diary]").forEach(btn => {
+    btn.onclick = () => { data.diary = data.diary.filter(n => n.id !== btn.dataset.delDiary); save(); renderDiary(); };
+  });
+}
+
+function renderPie() {
+  const date = data.selected;
+  const hours = hoursFor(date);
+  const areas = orderedAreas();
+  const slices = areas.map(a => ({ name: a.name, color: a.color, hours: hours[a.id] })).filter(s => s.hours > 0);
+  const svg = document.getElementById("pie");
+  const legend = document.getElementById("legend");
+  const note = document.getElementById("pieNote");
+  const sleepH = (data.days[date] && data.days[date].sleep) ? data.days[date].sleep.hours : 0;
+  const wk = weekHours(date);
+  const wkTotal = AREAS.reduce((s, a) => s + wk[a.id], 0);
+  const wkLine = wkTotal ? " Last 7 days: " + areas.map(a => {
+    const mn = pieLimit(a.id, "Thin");
+    const mx = pieLimit(a.id, "Heavy");
+    const range = (mn != null || mx != null) ? " (aim " + (mn != null ? fmtHours(mn) : "—") + "–" + (mx != null ? fmtHours(mx) : "—") + ")" : "";
+    return areaShort(a) + " " + fmtHours(wk[a.id]) + "h" + range;
+  }).join(", ") + ". No equal-time rule. Yours, not equal." : "";
+  note.textContent = "Sleep is a check-in, not an area" + (sleepH ? " · " + fmtHours(sleepH) + "h last night, kept off the pie." : ".") + wkLine;
+  if (!slices.length) {
+    svg.innerHTML = '<circle cx="100" cy="100" r="70" fill="none" stroke="var(--border)" stroke-width="18"/>';
+    svg.setAttribute("aria-label", "No area time logged this day");
+    legend.innerHTML = '<li class="empty">No area hours on this day yet.</li>';
+    return;
+  }
+  const sum = slices.reduce((s, sl) => s + sl.hours, 0);
+  let angle = -Math.PI / 2;
+  const paths = slices.map(sl => {
+    const sweep = (sl.hours / sum) * Math.PI * 2;
+    const a0 = angle, a1 = angle + sweep;
+    angle = a1;
+    const large = sweep > Math.PI ? 1 : 0;
+    const r = 78, cx = 100, cy = 100;
+    const x1 = cx + r * Math.cos(a0), y1 = cy + r * Math.sin(a0);
+    const x2 = cx + r * Math.cos(a1 - 0.0001), y2 = cy + r * Math.sin(a1 - 0.0001);
+    if (slices.length === 1) return '<circle cx="100" cy="100" r="78" fill="' + sl.color + '"/>';
+    return '<path d="M ' + cx + ' ' + cy + ' L ' + x1.toFixed(2) + ' ' + y1.toFixed(2) + ' A ' + r + ' ' + r + ' 0 ' + large + ' 1 ' + x2.toFixed(2) + ' ' + y2.toFixed(2) + ' Z" fill="' + sl.color + '"></path>';
+  });
+  svg.innerHTML = paths.join("") + '<circle cx="100" cy="100" r="42" fill="var(--panel)"/>';
+  svg.setAttribute("aria-label", "Time by area. " + slices.map(s => s.name + " " + fmtHours(s.hours) + " hours").join(", "));
+  legend.innerHTML = areas.map(a => '<li><span class="swatch" style="background:' + a.color + '"></span><span>' + esc(a.name) + '</span><span>' + fmtHours(hours[a.id]) + 'h</span></li>').join("");
+}
+function cup(earned) {
+  const fill = earned ? "var(--gold)" : "var(--muted)";
+  return '<svg class="cup" viewBox="0 0 32 32" aria-hidden="true"><path fill="' + fill + '" d="M9 7h14v3a6 6 0 0 1-4.2 5.7A6 6 0 0 1 16 21a6 6 0 0 1-2.8-5.3A6 6 0 0 1 9 10V7z"/><path fill="' + fill + '" d="M14 21h4v2h3v2H11v-2h3z"/></svg>';
+}
+function renderTrophies() {
+  const n = returnCount();
+  const days = returnDays();
+  document.getElementById("returnsBanner").innerHTML =
+    '<b>Returns to practice. Not a streak.</b>' +
+    '<span>' + n + (n === 1 ? " day" : " days") + " you returned. No target.</span>" +
+    (n ? '<p class="hint" style="margin:0.35rem 0 0">You came back. That counts.</p>' : '<p class="hint" style="margin:0.35rem 0 0">No broken streak. Only days you returned.</p>');
+  const items = [
+    { name: "Came back", earned: n >= 1, hint: n >= 1 ? "A day you returned is on the shelf." : "The first return lands here." },
+    { name: "Came back again", earned: n >= 3, hint: n + " return " + (n === 1 ? "day" : "days") + ". Still not a streak." },
+    { name: "Kept coming back", earned: n >= 7, hint: "Seven return days. No purity score." }
+  ];
+  const dayCards = days.slice(-5).reverse().map(d =>
+    '<article class="trophy earned">' + cup(true) + '<div><strong>' + esc(prettyDate(d)) + '</strong><p>You came back. That counts.</p></div></article>'
+  ).join("");
+  document.getElementById("trophies").innerHTML = items.map(t =>
+    '<article class="trophy' + (t.earned ? " earned" : "") + '">' + cup(t.earned) + '<div><strong>' + esc(t.name) + '</strong><p>' + esc(t.hint) + '</p></div></article>'
+  ).join("") + dayCards;
+}
+function renderLog() {
+  const rows = Object.keys(data.days).filter(k => data.days[k] && data.days[k].steered != null).sort().reverse();
+  const list = document.getElementById("logList");
+  if (!rows.length) { list.innerHTML = '<li><span class="empty">No record yet.</span></li>'; return; }
+  list.innerHTML = rows.map(k => {
+    const yes = data.days[k].steered === true;
+    const back = isReturn(k) ? " · came back" : "";
+    return '<li><span>' + esc(prettyDate(k)) + back + '</span><span>' + (yes ? "Noticed and steered" : "Noticed, didn't steer") + '</span></li>';
+  }).join("");
+}
+function renderMoney() {
+  const grid = document.getElementById("accountGrid");
+  grid.innerHTML = data.accounts.map(a => {
+    const bal = accountBal(a.id);
+    return '<button type="button" class="account-card" data-edit-account="' + esc(a.id) + '" title="Edit account"><div class="name">' + esc(a.name) + '</div><div class="bal ' + (bal < 0 ? "money-neg" : "money-pos") + '">' + moneyPlain(bal) + '</div></button>';
+  }).join("") || '<p class="empty">No accounts yet.</p>';
+  grid.querySelectorAll("[data-edit-account]").forEach(btn => {
+    btn.onclick = () => openAccountDialog(btn.dataset.editAccount);
+  });
+  const w = weekMoneySummary();
+  document.getElementById("weekSum").textContent =
+    "This week (" + prettyDate(w.sun) + "–" + prettyDate(w.end) + "): " + moneyFmt(w.inn) + " in · " + moneyFmt(-w.out) + " out · net " + moneyFmt(w.net);
+  const list = document.getElementById("moneyList");
+  if (!data.money.length) { list.innerHTML = '<li><span class="empty">Nothing entered.</span></li>'; return; }
+  list.innerHTML = data.money.slice().sort((a, b) => a.date < b.date ? 1 : -1).map(m => {
+    const acc = data.accounts.find(a => a.id === m.accountId);
+    const cat = m.type === "income" ? (INCOME_SOURCES[m.category] || m.label || "Income") : (EXPENSE_TYPES[m.category] || m.label || "Expense");
+    const extra = (m.label && (m.category === "other" || m.category === "project")) ? (" · " + m.label) : "";
+    const goal = m.goalId ? data.goals.find(g => g.id === m.goalId) : null;
+    const toward = goal ? (" · toward " + goal.title) : "";
+    const amt = signedAmount(m);
+    return '<li><span>' + esc(cat + extra) + ' · ' + esc(acc ? acc.name : "?") + ' · ' + esc(prettyDate(m.date)) + esc(toward) + '</span><span class="' + (amt < 0 ? "money-neg" : "money-pos") + '">' + moneyFmt(amt) + '</span></li>';
+  }).join("");
+}
+function renderGate() {
+  const el = document.getElementById("gateMsg");
+  if (el) el.textContent = gate(data.selected).msg;
+}
+function renderDerived() {
+  renderStats(); renderCoach(); renderStrip(); renderAreas();
+  renderReplacements(); renderPurpose(); renderDiary();
+  renderPie(); renderTrophies(); renderLog(); renderMoney(); renderGate();
+}
+function syncComposerDates() {
+  ["purposeDate", "diaryDate"].forEach(id => {
+    const el = document.getElementById(id);
+    if (el && document.activeElement !== el) el.value = data.selected;
+  });
+}
+function explainGate() {
+  const g = gate(data.selected);
+  const el = document.getElementById("gateMsg");
+  if (el) el.textContent = g.msg;
+  document.getElementById("checkin").scrollIntoView({ behavior: "smooth", block: "center" });
+  return g;
+}
+function addTask(area, title, hours, notes, expand7) {
+  if (!gate(data.selected).ok) { explainGate(); return; }
+  const hrs = Number(hours);
+  const h = (typeof hrs === "number" && !Number.isNaN(hrs) && hrs >= 0) ? hrs : 0;
+  const note = typeof notes === "string" ? notes : "";
+  const baseDate = data.selected;
+  const days = expand7 ? 8 : 1; // today + next 7
+  for (let i = 0; i < days; i++) {
+    data.tasks.push({
+      id: uid("t"), area, title, hours: h, status: "todo",
+      date: shift(baseDate, i), notes: note, repeat: ""
+    });
+  }
+  save(); renderDerived();
+}
+function openTaskDialog(taskId) {
+  editingTaskId = taskId || null;
+  const dlgTitle = document.getElementById("taskDialogTitle");
+  const presetBlock = document.getElementById("taskPresetBlock");
+  const expand = document.getElementById("taskExpand7");
+  expand.checked = false;
+  if (editingTaskId) {
+    const t = data.tasks.find(x => x.id === editingTaskId);
+    if (!t) { editingTaskId = null; return; }
+    dlgTitle.textContent = "Edit task";
+    presetBlock.hidden = true;
+    document.getElementById("taskDomains").innerHTML = domainPicker("taskArea", t.area);
+    document.getElementById("taskTitleWrap").hidden = false;
+    document.getElementById("taskTitle").value = t.title || "";
+    document.getElementById("taskHours").value = String(t.hours != null ? t.hours : 0.5);
+    document.getElementById("taskNotes").value = t.notes || "";
+    taskPresetChoice = "__custom";
+  } else {
+    if (!gate(data.selected).ok) { explainGate(); return; }
+    dlgTitle.textContent = "Add task";
+    presetBlock.hidden = false;
+    taskPresetChoice = null;
+    document.getElementById("taskDomains").innerHTML = domainPicker("taskArea", "career");
+    document.getElementById("taskTitle").value = "";
+    document.getElementById("taskTitleWrap").hidden = true;
+    document.getElementById("taskHours").value = "0.5";
+    document.getElementById("taskNotes").value = "";
+    document.querySelectorAll('input[name="taskArea"]').forEach(r => {
+      r.onchange = () => { taskPresetChoice = null; fillTaskPresets(); };
+    });
+    fillTaskPresets();
+  }
+  document.getElementById("taskDialog").showModal();
+}
+function domainPicker(name, selected) {
+  return orderedAreas().map(a => '<label><input type="radio" name="' + name + '" value="' + a.id + '"' + (a.id === selected ? " checked" : "") + ' /> <span class="swatch" style="background:' + a.color + ';display:inline-block"></span> ' + esc(a.name) + '</label>').join("");
+}
+function chosen(name) {
+  const el = document.querySelector('input[name="' + name + '"]:checked');
+  return el ? el.value : "career";
+}
+function fillTaskPresets() {
+  const area = chosen("taskArea");
+  const presets = TASK_PRESETS[area] || [];
+  const row = document.getElementById("taskPresets");
+  const chips = presets.map(p => {
+    const title = typeof p === "string" ? p : p.title;
+    const pressed = taskPresetChoice === title;
+    return '<button type="button" class="chip" data-tpreset="' + esc(title) + '" data-thours="' + esc(String(typeof p === "string" ? 0.5 : p.hours)) + '" aria-pressed="' + (pressed ? "true" : "false") + '">' + esc(title) + '</button>';
+  });
+  chips.push('<button type="button" class="chip" data-tpreset="__custom" aria-pressed="' + (taskPresetChoice === "__custom" ? "true" : "false") + '">Custom…</button>');
+  row.innerHTML = chips.join("");
+  row.querySelectorAll(".chip").forEach(btn => {
+    btn.onclick = () => {
+      taskPresetChoice = btn.dataset.tpreset;
+      const wrap = document.getElementById("taskTitleWrap");
+      if (taskPresetChoice === "__custom") {
+        wrap.hidden = false;
+        document.getElementById("taskTitle").value = "";
+        document.getElementById("taskTitle").focus();
+      } else {
+        wrap.hidden = true;
+        document.getElementById("taskTitle").value = taskPresetChoice;
+        if (btn.dataset.thours != null) document.getElementById("taskHours").value = btn.dataset.thours;
+      }
+      fillTaskPresets();
+    };
+  });
+}
+function fillGoalPresets() {
+  const row = document.getElementById("goalPresets");
+  row.innerHTML = GOAL_PRESETS.map(p =>
+    '<button type="button" class="chip" data-gpreset="' + p.id + '" aria-pressed="' + (goalPresetChoice === p.id ? "true" : "false") + '">' + esc(p.title) + '</button>'
+  ).join("");
+  row.querySelectorAll(".chip").forEach(btn => {
+    btn.onclick = () => {
+      goalPresetChoice = btn.dataset.gpreset;
+      const preset = GOAL_PRESETS.find(p => p.id === goalPresetChoice);
+      const wrap = document.getElementById("goalTitleWrap");
+      if (goalPresetChoice === "custom") {
+        wrap.hidden = false; document.getElementById("goalTitle").value = ""; document.getElementById("goalUnit").value = "hours";
+      } else {
+        wrap.hidden = true;
+        document.getElementById("goalTitle").value = preset.title;
+        document.getElementById("goalUnit").value = preset.unit;
+        document.getElementById("goalDir").value = preset.direction;
+        document.getElementById("goalStart").value = preset.start;
+        document.getElementById("goalNow").value = preset.current;
+        document.getElementById("goalTarget").value = preset.target;
+      }
+      toggleGoalUnitCustom(); fillGoalPresets();
+    };
+  });
+}
+function toggleGoalUnitCustom() {
+  document.getElementById("goalUnitCustomWrap").hidden = document.getElementById("goalUnit").value !== "custom";
+}
+function fillMoneyAccounts() {
+  document.getElementById("moneyAccount").innerHTML = data.accounts.map(a => '<option value="' + a.id + '">' + esc(a.name) + '</option>').join("");
+}
+function fillMoneyGoals() {
+  document.getElementById("moneyGoal").innerHTML = '<option value="">None</option>' + data.goals.map(g => '<option value="' + g.id + '">' + esc(g.title) + '</option>').join("");
+}
+function syncMoneyTypeUI() {
+  document.querySelectorAll("#moneyTypeRow .chip").forEach(btn => {
+    btn.setAttribute("aria-pressed", btn.dataset.mtype === moneyType ? "true" : "false");
+  });
+  document.getElementById("moneySourceWrap").hidden = moneyType !== "income";
+  document.getElementById("moneyExpenseWrap").hidden = moneyType !== "expense";
+  document.getElementById("moneyGoalWrap").hidden = moneyType !== "expense";
+  syncMoneyOther();
+}
+function syncMoneyOther() {
+  const need = moneyType === "income" ? document.getElementById("moneySource").value === "other" : document.getElementById("moneyExpense").value === "other";
+  document.getElementById("moneyOtherWrap").hidden = !need;
+}
+
+document.querySelectorAll(".themes button").forEach(btn => { btn.onclick = () => applyTheme(btn.dataset.theme); });
+document.getElementById("btnOptions").onclick = () => document.getElementById("optionsDialog").showModal();
+document.getElementById("optionsClose").onclick = () => document.getElementById("optionsDialog").close();
+document.getElementById("btnAddTask").onclick = () => openTaskDialog(null);
+document.getElementById("btnAddGoal").onclick = () => {
+  goalPresetChoice = null;
+  document.getElementById("goalDomains").innerHTML = domainPicker("goalArea", "personal");
+  document.getElementById("goalTitle").value = "";
+  document.getElementById("goalTitleWrap").hidden = true;
+  document.getElementById("goalStart").value = "0";
+  document.getElementById("goalNow").value = "0";
+  document.getElementById("goalTarget").value = "10";
+  document.getElementById("goalDir").value = "up";
+  document.getElementById("goalUnit").value = "$";
+  toggleGoalUnitCustom();
+  fillGoalPresets();
+  document.getElementById("goalDialog").showModal();
+};
+document.getElementById("goalUnit").onchange = toggleGoalUnitCustom;
+document.getElementById("btnAddMoney").onclick = () => {
+  moneyType = "income";
+  fillMoneyAccounts(); fillMoneyGoals();
+  document.getElementById("moneyAmt").value = "";
+  document.getElementById("moneyOther").value = "";
+  document.getElementById("moneySource").value = "paycheck";
+  document.getElementById("moneyExpense").value = "bill";
+  document.getElementById("moneyGoal").value = "";
+  syncMoneyTypeUI();
+  document.getElementById("moneyDialog").showModal();
+};
+document.querySelectorAll("#moneyTypeRow .chip").forEach(btn => {
+  btn.onclick = () => { moneyType = btn.dataset.mtype; syncMoneyTypeUI(); };
+});
+document.getElementById("moneySource").onchange = syncMoneyOther;
+document.getElementById("moneyExpense").onchange = syncMoneyOther;
+function openAccountDialog(accountId) {
+  editingAccountId = accountId || null;
+  const title = document.getElementById("accountDialogTitle");
+  const presets = document.getElementById("accountPresets");
+  const customWrap = document.getElementById("accountCustomWrap");
+  const balHint = document.getElementById("accountBalanceHint");
+  if (editingAccountId) {
+    const a = data.accounts.find(x => x.id === editingAccountId);
+    if (!a) { editingAccountId = null; return; }
+    title.textContent = "Edit account";
+    presets.hidden = true;
+    customWrap.hidden = false;
+    document.getElementById("accountName").value = a.name || "";
+    document.getElementById("accountBalance").value = String(accountBal(a.id));
+    balHint.textContent = "Set the balance you see. Opening balance adjusts so transactions still add up.";
+    accountPick = "__custom";
+  } else {
+    title.textContent = "Add account";
+    presets.hidden = false;
+    accountPick = "Checking";
+    customWrap.hidden = true;
+    document.getElementById("accountName").value = "";
+    document.getElementById("accountBalance").value = "0";
+    balHint.textContent = "Opening balance. Transactions add or subtract from here.";
+    document.querySelectorAll("#accountPresets .chip").forEach(btn => {
+      btn.setAttribute("aria-pressed", btn.dataset.acc === accountPick ? "true" : "false");
+    });
+  }
+  document.getElementById("accountDialog").showModal();
+}
+document.getElementById("btnAddAccount").onclick = () => openAccountDialog(null);
+document.querySelectorAll("#accountPresets .chip").forEach(btn => {
+  btn.onclick = () => {
+    accountPick = btn.dataset.acc;
+    document.querySelectorAll("#accountPresets .chip").forEach(b => b.setAttribute("aria-pressed", b.dataset.acc === accountPick ? "true" : "false"));
+    const custom = accountPick === "__custom";
+    document.getElementById("accountCustomWrap").hidden = !custom;
+    if (custom) document.getElementById("accountName").focus();
+  };
+});
+document.getElementById("accountCancel").onclick = () => { editingAccountId = null; document.getElementById("accountDialog").close(); };
+document.getElementById("accountSave").onclick = () => {
+  const desiredBal = Number(document.getElementById("accountBalance").value);
+  const balNum = Number.isNaN(desiredBal) ? 0 : desiredBal;
+  if (editingAccountId) {
+    const a = data.accounts.find(x => x.id === editingAccountId);
+    if (!a) return;
+    const name = document.getElementById("accountName").value.trim();
+    if (!name) return;
+    a.name = name;
+    a.openingBalance = balNum - accountTxnSum(a.id);
+    editingAccountId = null;
+    save();
+    document.getElementById("accountDialog").close();
+    renderMoney();
+    return;
+  }
+  const name = accountPick === "__custom" ? document.getElementById("accountName").value.trim() : accountPick;
+  if (!name) return;
+  if (!data.accounts.some(a => a.name.toLowerCase() === name.toLowerCase())) {
+    data.accounts.push({ id: uid("a"), name, openingBalance: balNum });
+    save();
+  }
+  document.getElementById("accountDialog").close();
+  renderMoney();
+};
+document.getElementById("taskCancel").onclick = () => { editingTaskId = null; document.getElementById("taskDialog").close(); };
+document.getElementById("goalCancel").onclick = () => document.getElementById("goalDialog").close();
+document.getElementById("moneyCancel").onclick = () => document.getElementById("moneyDialog").close();
+document.getElementById("taskSave").onclick = () => {
+  let title = document.getElementById("taskTitle").value.trim();
+  if (!title && taskPresetChoice && taskPresetChoice !== "__custom") title = taskPresetChoice;
+  if (!title) return;
+  const hours = document.getElementById("taskHours").value;
+  const notes = document.getElementById("taskNotes").value.trim();
+  const expand7 = document.getElementById("taskExpand7").checked;
+  if (editingTaskId) {
+    const t = data.tasks.find(x => x.id === editingTaskId);
+    if (!t) return;
+    t.area = chosen("taskArea");
+    t.title = title;
+    const hrs = Number(hours);
+    t.hours = (typeof hrs === "number" && !Number.isNaN(hrs) && hrs >= 0) ? hrs : 0;
+    t.notes = notes;
+    if (expand7) {
+      for (let i = 1; i <= 7; i++) {
+        data.tasks.push({
+          id: uid("t"), area: t.area, title: t.title, hours: t.hours,
+          status: "todo", date: shift(t.date, i), notes: t.notes, repeat: ""
+        });
+      }
+    }
+    editingTaskId = null;
+    save();
+    document.getElementById("taskDialog").close();
+    renderDerived();
+    return;
+  }
+  if (!gate(data.selected).ok) { explainGate(); document.getElementById("taskDialog").close(); return; }
+  addTask(chosen("taskArea"), title, hours, notes, expand7);
+  document.getElementById("taskDialog").close();
+};
+document.getElementById("goalSave").onclick = () => {
+  let title = document.getElementById("goalTitle").value.trim();
+  if (!title && goalPresetChoice && goalPresetChoice !== "custom") {
+    const p = GOAL_PRESETS.find(x => x.id === goalPresetChoice);
+    title = p ? p.title : "";
+  }
+  if (!title) return;
+  let unit = document.getElementById("goalUnit").value;
+  let unitCustom = unit === "custom" ? (document.getElementById("goalUnitCustom").value.trim() || "units") : "";
+  data.goals.push({
+    id: uid("g"), area: chosen("goalArea"), title,
+    start: Number(document.getElementById("goalStart").value) || 0,
+    current: Number(document.getElementById("goalNow").value) || 0,
+    target: Number(document.getElementById("goalTarget").value) || 1,
+    unit, unitCustom, direction: document.getElementById("goalDir").value
+  });
+  save(); document.getElementById("goalDialog").close(); renderDerived();
+};
+document.getElementById("moneySave").onclick = () => {
+  const amount = Number(document.getElementById("moneyAmt").value);
+  if (!(amount >= 0) || Number.isNaN(amount)) return;
+  const accountId = document.getElementById("moneyAccount").value;
+  if (!accountId) return;
+  const category = moneyType === "income" ? document.getElementById("moneySource").value : document.getElementById("moneyExpense").value;
+  const label = document.getElementById("moneyOther").value.trim();
+  if (category === "other" && !label) return;
+  const goalId = moneyType === "expense" ? (document.getElementById("moneyGoal").value || "") : "";
+  data.money.push({ id: uid("m"), type: moneyType, amount, accountId, category, label, date: data.selected, goalId });
+  save(); document.getElementById("moneyDialog").close(); renderDerived();
+};
+["taskDialog", "goalDialog", "moneyDialog", "accountDialog"].forEach(id => {
+  const dlg = document.getElementById(id);
+  dlg.addEventListener("click", e => { if (e.target === dlg) dlg.close(); });
+});
+document.getElementById("purposeChosen").addEventListener("input", () => {
+  data.purpose.chosen = document.getElementById("purposeChosen").value; save();
+});
+document.getElementById("purposeAdd").onclick = () => {
+  const noteText = document.getElementById("purposeNote").value.trim();
+  if (!noteText) return;
+  data.purpose.walkNotes.push({ id: uid("p"), date: document.getElementById("purposeDate").value || data.selected, text: noteText });
+  document.getElementById("purposeNote").value = "";
+  save(); renderPurpose();
+};
+document.getElementById("givenAdd").onclick = () => {
+  const text = document.getElementById("givenText").value.trim();
+  if (!text) return;
+  data.purpose.given.push({ id: uid("pg"), text, status: null });
+  document.getElementById("givenText").value = "";
+  save(); renderPurpose();
+};
+document.getElementById("picturedAdd").onclick = () => {
+  const text = document.getElementById("picturedText").value.trim();
+  if (!text) return;
+  data.purpose.pictured.push({ id: uid("pp"), text, status: null });
+  document.getElementById("picturedText").value = "";
+  save(); renderPurpose();
+};
+document.getElementById("replAdd").onclick = () => {
+  const text = document.getElementById("replText").value.trim();
+  if (!text) return;
+  data.replacements.push({ id: uid("r"), text });
+  document.getElementById("replText").value = "";
+  save(); renderReplacements();
+};
+document.getElementById("diaryAdd").onclick = () => {
+  const date = document.getElementById("diaryDate").value || data.selected;
+  const pull = document.getElementById("diaryPull").value;
+  const noteText = document.getElementById("diaryNote").value.trim();
+  let offered = "";
+  if (pull && data.replacements.length) {
+    offered = pickReplacement().text;
+    const box = document.getElementById("replOffer");
+    box.hidden = false;
+    box.innerHTML = '<strong>When a pull shows up, offer one from this list.</strong><p style="margin:0.25rem 0 0">' + esc(offered) + '</p><p class="hint" style="margin:0.35rem 0 0">It may not make the pull leave. It gives you the next move.</p>';
+  }
+  data.diary.push({ id: uid("d"), date, pull, note: noteText, offered });
+  document.getElementById("diaryNote").value = "";
+  document.getElementById("diaryPull").value = "";
+  save(); renderDiary();
+};
+
+function showVault(mode, err) {
+  document.getElementById("appRoot").hidden = true;
+  const gate = document.getElementById("vaultGate");
+  gate.hidden = false;
+  let html = "";
+  if (mode === "setup") {
+    html =
+      '<div class="vault-screen">' +
+      '<div class="brand-mark" style="margin-bottom:0.6rem"><img class="book app-mark" src="icons/app-mark.jpg" alt="" /><span style="font-family:Georgia,serif;font-size:1.35rem">Higher Self</span></div>' +
+      '<h1>Your data stays on this phone, encrypted.</h1>' +
+      '<p class="hint">Set a passphrase. You\'ll need it to open your notes.</p>' +
+      '<p class="hint">If you lose your passphrase, no one can recover your notes, us included. Write it down somewhere safe.</p>' +
+      '<label class="field" style="margin-top:0.7rem">Passphrase<input id="vaultPass" type="password" autocomplete="new-password" /></label>' +
+      '<label class="field" style="margin-top:0.45rem">Confirm<input id="vaultPass2" type="password" autocomplete="new-password" /></label>' +
+      (err ? '<p class="vault-err">' + esc(err) + '</p>' : "") +
+      '<div class="actions"><button type="button" class="btn primary" id="vaultSetup">Create encrypted vault</button>' +
+      '<button type="button" class="btn" id="vaultRestoreFirst">Restore from a backup.</button></div>' +
+      '<p class="hint" style="margin-top:0.85rem">Cloud sync (Google Drive) is planned for a later phase. For now use Back up the encrypted file. You can put that file in Drive yourself.</p>' +
+      '</div>';
+  } else {
+    html =
+      '<div class="vault-screen">' +
+      '<div class="brand-mark" style="margin-bottom:0.6rem"><img class="book app-mark" src="icons/app-mark.jpg" alt="" /><span style="font-family:Georgia,serif;font-size:1.35rem">Higher Self</span></div>' +
+      '<h1>Your data stays on this phone, encrypted.</h1>' +
+      '<p class="hint">Enter your passphrase to open your notes.</p>' +
+      '<p class="hint">We can\'t read this file without your passphrase.</p>' +
+      '<label class="field" style="margin-top:0.7rem">Passphrase<input id="vaultPass" type="password" autocomplete="current-password" /></label>' +
+      (err ? '<p class="vault-err">' + esc(err) + '</p>' : "") +
+      '<div class="actions"><button type="button" class="btn primary" id="vaultUnlock">Open</button>' +
+      '<button type="button" class="btn" id="vaultRestoreFirst">Restore from a backup.</button></div>' +
+      '</div>';
+  }
+  gate.innerHTML = html;
+  const passEl = document.getElementById("vaultPass");
+  if (passEl) passEl.focus();
+  const setupBtn = document.getElementById("vaultSetup");
+  if (setupBtn) setupBtn.onclick = onSetupVault;
+  const unlockBtn = document.getElementById("vaultUnlock");
+  if (unlockBtn) unlockBtn.onclick = onUnlockVault;
+  const restoreBtn = document.getElementById("vaultRestoreFirst");
+  if (restoreBtn) restoreBtn.onclick = () => document.getElementById("restoreFile").click();
+  if (passEl) passEl.addEventListener("keydown", e => {
+    if (e.key === "Enter") {
+      if (setupBtn) setupBtn.click();
+      else if (unlockBtn) unlockBtn.click();
+    }
+  });
+}
+async function onSetupVault() {
+  const p1 = document.getElementById("vaultPass").value;
+  const p2 = document.getElementById("vaultPass2").value;
+  if (!p1 || p1.length < 6) return showVault("setup", "Use at least 6 characters.");
+  if (p1 !== p2) return showVault("setup", "Passphrases do not match.");
+  sessionPass = p1;
+  let base = wantDemoSeed() ? seed() : blankData();
+  try {
+    const legacy = localStorage.getItem(KEY_LEGACY);
+    if (legacy) base = migrateLegacy(JSON.parse(legacy));
+  } catch (e) {}
+  data = migrateLegacy(base);
+  await persist();
+  try { localStorage.removeItem(KEY_LEGACY); } catch (e) {}
+  enterApp();
+}
+async function onUnlockVault() {
+  const p = document.getElementById("vaultPass").value;
+  if (!p) return showVault("unlock", "Enter your passphrase.");
+  try {
+    const envelope = JSON.parse(localStorage.getItem(KEY));
+    const unlocked = await decryptPayload(envelope, p);
+    sessionPass = p;
+    data = migrateLegacy(unlocked);
+    enterApp();
+  } catch (e) {
+    showVault("unlock", "We can't read this file without your passphrase.");
+  }
+}
+function enterApp() {
+  document.getElementById("vaultGate").hidden = true;
+  document.getElementById("appRoot").hidden = false;
+  applyTheme(data.theme);
+  syncComposerDates();
+  fillDiaryPullOptions("");
+  renderCheckin();
+  renderDerived();
+}
+function lockApp() {
+  sessionPass = null;
+  data = null;
+  showVault("unlock");
+}
+async function downloadBackup() {
+  if (!sessionPass || !data) return;
+  const envelope = await encryptPayload(data, sessionPass);
+  envelope.exportedAt = new Date().toISOString();
+  envelope.note = "Higher Self encrypted backup. We can't read this file without your passphrase.";
+  const blob = new Blob([JSON.stringify(envelope, null, 2)], { type: "application/json" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "higher-self-backup-" + TODAY + ".hsbak";
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+}
+async function importBackupFile(file) {
+  try {
+    const text = await file.text();
+    const envelope = JSON.parse(text);
+    const pass = prompt("Passphrase for this backup.\\n\\nWe can't read this file without your passphrase.");
+    if (!pass) return;
+    const unlocked = await decryptPayload(envelope, pass);
+    sessionPass = pass;
+    data = migrateLegacy(unlocked);
+    await persist();
+    enterApp();
+  } catch (e) {
+    alert("We can't read this file without your passphrase.");
+  }
+}
+document.getElementById("btnBackup").onclick = downloadBackup;
+document.getElementById("btnRestore").onclick = () => document.getElementById("restoreFile").click();
+document.getElementById("btnLock").onclick = lockApp;
+document.getElementById("restoreFile").onchange = e => {
+  const f = e.target.files && e.target.files[0];
+  e.target.value = "";
+  if (f) importBackupFile(f);
+};
+function cryptoReady() {
+  return !!(window.crypto && window.crypto.subtle);
+}
+function showCryptoBlocked() {
+  document.getElementById("appRoot").hidden = true;
+  const gate = document.getElementById("vaultGate");
+  gate.hidden = false;
+  gate.innerHTML =
+    '<div class="vault-screen">' +
+    '<h1>Your data stays on this phone, encrypted.</h1>' +
+    '<p class="hint">This browser blocks encryption on file:// pages (Chrome). Encryption needs a local page over http://localhost (or https).</p>' +
+    '<p class="hint">In the growth-app folder run:</p>' +
+    '<p><code style="display:block;padding:0.55rem 0.65rem;background:var(--field);border:1px solid var(--border);border-radius:10px;font-size:0.85rem">python3 -m http.server 8765</code></p>' +
+    '<p class="hint">Then open <code>http://localhost:8765/</code> on this device. Same Wi‑Fi on a phone: use your computer\'s LAN IP, e.g. <code>http://192.168.x.x:8765/</code>.</p>' +
+    '<p class="hint">Add to Home Screen works on localhost or https after the page loads. Safari often allows file:// encryption; Chrome does not.</p>' +
+    '<p class="hint">We can\'t read this file without your passphrase. — once the vault is open, use Back up the encrypted file.</p>' +
+    '</div>';
+}
+function registerServiceWorker() {
+  if (!("serviceWorker" in navigator)) return;
+  const secure = location.protocol === "https:" || location.hostname === "localhost" || location.hostname === "127.0.0.1";
+  if (!secure) return;
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./sw.js").catch((err) => {
+      console.warn("Service worker registration skipped", err);
+    });
+  });
+}
+(function boot() {
+  registerServiceWorker();
+  if (!cryptoReady()) { showCryptoBlocked(); return; }
+  const enc = localStorage.getItem(KEY);
+  if (enc) showVault("unlock");
+  else showVault("setup");
+})();
+</script>
+</body>
+</html>
