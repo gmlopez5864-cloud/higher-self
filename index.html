@@ -786,6 +786,22 @@
   .road-list { list-style: none; margin: 0.2rem 0 0.4rem; padding: 0; }
   .road-list li { display: flex; align-items: center; gap: 0.45rem; padding: 0.25rem 0; font-size: 0.95rem; }
   .road-list img { width: 28px; height: 28px; border-radius: 22%; object-fit: cover; }
+
+  /* v13: path fields (shared) + check-in accordion */
+  .pf { display: flex; flex-direction: column; gap: 0.15rem; }
+  .pf > label.field { margin-top: 0.4rem; min-width: 0; width: 100%; }
+  .pf-pair { display: flex; gap: 0.4rem; width: 100%; }
+  .pf-pair > input { flex: 1 1 auto; min-width: 0; }
+  .pf-pair > select { flex: 0 0 5.5rem; }
+  .pf-own { margin: 0.1rem 0 0.2rem; }
+  .pf-own > .btn { flex: 0 0 auto; }
+  .pf-title { margin: 0.6rem 0 0; font-size: 0.9rem; }
+  .path-check .pc-row { display: block; padding: 0.45rem 0; border-bottom: 1px solid var(--line); }
+  .path-check .pc-row:last-child { border-bottom: 0; }
+  .path-check .pc-name { display: flex; min-width: 0; margin-bottom: 0.3rem; }
+  .path-check .pc-rates { margin: 0; gap: 0.3rem; }
+  .path-check .pc-rates .chip { padding-left: 0.7rem; padding-right: 0.7rem; white-space: nowrap; }
+  .path-check .pc-fields { margin-top: 0.5rem; padding: 0.55rem 0.65rem 0.65rem; border: 1px solid var(--line); border-radius: 12px; width: 100%; box-sizing: border-box; }
   .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
 </style>
 </head>
@@ -795,7 +811,7 @@
   <header class="top">
     <div class="brand-row">
       <div class="brand">
-        <h1 class="brand-mark"><img class="book app-mark" src="icons/app-mark.jpg?v=12" alt="" />Higher Self</h1>
+        <h1 class="brand-mark"><img class="book app-mark" src="icons/app-mark.jpg?v=13" alt="" />Higher Self</h1>
         <p id="todayLabel"></p>
       </div>
       <div>
@@ -826,13 +842,13 @@
   </header>
 
   <nav class="fast-travel" id="fastTravel" aria-label="Fast travel">
-    <button type="button" data-jump="checkin"><img src="icons/sleep.jpg?v=12" alt="" />Check-in</button>
-    <button type="button" data-jump="career"><img src="icons/career.jpg?v=12" alt="" />Career</button>
-    <button type="button" data-jump="personal"><img src="icons/personal-development.jpg?v=12" alt="" />Growth</button>
-    <button type="button" data-jump="spiritual"><img src="icons/spirit.jpg?v=12" alt="" />Spirit</button>
-    <button type="button" data-jump="social"><img src="icons/social.jpg?v=12" alt="" />Social</button>
-    <button type="button" data-jump="time"><img src="icons/hobbies.jpg?v=12" alt="" />Hobbies</button>
-    <button type="button" data-jump="money"><img src="icons/money.jpg?v=12" alt="" />Money</button>
+    <button type="button" data-jump="checkin"><img src="icons/sleep.jpg?v=13" alt="" />Check-in</button>
+    <button type="button" data-jump="career"><img src="icons/career.jpg?v=13" alt="" />Career</button>
+    <button type="button" data-jump="personal"><img src="icons/personal-development.jpg?v=13" alt="" />Growth</button>
+    <button type="button" data-jump="spiritual"><img src="icons/spirit.jpg?v=13" alt="" />Spirit</button>
+    <button type="button" data-jump="social"><img src="icons/social.jpg?v=13" alt="" />Social</button>
+    <button type="button" data-jump="time"><img src="icons/hobbies.jpg?v=13" alt="" />Hobbies</button>
+    <button type="button" data-jump="money"><img src="icons/money.jpg?v=13" alt="" />Money</button>
   </nav>
 
   <div class="strip" id="strip" role="tablist" aria-label="This week, Sunday through Saturday"></div>
@@ -848,7 +864,7 @@
 
   <section class="panel" id="replacementPanel" aria-labelledby="replTitle">
     <h2 id="replTitle">Replacement list</h2>
-    <div class="book-slot"><img class="book" src="icons/shadow.jpg?v=12" alt="" /><span>When an urge hits</span></div>
+    <div class="book-slot"><img class="book" src="icons/shadow.jpg?v=13" alt="" /><span>When an urge hits</span></div>
     <p class="hint">Actions you picked ahead for when an urge hits.</p>
     <p class="hint">When a pull shows up, offer one from this list.</p>
     <ul class="entry-list" id="replList"></ul>
@@ -869,8 +885,8 @@
     <h2 id="diaryTitle">Diary</h2>
     <div class="book-slot" title="Diary and shadow icons">
       <span class="book-set">
-        <img class="book" src="icons/diary.jpg?v=12" alt="" />
-        <img class="book" src="icons/shadow.jpg?v=12" alt="" />
+        <img class="book" src="icons/diary.jpg?v=13" alt="" />
+        <img class="book" src="icons/shadow.jpg?v=13" alt="" />
       </span>
       <span>Diary</span>
     </div>
@@ -916,7 +932,7 @@
 
   <div class="split">
     <section class="side" aria-labelledby="pieTitle">
-      <h2 id="pieTitle" class="title-book"><img class="book" src="icons/time-pie.jpg?v=12" alt="" />Time by area</h2>
+      <h2 id="pieTitle" class="title-book"><img class="book" src="icons/time-pie.jpg?v=13" alt="" />Time by area</h2>
       <div class="pie-layout">
         <svg class="pie" id="pie" viewBox="0 0 200 200" role="img" aria-label="Pie chart of time by area"></svg>
         <ul class="legend" id="legend"></ul>
@@ -924,7 +940,7 @@
       <p class="hint" id="pieNote"></p>
     </section>
     <section class="side" aria-labelledby="trophyTitle">
-      <h2 id="trophyTitle" class="title-book"><img class="book" src="icons/trophies.jpg?v=12" alt="" />Returns to practice</h2>
+      <h2 id="trophyTitle" class="title-book"><img class="book" src="icons/trophies.jpg?v=13" alt="" />Returns to practice</h2>
       <div class="returns-banner" id="returnsBanner"></div>
       <div class="trophies" id="trophies"></div>
     </section>
@@ -939,7 +955,7 @@
       <ul class="log-list record-list" id="logList"></ul>
     </section>
     <section class="side" id="moneySection" aria-labelledby="moneyTitle">
-      <h2 id="moneyTitle" class="title-book"><img class="book" src="icons/money.jpg?v=12" alt="" />Money tracker</h2>
+      <h2 id="moneyTitle" class="title-book"><img class="book" src="icons/money.jpg?v=13" alt="" />Money tracker</h2>
       <div class="account-grid" id="accountGrid"></div>
       <p class="week-sum" id="weekSum"></p>
       <ul class="money-list" id="moneyList"></ul>
@@ -1152,7 +1168,7 @@
   </div>
   <p class="theme-note" style="text-align:left">Dawn is daytime. Dusk is for night and sleep. Grove is quieter. Area colors stay the same in every theme.</p>
   <div class="subpanel" id="purposePanel" aria-labelledby="purposeTitle">
-    <h3 id="purposeTitle" class="title-book"><img class="book" src="icons/purpose.jpg?v=12" alt="" />Purpose (optional)</h3>
+    <h3 id="purposeTitle" class="title-book"><img class="book" src="icons/purpose.jpg?v=13" alt="" />Purpose (optional)</h3>
     <p class="hint">A note on how you're walking the path you already picked. Not a new choice, and not a finish.</p>
 
     <div class="subpanel">
@@ -1219,37 +1235,7 @@
 
 <dialog id="pathLogDialog" class="wide">
   <h3 id="pathLogTitle" class="title-book"></h3>
-  <label class="field">What did you do?<input id="plDid" type="text" maxlength="200" /></label>
-  <label class="field" style="margin-top:0.45rem">What would the better version of you on this path do?<input id="plBetter" type="text" maxlength="200" /></label>
-  <p class="q-title" style="margin-top:0.55rem;font-size:0.9rem">How did it go?</p>
-  <div class="chip-row" id="plRating" style="margin-bottom:0.1rem">
-    <button type="button" class="chip" data-plrate="good" aria-pressed="false">Good</button>
-    <button type="button" class="chip" data-plrate="neutral" aria-pressed="false">Neutral</button>
-    <button type="button" class="chip" data-plrate="bad" aria-pressed="false">Bad</button>
-  </div>
-  <p class="hint">The day, not your worth.</p>
-  <div class="time-row" style="margin-top:0.45rem">
-    <label class="field">Time.<input id="plTime" type="number" min="0" step="any" inputmode="decimal" /></label>
-    <label class="field" style="flex:0 0 5.5rem;min-width:5.5rem"><span class="sr-only">Time unit</span>&nbsp;<select id="plTimeUnit" aria-label="Time unit"><option value="min">min</option><option value="h">h</option></select></label>
-  </div>
-  <p class="hint">How long you spent.</p>
-  <label class="field" style="margin-top:0.45rem">Which area does this time count toward?<select id="plArea"></select></label>
-  <div class="time-row" style="margin-top:0.45rem">
-    <label class="field">Reps.<input id="plReps" type="number" min="0" step="1" inputmode="numeric" /></label>
-    <label class="field">Unit<input id="plRepsUnit" type="text" maxlength="20" placeholder="pages, rounds, sets" /></label>
-  </div>
-  <p class="hint">Rounds, pages, sets, whatever you count.</p>
-  <p class="q-title" style="margin-top:0.55rem;font-size:0.9rem">Pulls that showed up.</p>
-  <p class="hint">Pick any that apply.</p>
-  <div class="chip-row" id="plPulls"></div>
-  <p class="q-title" style="margin-top:0.55rem;font-size:0.9rem">Steered to.</p>
-  <p class="hint">Discipline, Presence, or one of your own.</p>
-  <div class="chip-row" id="plSteered"></div>
-  <div class="time-row">
-    <label class="field"><span class="sr-only">Your own</span><input id="plSteerOwn" type="text" maxlength="40" placeholder="Your own" aria-label="Your own" /></label>
-    <button type="button" class="btn" id="plSteerAdd">Add</button>
-  </div>
-  <label class="field" style="margin-top:0.45rem">Journal.<textarea id="plJournal" rows="3" maxlength="2000" placeholder="What you noticed on this path."></textarea></label>
+  <div id="plFields"></div>
   <div class="actions">
     <button type="button" class="btn" id="plDelete" hidden>Remove</button>
     <button type="button" class="btn" id="plCancel">Cancel</button>
@@ -1487,7 +1473,7 @@ const PATH_ICONS = [
 ];
 const PATH_WRESTLING_ICON = "icons/paths/wrestling.jpg";
 // Icon cache-bust: same filenames were re-cut, so every rendered icon URL carries ?v=. Stored data keeps plain paths.
-const ICON_VER = "12";
+const ICON_VER = "13";
 function plainIcon(src) { return String(src || "").split("?")[0]; }
 function iv(src) {
   const p = plainIcon(src);
@@ -1869,10 +1855,16 @@ function migrateLegacy(raw) {
     id: p.id || uid("pa"), name: String(p.name).trim(),
     img: (function () {
       const img = (typeof p.img === "string" && p.img && p.img.indexOf("paths-sheet") < 0) ? plainIcon(p.img) : PATH_DEFAULT_ICON;
-      return (img === PATH_DEFAULT_ICON && /wrestl/i.test(String(p.name))) ? PATH_WRESTLING_ICON : img;
+      return img;
     })(),
     created: (typeof p.created === "string" && /^\d{4}-\d{2}-\d{2}$/.test(p.created)) ? p.created : TODAY
   })) : [];
+  d.migrated = (d.migrated && typeof d.migrated === "object") ? d.migrated : {};
+  if (!d.migrated.wrestlingIcon) {
+    // Once: wrestling paths still on the default or the martial-artist kick get wrestling.jpg. A later manual pick sticks.
+    d.paths.forEach(p => { if (/wrestl/i.test(p.name) && (p.img === PATH_DEFAULT_ICON || p.img === "icons/paths/martial-artist.jpg")) p.img = PATH_WRESTLING_ICON; });
+    d.migrated.wrestlingIcon = true;
+  }
   d.pathLogs = Array.isArray(d.pathLogs) ? d.pathLogs.filter(l => l && l.pathId && typeof l.date === "string").map(l => ({
     id: l.id || uid("pl"), pathId: l.pathId, date: l.date,
     did: String(l.did || ""), better: String(l.better || ""),
@@ -2273,7 +2265,7 @@ function addCustomPull(label, steer, opposite, img) {
 }
 function sortedDesc(list) { return list.slice().sort((a, b) => a.date < b.date ? 1 : a.date > b.date ? -1 : 0); }
 function bookSlot(label) {
-  return '<span class="book-slot" title="Area notes"><img class="book" src="icons/area-note.jpg?v=12" alt="" /><span>' + esc(label) + '</span></span>';
+  return '<span class="book-slot" title="Area notes"><img class="book" src="icons/area-note.jpg?v=13" alt="" /><span>' + esc(label) + '</span></span>';
 }
 function pickReplacement() {
   if (!data.replacements.length) return null;
@@ -2491,9 +2483,9 @@ function renderCheckin() {
     const on = d.pulls.includes(p.id);
     return '<button type="button" class="btn pull-btn" data-pull="' + p.id + '" aria-pressed="' + (on ? "true" : "false") + '"' + capAttr(on, d.pulls.length) + '><img class="pull-icon" src="' + esc(iv(img)) + '" alt="" /><span>' + esc(p.label) + '</span></button>';
   }).join("")
-    + '<button type="button" class="btn pull-btn" id="addPullBtn"><img class="pull-icon" src="icons/pull-custom.jpg?v=12" alt="" /><span>Add pull…</span></button>';
+    + '<button type="button" class="btn pull-btn" id="addPullBtn"><img class="pull-icon" src="icons/pull-custom.jpg?v=13" alt="" /><span>Add pull…</span></button>';
   const body =
-    '<div class="sleep-row"><p class="q-title title-book"><img class="book" src="icons/sleep.jpg?v=12" alt="" />How did last night go?</p>' + sleepHtml + '</div>' +
+    '<div class="sleep-row"><p class="q-title title-book"><img class="book" src="icons/sleep.jpg?v=13" alt="" />How did last night go?</p>' + sleepHtml + '</div>' +
     '<div class="q-block"><p class="q-title">What role am I in, and what would the better version do?</p>' +
       '<label class="field">Name the role you\'re in.<input id="role" type="text" maxlength="80" placeholder="Name the role you\'re in." value="' + esc(d.role) + '" /></label>' +
       '<p class="hint">Friend, parent, partner, coworker, son or daughter, stranger, or whoever you are right now.</p>' +
@@ -2501,7 +2493,7 @@ function renderCheckin() {
     '<div class="q-block"><p class="q-title">Which pull showed up?</p><div class="pulls" id="pulls">' + pulls + '</div>' + capHint(d.pulls.length) + '<div class="row-actions" style="margin-top:0.45rem"><button type="button" class="btn" id="managePullsBtn">Manage pulls</button></div></div>' +
     pathCheckinHtml(date) +
     '<div class="q-block"><p class="q-title">Is the reason you gave yourself the real one?</p>' +
-      '<div class="private-box"><p class="hint">Private. Encrypted on this device. It does not appear in the log, the shelf, or the day record.</p>' +
+      '<div class="private-box"><p class="hint">Private. Encrypted on this phone. Only you can open it, behind \'Show my reason.\'</p>' +
       '<button type="button" class="btn" id="motiveOpen" aria-expanded="false">Write the reason</button>' +
       '<div id="motiveWrap" hidden><label class="field" style="margin-top:0.45rem">The real reason<input id="motive" type="text" autocomplete="off" autocapitalize="sentences" spellcheck="true" data-private="true" maxlength="280" value="' + esc(d.motive) + '" /></label></div></div></div>' +
     '<div class="q-block"><p class="q-title">Did you notice the pull and steer it?</p><p class="hint">That\'s the record, not a purity score.</p>' +
@@ -4092,9 +4084,7 @@ document.getElementById("pathDelete").onclick = async () => {
 function syncPathRating() {
   document.querySelectorAll("#plRating [data-plrate]").forEach(b => b.setAttribute("aria-pressed", b.dataset.plrate === pathLogRating ? "true" : "false"));
 }
-document.querySelectorAll("#plRating [data-plrate]").forEach(btn => {
-  btn.onclick = () => { pathLogRating = pathLogRating === btn.dataset.plrate ? "" : btn.dataset.plrate; syncPathRating(); };
-});
+
 // ----- Path time -> done task-time entry (one linked task per log; no double counting)
 function removePathTask(l) {
   if (!l) return;
@@ -4119,7 +4109,7 @@ function fmtMinutes(m) {
   return fmtHours(n / 60) + "h";
 }
 function areaOptionsHtml(selected) {
-  return '<option value="">None</option>' + orderedAreas().map(a => '<option value="' + a.id + '"' + (a.id === selected ? " selected" : "") + '>' + esc(fastLabel(a.id)) + '</option>').join("");
+  return '<option value="">Pick an area</option>' + orderedAreas().map(a => '<option value="' + a.id + '"' + (a.id === selected ? " selected" : "") + '>' + esc(fastLabel(a.id)) + '</option>').join("");
 }
 function fastLabel(id) { return { career: "Career", personal: "Growth", spiritual: "Spirit", social: "Social", time: "Hobbies" }[id] || id; }
 // ----- Steer options: selected pulls' steers/opposites first, then all visible pulls, then typed ones
@@ -4139,42 +4129,73 @@ function steerImg(label) {
   return hit ? hit.img : "";
 }
 function chipIcon(src) { return src ? '<img class="chip-icon" src="' + esc(iv(src)) + '" alt="" />' : ""; }
-let plPullsSel = [];
-let plSteerSel = [];
-let editingPathLogId = null;
-function renderPathLogChips() {
-  const pulls = allPullDefs().filter(p => !isPullHidden(p.id) || plPullsSel.includes(p.id));
-  plPullsSel.filter(id => !pulls.some(p => p.id === id)).forEach(id => pulls.push({ id, label: pullLabel(id), img: pullImg(id) }));
-  const pr = document.getElementById("plPulls");
-  pr.innerHTML = pulls.map(p => { const on = plPullsSel.includes(p.id); return '<button type="button" class="chip" data-plpull="' + esc(p.id) + '" aria-pressed="' + (on ? "true" : "false") + '"' + capAttr(on, plPullsSel.length) + '>' + chipIcon(p.img || "icons/pull-custom.jpg") + '<span>' + esc(p.label) + '</span></button>'; }).join("") + capHint(plPullsSel.length);
-  pr.querySelectorAll("[data-plpull]").forEach(btn => {
-    btn.onclick = () => {
-      const id = btn.dataset.plpull;
-      plPullsSel = capToggle(plPullsSel, id);
-      renderPathLogChips();
-    };
-  });
-  const sr = document.getElementById("plSteered");
-  const opts = steerOptions(plPullsSel, plSteerSel);
-  const selLow = plSteerSel.map(x => x.toLowerCase());
-  sr.innerHTML = opts.map(o => { const on = selLow.includes(o.label.toLowerCase()); return '<button type="button" class="chip" data-plsteer="' + esc(o.label) + '" aria-pressed="' + (on ? "true" : "false") + '"' + capAttr(on, plSteerSel.length) + '>' + chipIcon(o.img) + '<span>' + esc(o.label) + '</span></button>'; }).join("") + capHint(plSteerSel.length);
-  sr.querySelectorAll("[data-plsteer]").forEach(btn => {
-    btn.onclick = () => {
-      const v = btn.dataset.plsteer;
-      plSteerSel = capToggle(plSteerSel, v);
-      renderPathLogChips();
-    };
-  });
+// ----- Shared path-log fields (the "Log on this path" form and each check-in path row use this)
+function pathFieldsHtml(pfx, l, afterBetter) {
+  const mins = l && l.minutes ? Number(l.minutes) : null;
+  const asH = mins != null && mins >= 60 && mins % 30 === 0;
+  const v = x => esc(x == null ? "" : String(x));
+  return '<div class="pf" data-pf-root="' + esc(pfx) + '">' +
+    '<label class="field">What did you do?<input id="' + pfx + 'Did" data-pf="did" type="text" maxlength="200" value="' + v(l && l.did) + '" /></label>' +
+    '<label class="field">What would the better version of you on this path do?<input id="' + pfx + 'Better" data-pf="better" type="text" maxlength="200" value="' + v(l && l.better) + '" /></label>' +
+    (afterBetter || "") +
+    '<label class="field">Time.<span class="pf-pair"><input id="' + pfx + 'Time" data-pf="time" type="number" min="0" step="any" inputmode="decimal" value="' + (mins == null ? "" : v(asH ? mins / 60 : mins)) + '" />' +
+      '<select id="' + pfx + 'TimeUnit" data-pf="unit" aria-label="Time unit"><option value="min"' + (asH ? "" : " selected") + '>min</option><option value="h"' + (asH ? " selected" : "") + '>h</option></select></span></label>' +
+    '<p class="hint">How long you spent.</p>' +
+    '<label class="field">Counts toward<select id="' + pfx + 'Area" data-pf="area">' + areaOptionsHtml(l ? l.area : "") + '</select></label>' +
+    '<label class="field">Reps.<span class="pf-pair"><input id="' + pfx + 'Reps" data-pf="reps" type="number" min="0" step="1" inputmode="numeric" value="' + v(l && l.reps) + '" />' +
+      '<input id="' + pfx + 'RepsUnit" data-pf="repsUnit" type="text" maxlength="20" placeholder="pages, rounds, sets" aria-label="Unit" value="' + v(l && l.repsUnit) + '" /></span></label>' +
+    '<p class="hint">Rounds, pages, sets, whatever you count.</p>' +
+    '<p class="q-title pf-title">Pulls that showed up.</p><div class="chip-row" id="' + pfx + 'Pulls" data-pf-pulls></div>' +
+    '<p class="q-title pf-title">Steered to.</p><p class="hint">Discipline, Presence, or one of your own.</p><div class="chip-row" id="' + pfx + 'Steered" data-pf-steers></div>' +
+    '<span class="pf-pair pf-own"><input id="' + pfx + 'SteerOwn" data-pf="own" type="text" maxlength="40" placeholder="Your own" aria-label="Your own" /><button type="button" class="btn" id="' + pfx + 'SteerAdd" data-pf-add>Add</button></span>' +
+    '<label class="field">Journal.<textarea id="' + pfx + 'Journal" data-pf="journal" rows="3" maxlength="2000" placeholder="What you noticed on this path.">' + v(l && l.journal) + '</textarea></label>' +
+    '</div>';
 }
-document.getElementById("plSteerAdd").onclick = () => {
-  const el = document.getElementById("plSteerOwn");
-  const v = el.value.trim().slice(0, 40);
-  if (!v) { el.focus(); return; }
-  if (!plSteerSel.some(x => x.toLowerCase() === v.toLowerCase())) { if (plSteerSel.length >= PICK_MAX) { renderPathLogChips(); return; } plSteerSel.push(v); }
-  el.value = "";
-  renderPathLogChips();
-};
-document.getElementById("plSteerOwn").addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); document.getElementById("plSteerAdd").click(); } });
+function readPathFields(root) {
+  const g = k => root.querySelector('[data-pf="' + k + '"]');
+  const repsRaw = g("reps").value;
+  const tRaw = g("time").value; const tNum = Number(tRaw);
+  return {
+    did: g("did").value.trim(), better: g("better").value.trim(),
+    minutes: tRaw === "" || Number.isNaN(tNum) || tNum <= 0 ? null : Math.round((g("unit").value === "h" ? tNum * 60 : tNum) * 10) / 10,
+    area: g("area").value,
+    reps: repsRaw === "" || Number.isNaN(Number(repsRaw)) ? null : Math.max(0, Number(repsRaw)),
+    repsUnit: g("repsUnit").value.trim(),
+    journal: g("journal").value.trim()
+  };
+}
+// state = { pulls: [], steered: [] } (a log entry works too). onChange runs after any chip change.
+function bindPathFieldChips(root, state, onChange) {
+  const paint = () => {
+    const pulls = allPullDefs().filter(p => !isPullHidden(p.id) || state.pulls.includes(p.id));
+    state.pulls.filter(id => !pulls.some(p => p.id === id)).forEach(id => pulls.push({ id, label: pullLabel(id), img: pullImg(id) }));
+    const pr = root.querySelector("[data-pf-pulls]");
+    pr.innerHTML = pulls.map(p => { const on = state.pulls.includes(p.id); return '<button type="button" class="chip" data-pfpull="' + esc(p.id) + '" aria-pressed="' + (on ? "true" : "false") + '"' + capAttr(on, state.pulls.length) + '>' + chipIcon(p.img || "icons/pull-custom.jpg") + '<span>' + esc(p.label) + '</span></button>'; }).join("") + capHint(state.pulls.length);
+    pr.querySelectorAll("[data-pfpull]").forEach(btn => { btn.onclick = () => { state.pulls = capToggle(state.pulls, btn.dataset.pfpull); paint(); onChange && onChange(); }; });
+    const sr = root.querySelector("[data-pf-steers]");
+    const selLow = state.steered.map(x => x.toLowerCase());
+    sr.innerHTML = steerOptions(state.pulls, state.steered).map(o => { const on = selLow.includes(o.label.toLowerCase()); return '<button type="button" class="chip" data-pfsteer="' + esc(o.label) + '" aria-pressed="' + (on ? "true" : "false") + '"' + capAttr(on, state.steered.length) + '>' + chipIcon(o.img) + '<span>' + esc(o.label) + '</span></button>'; }).join("") + capHint(state.steered.length);
+    sr.querySelectorAll("[data-pfsteer]").forEach(btn => { btn.onclick = () => { state.steered = capToggle(state.steered, btn.dataset.pfsteer); paint(); onChange && onChange(); }; });
+  };
+  const own = root.querySelector('[data-pf="own"]');
+  root.querySelector("[data-pf-add]").onclick = () => {
+    const v = own.value.trim().slice(0, 40);
+    if (!v) { own.focus(); return; }
+    if (!state.steered.some(x => x.toLowerCase() === v.toLowerCase())) { if (state.steered.length >= PICK_MAX) { paint(); return; } state.steered.push(v); }
+    own.value = "";
+    paint(); onChange && onChange();
+  };
+  own.addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); root.querySelector("[data-pf-add]").click(); } });
+  paint();
+}
+let plState = { pulls: [], steered: [] };
+let editingPathLogId = null;
+const PL_RATING_HTML = '<p class="q-title pf-title">How did it go?</p>' +
+  '<div class="chip-row" id="plRating" style="margin-bottom:0.1rem">' +
+  '<button type="button" class="chip" data-plrate="good" aria-pressed="false">Good</button>' +
+  '<button type="button" class="chip" data-plrate="neutral" aria-pressed="false">Neutral</button>' +
+  '<button type="button" class="chip" data-plrate="bad" aria-pressed="false">Bad</button></div>' +
+  '<p class="hint">The day, not your worth.</p>';
 function openPathLog(pathId, logId) {
   const p = pathById(pathId);
   if (!p) return;
@@ -4183,21 +4204,13 @@ function openPathLog(pathId, logId) {
   editingPathLogId = l ? l.id : null;
   pathLogRating = l ? l.rating : "";
   document.getElementById("pathLogTitle").innerHTML = '<img class="path-icon sm" src="' + esc(iv(pathIcon(p))) + '" alt="" />' + esc(p.name);
-  document.getElementById("plDid").value = l ? l.did : "";
-  document.getElementById("plBetter").value = l ? l.better : "";
-  document.getElementById("plReps").value = l && l.reps != null ? String(l.reps) : "";
-  document.getElementById("plRepsUnit").value = l ? (l.repsUnit || "") : "";
-  document.getElementById("plJournal").value = l ? l.journal : "";
-  const mins = l && l.minutes ? Number(l.minutes) : null;
-  const asHours = mins != null && mins >= 60 && mins % 30 === 0;
-  document.getElementById("plTime").value = mins == null ? "" : String(asHours ? mins / 60 : mins);
-  document.getElementById("plTimeUnit").value = asHours ? "h" : "min";
-  document.getElementById("plArea").innerHTML = areaOptionsHtml(l ? l.area : "");
-  document.getElementById("plSteerOwn").value = "";
+  document.getElementById("plFields").innerHTML = pathFieldsHtml("pl", l, PL_RATING_HTML);
+  document.querySelectorAll("#plRating [data-plrate]").forEach(btn => {
+    btn.onclick = () => { pathLogRating = pathLogRating === btn.dataset.plrate ? "" : btn.dataset.plrate; syncPathRating(); };
+  });
   document.getElementById("plDelete").hidden = !l;
-  plPullsSel = l ? l.pulls.slice() : [];
-  plSteerSel = l ? l.steered.slice() : [];
-  renderPathLogChips();
+  plState = { pulls: l ? l.pulls.slice() : [], steered: l ? l.steered.slice() : [] };
+  bindPathFieldChips(document.getElementById("plFields"), plState, null);
   syncPathRating();
   document.getElementById("pathLogDialog").showModal();
   document.getElementById("plDid").focus();
@@ -4212,19 +4225,10 @@ document.getElementById("plDelete").onclick = () => {
 };
 document.getElementById("plSave").onclick = () => {
   if (!pathLogFor) return;
-  const did = document.getElementById("plDid").value.trim();
-  const better = document.getElementById("plBetter").value.trim();
-  const repsRaw = document.getElementById("plReps").value;
-  const reps = repsRaw === "" || Number.isNaN(Number(repsRaw)) ? null : Math.max(0, Number(repsRaw));
-  const repsUnit = document.getElementById("plRepsUnit").value.trim();
-  const tRaw = document.getElementById("plTime").value;
-  const tNum = Number(tRaw);
-  const minutes = tRaw === "" || Number.isNaN(tNum) || tNum <= 0 ? null : Math.round((document.getElementById("plTimeUnit").value === "h" ? tNum * 60 : tNum) * 10) / 10;
-  const area = document.getElementById("plArea").value;
-  const journal = document.getElementById("plJournal").value.trim();
+  const f = readPathFields(document.getElementById("plFields"));
   const existing = editingPathLogId ? data.pathLogs.find(x => x.id === editingPathLogId) : null;
-  if (!existing && !did && !better && !pathLogRating && reps == null && !plPullsSel.length && !plSteerSel.length && !journal && minutes == null) return;
-  const fields = { did, better, rating: pathLogRating, reps, repsUnit, pulls: plPullsSel.slice(), steered: plSteerSel.slice(), journal, minutes, area };
+  if (!existing && !f.did && !f.better && !pathLogRating && f.reps == null && !plState.pulls.length && !plState.steered.length && !f.journal && f.minutes == null) return;
+  const fields = Object.assign(f, { rating: pathLogRating, pulls: plState.pulls.slice(), steered: plState.steered.slice() });
   let l = existing;
   if (l) Object.assign(l, fields);
   else { l = Object.assign({ id: uid("pl"), pathId: pathLogFor, date: data.selected, taskId: "", source: "log" }, fields); data.pathLogs.push(l); }
@@ -4307,62 +4311,64 @@ function renderPaths() {
   });
 }
 // Check-in: "How did it go on each path?" Good / Neutral / Bad / Not today. Not today saves no entry.
+function pathEntryFor(pid, date) {
+  const mine = (data.pathLogs || []).filter(l => l.pathId === pid && l.date === date);
+  return mine.filter(l => l.source === "checkin").slice(-1)[0] || mine.slice(-1)[0] || null;
+}
+function pathEntryHasContent(l) {
+  return !!(l && (l.did || l.better || l.journal || l.minutes || l.reps != null || (l.pulls || []).length || (l.steered || []).length));
+}
 function pathCheckinHtml(date) {
   const paths = data.paths || [];
   if (!paths.length) return "";
   const d = data.days[date] || {};
   const notToday = new Set(Array.isArray(d.pathNotToday) ? d.pathNotToday : []);
   return '<div class="q-block"><p class="q-title">How did it go on each path?</p><div class="path-check">' + paths.map(p => {
-    const entry = (data.pathLogs || []).filter(l => l.pathId === p.id && l.date === date && l.source === "checkin").slice(-1)[0];
-    const cur = entry ? entry.rating : (notToday.has(p.id) ? "skip" : "");
+    const entry = pathEntryFor(p.id, date);
+    const cur = entry && entry.rating ? entry.rating : (notToday.has(p.id) ? "skip" : "");
     const b = (val, label) => '<button type="button" class="chip" data-pathrate="' + esc(p.id) + '" data-val="' + val + '" aria-pressed="' + (cur === val ? "true" : "false") + '">' + label + '</button>';
-    const mins = entry && entry.minutes ? Number(entry.minutes) : null;
-    const asH = mins != null && mins >= 60 && mins % 30 === 0;
-    const timeRow = entry ? '<div class="pc-time"><label class="sr-only" for="pct-' + esc(p.id) + '">Time.</label>' +
-      '<input id="pct-' + esc(p.id) + '" type="number" min="0" step="any" inputmode="decimal" placeholder="Time." aria-label="Time." data-pctime="' + esc(p.id) + '" value="' + (mins == null ? "" : esc(String(asH ? mins / 60 : mins))) + '" />' +
-      '<select data-pcunit="' + esc(p.id) + '" aria-label="Time unit"><option value="min"' + (asH ? "" : " selected") + '>min</option><option value="h"' + (asH ? " selected" : "") + '>h</option></select>' +
-      '<select data-pcarea="' + esc(p.id) + '" aria-label="Which area does this time count toward?">' + areaOptionsHtml(entry.area) + '</select></div>' : "";
-    return '<div class="pc-row"><span class="pc-name"><img class="path-icon sm" src="' + esc(iv(pathIcon(p))) + '" alt="" />' + esc(p.name) + '</span>' +
-      b("good", "Good") + b("neutral", "Neutral") + b("bad", "Bad") + b("skip", "Not today") + timeRow + '</div>';
+    const open = entry && entry.rating;
+    return '<div class="pc-row' + (open ? " is-open" : "") + '" data-pc-path="' + esc(p.id) + '"><span class="pc-name"><img class="path-icon sm" src="' + esc(iv(pathIcon(p))) + '" alt="" />' + esc(p.name) + '</span>' +
+      '<div class="chip-row pc-rates" role="group" aria-label="' + esc(p.name) + '">' + b("good", "Good") + b("neutral", "Neutral") + b("bad", "Bad") + b("skip", "Not today") + '</div>' +
+      (open ? '<div class="pc-fields" data-pc-entry="' + esc(entry.id) + '">' + pathFieldsHtml("pc_" + p.id + "_", entry) + '</div>' : "") +
+      '</div>';
   }).join("") + '</div></div>';
 }
 function bindPathCheckin(date) {
   document.querySelectorAll("#checkinBody [data-pathrate]").forEach(btn => {
-    btn.onclick = () => {
+    btn.onclick = async () => {
       const pid = btn.dataset.pathrate;
       const val = btn.dataset.val;
       const d = day(date);
       const nt = new Set(Array.isArray(d.pathNotToday) ? d.pathNotToday : []);
-      const mine = data.pathLogs.filter(l => l.pathId === pid && l.date === date && l.source === "checkin");
-      const keep = mine[mine.length - 1] || null;
-      mine.filter(l => l !== keep).forEach(removePathTask);
-      data.pathLogs = data.pathLogs.filter(l => !mine.includes(l) || l === keep);
+      const entry = pathEntryFor(pid, date);
       if (val === "skip") {
+        if (entry && pathEntryHasContent(entry)) {
+          const p = pathById(pid);
+          const ok = await askDelete("Clear today's " + (p ? p.name : "path") + " entry? This can't be undone.");
+          if (!ok) return;
+        }
         nt.add(pid);
-        if (keep) { removePathTask(keep); data.pathLogs = data.pathLogs.filter(l => l !== keep); }
+        if (entry) { removePathTask(entry); data.pathLogs = data.pathLogs.filter(l => l !== entry); }
       } else {
         nt.delete(pid);
-        if (keep) keep.rating = val;
+        if (entry) entry.rating = val;
         else data.pathLogs.push({ id: uid("pl"), pathId: pid, date, did: "", better: "", rating: val, reps: null, repsUnit: "", pulls: [], steered: [], journal: "", minutes: null, area: "", taskId: "", source: "checkin" });
       }
       d.pathNotToday = Array.from(nt);
       save(); renderCheckin(); renderDerived();
     };
   });
-  const commitTime = pid => {
-    const l = data.pathLogs.filter(x => x.pathId === pid && x.date === date && x.source === "checkin").slice(-1)[0];
+  // Each open path autosaves into its own entry for this date, like the rest of the check-in.
+  document.querySelectorAll("#checkinBody [data-pc-entry]").forEach(box => {
+    const l = data.pathLogs.find(x => x.id === box.dataset.pcEntry);
     if (!l) return;
-    const inp = document.querySelector('#checkinBody [data-pctime="' + pid + '"]');
-    const unit = document.querySelector('#checkinBody [data-pcunit="' + pid + '"]').value;
-    const area = document.querySelector('#checkinBody [data-pcarea="' + pid + '"]').value;
-    const n = Number(inp.value);
-    l.minutes = inp.value === "" || Number.isNaN(n) || n <= 0 ? null : Math.round((unit === "h" ? n * 60 : n) * 10) / 10;
-    l.area = area;
-    syncPathTask(l);
-    save(); renderDerived();
-  };
-  document.querySelectorAll("#checkinBody [data-pctime], #checkinBody [data-pcunit], #checkinBody [data-pcarea]").forEach(el => {
-    el.onchange = () => commitTime(el.dataset.pctime || el.dataset.pcunit || el.dataset.pcarea);
+    const commit = () => { Object.assign(l, readPathFields(box)); syncPathTask(l); save(); renderDerived(); };
+    box.querySelectorAll("[data-pf]").forEach(el => {
+      if (el.dataset.pf === "own") return;
+      el.addEventListener(el.tagName === "SELECT" ? "change" : "input", commit);
+    });
+    bindPathFieldChips(box, l, () => { save(); renderDerived(); });
   });
 }
 // ----- This week's road (built from path logs; no typing)
@@ -4498,7 +4504,7 @@ function showVault(mode, err) {
   if (mode === "setup") {
     html =
       '<div class="vault-screen">' +
-      '<div class="brand-mark" style="margin-bottom:0.6rem"><img class="book app-mark" src="icons/app-mark.jpg?v=12" alt="" /><span style="font-family:Georgia,serif;font-size:1.35rem">Higher Self</span></div>' +
+      '<div class="brand-mark" style="margin-bottom:0.6rem"><img class="book app-mark" src="icons/app-mark.jpg?v=13" alt="" /><span style="font-family:Georgia,serif;font-size:1.35rem">Higher Self</span></div>' +
       '<h1>Your data stays on this phone, encrypted.</h1>' +
       '<p class="hint">Set a passphrase. You\'ll need it to open your notes.</p>' +
       '<p class="hint">If you lose your passphrase, no one can recover your notes, us included. Write it down somewhere safe.</p>' +
@@ -4512,7 +4518,7 @@ function showVault(mode, err) {
   } else {
     html =
       '<div class="vault-screen">' +
-      '<div class="brand-mark" style="margin-bottom:0.6rem"><img class="book app-mark" src="icons/app-mark.jpg?v=12" alt="" /><span style="font-family:Georgia,serif;font-size:1.35rem">Higher Self</span></div>' +
+      '<div class="brand-mark" style="margin-bottom:0.6rem"><img class="book app-mark" src="icons/app-mark.jpg?v=13" alt="" /><span style="font-family:Georgia,serif;font-size:1.35rem">Higher Self</span></div>' +
       '<h1>Your data stays on this phone, encrypted.</h1>' +
       '<p class="hint">Enter your passphrase to open your notes.</p>' +
       '<p class="hint">We can\'t read this file without your passphrase.</p>' +
