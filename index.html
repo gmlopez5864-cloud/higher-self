@@ -757,7 +757,7 @@
 
   /* v12 */
   [hidden] { display: none !important; }
-  [data-capped] { opacity: 0.4; }
+  [data-capped] { opacity: 0.6 !important; }
   .chip-row .cap-hint { flex-basis: 100%; margin: 0.1rem 0 0; }
   .steer-map-for { margin: 0.55rem 0 0.15rem; font-weight: 600; }
   #optionsDialog { max-height: calc(100vh - 2rem); overflow: auto; }
@@ -802,6 +802,21 @@
   .path-check .pc-rates { margin: 0; gap: 0.3rem; }
   .path-check .pc-rates .chip { padding-left: 0.7rem; padding-right: 0.7rem; white-space: nowrap; }
   .path-check .pc-fields { margin-top: 0.5rem; padding: 0.55rem 0.65rem 0.65rem; border: 1px solid var(--line); border-radius: 12px; width: 100%; box-sizing: border-box; }
+
+  /* v14 */
+  .pf-q { margin: 0.2rem 0 0.1rem; font-size: 0.95rem; }
+  .pf-sub { margin: 0.45rem 0 0; font-size: 0.82rem; color: var(--muted); }
+  .pf-repair { margin: 0.2rem 0 0.3rem; font-size: 0.88rem; border-left: 3px solid var(--accent); padding-left: 0.55rem; }
+  .pf-step { margin: 0.75rem 0 0; font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); font-weight: 700; }
+  .pf-reason-btn { align-self: flex-start; margin-top: 0.3rem; }
+  .pc-summary { display: flex; align-items: center; gap: 0.45rem; flex-wrap: wrap; font-size: 0.9rem; margin-top: 0.15rem; }
+  .pc-summary .pc-sum-text { flex: 1 1 auto; min-width: 0; }
+  .pc-submit { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; margin-top: 0.65rem; }
+  .pc-draft { color: var(--gold, #c9a227); font-size: 0.8rem; margin: 0; }
+  .chip.more-chip { border-style: dashed; }
+  .pl-reason { display: inline-flex; align-items: center; gap: 0.4rem; flex-wrap: wrap; margin-top: 0.2rem; }
+  .toast { position: fixed; left: 50%; bottom: calc(1.2rem + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); z-index: 50;
+    background: var(--accent); color: var(--bg); padding: 0.5rem 1.1rem; border-radius: 999px; font-weight: 700; box-shadow: var(--shadow); }
   .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
 </style>
 </head>
@@ -811,7 +826,7 @@
   <header class="top">
     <div class="brand-row">
       <div class="brand">
-        <h1 class="brand-mark"><img class="book app-mark" src="icons/app-mark.jpg?v=13" alt="" />Higher Self</h1>
+        <h1 class="brand-mark"><img class="book app-mark" src="icons/app-mark.jpg?v=14" alt="" />Higher Self</h1>
         <p id="todayLabel"></p>
       </div>
       <div>
@@ -842,13 +857,13 @@
   </header>
 
   <nav class="fast-travel" id="fastTravel" aria-label="Fast travel">
-    <button type="button" data-jump="checkin"><img src="icons/sleep.jpg?v=13" alt="" />Check-in</button>
-    <button type="button" data-jump="career"><img src="icons/career.jpg?v=13" alt="" />Career</button>
-    <button type="button" data-jump="personal"><img src="icons/personal-development.jpg?v=13" alt="" />Growth</button>
-    <button type="button" data-jump="spiritual"><img src="icons/spirit.jpg?v=13" alt="" />Spirit</button>
-    <button type="button" data-jump="social"><img src="icons/social.jpg?v=13" alt="" />Social</button>
-    <button type="button" data-jump="time"><img src="icons/hobbies.jpg?v=13" alt="" />Hobbies</button>
-    <button type="button" data-jump="money"><img src="icons/money.jpg?v=13" alt="" />Money</button>
+    <button type="button" data-jump="checkin"><img src="icons/sleep.jpg?v=14" alt="" />Check-in</button>
+    <button type="button" data-jump="career"><img src="icons/career.jpg?v=14" alt="" />Career</button>
+    <button type="button" data-jump="personal"><img src="icons/personal-development.jpg?v=14" alt="" />Growth</button>
+    <button type="button" data-jump="spiritual"><img src="icons/spirit.jpg?v=14" alt="" />Spirit</button>
+    <button type="button" data-jump="social"><img src="icons/social.jpg?v=14" alt="" />Social</button>
+    <button type="button" data-jump="time"><img src="icons/hobbies.jpg?v=14" alt="" />Hobbies</button>
+    <button type="button" data-jump="money"><img src="icons/money.jpg?v=14" alt="" />Money</button>
   </nav>
 
   <div class="strip" id="strip" role="tablist" aria-label="This week, Sunday through Saturday"></div>
@@ -864,12 +879,12 @@
 
   <section class="panel" id="replacementPanel" aria-labelledby="replTitle">
     <h2 id="replTitle">Replacement list</h2>
-    <div class="book-slot"><img class="book" src="icons/shadow.jpg?v=13" alt="" /><span>When an urge hits</span></div>
+    <div class="book-slot"><img class="book" src="icons/shadow.jpg?v=14" alt="" /><span>When an urge hits</span></div>
     <p class="hint">Actions you picked ahead for when an urge hits.</p>
     <p class="hint">When a pull shows up, offer one from this list.</p>
     <ul class="entry-list" id="replList"></ul>
     <div class="time-row composer">
-      <label class="field">Add one.<input id="replText" type="text" maxlength="200" placeholder="A next move you already chose" /></label>
+      <label class="field">Add one<input id="replText" type="text" maxlength="200" placeholder="A next move you already chose" /></label>
       <button type="button" class="btn" id="replAdd">Add one</button>
     </div>
     <p class="hint">It may not make the pull leave. It gives you the next move.</p>
@@ -885,8 +900,8 @@
     <h2 id="diaryTitle">Diary</h2>
     <div class="book-slot" title="Diary and shadow icons">
       <span class="book-set">
-        <img class="book" src="icons/diary.jpg?v=13" alt="" />
-        <img class="book" src="icons/shadow.jpg?v=13" alt="" />
+        <img class="book" src="icons/diary.jpg?v=14" alt="" />
+        <img class="book" src="icons/shadow.jpg?v=14" alt="" />
       </span>
       <span>Diary</span>
     </div>
@@ -932,7 +947,7 @@
 
   <div class="split">
     <section class="side" aria-labelledby="pieTitle">
-      <h2 id="pieTitle" class="title-book"><img class="book" src="icons/time-pie.jpg?v=13" alt="" />Time by area</h2>
+      <h2 id="pieTitle" class="title-book"><img class="book" src="icons/time-pie.jpg?v=14" alt="" />Time by area</h2>
       <div class="pie-layout">
         <svg class="pie" id="pie" viewBox="0 0 200 200" role="img" aria-label="Pie chart of time by area"></svg>
         <ul class="legend" id="legend"></ul>
@@ -940,7 +955,7 @@
       <p class="hint" id="pieNote"></p>
     </section>
     <section class="side" aria-labelledby="trophyTitle">
-      <h2 id="trophyTitle" class="title-book"><img class="book" src="icons/trophies.jpg?v=13" alt="" />Returns to practice</h2>
+      <h2 id="trophyTitle" class="title-book"><img class="book" src="icons/trophies.jpg?v=14" alt="" />Returns to practice</h2>
       <div class="returns-banner" id="returnsBanner"></div>
       <div class="trophies" id="trophies"></div>
     </section>
@@ -955,7 +970,7 @@
       <ul class="log-list record-list" id="logList"></ul>
     </section>
     <section class="side" id="moneySection" aria-labelledby="moneyTitle">
-      <h2 id="moneyTitle" class="title-book"><img class="book" src="icons/money.jpg?v=13" alt="" />Money tracker</h2>
+      <h2 id="moneyTitle" class="title-book"><img class="book" src="icons/money.jpg?v=14" alt="" />Money tracker</h2>
       <div class="account-grid" id="accountGrid"></div>
       <p class="week-sum" id="weekSum"></p>
       <ul class="money-list" id="moneyList"></ul>
@@ -1009,11 +1024,11 @@
       <div class="chip-row" id="goalCommonRow"></div>
     </details>
   </div>
-  <label class="field" style="margin-top:0.45rem">Goal name.<input id="goalTitle" type="text" maxlength="120" /></label>
+  <label class="field" style="margin-top:0.45rem">Goal name<input id="goalTitle" type="text" maxlength="120" /></label>
   <div class="time-row" style="margin-top:0.45rem">
-    <label class="field">Start.<input id="goalStart" type="number" step="0.1" value="0" inputmode="decimal" /></label>
-    <label class="field">Target.<input id="goalTarget" type="number" step="0.1" value="10" inputmode="decimal" /></label>
-    <label class="field">Unit.
+    <label class="field">Start<input id="goalStart" type="number" step="0.1" value="0" inputmode="decimal" /></label>
+    <label class="field">Target<input id="goalTarget" type="number" step="0.1" value="10" inputmode="decimal" /></label>
+    <label class="field">Unit
       <select id="goalUnit">
         <option value="$">$</option>
         <option value="lbs">lbs</option>
@@ -1049,11 +1064,11 @@
 
 <dialog id="pullDialog" class="wide">
   <h3 id="pullDialogTitle">Add pull</h3>
-  <label class="field">Name the pull.<input id="pullName" type="text" maxlength="40" /></label>
+  <label class="field">Name the pull<input id="pullName" type="text" maxlength="40" /></label>
   <p class="hint">A screen habit, worry, gossip, whatever pulls at you.</p>
-  <label class="field">Its steer.<input id="pullSteer" type="text" maxlength="40" /></label>
+  <label class="field">Its steer<input id="pullSteer" type="text" maxlength="40" /></label>
   <p class="hint">What it turns into when you steer it.</p>
-  <label class="field">Its opposite.<input id="pullOpp" type="text" maxlength="40" /></label>
+  <label class="field">Its opposite<input id="pullOpp" type="text" maxlength="40" /></label>
   <p class="hint">The virtue that balances it.</p>
   <p class="q-title" style="margin-top:0.55rem;font-size:0.9rem">Pick a mark.</p>
   <div class="icon-picker" id="pullIcons" role="radiogroup" aria-label="Pick a mark."></div>
@@ -1097,7 +1112,7 @@
     <select id="moneyAccount"></select>
   </label>
   <label class="field" style="margin-top:0.45rem">Amount<input id="moneyAmt" type="number" step="0.01" min="0" /></label>
-  <label class="field" id="moneySourceWrap" style="margin-top:0.45rem">Where it came from.
+  <label class="field" id="moneySourceWrap" style="margin-top:0.45rem">Where it came from
     <select id="moneySource">
       <option value="paycheck">Paycheck</option>
       <option value="side">Side work</option>
@@ -1106,7 +1121,7 @@
       <option value="other">Other</option>
     </select>
   </label>
-  <label class="field" id="moneyExpenseWrap" style="margin-top:0.45rem" hidden>What it was for.
+  <label class="field" id="moneyExpenseWrap" style="margin-top:0.45rem" hidden>What it was for
     <select id="moneyExpense">
       <option value="bill">Bill</option>
       <option value="date">Date/dinner</option>
@@ -1117,7 +1132,7 @@
     </select>
   </label>
   <label class="field" id="moneyOtherWrap" style="margin-top:0.45rem" hidden>Label<input id="moneyOther" type="text" maxlength="80" /></label>
-  <label class="field" id="moneyGoalWrap" style="margin-top:0.45rem" hidden><span id="moneyGoalLabel">Put toward a project.</span>
+  <label class="field" id="moneyGoalWrap" style="margin-top:0.45rem" hidden><span id="moneyGoalLabel">Put toward a project</span>
     <select id="moneyGoal"><option value="">None</option></select>
   </label>
   <p class="hint">Money is a tracker, not a sixth area.</p>
@@ -1168,7 +1183,7 @@
   </div>
   <p class="theme-note" style="text-align:left">Dawn is daytime. Dusk is for night and sleep. Grove is quieter. Area colors stay the same in every theme.</p>
   <div class="subpanel" id="purposePanel" aria-labelledby="purposeTitle">
-    <h3 id="purposeTitle" class="title-book"><img class="book" src="icons/purpose.jpg?v=13" alt="" />Purpose (optional)</h3>
+    <h3 id="purposeTitle" class="title-book"><img class="book" src="icons/purpose.jpg?v=14" alt="" />Purpose (optional)</h3>
     <p class="hint">A note on how you're walking the path you already picked. Not a new choice, and not a finish.</p>
 
     <div class="subpanel">
@@ -1223,7 +1238,7 @@
 
 <dialog id="pathDialog" class="wide">
   <h3 id="pathDialogTitle">Add a path</h3>
-  <label class="field">Name.<input id="pathName" type="text" maxlength="60" /></label>
+  <label class="field">Name<input id="pathName" type="text" maxlength="60" /></label>
   <p class="q-title" style="margin-top:0.55rem;font-size:0.9rem">Pick a mark.</p>
   <div class="icon-picker" id="pathIcons" role="radiogroup" aria-label="Pick a mark."></div>
   <div class="actions">
@@ -1239,9 +1254,11 @@
   <div class="actions">
     <button type="button" class="btn" id="plDelete" hidden>Remove</button>
     <button type="button" class="btn" id="plCancel">Cancel</button>
-    <button type="button" class="btn primary" id="plSave">Save</button>
+    <button type="button" class="btn primary" id="plSave">Log it</button>
   </div>
 </dialog>
+
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 
 <dialog id="progressDialog">
   <h3 id="progressTitle">Add progress.</h3>
@@ -1251,10 +1268,10 @@
     <button type="button" class="chip" data-pmode="total" aria-pressed="false">New total</button>
     <button type="button" class="chip" data-pmode="change" aria-pressed="true" id="progressChangeChip">Went up by</button>
   </div>
-  <label class="field"><span id="progressAmountLabel">Amount.</span><input id="progressAmount" type="number" step="any" inputmode="decimal" /></label>
+  <label class="field"><span id="progressAmountLabel">Amount</span><input id="progressAmount" type="number" step="any" inputmode="decimal" /></label>
   <p class="hint" id="progressHint"></p>
   <label class="field" id="progressAccountWrap" style="margin-top:0.45rem" hidden>Also add to an account<select id="progressAccount"></select></label>
-  <label class="field" style="margin-top:0.45rem">Note.<input id="progressNote" type="text" maxlength="120" placeholder="Sold a table" /></label>
+  <label class="field" style="margin-top:0.45rem">Note<input id="progressNote" type="text" maxlength="120" placeholder="Sold a table" /></label>
   <div class="actions">
     <button type="button" class="btn" id="progressCancel">Cancel</button>
     <button type="button" class="btn primary" id="progressSave">Save</button>
@@ -1473,7 +1490,7 @@ const PATH_ICONS = [
 ];
 const PATH_WRESTLING_ICON = "icons/paths/wrestling.jpg";
 // Icon cache-bust: same filenames were re-cut, so every rendered icon URL carries ?v=. Stored data keeps plain paths.
-const ICON_VER = "13";
+const ICON_VER = "14";
 function plainIcon(src) { return String(src || "").split("?")[0]; }
 function iv(src) {
   const p = plainIcon(src);
@@ -1655,6 +1672,34 @@ function blankDay() {
   return { sleep: null, role: "", better: "", pulls: [], motive: "", steered: null, steeredTo: [] };
 }
 const PICK_MAX = 5;
+// Path-log step copy. Swap wording here only (final copy may come from Oni or Ñandutí).
+// The "real reason" question. One string, used by the check-in and every path's Clean spirit step.
+const REASON_Q = "Are you happy with why you chose this?";
+const PATH_STEP_COPY = {
+  aim: "Aim higher.",
+  aimQ: "What would the better version of you on this path do?",
+  steer: "Steer.",
+  steerQ: "What pulled at you, and what did you steer toward?",
+  pullsLabel: "Pulls that showed up",
+  steeredLabel: "Steered to",
+  clean: "Clean spirit.",
+  reasonQ: REASON_Q,
+  reasonSub: "Would you have done it without the credit, or without the anger you walked in with?",
+  yes: "Yes",
+  notFully: "Not fully",
+  repair: "If someone caught what you were carrying, go back and tell them it wasn't about them.",
+  reasonNote: "Private. Only you can open it.",
+  showReason: "Show my reason",
+  writeReason: "Write the reason",
+  logIt: "Log it",
+  logAnother: "Log another moment",
+  logged: "Logged",
+  notLogged: "Not logged yet",
+  toast: "Logged.",
+  needRating: "Pick Good, Neutral, or Bad first.",
+  more: "More",
+  fewer: "Fewer"
+};
 // v12: single pull / steered -> pulls[] + steeredTo[] (max 5 each). steered stays the yes/no record answer.
 function normalizeDay(x, customPulls) {
   const sa = v => Array.isArray(v) ? v.filter(y => typeof y === "string" && y.trim()).map(y => y.trim()) : [];
@@ -1867,6 +1912,7 @@ function migrateLegacy(raw) {
   }
   d.pathLogs = Array.isArray(d.pathLogs) ? d.pathLogs.filter(l => l && l.pathId && typeof l.date === "string").map(l => ({
     id: l.id || uid("pl"), pathId: l.pathId, date: l.date,
+    motive: String(l.motive || ""), clean: ["yes", "notfully"].includes(l.clean) ? l.clean : "", logged: l.logged !== false,
     did: String(l.did || ""), better: String(l.better || ""),
     rating: ["good", "neutral", "bad"].includes(l.rating) ? l.rating : "",
     reps: l.reps == null || l.reps === "" || Number.isNaN(Number(l.reps)) ? null : Number(l.reps),
@@ -2188,12 +2234,12 @@ function customPullDef(id) {
 function pullUpgrade(id) {
   if (id && PULL_UPGRADES[id]) return PULL_UPGRADES[id];
   const c = customPullDef(id);
-  return c && String(c.steer || "").trim() ? { label: c.steer, img: c.img || "icons/pull-custom.jpg" } : null;
+  return c && String(c.steer || "").trim() ? { label: c.steer, img: "icons/steer-custom.jpg" } : null;
 }
 function pullOpposite(id) {
   if (id && PULL_OPPOSITES[id]) return PULL_OPPOSITES[id];
   const c = customPullDef(id);
-  return c && String(c.opposite || "").trim() ? { label: c.opposite, img: c.img || "icons/pull-custom.jpg" } : null;
+  return c && String(c.opposite || "").trim() ? { label: c.opposite, img: "icons/opp-custom.jpg" } : null;
 }
 function pullImg(id) {
   const known = allPullDefs().concat(LEGACY_PULLS).concat((data && data.retiredPulls) || []).find(x => x.id === id);
@@ -2265,7 +2311,7 @@ function addCustomPull(label, steer, opposite, img) {
 }
 function sortedDesc(list) { return list.slice().sort((a, b) => a.date < b.date ? 1 : a.date > b.date ? -1 : 0); }
 function bookSlot(label) {
-  return '<span class="book-slot" title="Area notes"><img class="book" src="icons/area-note.jpg?v=13" alt="" /><span>' + esc(label) + '</span></span>';
+  return '<span class="book-slot" title="Area notes"><img class="book" src="icons/area-note.jpg?v=14" alt="" /><span>' + esc(label) + '</span></span>';
 }
 function pickReplacement() {
   if (!data.replacements.length) return null;
@@ -2483,16 +2529,16 @@ function renderCheckin() {
     const on = d.pulls.includes(p.id);
     return '<button type="button" class="btn pull-btn" data-pull="' + p.id + '" aria-pressed="' + (on ? "true" : "false") + '"' + capAttr(on, d.pulls.length) + '><img class="pull-icon" src="' + esc(iv(img)) + '" alt="" /><span>' + esc(p.label) + '</span></button>';
   }).join("")
-    + '<button type="button" class="btn pull-btn" id="addPullBtn"><img class="pull-icon" src="icons/pull-custom.jpg?v=13" alt="" /><span>Add pull…</span></button>';
+    + '<button type="button" class="btn pull-btn" id="addPullBtn"><img class="pull-icon" src="icons/pull-custom.jpg?v=14" alt="" /><span>Add pull…</span></button>';
   const body =
-    '<div class="sleep-row"><p class="q-title title-book"><img class="book" src="icons/sleep.jpg?v=13" alt="" />How did last night go?</p>' + sleepHtml + '</div>' +
+    '<div class="sleep-row"><p class="q-title title-book"><img class="book" src="icons/sleep.jpg?v=14" alt="" />How did last night go?</p>' + sleepHtml + '</div>' +
     '<div class="q-block"><p class="q-title">What role am I in, and what would the better version do?</p>' +
-      '<label class="field">Name the role you\'re in.<input id="role" type="text" maxlength="80" placeholder="Name the role you\'re in." value="' + esc(d.role) + '" /></label>' +
+      '<label class="field">Name the role you\'re in<input id="role" type="text" maxlength="80" placeholder="Name the role you\'re in." value="' + esc(d.role) + '" /></label>' +
       '<p class="hint">Friend, parent, partner, coworker, son or daughter, stranger, or whoever you are right now.</p>' +
       '<label class="field">What would the better version do?<input id="better" type="text" maxlength="160" value="' + esc(d.better) + '" /></label></div>' +
     '<div class="q-block"><p class="q-title">Which pull showed up?</p><div class="pulls" id="pulls">' + pulls + '</div>' + capHint(d.pulls.length) + '<div class="row-actions" style="margin-top:0.45rem"><button type="button" class="btn" id="managePullsBtn">Manage pulls</button></div></div>' +
     pathCheckinHtml(date) +
-    '<div class="q-block"><p class="q-title">Is the reason you gave yourself the real one?</p>' +
+    '<div class="q-block"><p class="q-title">' + esc(REASON_Q) + '</p>' +
       '<div class="private-box"><p class="hint">Private. Encrypted on this phone. Only you can open it, behind \'Show my reason.\'</p>' +
       '<button type="button" class="btn" id="motiveOpen" aria-expanded="false">Write the reason</button>' +
       '<div id="motiveWrap" hidden><label class="field" style="margin-top:0.45rem">The real reason<input id="motive" type="text" autocomplete="off" autocapitalize="sentences" spellcheck="true" data-private="true" maxlength="280" value="' + esc(d.motive) + '" /></label></div></div></div>' +
@@ -2500,7 +2546,7 @@ function renderCheckin() {
       '<div class="row-actions"><button type="button" class="btn" id="steerYes" aria-pressed="' + (d.steered === true ? "true" : "false") + '">Yes, I noticed and steered</button>' +
       '<button type="button" class="btn" id="steerNo" aria-pressed="' + (d.steered === false ? "true" : "false") + '">Not this time</button></div>' +
       steerMapHtml(d.pulls, d.steered) +
-      (d.steered === true ? '<p class="q-title diary-tag-title">Steered to.</p><div class="chip-row" id="ciSteered">' + checkinSteerChips(d) + '</div>' + capHint(d.steeredTo.length) : "") +
+      (d.steered === true ? '<p class="q-title diary-tag-title">Steered to</p><div class="chip-row" id="ciSteered">' + checkinSteerChips(d) + '</div>' : "") +
       '</div>' +
     '<p class="gate" id="gateMsg"></p>';
   document.getElementById("checkinBody").innerHTML = body;
@@ -2508,11 +2554,7 @@ function renderCheckin() {
   bindPathCheckin(date);
 }
 function checkinSteerChips(d) {
-  const sel = d.steeredTo.map(x => x.toLowerCase());
-  return steerOptions(d.pulls, d.steeredTo).map(o => {
-    const on = sel.includes(o.label.toLowerCase());
-    return '<button type="button" class="chip" data-cisteer="' + esc(o.label) + '" aria-pressed="' + (on ? "true" : "false") + '"' + capAttr(on, d.steeredTo.length) + '>' + chipIcon(o.img) + '<span>' + esc(o.label) + '</span></button>';
-  }).join("");
+  return steerChipRowHtml(d.pulls, d.steeredTo, "data-cisteer", "ci");
 }
 function bindCheckin() {
   const d = day(data.selected);
@@ -2552,6 +2594,8 @@ function bindCheckin() {
       if (!was) maybeOfferReplacement(id);
     };
   });
+  const ciS = document.getElementById("ciSteered");
+  if (ciS) bindSteerMore(ciS, () => renderCheckin());
   document.querySelectorAll("#ciSteered [data-cisteer]").forEach(btn => {
     btn.onclick = () => { d.steeredTo = capToggle(d.steeredTo, btn.dataset.cisteer); save(); renderCheckin(); renderDerived(); };
   });
@@ -2672,8 +2716,8 @@ function renderAreas() {
       '<div class="area-goals">' +
       '<p class="goals-title">Your range this season.</p>' +
       '<div class="goals-row">' +
-      '<label class="field">Minimum hours a week.<input type="number" min="0" max="168" step="0.5" data-goal-min="' + area.id + '" value="' + esc(minVal) + '" placeholder="—" /></label>' +
-      '<label class="field">Maximum hours a week.<input type="number" min="0" max="168" step="0.5" data-goal-max="' + area.id + '" value="' + esc(maxVal) + '" placeholder="—" /></label>' +
+      '<label class="field">Minimum hours a week<input type="number" min="0" max="168" step="0.5" data-goal-min="' + area.id + '" value="' + esc(minVal) + '" placeholder="—" /></label>' +
+      '<label class="field">Maximum hours a week<input type="number" min="0" max="168" step="0.5" data-goal-max="' + area.id + '" value="' + esc(maxVal) + '" placeholder="—" /></label>' +
       '</div>' +
       '<p class="goals-hint">Career might be 40–75. Social might be 2–6. Yours, not equal.</p>' +
       seasonHtml +
@@ -3495,7 +3539,7 @@ function syncMoneyTypeUI() {
   document.getElementById("moneyExpenseWrap").hidden = moneyType !== "expense";
   fillMoneyGoals();
   const incomeGoals = data.goals.some(g => g.incomeCounts && !goalAccount(g));
-  document.getElementById("moneyGoalLabel").textContent = moneyType === "income" ? "Count toward a goal." : "Put toward a project.";
+  document.getElementById("moneyGoalLabel").textContent = moneyType === "income" ? "Count toward a goal" : "Put toward a project";
   document.getElementById("moneyGoalWrap").hidden = moneyType === "income" ? !incomeGoals : false;
   syncMoneyOther();
 }
@@ -3902,8 +3946,8 @@ function diaryFeed(date, excludeId) {
   data.diary.filter(e => e.date === date && e.id !== excludeId).forEach(e => items.push({
     kind: "note", id: e.id, text: e.note || "", areas: e.area || [], paths: e.path || [], pulls: e.pulls || [], steered: e.steered || [], offered: e.offered || ""
   }));
-  (data.pathLogs || []).filter(l => l.date === date && String(l.journal || "").trim()).forEach(l => items.push({
-    kind: "path", id: l.id, text: l.journal, areas: l.area ? [l.area] : [], paths: [l.pathId], pulls: l.pulls || [], steered: l.steered || []
+  (data.pathLogs || []).filter(l => l.date === date && (String(l.journal || "").trim() || String(l.motive || "").trim() || l.clean)).forEach(l => items.push({
+    kind: "path", id: l.id, text: l.journal, areas: l.area ? [l.area] : [], paths: [l.pathId], pulls: l.pulls || [], steered: l.steered || [], motive: !!(l.motive || l.clean)
   }));
   data.notes.filter(n => n.date === date).forEach(n => items.push({ kind: "area", id: n.id, text: n.text, areas: [n.area], paths: [], pulls: [], steered: [] }));
   const d = data.days[date];
@@ -3927,9 +3971,10 @@ function feedItemHtml(it) {
   it.pulls.forEach(pid => tags.push(pullLabel(pid)));
   if (it.steered.length) tags.push("steered to " + it.steered.join(", "));
   const tagLine = tags.length ? '<span class="entry-meta feed-tags">' + icon + '<span>' + esc(tags.join(" · ")) + '</span></span>' : "";
+  const reason = it.kind === "path" && it.motive ? plReasonHtml(it.id) : "";
   const offer = it.offered ? '<span class="entry-meta">Next move: ' + esc(it.offered) + '</span>' : "";
   const text = it.text ? esc(it.text) : (it.kind === "note" ? "Came back." : "");
-  return '<li data-feed-kind="' + it.kind + '"><div class="note-body">' + tagLine + '<span class="feed-text">' + text + '</span>' + offer + '</div>' +
+  return '<li data-feed-kind="' + it.kind + '"><div class="note-body">' + tagLine + '<span class="feed-text">' + text + '</span>' + reason + offer + '</div>' +
     (it.kind === "note" ? '<button type="button" class="tiny" data-del-diary="' + esc(it.id) + '">Remove</button>' : "") + '</li>';
 }
 function syncDiaryFilterUI() {
@@ -3960,7 +4005,8 @@ function renderDiaryTags() {
   document.getElementById("diaryTagPath").innerHTML = paths.map(p => '<button type="button" class="chip" data-dtag-path="' + esc(p.id) + '" aria-pressed="' + (dTagPath.includes(p.id) ? "true" : "false") + '">' + chipIcon(pathIcon(p)) + '<span>' + esc(p.name) + '</span></button>').join("");
   document.getElementById("diaryTagPulls").innerHTML = allPullDefs().filter(p => !isPullHidden(p.id)).map(p => { const on = dTagPulls.includes(p.id); return '<button type="button" class="chip" data-dtag-pull="' + esc(p.id) + '" aria-pressed="' + (on ? "true" : "false") + '"' + capAttr(on, dTagPulls.length) + '>' + chipIcon(p.img || "icons/pull-custom.jpg") + '<span>' + esc(p.label) + '</span></button>'; }).join("") + capHint(dTagPulls.length);
   const sel = dTagSteered.map(x => x.toLowerCase());
-  document.getElementById("diaryTagSteered").innerHTML = steerOptions(dTagPulls, dTagSteered).map(o => { const on = sel.includes(o.label.toLowerCase()); return '<button type="button" class="chip" data-dtag-steer="' + esc(o.label) + '" aria-pressed="' + (on ? "true" : "false") + '"' + capAttr(on, dTagSteered.length) + '>' + chipIcon(o.img) + '<span>' + esc(o.label) + '</span></button>'; }).join("") + capHint(dTagSteered.length);
+  document.getElementById("diaryTagSteered").innerHTML = steerChipRowHtml(dTagPulls, dTagSteered, "data-dtag-steer", "diary");
+  bindSteerMore(document.getElementById("diaryTagSteered"), renderDiaryTags);
   document.querySelectorAll("[data-dtag-area]").forEach(b => { b.onclick = () => { dTagArea = toggleIn(dTagArea, b.dataset.dtagArea); renderDiaryTags(); }; });
   document.querySelectorAll("[data-dtag-path]").forEach(b => { b.onclick = () => { dTagPath = toggleIn(dTagPath, b.dataset.dtagPath); renderDiaryTags(); }; });
   document.querySelectorAll("[data-dtag-pull]").forEach(b => { b.onclick = () => { dTagPulls = capToggle(dTagPulls, b.dataset.dtagPull); renderDiaryTags(); }; });
@@ -4120,35 +4166,83 @@ function steerOptions(selectedPulls, selectedSteers) {
   const forPull = id => { const u = pullUpgrade(id); const o = pullOpposite(id); if (u) add(u.label, u.img); if (o) add(o.label, o.img); };
   (selectedPulls || []).forEach(forPull);
   allPullDefs().filter(p => !isPullHidden(p.id)).forEach(p => forPull(p.id));
-  (selectedSteers || []).forEach(v => add(v, ""));
+  (selectedSteers || []).forEach(v => add(v, "icons/steer-custom.jpg"));
   return out;
 }
 function steerImg(label) {
   const k = String(label || "").toLowerCase();
   const hit = steerOptions([], []).find(o => o.label.toLowerCase() === k);
-  return hit ? hit.img : "";
+  return hit ? hit.img : (k ? "icons/steer-custom.jpg" : "");
+}
+const steerMoreOpen = new Set();
+function steerChipRowHtml(pulls, selected, attr, moreKey) {
+  const all = steerOptions(pulls, selected);
+  const selLow = selected.map(x => x.toLowerCase());
+  const topSet = new Set();
+  pulls.forEach(id => { [pullUpgrade(id), pullOpposite(id)].forEach(o => { if (o) topSet.add(o.label.toLowerCase()); }); });
+  selLow.forEach(x => topSet.add(x));
+  const top = all.filter(o => topSet.has(o.label.toLowerCase()));
+  const rest = all.filter(o => !topSet.has(o.label.toLowerCase()));
+  const open = steerMoreOpen.has(moreKey) || !top.length && false;
+  const chip = o => { const on = selLow.includes(o.label.toLowerCase()); return '<button type="button" class="chip" ' + attr + '="' + esc(o.label) + '" aria-pressed="' + (on ? "true" : "false") + '"' + capAttr(on, selected.length) + '>' + chipIcon(o.img) + '<span>' + esc(o.label) + '</span></button>'; };
+  return top.map(chip).join("") + (open ? rest.map(chip).join("") : "") +
+    (rest.length ? '<button type="button" class="chip more-chip" data-steer-more="' + esc(moreKey) + '" aria-expanded="' + (open ? "true" : "false") + '">' + (open ? PATH_STEP_COPY.fewer : PATH_STEP_COPY.more) + '</button>' : "") +
+    capHint(selected.length);
+}
+function bindSteerMore(row, repaint) {
+  const b = row.querySelector("[data-steer-more]");
+  if (b) b.onclick = () => { const k = b.dataset.steerMore; if (steerMoreOpen.has(k)) steerMoreOpen.delete(k); else steerMoreOpen.add(k); repaint(); };
+}
+function loggedToast(l) {
+  const p = pathById(l.pathId);
+  const parts = [p ? p.name : "", l.minutes ? fmtMinutes(l.minutes) : "", l.area ? fastLabel(l.area) : ""].filter(Boolean);
+  return PATH_STEP_COPY.toast + (parts.length ? " " + parts.join(" · ") : "");
+}
+function showToast(msg) {
+  const t = document.getElementById("toast");
+  if (!t) return;
+  t.textContent = msg; t.hidden = false;
+  clearTimeout(showToast._t);
+  showToast._t = setTimeout(() => { t.hidden = true; }, 1600);
 }
 function chipIcon(src) { return src ? '<img class="chip-icon" src="' + esc(iv(src)) + '" alt="" />' : ""; }
 // ----- Shared path-log fields (the "Log on this path" form and each check-in path row use this)
-function pathFieldsHtml(pfx, l, afterBetter) {
+function pathFieldsHtml(pfx, l, afterDid) {
+  const C = PATH_STEP_COPY;
   const mins = l && l.minutes ? Number(l.minutes) : null;
   const asH = mins != null && mins >= 60 && mins % 30 === 0;
   const v = x => esc(x == null ? "" : String(x));
+  const clean = l ? (l.clean || "") : "";
+  const cb = (val, label) => '<button type="button" class="chip" data-pf-clean="' + val + '" aria-pressed="' + (clean === val ? "true" : "false") + '">' + esc(label) + '</button>';
   return '<div class="pf" data-pf-root="' + esc(pfx) + '">' +
     '<label class="field">What did you do?<input id="' + pfx + 'Did" data-pf="did" type="text" maxlength="200" value="' + v(l && l.did) + '" /></label>' +
-    '<label class="field">What would the better version of you on this path do?<input id="' + pfx + 'Better" data-pf="better" type="text" maxlength="200" value="' + v(l && l.better) + '" /></label>' +
-    (afterBetter || "") +
-    '<label class="field">Time.<span class="pf-pair"><input id="' + pfx + 'Time" data-pf="time" type="number" min="0" step="any" inputmode="decimal" value="' + (mins == null ? "" : v(asH ? mins / 60 : mins)) + '" />' +
+    (afterDid || "") +
+    '<label class="field">Time<span class="pf-pair"><input id="' + pfx + 'Time" data-pf="time" type="number" min="0" step="any" inputmode="decimal" value="' + (mins == null ? "" : v(asH ? mins / 60 : mins)) + '" />' +
       '<select id="' + pfx + 'TimeUnit" data-pf="unit" aria-label="Time unit"><option value="min"' + (asH ? "" : " selected") + '>min</option><option value="h"' + (asH ? " selected" : "") + '>h</option></select></span></label>' +
     '<p class="hint">How long you spent.</p>' +
     '<label class="field">Counts toward<select id="' + pfx + 'Area" data-pf="area">' + areaOptionsHtml(l ? l.area : "") + '</select></label>' +
-    '<label class="field">Reps.<span class="pf-pair"><input id="' + pfx + 'Reps" data-pf="reps" type="number" min="0" step="1" inputmode="numeric" value="' + v(l && l.reps) + '" />' +
+    '<label class="field">Reps<span class="pf-pair"><input id="' + pfx + 'Reps" data-pf="reps" type="number" min="0" step="1" inputmode="numeric" value="' + v(l && l.reps) + '" />' +
       '<input id="' + pfx + 'RepsUnit" data-pf="repsUnit" type="text" maxlength="20" placeholder="pages, rounds, sets" aria-label="Unit" value="' + v(l && l.repsUnit) + '" /></span></label>' +
     '<p class="hint">Rounds, pages, sets, whatever you count.</p>' +
-    '<p class="q-title pf-title">Pulls that showed up.</p><div class="chip-row" id="' + pfx + 'Pulls" data-pf-pulls></div>' +
-    '<p class="q-title pf-title">Steered to.</p><p class="hint">Discipline, Presence, or one of your own.</p><div class="chip-row" id="' + pfx + 'Steered" data-pf-steers></div>' +
+    // 1. Aim higher.
+    '<p class="pf-step">' + esc(C.aim) + '</p>' +
+    '<label class="field">' + esc(C.aimQ) + '<input id="' + pfx + 'Better" data-pf="better" type="text" maxlength="200" value="' + v(l && l.better) + '" /></label>' +
+    // 2. Steer.
+    '<p class="pf-step">' + esc(C.steer) + '</p>' +
+    '<p class="q-title pf-q">' + esc(C.steerQ) + '</p>' +
+    '<p class="pf-sub">' + esc(C.pullsLabel) + '</p><div class="chip-row" id="' + pfx + 'Pulls" data-pf-pulls></div>' +
+    '<p class="pf-sub">' + esc(C.steeredLabel) + '</p><p class="hint">Discipline, Presence, or one of your own.</p><div class="chip-row" id="' + pfx + 'Steered" data-pf-steers></div>' +
     '<span class="pf-pair pf-own"><input id="' + pfx + 'SteerOwn" data-pf="own" type="text" maxlength="40" placeholder="Your own" aria-label="Your own" /><button type="button" class="btn" id="' + pfx + 'SteerAdd" data-pf-add>Add</button></span>' +
-    '<label class="field">Journal.<textarea id="' + pfx + 'Journal" data-pf="journal" rows="3" maxlength="2000" placeholder="What you noticed on this path.">' + v(l && l.journal) + '</textarea></label>' +
+    // 3. Clean spirit.
+    '<p class="pf-step">' + esc(C.clean) + '</p>' +
+    '<p class="q-title pf-q">' + esc(C.reasonQ) + '</p>' +
+    '<p class="hint">' + esc(C.reasonSub) + '</p>' +
+    '<div class="chip-row" data-pf-cleanrow>' + cb("yes", C.yes) + cb("notfully", C.notFully) + '</div>' +
+    '<p class="pf-repair" data-pf-repair' + (clean === "notfully" ? "" : " hidden") + '>' + esc(C.repair) + '</p>' +
+    '<button type="button" class="btn pf-reason-btn" data-pf-reason-open aria-expanded="false">' + esc(l && (l.motive || l.clean) ? C.showReason : C.writeReason) + '</button>' +
+    '<label class="field" data-pf-reason-wrap hidden><span class="sr-only">The real reason</span><input id="' + pfx + 'Motive" data-pf="motive" type="text" autocomplete="off" autocapitalize="sentences" spellcheck="true" data-private="true" maxlength="280" aria-label="The real reason" value="' + v(l && l.motive) + '" /></label>' +
+    '<p class="hint">' + esc(C.reasonNote) + '</p>' +
+    '<label class="field">Journal<textarea id="' + pfx + 'Journal" data-pf="journal" rows="3" maxlength="2000" placeholder="What you noticed on this path.">' + v(l && l.journal) + '</textarea></label>' +
     '</div>';
 }
 function readPathFields(root) {
@@ -4161,7 +4255,9 @@ function readPathFields(root) {
     area: g("area").value,
     reps: repsRaw === "" || Number.isNaN(Number(repsRaw)) ? null : Math.max(0, Number(repsRaw)),
     repsUnit: g("repsUnit").value.trim(),
-    journal: g("journal").value.trim()
+    journal: g("journal").value.trim(),
+    motive: g("motive").value.trim(),
+    clean: (root.querySelector('[data-pf-clean][aria-pressed="true"]') || { dataset: {} }).dataset.pfClean || ""
   };
 }
 // state = { pulls: [], steered: [] } (a log entry works too). onChange runs after any chip change.
@@ -4173,9 +4269,26 @@ function bindPathFieldChips(root, state, onChange) {
     pr.innerHTML = pulls.map(p => { const on = state.pulls.includes(p.id); return '<button type="button" class="chip" data-pfpull="' + esc(p.id) + '" aria-pressed="' + (on ? "true" : "false") + '"' + capAttr(on, state.pulls.length) + '>' + chipIcon(p.img || "icons/pull-custom.jpg") + '<span>' + esc(p.label) + '</span></button>'; }).join("") + capHint(state.pulls.length);
     pr.querySelectorAll("[data-pfpull]").forEach(btn => { btn.onclick = () => { state.pulls = capToggle(state.pulls, btn.dataset.pfpull); paint(); onChange && onChange(); }; });
     const sr = root.querySelector("[data-pf-steers]");
-    const selLow = state.steered.map(x => x.toLowerCase());
-    sr.innerHTML = steerOptions(state.pulls, state.steered).map(o => { const on = selLow.includes(o.label.toLowerCase()); return '<button type="button" class="chip" data-pfsteer="' + esc(o.label) + '" aria-pressed="' + (on ? "true" : "false") + '"' + capAttr(on, state.steered.length) + '>' + chipIcon(o.img) + '<span>' + esc(o.label) + '</span></button>'; }).join("") + capHint(state.steered.length);
+    sr.innerHTML = steerChipRowHtml(state.pulls, state.steered, "data-pfsteer", "pf:" + (root.dataset.pfRoot || root.id || ""));
+    bindSteerMore(sr, paint);
     sr.querySelectorAll("[data-pfsteer]").forEach(btn => { btn.onclick = () => { state.steered = capToggle(state.steered, btn.dataset.pfsteer); paint(); onChange && onChange(); }; });
+  };
+  root.querySelectorAll("[data-pf-clean]").forEach(btn => {
+    btn.onclick = () => {
+      const on = btn.getAttribute("aria-pressed") === "true";
+      root.querySelectorAll("[data-pf-clean]").forEach(b => b.setAttribute("aria-pressed", "false"));
+      if (!on) btn.setAttribute("aria-pressed", "true");
+      root.querySelector("[data-pf-repair]").hidden = !(!on && btn.dataset.pfClean === "notfully");
+      if (state.cleanChanged) state.cleanChanged();
+      onChange && onChange("clean");
+    };
+  });
+  const rOpen = root.querySelector("[data-pf-reason-open]");
+  if (rOpen) rOpen.onclick = () => {
+    const wrap = root.querySelector("[data-pf-reason-wrap]");
+    wrap.hidden = !wrap.hidden;
+    rOpen.setAttribute("aria-expanded", wrap.hidden ? "false" : "true");
+    if (!wrap.hidden) wrap.querySelector("input").focus();
   };
   const own = root.querySelector('[data-pf="own"]');
   root.querySelector("[data-pf-add]").onclick = () => {
@@ -4195,8 +4308,9 @@ const PL_RATING_HTML = '<p class="q-title pf-title">How did it go?</p>' +
   '<button type="button" class="chip" data-plrate="good" aria-pressed="false">Good</button>' +
   '<button type="button" class="chip" data-plrate="neutral" aria-pressed="false">Neutral</button>' +
   '<button type="button" class="chip" data-plrate="bad" aria-pressed="false">Bad</button></div>' +
-  '<p class="hint">The day, not your worth.</p>';
-function openPathLog(pathId, logId) {
+  '<p class="hint">The day, not your worth.</p>' +
+  '<p class="gate pf-need" id="plNeedRating" hidden></p>';
+function openPathLog(pathId, logId, again) {
   const p = pathById(pathId);
   if (!p) return;
   const l = logId ? (data.pathLogs || []).find(x => x.id === logId) : null;
@@ -4206,9 +4320,11 @@ function openPathLog(pathId, logId) {
   document.getElementById("pathLogTitle").innerHTML = '<img class="path-icon sm" src="' + esc(iv(pathIcon(p))) + '" alt="" />' + esc(p.name);
   document.getElementById("plFields").innerHTML = pathFieldsHtml("pl", l, PL_RATING_HTML);
   document.querySelectorAll("#plRating [data-plrate]").forEach(btn => {
-    btn.onclick = () => { pathLogRating = pathLogRating === btn.dataset.plrate ? "" : btn.dataset.plrate; syncPathRating(); };
+    btn.onclick = () => { pathLogRating = pathLogRating === btn.dataset.plrate ? "" : btn.dataset.plrate; syncPathRating(); if (pathLogRating) document.getElementById("plNeedRating").hidden = true; };
   });
   document.getElementById("plDelete").hidden = !l;
+  document.getElementById("plSave").textContent = again ? PATH_STEP_COPY.logAnother : PATH_STEP_COPY.logIt;
+  document.getElementById("plCancel").textContent = again ? "Close" : "Cancel";
   plState = { pulls: l ? l.pulls.slice() : [], steered: l ? l.steered.slice() : [] };
   bindPathFieldChips(document.getElementById("plFields"), plState, null);
   syncPathRating();
@@ -4227,14 +4343,22 @@ document.getElementById("plSave").onclick = () => {
   if (!pathLogFor) return;
   const f = readPathFields(document.getElementById("plFields"));
   const existing = editingPathLogId ? data.pathLogs.find(x => x.id === editingPathLogId) : null;
-  if (!existing && !f.did && !f.better && !pathLogRating && f.reps == null && !plState.pulls.length && !plState.steered.length && !f.journal && f.minutes == null) return;
-  const fields = Object.assign(f, { rating: pathLogRating, pulls: plState.pulls.slice(), steered: plState.steered.slice() });
+  if (!pathLogRating) {
+    const m = document.getElementById("plNeedRating");
+    m.textContent = PATH_STEP_COPY.needRating; m.hidden = false;
+    document.getElementById("plRating").scrollIntoView({ block: "center" });
+    return;
+  }
+  const fields = Object.assign(f, { rating: pathLogRating, pulls: plState.pulls.slice(), steered: plState.steered.slice(), logged: true });
   let l = existing;
   if (l) Object.assign(l, fields);
   else { l = Object.assign({ id: uid("pl"), pathId: pathLogFor, date: data.selected, taskId: "", source: "log" }, fields); data.pathLogs.push(l); }
   syncPathTask(l);
   save();
-  closePathLog();
+  showToast(loggedToast(l));
+  renderCheckin(); renderDerived();
+  // Stay open, cleared, for the next moment on this path.
+  openPathLog(pathLogFor, null, true);
   renderCheckin(); renderDerived();
 };
 function pullsSteerText(l) {
@@ -4257,10 +4381,25 @@ function pathLogSummary(l) {
   const ps = pullsSteerText(l); if (ps) bits.push(ps);
   return bits.join(" · ");
 }
+function plReasonHtml(id) {
+  return '<div class="pl-reason"><button type="button" class="tiny" data-show-pl-reason="' + esc(id) + '">' + esc(PATH_STEP_COPY.showReason) + '</button><span data-pl-reason-for="' + esc(id) + '"></span></div>';
+}
+document.addEventListener("click", e => {
+  const b = e.target.closest && e.target.closest("[data-show-pl-reason]");
+  if (!b) return;
+  const l = (data && data.pathLogs || []).find(x => x.id === b.dataset.showPlReason);
+  const span = b.parentElement.querySelector("[data-pl-reason-for]");
+  if (!l || !span) return;
+  const bits = [];
+  if (l.clean) bits.push(l.clean === "yes" ? PATH_STEP_COPY.yes : PATH_STEP_COPY.notFully);
+  if (l.motive) bits.push(l.motive);
+  span.textContent = span.textContent ? "" : bits.join(" · ");
+});
 function pathLogLine(l) {
   let html = '<div class="path-log" data-path-log-id="' + esc(l.id) + '"><div>' + esc(pathLogSummary(l) || "—") + '</div>';
   if (l.better) html += '<div class="meta">' + esc(l.better) + '</div>';
   if (l.journal) html += '<div class="meta" style="white-space:pre-wrap">' + esc(l.journal) + '</div>';
+  if (l.motive || l.clean) html += plReasonHtml(l.id);
   if (l.rating === "bad") html += '<div class="meta">A bad day on the path is still on the path.</div>';
   html += '<div class="path-log-actions"><button type="button" class="tiny" data-pl-edit="' + esc(l.id) + '">Edit</button><button type="button" class="tiny" data-pl-del="' + esc(l.id) + '">Remove</button></div></div>';
   return html;
@@ -4318,6 +4457,7 @@ function pathEntryFor(pid, date) {
 function pathEntryHasContent(l) {
   return !!(l && (l.did || l.better || l.journal || l.minutes || l.reps != null || (l.pulls || []).length || (l.steered || []).length));
 }
+const pcEditing = new Set();
 function pathCheckinHtml(date) {
   const paths = data.paths || [];
   if (!paths.length) return "";
@@ -4327,10 +4467,20 @@ function pathCheckinHtml(date) {
     const entry = pathEntryFor(p.id, date);
     const cur = entry && entry.rating ? entry.rating : (notToday.has(p.id) ? "skip" : "");
     const b = (val, label) => '<button type="button" class="chip" data-pathrate="' + esc(p.id) + '" data-val="' + val + '" aria-pressed="' + (cur === val ? "true" : "false") + '">' + label + '</button>';
-    const open = entry && entry.rating;
-    return '<div class="pc-row' + (open ? " is-open" : "") + '" data-pc-path="' + esc(p.id) + '"><span class="pc-name"><img class="path-icon sm" src="' + esc(iv(pathIcon(p))) + '" alt="" />' + esc(p.name) + '</span>' +
-      '<div class="chip-row pc-rates" role="group" aria-label="' + esc(p.name) + '">' + b("good", "Good") + b("neutral", "Neutral") + b("bad", "Bad") + b("skip", "Not today") + '</div>' +
-      (open ? '<div class="pc-fields" data-pc-entry="' + esc(entry.id) + '">' + pathFieldsHtml("pc_" + p.id + "_", entry) + '</div>' : "") +
+    const rated = entry && entry.rating;
+    const collapsed = rated && entry.logged && !pcEditing.has(entry.id);
+    const open = rated && !collapsed;
+    const summary = collapsed
+      ? '<div class="pc-summary"><img class="path-icon sm" src="' + esc(iv(pathIcon(p))) + '" alt="" /><span class="pc-sum-text">' +
+        esc([p.name, PATH_RATINGS[entry.rating]].concat(entry.minutes ? [fmtMinutes(entry.minutes)] : []).concat([PATH_STEP_COPY.logged]).join(" · ")) +
+        '</span><button type="button" class="tiny" data-pc-edit="' + esc(entry.id) + '">Edit</button></div>'
+      : "";
+    return '<div class="pc-row' + (open ? " is-open" : "") + (collapsed ? " is-logged" : "") + '" data-pc-path="' + esc(p.id) + '">' +
+      (collapsed ? summary : '<span class="pc-name"><img class="path-icon sm" src="' + esc(iv(pathIcon(p))) + '" alt="" />' + esc(p.name) + '</span>' +
+        '<div class="chip-row pc-rates" role="group" aria-label="' + esc(p.name) + '">' + b("good", "Good") + b("neutral", "Neutral") + b("bad", "Bad") + b("skip", "Not today") + '</div>') +
+      (open ? '<div class="pc-fields" data-pc-entry="' + esc(entry.id) + '">' + pathFieldsHtml("pc_" + p.id + "_", entry) +
+        '<div class="pc-submit">' + (entry.logged ? '<span></span>' : '<p class="pc-draft" data-pc-draft>' + esc(PATH_STEP_COPY.notLogged) + '</p>') +
+        '<button type="button" class="btn primary" data-pc-log="' + esc(entry.id) + '">' + esc(PATH_STEP_COPY.logIt) + '</button></div></div>' : "") +
       '</div>';
   }).join("") + '</div></div>';
 }
@@ -4352,23 +4502,41 @@ function bindPathCheckin(date) {
         if (entry) { removePathTask(entry); data.pathLogs = data.pathLogs.filter(l => l !== entry); }
       } else {
         nt.delete(pid);
-        if (entry) entry.rating = val;
-        else data.pathLogs.push({ id: uid("pl"), pathId: pid, date, did: "", better: "", rating: val, reps: null, repsUnit: "", pulls: [], steered: [], journal: "", minutes: null, area: "", taskId: "", source: "checkin" });
+        if (entry) { entry.rating = val; if (!entry.logged) pcEditing.add(entry.id); }
+        else { const nl = { id: uid("pl"), pathId: pid, date, did: "", better: "", rating: val, reps: null, repsUnit: "", pulls: [], steered: [], journal: "", motive: "", minutes: null, area: "", taskId: "", source: "checkin", logged: false }; data.pathLogs.push(nl); pcEditing.add(nl.id); }
       }
       d.pathNotToday = Array.from(nt);
       save(); renderCheckin(); renderDerived();
     };
   });
+  document.querySelectorAll("#checkinBody [data-pc-edit]").forEach(btn => {
+    btn.onclick = () => { pcEditing.add(btn.dataset.pcEdit); renderCheckin(); };
+  });
   // Each open path autosaves into its own entry for this date, like the rest of the check-in.
   document.querySelectorAll("#checkinBody [data-pc-entry]").forEach(box => {
     const l = data.pathLogs.find(x => x.id === box.dataset.pcEntry);
     if (!l) return;
-    const commit = () => { Object.assign(l, readPathFields(box)); syncPathTask(l); save(); renderDerived(); };
+    const markDraft = () => {
+      if (!l.logged) return;
+      l.logged = false;
+      const sub = box.querySelector(".pc-submit");
+      if (sub && !sub.querySelector("[data-pc-draft]")) sub.firstElementChild.outerHTML = '<p class="pc-draft" data-pc-draft>' + esc(PATH_STEP_COPY.notLogged) + '</p>';
+    };
+    // Autosave is the draft safety net; "Log it" is the submit.
+    const commit = () => { Object.assign(l, readPathFields(box)); markDraft(); syncPathTask(l); save(); renderDerived(); };
+    const logBtn = box.querySelector("[data-pc-log]");
+    if (logBtn) logBtn.onclick = () => {
+      Object.assign(l, readPathFields(box), { logged: true });
+      syncPathTask(l);
+      pcEditing.delete(l.id);
+      save(); renderCheckin(); renderDerived();
+      showToast(loggedToast(l));
+    };
     box.querySelectorAll("[data-pf]").forEach(el => {
       if (el.dataset.pf === "own") return;
       el.addEventListener(el.tagName === "SELECT" ? "change" : "input", commit);
     });
-    bindPathFieldChips(box, l, () => { save(); renderDerived(); });
+    bindPathFieldChips(box, l, kind => { if (kind === "clean") l.clean = readPathFields(box).clean; markDraft(); save(); renderDerived(); });
   });
 }
 // ----- This week's road (built from path logs; no typing)
@@ -4443,7 +4611,7 @@ function openProgressDialog(goalId) {
   document.getElementById("progressChangeChip").textContent = gl.direction === "down" ? "Went down by" : "Went up by";
   progressMode = "change";
   syncProgressMode();
-  document.getElementById("progressAmountLabel").textContent = isMoney ? "Amount." : goalUnit(gl);
+  document.getElementById("progressAmountLabel").textContent = isMoney ? "Amount" : goalUnit(gl);
   document.getElementById("progressHint").textContent = isMoney ? (acc ? "Goes into " + acc.name + " and moves this goal." : "Moves this goal.") : "";
   document.getElementById("progressHint").hidden = !isMoney;
   const accWrap = document.getElementById("progressAccountWrap");
@@ -4504,7 +4672,7 @@ function showVault(mode, err) {
   if (mode === "setup") {
     html =
       '<div class="vault-screen">' +
-      '<div class="brand-mark" style="margin-bottom:0.6rem"><img class="book app-mark" src="icons/app-mark.jpg?v=13" alt="" /><span style="font-family:Georgia,serif;font-size:1.35rem">Higher Self</span></div>' +
+      '<div class="brand-mark" style="margin-bottom:0.6rem"><img class="book app-mark" src="icons/app-mark.jpg?v=14" alt="" /><span style="font-family:Georgia,serif;font-size:1.35rem">Higher Self</span></div>' +
       '<h1>Your data stays on this phone, encrypted.</h1>' +
       '<p class="hint">Set a passphrase. You\'ll need it to open your notes.</p>' +
       '<p class="hint">If you lose your passphrase, no one can recover your notes, us included. Write it down somewhere safe.</p>' +
@@ -4518,7 +4686,7 @@ function showVault(mode, err) {
   } else {
     html =
       '<div class="vault-screen">' +
-      '<div class="brand-mark" style="margin-bottom:0.6rem"><img class="book app-mark" src="icons/app-mark.jpg?v=13" alt="" /><span style="font-family:Georgia,serif;font-size:1.35rem">Higher Self</span></div>' +
+      '<div class="brand-mark" style="margin-bottom:0.6rem"><img class="book app-mark" src="icons/app-mark.jpg?v=14" alt="" /><span style="font-family:Georgia,serif;font-size:1.35rem">Higher Self</span></div>' +
       '<h1>Your data stays on this phone, encrypted.</h1>' +
       '<p class="hint">Enter your passphrase to open your notes.</p>' +
       '<p class="hint">We can\'t read this file without your passphrase.</p>' +
@@ -4583,6 +4751,9 @@ function enterApp() {
   renderDerived();
 }
 function lockApp() {
+  // Close any open form so nothing private stays on screen over the lock.
+  document.querySelectorAll("dialog[open]").forEach(dl => { try { dl.close(); } catch (e) {} });
+  const t = document.getElementById("toast"); if (t) t.hidden = true;
   sessionPass = null;
   data = null;
   showVault("unlock");

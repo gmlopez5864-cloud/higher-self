@@ -1,6 +1,6 @@
 /* Higher Self — offline shell for install / Add to Home Screen */
-const CACHE = "higher-self-v13";
-const ICON_VER = "13";
+const CACHE = "higher-self-v14";
+const ICON_VER = "14";
 // Plain URLs: shell + manifest/link icons. Versioned (?v=) URLs: every icon the page renders.
 const PRECACHE_PLAIN = [
   "./",
@@ -35,6 +35,8 @@ const PRECACHE_ICONS = [
   "./icons/pull-wrath.jpg",
   "./icons/pull-sloth.jpg",
   "./icons/pull-custom.jpg",
+  "./icons/steer-custom.jpg",
+  "./icons/opp-custom.jpg",
   "./icons/pull-fear.jpg",
   "./icons/pull-anxiety.jpg",
   "./icons/pull-shame.jpg",
