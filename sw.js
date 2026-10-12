@@ -1,6 +1,8 @@
 /* Higher Self — offline shell for install / Add to Home Screen */
-const CACHE = "higher-self-v11";
-const PRECACHE = [
+const CACHE = "higher-self-v12";
+const ICON_VER = "12";
+// Plain URLs: shell + manifest/link icons. Versioned (?v=) URLs: every icon the page renders.
+const PRECACHE_PLAIN = [
   "./",
   "./index.html",
   "./manifest.webmanifest",
@@ -8,7 +10,10 @@ const PRECACHE = [
   "./icons/icon-192.png",
   "./icons/icon-512.png",
   "./icons/icon-512-maskable.png",
-  "./icons/icon-180.png",
+  "./icons/icon-180.png"
+];
+const PRECACHE_ICONS = [
+  "./icons/app-mark.jpg",
   "./icons/career.jpg",
   "./icons/personal-development.jpg",
   "./icons/social.jpg",
@@ -84,12 +89,14 @@ const PRECACHE = [
   "./icons/paths/musician.jpg",
   "./icons/paths/parent.jpg",
   "./icons/paths/partner.jpg",
+  "./icons/paths/wrestling.jpg",
   "./icons/paths/writer.jpg"
 ];
+const PRECACHE = PRECACHE_PLAIN.concat(PRECACHE_ICONS.map((u) => u + "?v=" + ICON_VER));
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
-    caches.open(CACHE).then((cache) => cache.addAll(PRECACHE)).then(() => self.skipWaiting())
+    caches.open(CACHE).then((cache) => cache.addAll(PRECACHE.map((u) => new Request(u, { cache: "reload" })))).then(() => self.skipWaiting())
   );
 });
 
