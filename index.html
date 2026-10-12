@@ -842,6 +842,21 @@
   .pm-archived { margin-top: 0.6rem; }
   .pm-archived summary { cursor: pointer; font-weight: 600; }
   .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
+
+  .guide-overlay{position:fixed;inset:0;z-index:9999;background:var(--bg);color:var(--text);display:flex;align-items:center;justify-content:center;padding:1.25rem;overflow:auto}
+  .guide-overlay[hidden]{display:none}
+  .guide-card{max-width:30rem;width:100%;text-align:center;display:flex;flex-direction:column;gap:1rem}
+  .guide-card img{width:100%;max-height:45vh;object-fit:cover;border-radius:16px;border:1px solid var(--border)}
+  .guide-card img[hidden]{display:none}
+  .guide-text{font-size:1.15rem;line-height:1.5;margin:0}
+  .guide-text:focus{outline:none}
+  .guide-sub{font-size:0.8rem;color:var(--muted);margin:-0.5rem 0 0}
+  .guide-sub[hidden]{display:none}
+  .guide-dots{display:flex;gap:0.4rem;justify-content:center}
+  .guide-dots span{width:8px;height:8px;border-radius:50%;background:var(--border)}
+  .guide-dots span.on{background:var(--accent)}
+  .guide-skip{background:none;border:0;color:var(--muted);text-decoration:underline;font-size:0.85rem;cursor:pointer;padding:0.4rem}
+  .guide-skip[hidden]{display:none}
 </style>
 </head>
 <body>
@@ -850,7 +865,7 @@
   <header class="top">
     <div class="brand-row">
       <div class="brand">
-        <h1 class="brand-mark"><img class="book app-mark" src="icons/app-mark.jpg?v=16" alt="" />Higher Self</h1>
+        <h1 class="brand-mark"><img class="book app-mark" src="icons/app-mark.jpg?v=17" alt="" />Higher Self</h1>
         <p id="todayLabel"></p>
       </div>
       <div>
@@ -881,13 +896,13 @@
   </header>
 
   <nav class="fast-travel" id="fastTravel" aria-label="Fast travel">
-    <button type="button" data-jump="checkin"><img src="icons/sleep.jpg?v=16" alt="" />Check-in</button>
-    <button type="button" data-jump="career"><img src="icons/career.jpg?v=16" alt="" />Career</button>
-    <button type="button" data-jump="personal"><img src="icons/personal-development.jpg?v=16" alt="" />Growth</button>
-    <button type="button" data-jump="spiritual"><img src="icons/spirit.jpg?v=16" alt="" />Spirit</button>
-    <button type="button" data-jump="social"><img src="icons/social.jpg?v=16" alt="" />Social</button>
-    <button type="button" data-jump="time"><img src="icons/hobbies.jpg?v=16" alt="" />Hobbies</button>
-    <button type="button" data-jump="money"><img src="icons/money.jpg?v=16" alt="" />Money</button>
+    <button type="button" data-jump="checkin"><img src="icons/sleep.jpg?v=17" alt="" />Check-in</button>
+    <button type="button" data-jump="career"><img src="icons/career.jpg?v=17" alt="" />Career</button>
+    <button type="button" data-jump="personal"><img src="icons/personal-development.jpg?v=17" alt="" />Growth</button>
+    <button type="button" data-jump="spiritual"><img src="icons/spirit.jpg?v=17" alt="" />Spirit</button>
+    <button type="button" data-jump="social"><img src="icons/social.jpg?v=17" alt="" />Social</button>
+    <button type="button" data-jump="time"><img src="icons/hobbies.jpg?v=17" alt="" />Hobbies</button>
+    <button type="button" data-jump="money"><img src="icons/money.jpg?v=17" alt="" />Money</button>
   </nav>
 
   <div class="strip" id="strip" role="tablist" aria-label="This week, Sunday through Saturday"></div>
@@ -903,7 +918,7 @@
 
   <section class="panel" id="replacementPanel" aria-labelledby="replTitle">
     <h2 id="replTitle">Replacement list</h2>
-    <div class="book-slot"><img class="book" src="icons/shadow.jpg?v=16" alt="" /><span>When an urge hits</span></div>
+    <div class="book-slot"><img class="book" src="icons/shadow.jpg?v=17" alt="" /><span>When an urge hits</span></div>
     <p class="hint">Actions you picked ahead for when an urge hits.</p>
     <p class="hint">When a pull shows up, offer one from this list.</p>
     <ul class="entry-list" id="replList"></ul>
@@ -924,8 +939,8 @@
     <h2 id="diaryTitle">Diary</h2>
     <div class="book-slot" title="Diary and shadow icons">
       <span class="book-set">
-        <img class="book" src="icons/diary.jpg?v=16" alt="" />
-        <img class="book" src="icons/shadow.jpg?v=16" alt="" />
+        <img class="book" src="icons/diary.jpg?v=17" alt="" />
+        <img class="book" src="icons/shadow.jpg?v=17" alt="" />
       </span>
       <span>Diary</span>
     </div>
@@ -971,7 +986,7 @@
 
   <div class="split">
     <section class="side" aria-labelledby="pieTitle">
-      <h2 id="pieTitle" class="title-book"><img class="book" src="icons/time-pie.jpg?v=16" alt="" />Time by area</h2>
+      <h2 id="pieTitle" class="title-book"><img class="book" src="icons/time-pie.jpg?v=17" alt="" />Time by area</h2>
       <div class="pie-layout">
         <svg class="pie" id="pie" viewBox="0 0 200 200" role="img" aria-label="Pie chart of time by area"></svg>
         <ul class="legend" id="legend"></ul>
@@ -979,7 +994,7 @@
       <p class="hint" id="pieNote"></p>
     </section>
     <section class="side" aria-labelledby="trophyTitle">
-      <h2 id="trophyTitle" class="title-book"><img class="book" src="icons/trophies.jpg?v=16" alt="" />Returns to practice</h2>
+      <h2 id="trophyTitle" class="title-book"><img class="book" src="icons/trophies.jpg?v=17" alt="" />Returns to practice</h2>
       <div class="returns-banner" id="returnsBanner"></div>
       <div class="trophies" id="trophies"></div>
     </section>
@@ -994,7 +1009,7 @@
       <ul class="log-list record-list" id="logList"></ul>
     </section>
     <section class="side" id="moneySection" aria-labelledby="moneyTitle">
-      <h2 id="moneyTitle" class="title-book"><img class="book" src="icons/money.jpg?v=16" alt="" />Money tracker</h2>
+      <h2 id="moneyTitle" class="title-book"><img class="book" src="icons/money.jpg?v=17" alt="" />Money tracker</h2>
       <div class="account-grid" id="accountGrid"></div>
       <p class="week-sum" id="weekSum"></p>
       <ul class="money-list" id="moneyList"></ul>
@@ -1184,6 +1199,17 @@
   </div>
 </dialog>
 
+<div id="guideOverlay" class="guide-overlay" role="dialog" aria-modal="true" aria-labelledby="guideText" aria-roledescription="guide" hidden>
+  <div class="guide-card">
+    <img id="guideImg" alt="" hidden />
+    <p id="guideText" class="guide-text" tabindex="-1" aria-live="polite"></p>
+    <p id="guideSub" class="guide-sub" hidden>See Threefold Training</p>
+    <div class="guide-dots" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+    <p class="hint" id="guideStep" style="margin:0"></p>
+    <div><button type="button" class="btn primary" id="guideNext">Next</button></div>
+    <div><button type="button" class="guide-skip" id="guideSkip">Skip</button></div>
+  </div>
+</div>
 <dialog id="optionsDialog" class="wide">
   <h3>Options</h3>
   <p class="hint">Color scheme</p>
@@ -1211,7 +1237,7 @@
     <div class="row-actions"><button type="button" class="btn" id="optAddPull">Add pull</button><button type="button" class="btn" id="optManagePulls">Manage pulls</button></div>
   </div>
   <div class="subpanel" id="purposePanel" aria-labelledby="purposeTitle">
-    <h3 id="purposeTitle" class="title-book"><img class="book" src="icons/purpose.jpg?v=16" alt="" />Purpose (optional)</h3>
+    <h3 id="purposeTitle" class="title-book"><img class="book" src="icons/purpose.jpg?v=17" alt="" />Purpose (optional)</h3>
     <p class="hint">A note on how you're walking the path you already picked. Not a new choice, and not a finish.</p>
 
     <div class="subpanel">
@@ -1248,6 +1274,7 @@
     </div>
   </div>
   <div class="actions">
+    <button type="button" class="btn" id="optShowGuide">Show the guide</button>
     <button type="button" class="btn primary" id="optionsClose">Done</button>
   </div>
 </dialog>
@@ -1549,7 +1576,7 @@ const PATH_ICON_LABELS = {
 };
 const PATH_WRESTLING_ICON = "icons/paths/wrestling.jpg";
 // Icon cache-bust: same filenames were re-cut, so every rendered icon URL carries ?v=. Stored data keeps plain paths.
-const ICON_VER = "15";
+const ICON_VER = "17";
 function plainIcon(src) { return String(src || "").split("?")[0]; }
 function iv(src) {
   const p = plainIcon(src);
@@ -2384,7 +2411,7 @@ function addCustomPull(label, steer, opposite, img) {
 }
 function sortedDesc(list) { return list.slice().sort((a, b) => a.date < b.date ? 1 : a.date > b.date ? -1 : 0); }
 function bookSlot(label) {
-  return '<span class="book-slot" title="Area notes"><img class="book" src="icons/area-note.jpg?v=16" alt="" /><span>' + esc(label) + '</span></span>';
+  return '<span class="book-slot" title="Area notes"><img class="book" src="icons/area-note.jpg?v=17" alt="" /><span>' + esc(label) + '</span></span>';
 }
 function pickReplacement() {
   if (!data.replacements.length) return null;
@@ -2590,7 +2617,7 @@ function renderCheckin() {
       '<p class="hint" id="sleepPreview"></p>';
   }
   const body =
-    '<div class="sleep-row"><p class="q-title title-book"><img class="book" src="icons/sleep.jpg?v=16" alt="" />How did last night go?</p>' + sleepHtml + '</div>' +
+    '<div class="sleep-row"><p class="q-title title-book"><img class="book" src="icons/sleep.jpg?v=17" alt="" />How did last night go?</p>' + sleepHtml + '</div>' +
     pathCheckinHtml(date) +
     '<p class="gate" id="gateMsg"></p>';
   document.getElementById("checkinBody").innerHTML = body;
@@ -4916,7 +4943,7 @@ function showVault(mode, err) {
   if (mode === "setup") {
     html =
       '<div class="vault-screen">' +
-      '<div class="brand-mark" style="margin-bottom:0.6rem"><img class="book app-mark" src="icons/app-mark.jpg?v=16" alt="" /><span style="font-family:Georgia,serif;font-size:1.35rem">Higher Self</span></div>' +
+      '<div class="brand-mark" style="margin-bottom:0.6rem"><img class="book app-mark" src="icons/app-mark.jpg?v=17" alt="" /><span style="font-family:Georgia,serif;font-size:1.35rem">Higher Self</span></div>' +
       '<h1>Your data stays on this phone, encrypted.</h1>' +
       '<p class="hint">Set a passphrase. You\'ll need it to open your notes.</p>' +
       '<p class="hint">If you lose your passphrase, no one can recover your notes, us included. Write it down somewhere safe.</p>' +
@@ -4930,7 +4957,7 @@ function showVault(mode, err) {
   } else {
     html =
       '<div class="vault-screen">' +
-      '<div class="brand-mark" style="margin-bottom:0.6rem"><img class="book app-mark" src="icons/app-mark.jpg?v=16" alt="" /><span style="font-family:Georgia,serif;font-size:1.35rem">Higher Self</span></div>' +
+      '<div class="brand-mark" style="margin-bottom:0.6rem"><img class="book app-mark" src="icons/app-mark.jpg?v=17" alt="" /><span style="font-family:Georgia,serif;font-size:1.35rem">Higher Self</span></div>' +
       '<h1>Your data stays on this phone, encrypted.</h1>' +
       '<p class="hint">Enter your passphrase to open your notes.</p>' +
       '<p class="hint">We can\'t read this file without your passphrase.</p>' +
@@ -4985,6 +5012,60 @@ async function onUnlockVault() {
     showVault("unlock", "We can't read this file without your passphrase.");
   }
 }
+
+const GUIDE_SCREENS = [
+  "Paths. The roles you walk: father, wrestler, writer. Log a moment on any of them.",
+  "Aim higher. Before you log, ask what the better version of you on this path would do.",
+  "Steer. Name what pulled at you and what you turned it toward.",
+  "Clean spirit. Ask yourself privately whether you're happy with why you chose it. Only you can see the answer.",
+  "A day, not your worth. Log the good and the bad straight. Tomorrow is a fresh aim."
+];
+let guideIdx = 0, guideReturnFocus = null;
+function guideRender() {
+  const img = document.getElementById("guideImg");
+  img.hidden = true;
+  img.onload = () => { img.hidden = false; };
+  img.onerror = () => { img.hidden = true; img.removeAttribute("src"); };
+  img.src = "icons/guide/guide-" + (guideIdx + 1) + ".jpg?v=" + ICON_VER;
+  document.getElementById("guideText").textContent = GUIDE_SCREENS[guideIdx];
+  document.getElementById("guideSub").hidden = !(guideIdx >= 1 && guideIdx <= 3);
+  document.getElementById("guideStep").textContent = "Step " + (guideIdx + 1) + " of " + GUIDE_SCREENS.length;
+  document.querySelectorAll("#guideOverlay .guide-dots span").forEach((d, i) => d.classList.toggle("on", i === guideIdx));
+  const last = guideIdx === GUIDE_SCREENS.length - 1;
+  document.getElementById("guideNext").textContent = last ? "Start my first path" : "Next";
+  document.getElementById("guideSkip").hidden = last;
+  document.getElementById("guideText").focus();
+}
+function openGuide() {
+  guideReturnFocus = document.activeElement;
+  guideIdx = 0;
+  // Mark as seen as soon as it is shown (encrypted save is async; this keeps "shown once" true even on a quick reload).
+  if (data && !data.guideSeen) { data.guideSeen = true; save(); }
+  document.getElementById("appRoot").setAttribute("aria-hidden", "true");
+  document.getElementById("guideOverlay").hidden = false;
+  guideRender();
+}
+function closeGuide(startPath) {
+  document.getElementById("guideOverlay").hidden = true;
+  document.getElementById("appRoot").removeAttribute("aria-hidden");
+  if (data && !data.guideSeen) { data.guideSeen = true; save(); }
+  if (startPath) { try { openPathsManage(); } catch (e) { console.error(e); } }
+  else if (guideReturnFocus && guideReturnFocus.focus && document.contains(guideReturnFocus)) guideReturnFocus.focus();
+}
+document.getElementById("guideNext").onclick = () => {
+  if (guideIdx < GUIDE_SCREENS.length - 1) { guideIdx++; guideRender(); } else closeGuide(true);
+};
+document.getElementById("guideSkip").onclick = () => closeGuide(false);
+document.getElementById("guideOverlay").addEventListener("keydown", e => {
+  if (e.key === "Escape") { e.preventDefault(); closeGuide(false); return; }
+  if (e.key !== "Tab") return;
+  const f = Array.from(e.currentTarget.querySelectorAll("button")).filter(b => !b.hidden);
+  if (!f.length) return;
+  const first = f[0], last = f[f.length - 1];
+  if (e.shiftKey && (document.activeElement === first || document.activeElement.id === "guideText")) { e.preventDefault(); last.focus(); }
+  else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+});
+document.getElementById("optShowGuide").onclick = () => { document.getElementById("optionsDialog").close(); openGuide(); };
 function enterApp() {
   document.getElementById("vaultGate").hidden = true;
   document.getElementById("appRoot").hidden = false;
@@ -4993,11 +5074,14 @@ function enterApp() {
   fillDiaryPullOptions("");
   renderCheckin();
   renderDerived();
+  if (!data.guideSeen) openGuide();
 }
 function lockApp() {
   // Close any open form so nothing private stays on screen over the lock.
   document.querySelectorAll("dialog[open]").forEach(dl => { try { dl.close(); } catch (e) {} });
   const t = document.getElementById("toast"); if (t) t.hidden = true;
+  const go = document.getElementById("guideOverlay"); if (go) go.hidden = true;
+  document.getElementById("appRoot").removeAttribute("aria-hidden");
   sessionPass = null;
   data = null;
   showVault("unlock");

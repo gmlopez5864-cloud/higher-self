@@ -1,6 +1,6 @@
 /* Higher Self — offline shell for install / Add to Home Screen */
-const CACHE = "higher-self-v16";
-const ICON_VER = "16";
+const CACHE = "higher-self-v17";
+const ICON_VER = "17";
 // Plain URLs: shell + manifest/link icons. Versioned (?v=) URLs: every icon the page renders.
 const PRECACHE_PLAIN = [
   "./",
@@ -109,7 +109,12 @@ const PRECACHE_ICONS = [
   "./icons/paths/son.jpg",
   "./icons/paths/daughter.jpg",
   "./icons/paths/friend.jpg",
-  "./icons/paths/lover.jpg"
+  "./icons/paths/lover.jpg",
+  "./icons/guide/guide-1.jpg",
+  "./icons/guide/guide-2.jpg",
+  "./icons/guide/guide-3.jpg",
+  "./icons/guide/guide-4.jpg",
+  "./icons/guide/guide-5.jpg"
 ];
 const PRECACHE = PRECACHE_PLAIN.concat(PRECACHE_ICONS.map((u) => u + "?v=" + ICON_VER));
 
