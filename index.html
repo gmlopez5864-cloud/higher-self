@@ -879,15 +879,37 @@
   .profile-icons button[aria-checked="true"] { border-color: var(--accent); }
   .profile-icons img { width: 40px; height: 40px; border-radius: 22%; object-fit: cover; }
   .menu-item.menu-danger { color: var(--warn); }
+  #themeBg { position: fixed; inset: 0; z-index: -1; background-size: cover; background-position: center; display: none; pointer-events: none; }
+  #themeBg::after { content: ""; position: absolute; inset: 0; background: var(--veil, transparent); }
+  html.has-bg { background: var(--bg); }
+  html.has-bg body { background: transparent; }
+  html.has-bg #themeBg { display: block; }
+  img.glyph { background: var(--icon-tile, var(--accent)); object-fit: contain; }
+  .theme-group { margin: 1rem 0 0.35rem; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
+  .theme-swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(6.4rem, 1fr)); gap: 0.45rem; }
+  .theme-swatch { display: flex; flex-direction: column; align-items: stretch; gap: 0.3rem; padding: 0.35rem; border: 1px solid var(--border); border-radius: 12px; background: var(--field); color: var(--text); font: inherit; cursor: pointer; text-align: left; }
+  .theme-swatch[aria-pressed="true"], .picture-theme[aria-pressed="true"] { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent); }
+  .sw-chip { display: flex; align-items: flex-end; gap: 4px; height: 2.4rem; border-radius: 8px; padding: 6px; background: var(--sw-bg); }
+  .sw-chip i { flex: 1; height: 100%; border-radius: 5px; background: var(--sw-card); border-left: 4px solid var(--sw-text); }
+  .sw-chip b { width: 12px; height: 60%; border-radius: 4px; background: linear-gradient(var(--sw-accent), var(--sw-accent2)); }
+  .sw-name { font-size: 0.8rem; }
+  .picture-themes { display: grid; gap: 0.45rem; }
+  .picture-theme { display: flex; gap: 0.6rem; align-items: center; padding: 0.4rem; border: 1px solid var(--border); border-radius: 12px; background: var(--field); color: var(--text); font: inherit; text-align: left; cursor: pointer; }
+  .picture-theme img { width: 3.2rem; height: 5.4rem; object-fit: cover; border-radius: 8px; flex: 0 0 auto; }
+  .picture-theme small { display: block; color: var(--muted); font-size: 0.82rem; }
+  .custom-theme { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.45rem; }
+  .color-field input[type="color"] { width: 100%; height: 2.4rem; padding: 2px; border: 1px solid var(--border); border-radius: 10px; background: var(--field); }
+  .ct-thumb { width: 2.6rem; height: 4.4rem; object-fit: cover; border-radius: 6px; border: 1px solid var(--border); }
 </style>
 </head>
 <body>
+<div id="themeBg" aria-hidden="true"></div>
 <div id="vaultGate" class="wrap" hidden></div>
 <div id="appRoot" class="wrap" hidden>
   <header class="top">
     <div class="brand-row">
       <div class="brand">
-        <h1 class="brand-mark"><button type="button" class="logo-btn" id="logoBtn" aria-label="Open menu" aria-haspopup="dialog" aria-expanded="false" aria-controls="menuDrawer"><img class="book app-mark" id="logoImg" src="icons/logo.jpg?v=22" alt="" /></button>Higher Self</h1>
+        <h1 class="brand-mark"><button type="button" class="logo-btn" id="logoBtn" aria-label="Open menu" aria-haspopup="dialog" aria-expanded="false" aria-controls="menuDrawer"><img class="book app-mark" id="logoImg" src="icons/logo.jpg?v=23" alt="" /></button>Higher Self</h1>
         <p id="todayLabel"></p>
       </div>
     </div>
@@ -904,7 +926,7 @@
       </div>
     </div>
     <section class="panel time-card" id="timeCard" aria-labelledby="pieTitle">
-      <h2 id="pieTitle" class="title-book"><img class="book" src="icons/time-pie.jpg?v=22" alt="" />Where your time goes</h2>
+      <h2 id="pieTitle" class="title-book"><img class="book" src="icons/time-pie.jpg?v=23" alt="" />Where your time goes</h2>
       <div class="chip-row" id="timeViewToggle" role="radiogroup" aria-label="Time period">
         <button type="button" class="chip" data-tview="day" aria-pressed="true">Today</button>
         <button type="button" class="chip" data-tview="week" aria-pressed="false">This week</button>
@@ -948,7 +970,7 @@
 
   <section class="panel" id="replacementPanel" aria-labelledby="replTitle">
     <h2 id="replTitle">Replacement list</h2>
-    <div class="book-slot"><img class="book" src="icons/shadow.jpg?v=22" alt="" /><span>When an urge hits</span></div>
+    <div class="book-slot"><img class="book" src="icons/shadow.jpg?v=23" alt="" /><span>When an urge hits</span></div>
     <p class="hint">Actions you picked ahead for when an urge hits.</p>
     <p class="hint">When a pull shows up, offer one from this list.</p>
     <ul class="entry-list" id="replList"></ul>
@@ -963,8 +985,8 @@
     <h2 id="diaryTitle">Diary</h2>
     <div class="book-slot" title="Diary and shadow icons">
       <span class="book-set">
-        <img class="book" src="icons/diary.jpg?v=22" alt="" />
-        <img class="book" src="icons/shadow.jpg?v=22" alt="" />
+        <img class="book" src="icons/diary.jpg?v=23" alt="" />
+        <img class="book" src="icons/shadow.jpg?v=23" alt="" />
       </span>
       <span>Diary</span>
     </div>
@@ -1002,7 +1024,7 @@
   </section>
 
   <section class="panel" id="pathsPanel" aria-labelledby="pathsTitle">
-    <h2 id="pathsTitle" class="title-book"><img class="book" src="icons/paths-section.jpg?v=22" alt="" />Your paths.</h2>
+    <h2 id="pathsTitle" class="title-book"><img class="book" src="icons/paths-section.jpg?v=23" alt="" />Your paths.</h2>
     <div class="row-actions"><button type="button" class="btn primary" id="pathAddBtn">Add a path</button><button type="button" class="btn" id="pathManageBtn">Manage paths</button></div>
     <p class="hint">Martial artist, writer, father, husband, whatever you're walking.</p>
     <div id="pathList"></div>
@@ -1019,7 +1041,7 @@
       <ul class="log-list record-list" id="logList"></ul>
     </section>
     <section class="side" id="moneySection" aria-labelledby="moneyTitle">
-      <h2 id="moneyTitle" class="title-book"><img class="book" src="icons/money.jpg?v=22" alt="" />Money tracker</h2>
+      <h2 id="moneyTitle" class="title-book"><img class="book" src="icons/money.jpg?v=23" alt="" />Money tracker</h2>
       <div class="account-grid" id="accountGrid"></div>
       <p class="week-sum" id="weekSum"></p>
       <ul class="money-list" id="moneyList"></ul>
@@ -1247,10 +1269,11 @@
     <button type="button" class="btn" id="menuClose">Close</button>
   </div>
   <button type="button" class="menu-row menu-settings" id="menuSettingsToggle" aria-expanded="false" aria-controls="menuSettings">
-    <img src="icons/settings.jpg?v=22" alt="" /><span><b>Settings</b><small>Themes, backup, reminders, guide, lock</small></span>
+    <img src="icons/settings.jpg?v=23" alt="" /><span><b>Settings</b><small>Themes, backup, reminders, guide, lock</small></span>
   </button>
   <div class="menu-group" id="menuSettings" hidden>
     <button type="button" class="menu-item" id="btnOptions">Options · Dawn</button>
+    <button type="button" class="menu-item" id="menuThemes">Themes</button>
     <button type="button" class="menu-item" id="menuReminders">Reminders</button>
     <button type="button" class="menu-item" id="menuGuide">Show the guide</button>
     <button type="button" class="menu-item" id="btnBackup">Back up the encrypted file</button>
@@ -1266,9 +1289,10 @@
   <label class="field">Date<input id="dayPickInput" type="date" /></label>
   <div class="row-actions"><button type="button" class="btn primary" id="dayPickGo">Go</button><button type="button" class="btn" id="dayPickCancel">Cancel</button></div>
 </dialog>
-<dialog id="optionsDialog" class="wide">
-  <h3>Options</h3>
-  <p class="hint">Color scheme</p>
+<dialog id="themesDialog" class="wide" aria-labelledby="themesTitle">
+  <h3 id="themesTitle">Themes</h3>
+  <p class="hint">Make it feel like yours.</p>
+  <h4 class="theme-group">Calm</h4>
   <div class="themes" role="radiogroup" aria-label="Theme">
     <button type="button" role="radio" data-theme="dawn" aria-pressed="true">Dawn</button>
     <button type="button" role="radio" data-theme="dusk" aria-pressed="false">Dusk</button>
@@ -1288,12 +1312,41 @@
     <button type="button" role="radio" data-theme="metal" aria-pressed="false">Metal</button>
   </div>
   <p class="theme-note" style="text-align:left">Dawn is daytime. Dusk is for night and sleep. Grove is quieter. Area colors stay the same in every theme.</p>
+  <h4 class="theme-group">Bold</h4>
+  <div class="theme-swatches" id="boldThemes" role="group" aria-label="Bold themes"></div>
+  <h4 class="theme-group">Picture</h4>
+  <p class="hint">Pick art you love. Your cards stay easy to read on top.</p>
+  <div class="picture-themes" id="pictureThemes" role="group" aria-label="Picture themes"></div>
+  <h4 class="theme-group">Custom</h4>
+  <div class="custom-theme">
+    <label class="field color-field">Background<input type="color" id="ctBg" /></label>
+    <label class="field color-field">Cards<input type="color" id="ctCard" /></label>
+    <label class="field color-field">Accent<input type="color" id="ctAccent" /></label>
+    <label class="field color-field">Text<input type="color" id="ctText" /></label>
+  </div>
+  <div class="row-actions">
+    <button type="button" class="btn" id="ctPhotoBtn">Use a photo</button>
+    <button type="button" class="btn" id="ctPhotoRemove" hidden>Remove photo</button>
+    <img id="ctPhotoThumb" class="ct-thumb" alt="Your photo" hidden />
+  </div>
+  <input type="file" id="ctPhotoFile" accept="image/*" hidden />
+  <p class="hint">Encrypted on this phone, like everything else.</p>
+  <div class="offer" id="ctContrast" role="status" hidden>
+    <p>Text may be hard to read on this photo. Add a soft overlay?</p>
+    <div class="row-actions"><button type="button" class="btn primary" id="ctVeilYes">Add overlay</button><button type="button" class="btn" id="ctVeilNo">Leave it</button></div>
+  </div>
+  <div class="row-actions"><button type="button" class="btn primary" id="ctSave">Save theme</button></div>
+  <div class="row-actions" style="justify-content:flex-end"><button type="button" class="btn" id="themesDone">Done</button></div>
+</dialog>
+<dialog id="optionsDialog" class="wide">
+  <h3>Options</h3>
+  <div class="row-actions"><button type="button" class="btn" id="optThemes">Themes</button></div>
   <div class="subpanel" id="pullsOptions">
     <h3>Pulls</h3>
     <div class="row-actions"><button type="button" class="btn" id="optAddPull">Add pull</button><button type="button" class="btn" id="optManagePulls">Manage pulls</button></div>
   </div>
   <div class="subpanel" id="purposePanel" aria-labelledby="purposeTitle">
-    <h3 id="purposeTitle" class="title-book"><img class="book" src="icons/purpose.jpg?v=22" alt="" />Purpose (optional)</h3>
+    <h3 id="purposeTitle" class="title-book"><img class="book" src="icons/purpose.jpg?v=23" alt="" />Purpose (optional)</h3>
     <p class="hint">A note on how you're walking the path you already picked. Not a new choice, and not a finish.</p>
 
     <div class="subpanel">
@@ -1648,7 +1701,7 @@ const PATH_ICON_LABELS = {
 };
 const PATH_WRESTLING_ICON = "icons/paths/wrestling.jpg";
 // Icon cache-bust: same filenames were re-cut, so every rendered icon URL carries ?v=. Stored data keeps plain paths.
-const ICON_VER = "22";
+const ICON_VER = "23";
 const LOGO_SRC = "icons/logo.jpg"; // swap the app logo here (header, menu button, vault screens)
 function plainIcon(src) { return String(src || "").split("?")[0]; }
 function iv(src) {
@@ -2484,7 +2537,7 @@ function addCustomPull(label, steer, opposite, img) {
 }
 function sortedDesc(list) { return list.slice().sort((a, b) => a.date < b.date ? 1 : a.date > b.date ? -1 : 0); }
 function bookSlot(label) {
-  return '<span class="book-slot" title="Area notes"><img class="book" src="icons/area-note.jpg?v=22" alt="" /><span>' + esc(label) + '</span></span>';
+  return '<span class="book-slot" title="Area notes"><img class="book" src="icons/area-note.jpg?v=23" alt="" /><span>' + esc(label) + '</span></span>';
 }
 function pickReplacement() {
   if (!data.replacements.length) return null;
@@ -2505,20 +2558,6 @@ async function persist() {
   } catch (e) { console.error("persist failed", e); }
 }
 function save() { persist(); }
-function applyTheme(theme) {
-  if (!THEMES.includes(theme)) theme = "dawn";
-  data.theme = theme;
-  document.documentElement.setAttribute("data-theme", theme);
-  document.querySelectorAll(".themes button").forEach(btn => {
-    btn.setAttribute("aria-pressed", btn.dataset.theme === theme ? "true" : "false");
-  });
-  const opt = document.getElementById("btnOptions");
-  if (opt) {
-    const label = theme.charAt(0).toUpperCase() + theme.slice(1);
-    opt.textContent = "Options · " + label;
-  }
-  save();
-}
 
 function scrollToAreaGoals(areaId, focusReeval) {
   const el = document.querySelector('[data-area-id="' + areaId + '"]');
@@ -2721,7 +2760,7 @@ function renderCheckin() {
       '<p class="hint" id="sleepPreview"></p>';
   }
   const body =
-    '<div class="sleep-row"><p class="q-title title-book"><img class="book" src="icons/sleep.jpg?v=22" alt="" />How did last night go?</p>' + sleepHtml + '</div>' +
+    '<div class="sleep-row"><p class="q-title title-book"><img class="book" src="icons/sleep.jpg?v=23" alt="" />How did last night go?</p>' + sleepHtml + '</div>' +
     pathCheckinHtml(date);
   document.getElementById("checkinBody").innerHTML = body;
   bindCheckin();
@@ -5699,6 +5738,7 @@ function lockApp() {
   document.getElementById("appRoot").removeAttribute("aria-hidden");
   sessionPass = null;
   data = null;
+  resetThemeVisuals(); // the picker never shows someone's theme or photo
   showStartScreen();
 }
 async function downloadBackup() {
@@ -5750,6 +5790,199 @@ document.getElementById("btnRemoveProfile").onclick = async () => {
   lockApp();
 };
 
+const GLYPHS = new Set(["area-career-v2", "area-note", "diary", "hobbies", "library/chain", "library/crack", "library/empty-cup", "library/flame", "library/knot", "library/mask", "library/maze", "library/screen", "library/spiral", "library/storm", "library/wave", "library/weight", "money", "opp-belonging", "opp-boundary", "opp-calm", "opp-chastity", "opp-custom", "opp-ease", "opp-endurance", "opp-generosity", "opp-gratitude", "opp-humility", "opp-patience", "opp-presence", "opp-release", "opp-temperance", "opp-zeal", "paths-section", "paths/athlete", "paths/boots", "paths/builder", "paths/custom", "paths/dance", "paths/daughter", "paths/father", "paths/friend", "paths/hammer", "paths/kitchen", "paths/lover", "paths/martial-artist", "paths/mother", "paths/musician", "paths/paintbrush", "paths/parent", "paths/partner", "paths/pen", "paths/running-shoes", "paths/sandals", "paths/son", "paths/video", "paths/weights", "paths/wolf", "paths/wrench", "paths/wrestling", "paths/writer", "personal-development", "pull-anxiety", "pull-control", "pull-custom", "pull-despair", "pull-envy", "pull-fear", "pull-gluttony", "pull-greed", "pull-lust", "pull-numbness", "pull-people-pleasing", "pull-pride", "pull-shame", "pull-sloth", "pull-wrath", "purpose", "settings", "shadow", "sleep", "social", "spirit", "steer-admiration", "steer-aspiration", "steer-courage", "steer-custom", "steer-dignity", "steer-discipline", "steer-feeling", "steer-fortitude", "steer-honesty", "steer-honor", "steer-hope", "steer-respect", "steer-savoring", "steer-steadiness", "steer-trust", "time-pie"]);
+// ---------- Themes (v23): Calm (CSS themes), Bold palettes, Picture backgrounds, Custom. All per profile (stored in the vault).
+const BOLD_THEMES = [
+  ["neon-city", "Neon City", "#0B0B1A", "#1A1033", "#FF2E88", "#00E5FF", "#F2F2FF"],
+  ["retro-arcade", "Retro Arcade", "#120A2A", "#24124D", "#FFD300", "#39FF14", "#FFFFFF"],
+  ["desert-night", "Desert Night", "#1B1426", "#2E2140", "#E8A33D", "", "#F6E7CF"],
+  ["deep-ocean", "Deep Ocean", "#04263B", "#0A3D5C", "#2ED3C6", "", "#E6FBFF"],
+  ["forest-cabin", "Forest Cabin", "#2B1D14", "#3E2A1C", "#D9822B", "#5E7A3A", "#F3E6D3"],
+  ["stadium", "Stadium", "#0F3D1E", "#185A2E", "#FFFFFF", "#F2C230", "#FFFFFF"],
+  ["cherry-blossom", "Cherry Blossom", "#FFF4F6", "#FFE3EA", "#E0577A", "", "#3A2230"],
+  ["volcano", "Volcano", "#1A0E0B", "#2E1712", "#FF5A1F", "", "#FFE7D6"],
+  ["dojo", "Dojo", "#1C1A17", "#2A2622", "#C8102E", "", "#F4EDE1"],
+  ["mat-room", "Mat Room", "#10233F", "#1B355C", "#F2C230", "", "#F5F7FA"],
+  ["coffee-shop", "Coffee Shop", "#2A1E17", "#3B2A20", "#C58B5A", "", "#F5EBDD"],
+  ["library", "Library", "#1E2A24", "#2C3B33", "#B8963E", "", "#EFE8D8"],
+  ["thunderstorm", "Thunderstorm", "#14181F", "#222935", "#8FB8FF", "", "#E8EEF7"],
+  ["sunday-garden", "Sunday Garden", "#F6F8EE", "#E7EED6", "#4F8A3C", "", "#22301C"]
+].map(([id, name, bg, card, accent, accent2, text]) => ({ id: "bold-" + id, name, bg, card, accent, accent2: accent2 || accent, text }));
+const PICTURE_THEMES = [
+  { id: "pic-flowers", name: "Flowers", img: "themes/flowers.jpg", bg: "#F8F1E6", card: "#FFFBF5", accent: "#C77FA0", accent2: "#8FA88A", text: "#3A2A33", desc: "Petals at the edges, calm in the middle." },
+  { id: "pic-cats", name: "Cats", img: "themes/cats.jpg", bg: "#F3DCCB", card: "#FFF6EF", accent: "#E08E6D", accent2: "#E08E6D", text: "#4A3A33", desc: "Warm tones and a cat or two keeping you company." },
+  { id: "pic-dogs", name: "Dogs", img: "themes/dogs.jpg", bg: "#F7EED8", card: "#FFFBF0", accent: "#D9A441", accent2: "#8FB3D9", text: "#3B3226", desc: "Sunny, loyal, and happy to see you." }
+];
+const CUSTOM_DEFAULT = { bg: "#F7F1E8", card: "#FFFCF7", accent: "#C47A3A", text: "#2C2416", photo: "", veil: false };
+const THEME_VARS = ["--bg", "--panel", "--text", "--muted", "--accent", "--accent2", "--border", "--on-accent", "--onBtn", "--card", "--line", "--field", "--shadow", "--good", "--warn", "--icon-tile", "--bg-image", "--bg-veil"];
+const GLYPH_CREAM = "#F6EEDC";
+// ---- color helpers
+function hexRgb(h) { h = String(h || "").replace("#", ""); if (h.length === 3) h = h.split("").map(c => c + c).join(""); const n = parseInt(h, 16); return isNaN(n) ? [0, 0, 0] : [n >> 16 & 255, n >> 8 & 255, n & 255]; }
+function rgbHex(r) { return "#" + r.map(v => Math.max(0, Math.min(255, Math.round(v))).toString(16).padStart(2, "0")).join(""); }
+function mixHex(a, b, t) { const x = hexRgb(a), y = hexRgb(b); return rgbHex(x.map((v, i) => v + (y[i] - v) * t)); }
+function lum(h) { return hexRgb(h).map(v => { v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); }).reduce((s, v, i) => s + v * [0.2126, 0.7152, 0.0722][i], 0); }
+function contrast(a, b) { const x = lum(a), y = lum(b); return (Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05); }
+function isDarkHex(h) { return lum(h) < 0.2; }
+function cssColorHex(c) { // "rgb(…)" or "#…" -> "#rrggbb"
+  c = String(c || "").trim(); if (c[0] === "#") return c.length === 4 ? "#" + c.slice(1).split("").map(x => x + x).join("") : c.slice(0, 7);
+  const m = c.match(/\d+(\.\d+)?/g); return m ? rgbHex(m.slice(0, 3).map(Number)) : "#000000";
+}
+function ensureContrast(fg, bg, min) { // nudge fg toward black or white until it reads on bg
+  if (contrast(fg, bg) >= min) return fg;
+  const to = isDarkHex(bg) ? "#FFFFFF" : "#000000";
+  for (let t = 0.1; t <= 1.001; t += 0.1) { const c = mixHex(fg, to, t); if (contrast(c, bg) >= min) return c; }
+  return to;
+}
+function rgba(h, a) { const r = hexRgb(h); return "rgba(" + r.join(", ") + ", " + a + ")"; }
+function iconTileFor(p) { // a tile the cream glyphs read on
+  for (const c of [p.accent, p.accent2, isDarkHex(p.text) ? p.text : p.card, p.bg]) if (c && contrast(GLYPH_CREAM, c) >= 2.4) return c;
+  let c = p.accent; for (let i = 0; i < 10 && contrast(GLYPH_CREAM, c) < 2.4; i++) c = mixHex(c, "#000000", 0.15); return c;
+}
+function deriveThemeVars(p, see) {
+  const card = p.card, dark = isDarkHex(card);
+  const text = ensureContrast(p.text, card, 4.5);
+  let muted = mixHex(text, card, 0.35); muted = ensureContrast(muted, card, 3.2);
+  const accent = p.accent, accent2 = p.accent2 || p.accent;
+  const onAccent = ["#111111", "#FFFFFF", text, p.bg].sort((a, b) => contrast(b, accent) - contrast(a, accent))[0];
+  const a = see ? 0.9 : 1;
+  return {
+    "--bg": p.bg, "--panel": see ? rgba(card, a) : card, "--card": see ? rgba(card, a) : card,
+    "--text": text, "--muted": muted, "--accent": accent, "--accent2": accent2,
+    "--border": mixHex(text, card, 0.8), "--line": mixHex(text, card, 0.8),
+    "--field": see ? rgba(mixHex(card, p.bg, 0.12), 0.94) : mixHex(card, p.bg, 0.35),
+    "--on-accent": onAccent, "--onBtn": onAccent,
+    "--shadow": dark ? "0 12px 32px rgba(0, 0, 0, 0.35)" : "0 10px 30px rgba(0, 0, 0, 0.07)",
+    "--good": dark ? "#8FDBB0" : "#2F7D4A", "--warn": dark ? "#F0B0A4" : "#9A4D2F",
+    "--icon-tile": iconTileFor({ ...p, text })
+  };
+}
+function themeSpec(id) {
+  if (THEMES.includes(id)) return { kind: "calm", id, name: id.charAt(0).toUpperCase() + id.slice(1) };
+  const b = BOLD_THEMES.find(t => t.id === id); if (b) return { kind: "bold", id, name: b.name, p: b };
+  const pic = PICTURE_THEMES.find(t => t.id === id); if (pic) return { kind: "picture", id, name: pic.name, p: pic, img: iv(pic.img) };
+  if (id === "custom" && data && data.customTheme) { const c = Object.assign({}, CUSTOM_DEFAULT, data.customTheme); return { kind: "custom", id, name: "Custom", p: { ...c, accent2: c.accent }, img: c.photo || "", veil: !!c.veil }; }
+  return { kind: "calm", id: "dawn", name: "Dawn" };
+}
+function paintTheme(spec) {
+  const root = document.documentElement;
+  THEME_VARS.forEach(v => root.style.removeProperty(v));
+  root.style.removeProperty("color-scheme");
+  const bgEl = document.getElementById("themeBg");
+  if (spec.kind === "calm") {
+    root.setAttribute("data-theme", spec.id);
+    const cs = getComputedStyle(root), g = v => cssColorHex(cs.getPropertyValue(v));
+    root.style.setProperty("--icon-tile", iconTileFor({ accent: g("--accent"), text: g("--text"), card: g("--panel"), bg: g("--bg") }));
+  } else {
+    const p = spec.p, see = !!spec.img;
+    root.setAttribute("data-theme", isDarkHex(p.card) ? "dusk" : "dawn"); // base for anything not driven by variables
+    const vars = deriveThemeVars(p, see);
+    Object.keys(vars).forEach(k => root.style.setProperty(k, vars[k]));
+    root.style.setProperty("color-scheme", isDarkHex(p.card) ? "dark" : "light");
+  }
+  root.setAttribute("data-theme-kind", spec.kind);
+  root.classList.toggle("has-bg", !!spec.img);
+  if (bgEl) {
+    bgEl.style.backgroundImage = spec.img ? 'url("' + String(spec.img).replace(/"/g, "%22") + '")' : "";
+    bgEl.style.setProperty("--veil", spec.veil && spec.p ? rgba(spec.p.card, 0.55) : "transparent");
+  }
+}
+function resetThemeVisuals() { paintTheme({ kind: "calm", id: "dawn" }); }
+function applyTheme(theme, opts) {
+  const spec = themeSpec(theme);
+  data.theme = spec.id;
+  paintTheme(spec);
+  document.querySelectorAll(".themes button").forEach(btn => btn.setAttribute("aria-pressed", btn.dataset.theme === spec.id ? "true" : "false"));
+  document.querySelectorAll("[data-theme-pick]").forEach(btn => btn.setAttribute("aria-pressed", btn.dataset.themePick === spec.id ? "true" : "false"));
+  const opt = document.getElementById("btnOptions");
+  if (opt) opt.textContent = "Options · " + spec.name;
+  if (!(opts && opts.noSave)) save();
+}
+// ---- Themes screen
+function renderThemesScreen() {
+  const swatch = t => '<button type="button" class="theme-swatch" data-theme-pick="' + t.id + '" aria-pressed="false" style="--sw-bg:' + t.bg + ';--sw-card:' + t.card + ';--sw-accent:' + t.accent + ';--sw-accent2:' + (t.accent2 || t.accent) + ';--sw-text:' + t.text + '"><span class="sw-chip" aria-hidden="true"><i></i><b></b></span><span class="sw-name">' + esc(t.name) + '</span></button>';
+  document.getElementById("boldThemes").innerHTML = BOLD_THEMES.map(swatch).join("");
+  document.getElementById("pictureThemes").innerHTML = PICTURE_THEMES.map(t => '<button type="button" class="picture-theme" data-theme-pick="' + t.id + '" aria-pressed="false"><img src="' + esc(iv(t.img)) + '" alt="" loading="lazy" /><span><b>' + esc(t.name) + '</b><small>' + esc(t.desc) + '</small></span></button>').join("");
+  document.querySelectorAll("#boldThemes [data-theme-pick], #pictureThemes [data-theme-pick]").forEach(b => b.onclick = () => applyTheme(b.dataset.themePick));
+  loadCustomEditor();
+  applyTheme(data.theme, { noSave: true });
+}
+let customDraft = null;
+function loadCustomEditor() {
+  customDraft = Object.assign({}, CUSTOM_DEFAULT, data.customTheme || {});
+  [["ctBg", "bg"], ["ctCard", "card"], ["ctAccent", "accent"], ["ctText", "text"]].forEach(([id, k]) => {
+    const el = document.getElementById(id); el.value = customDraft[k];
+    el.oninput = () => { customDraft[k] = el.value; previewCustom(); };
+  });
+  photoAvg = null; updatePhotoUi();
+  if (customDraft.photo) photoAverage(customDraft.photo).then(a => { photoAvg = a; checkPhotoContrast(); });
+}
+function previewCustom() {
+  paintTheme({ kind: "custom", id: "custom", name: "Custom", p: { ...customDraft, accent2: customDraft.accent }, img: customDraft.photo, veil: customDraft.veil });
+  checkPhotoContrast();
+}
+function updatePhotoUi() {
+  const has = !!customDraft.photo;
+  document.getElementById("ctPhotoRemove").hidden = !has;
+  const th = document.getElementById("ctPhotoThumb"); th.hidden = !has; if (has) th.src = customDraft.photo;
+  checkPhotoContrast();
+}
+let photoAvg = null;
+function checkPhotoContrast() {
+  const warn = document.getElementById("ctContrast");
+  if (!customDraft || !customDraft.photo || photoAvg == null) { warn.hidden = true; return; }
+  const seen = customDraft.veil ? mixHex(photoAvg, customDraft.card, 0.55) : photoAvg;
+  warn.hidden = contrast(customDraft.text, seen) >= 4.5 || customDraft.veil;
+}
+function photoAverage(src) {
+  return new Promise(res => { const im = new Image(); im.onload = () => { const c = document.createElement("canvas"); c.width = 24; c.height = 48; const x = c.getContext("2d"); x.drawImage(im, 0, 0, 24, 48); const d = x.getImageData(0, 0, 24, 48).data; let r = 0, g = 0, b = 0; for (let i = 0; i < d.length; i += 4) { r += d[i]; g += d[i + 1]; b += d[i + 2]; } const n = d.length / 4; res(rgbHex([r / n, g / n, b / n])); }; im.onerror = () => res(null); im.src = src; });
+}
+// Resize to ~1080px wide JPEG so the encrypted vault stays small.
+function shrinkPhoto(file) {
+  return new Promise((res, rej) => {
+    const url = URL.createObjectURL(file); const im = new Image();
+    im.onload = () => { const w = Math.min(1080, im.naturalWidth), h = Math.round(im.naturalHeight * w / im.naturalWidth); const c = document.createElement("canvas"); c.width = w; c.height = h; c.getContext("2d").drawImage(im, 0, 0, w, h); URL.revokeObjectURL(url); res(c.toDataURL("image/jpeg", 0.8)); };
+    im.onerror = () => { URL.revokeObjectURL(url); rej(new Error("bad image")); };
+    im.src = url;
+  });
+}
+(function setupThemes() {
+  const dlg = document.getElementById("themesDialog");
+  window.openThemes = () => { renderThemesScreen(); if (!dlg.open) dlg.showModal(); };
+  dlg.addEventListener("close", () => { if (data) applyTheme(data.theme, { noSave: true }); }); // drop an unsaved custom preview
+  document.getElementById("themesDone").onclick = () => dlg.close();
+  document.getElementById("optThemes").onclick = () => { document.getElementById("optionsDialog").close(); openThemes(); };
+  document.getElementById("ctPhotoBtn").onclick = () => document.getElementById("ctPhotoFile").click();
+  document.getElementById("ctPhotoFile").onchange = async e => {
+    const f = e.target.files && e.target.files[0]; e.target.value = ""; if (!f) return;
+    try { customDraft.photo = await shrinkPhoto(f); customDraft.veil = false; photoAvg = await photoAverage(customDraft.photo); updatePhotoUi(); previewCustom(); } catch (err) { showToast("That photo didn't open. Try another."); }
+  };
+  document.getElementById("ctPhotoRemove").onclick = () => { customDraft.photo = ""; customDraft.veil = false; photoAvg = null; updatePhotoUi(); previewCustom(); };
+  document.getElementById("ctVeilYes").onclick = () => { customDraft.veil = true; previewCustom(); };
+  document.getElementById("ctVeilNo").onclick = () => { document.getElementById("ctContrast").hidden = true; };
+  document.getElementById("ctSave").onclick = () => { data.customTheme = Object.assign({}, customDraft); applyTheme("custom"); showToast("Theme saved."); };
+  if (typeof GLYPHS !== "undefined") setupGlyphs();
+})();
+// ---- Icon tiles: cream glyph on a theme-colored tile. Falls back to the original art if no glyph exists.
+function glyphFor(src) {
+  const m = String(src || "").match(/(?:^|\/)icons\/([^?#]+)\.jpg(?:\?|#|$)/);
+  if (!m || /^(guide|glyphs|glyphs128)\//.test(m[1]) || !GLYPHS.has(m[1])) return null;
+  return "icons/glyphs128/" + m[1] + ".png?v=" + ICON_VER;
+}
+function glyphify(img) {
+  if (!img || img.tagName !== "IMG" || img.dataset.noGlyph != null || img.closest("#vaultGate .brand-mark, .brand-mark, .picture-theme")) return;
+  const g = glyphFor(img.getAttribute("src"));
+  if (!g) return;
+  img.setAttribute("src", g); img.classList.add("glyph");
+  img.onerror = () => { img.onerror = null; img.classList.remove("glyph"); img.setAttribute("src", img.getAttribute("src").replace("icons/glyphs128/", "icons/").replace(/\.png(\?|$)/, ".jpg$1")); img.dataset.noGlyph = ""; };
+}
+function setupGlyphs() {
+  document.querySelectorAll("img").forEach(glyphify);
+  new MutationObserver(list => list.forEach(m => {
+    if (m.type === "attributes") glyphify(m.target);
+    else m.addedNodes.forEach(n => { if (n.nodeType !== 1) return; if (n.tagName === "IMG") glyphify(n); else n.querySelectorAll && n.querySelectorAll("img").forEach(glyphify); });
+  })).observe(document.body, { subtree: true, childList: true, attributes: true, attributeFilter: ["src"] });
+}
+
 // ---------- Menu drawer (opened from the logo)
 const MENU_GO = [
   { label: "Where your time goes", icon: "icons/time-pie.jpg", el: () => document.getElementById("timeCard") },
@@ -5800,6 +6033,7 @@ const MENU_GO = [
     const t = document.getElementById("remTitle"); if (t) t.scrollIntoView({ block: "start" });
   };
   document.getElementById("menuGuide").onclick = () => openGuide();
+  document.getElementById("menuThemes").onclick = () => openThemes();
   dlg.querySelectorAll("[data-menu-go]").forEach(b => b.onclick = () => {
     const g = MENU_GO[Number(b.dataset.menuGo)];
     returnFocus = false; close();
