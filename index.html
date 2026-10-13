@@ -360,6 +360,16 @@
   .coach .missed { margin: 0 0 0.55rem; font-size: 1.02rem; }
   .coach-line { margin: 0; font-size: 1.05rem; }
   .coach-line + .coach-line { margin-top: 0.2rem; }
+  .week-card, #noticeArea .notice { margin-top: 0.6rem; }
+  #noticeArea .notice { background: var(--panel); border: 1px solid var(--border); border-left: 4px solid var(--warn); border-radius: var(--radius); padding: 0.7rem 0.9rem; }
+  #noticeArea .notice ul { margin: 0.3rem 0 0.4rem 1.1rem; padding: 0; }
+  .week-card .nudge { margin: 0.25rem 0 0; }
+  .reminder-block { margin-top: 0.55rem; }
+  .cap-alert { margin-top: 0.6rem; padding: 0.7rem 0.85rem; border: 1px solid var(--border); border-left: 4px solid var(--warn); border-radius: var(--radius); background: var(--panel); }
+  .cap-alert p { margin: 0 0 0.5rem; }
+  .cap-alert.floating { position: fixed; left: 50%; bottom: 1rem; transform: translateX(-50%); z-index: 50; width: min(92vw, 420px); box-shadow: var(--shadow); }
+  .week-card .nudge { display: flex; gap: 0.55rem; align-items: center; }
+  .nudge-icon { flex: 0 0 auto; width: 28px; height: 28px; background-color: var(--accent); -webkit-mask: var(--nudge-icon) center / contain no-repeat; mask: var(--nudge-icon) center / contain no-repeat; }
   .coach .soft { margin: 0.45rem 0 0; color: var(--muted); font-size: 0.85rem; }
   .strip {
     margin-top: 0.9rem;
@@ -865,7 +875,7 @@
   <header class="top">
     <div class="brand-row">
       <div class="brand">
-        <h1 class="brand-mark"><img class="book app-mark" src="icons/app-mark.jpg?v=18" alt="" />Higher Self</h1>
+        <h1 class="brand-mark"><img class="book app-mark" src="icons/app-mark.jpg?v=19" alt="" />Higher Self</h1>
         <p id="todayLabel"></p>
       </div>
       <div>
@@ -893,16 +903,18 @@
       </div>
     </div>
     <section class="coach" id="coach" aria-live="polite"></section>
+    <div id="noticeArea"></div>
+    <section class="coach week-card" id="weekNudges" aria-live="polite" hidden></section>
   </header>
 
   <nav class="fast-travel" id="fastTravel" aria-label="Fast travel">
-    <button type="button" data-jump="checkin"><img src="icons/sleep.jpg?v=18" alt="" />Check-in</button>
-    <button type="button" data-jump="career"><img src="icons/career.jpg?v=18" alt="" />Career</button>
-    <button type="button" data-jump="personal"><img src="icons/personal-development.jpg?v=18" alt="" />Growth</button>
-    <button type="button" data-jump="spiritual"><img src="icons/spirit.jpg?v=18" alt="" />Spirit</button>
-    <button type="button" data-jump="social"><img src="icons/social.jpg?v=18" alt="" />Social</button>
-    <button type="button" data-jump="time"><img src="icons/hobbies.jpg?v=18" alt="" />Hobbies</button>
-    <button type="button" data-jump="money"><img src="icons/money.jpg?v=18" alt="" />Money</button>
+    <button type="button" data-jump="checkin"><img src="icons/sleep.jpg?v=19" alt="" />Check-in</button>
+    <button type="button" data-jump="career"><img src="icons/career.jpg?v=19" alt="" />Career</button>
+    <button type="button" data-jump="personal"><img src="icons/personal-development.jpg?v=19" alt="" />Growth</button>
+    <button type="button" data-jump="spiritual"><img src="icons/spirit.jpg?v=19" alt="" />Spirit</button>
+    <button type="button" data-jump="social"><img src="icons/social.jpg?v=19" alt="" />Social</button>
+    <button type="button" data-jump="time"><img src="icons/hobbies.jpg?v=19" alt="" />Hobbies</button>
+    <button type="button" data-jump="money"><img src="icons/money.jpg?v=19" alt="" />Money</button>
   </nav>
 
   <div class="strip" id="strip" role="tablist" aria-label="This week, Sunday through Saturday"></div>
@@ -918,7 +930,7 @@
 
   <section class="panel" id="replacementPanel" aria-labelledby="replTitle">
     <h2 id="replTitle">Replacement list</h2>
-    <div class="book-slot"><img class="book" src="icons/shadow.jpg?v=18" alt="" /><span>When an urge hits</span></div>
+    <div class="book-slot"><img class="book" src="icons/shadow.jpg?v=19" alt="" /><span>When an urge hits</span></div>
     <p class="hint">Actions you picked ahead for when an urge hits.</p>
     <p class="hint">When a pull shows up, offer one from this list.</p>
     <ul class="entry-list" id="replList"></ul>
@@ -939,8 +951,8 @@
     <h2 id="diaryTitle">Diary</h2>
     <div class="book-slot" title="Diary and shadow icons">
       <span class="book-set">
-        <img class="book" src="icons/diary.jpg?v=18" alt="" />
-        <img class="book" src="icons/shadow.jpg?v=18" alt="" />
+        <img class="book" src="icons/diary.jpg?v=19" alt="" />
+        <img class="book" src="icons/shadow.jpg?v=19" alt="" />
       </span>
       <span>Diary</span>
     </div>
@@ -986,7 +998,7 @@
 
   <div class="split">
     <section class="side" aria-labelledby="pieTitle">
-      <h2 id="pieTitle" class="title-book"><img class="book" src="icons/time-pie.jpg?v=18" alt="" />Time by area</h2>
+      <h2 id="pieTitle" class="title-book"><img class="book" src="icons/time-pie.jpg?v=19" alt="" />Time by area</h2>
       <div class="pie-layout">
         <svg class="pie" id="pie" viewBox="0 0 200 200" role="img" aria-label="Pie chart of time by area"></svg>
         <ul class="legend" id="legend"></ul>
@@ -994,7 +1006,7 @@
       <p class="hint" id="pieNote"></p>
     </section>
     <section class="side" aria-labelledby="trophyTitle">
-      <h2 id="trophyTitle" class="title-book"><img class="book" src="icons/trophies.jpg?v=18" alt="" />Returns to practice</h2>
+      <h2 id="trophyTitle" class="title-book"><img class="book" src="icons/trophies.jpg?v=19" alt="" />Returns to practice</h2>
       <div class="returns-banner" id="returnsBanner"></div>
       <div class="trophies" id="trophies"></div>
     </section>
@@ -1009,7 +1021,7 @@
       <ul class="log-list record-list" id="logList"></ul>
     </section>
     <section class="side" id="moneySection" aria-labelledby="moneyTitle">
-      <h2 id="moneyTitle" class="title-book"><img class="book" src="icons/money.jpg?v=18" alt="" />Money tracker</h2>
+      <h2 id="moneyTitle" class="title-book"><img class="book" src="icons/money.jpg?v=19" alt="" />Money tracker</h2>
       <div class="account-grid" id="accountGrid"></div>
       <p class="week-sum" id="weekSum"></p>
       <ul class="money-list" id="moneyList"></ul>
@@ -1042,6 +1054,15 @@
     <input id="taskExpand7" type="checkbox" style="margin-top:0.2rem" />
     <span>Also add to next 7 days</span>
   </label>
+  <div class="reminder-block" id="rtBlock">
+    <label class="field">Remind me<select id="rtRepeat"><option value="off">Off</option><option value="none">At a time</option><option value="daily">Every day</option><option value="weekly">Every week</option></select></label>
+    <div class="time-row" id="rtWhen" hidden>
+      <label class="field">Date<input id="rtDate" type="date" /></label>
+      <label class="field">Time<input id="rtTime" type="time" /></label>
+    </div>
+    <p class="hint">Reminders show when the app is open or running in the background.</p>
+    <p class="short-note" id="rtErr" hidden></p>
+  </div>
   <div class="actions">
     <button type="button" class="btn" id="taskCancel">Cancel</button>
     <button type="button" class="btn primary" id="taskSave">Save task</button>
@@ -1094,6 +1115,15 @@
     <label class="check-line"><input id="goalTrack" type="checkbox" /><span>Track an account.</span></label>
     <p class="hint">Progress follows this account's balance.</p>
     <label class="field" id="goalAccountWrap" hidden><select id="goalAccount" aria-label="Account to track"></select></label>
+  </div>
+  <div class="reminder-block" id="rgBlock">
+    <label class="field">Remind me<select id="rgRepeat"><option value="off">Off</option><option value="none">At a time</option><option value="daily">Every day</option><option value="weekly">Every week</option></select></label>
+    <div class="time-row" id="rgWhen" hidden>
+      <label class="field">Date<input id="rgDate" type="date" /></label>
+      <label class="field">Time<input id="rgTime" type="time" /></label>
+    </div>
+    <p class="hint">Reminders show when the app is open or running in the background.</p>
+    <p class="short-note" id="rgErr" hidden></p>
   </div>
   <div class="actions">
     <button type="button" class="btn" id="goalCancel">Cancel</button>
@@ -1237,7 +1267,7 @@
     <div class="row-actions"><button type="button" class="btn" id="optAddPull">Add pull</button><button type="button" class="btn" id="optManagePulls">Manage pulls</button></div>
   </div>
   <div class="subpanel" id="purposePanel" aria-labelledby="purposeTitle">
-    <h3 id="purposeTitle" class="title-book"><img class="book" src="icons/purpose.jpg?v=18" alt="" />Purpose (optional)</h3>
+    <h3 id="purposeTitle" class="title-book"><img class="book" src="icons/purpose.jpg?v=19" alt="" />Purpose (optional)</h3>
     <p class="hint">A note on how you're walking the path you already picked. Not a new choice, and not a finish.</p>
 
     <div class="subpanel">
@@ -1273,6 +1303,12 @@
       </div>
     </div>
   </div>
+  <div class="subpanel" id="remindersPanel">
+    <h3>Reminders</h3>
+    <p class="hint" id="remPermNote"></p>
+    <div class="row-actions"><button type="button" class="btn" id="remPermBtn" hidden>Turn on notifications</button></div>
+    <ul class="entry-list" id="remList"></ul>
+  </div>
   <div class="actions">
     <button type="button" class="btn" id="optShowGuide">Show the guide</button>
     <button type="button" class="btn primary" id="optionsClose">Done</button>
@@ -1296,6 +1332,15 @@
   <label class="field">Name<input id="pathName" type="text" maxlength="60" placeholder="Wrestler, father, writer…" /></label>
   <p class="q-title" style="margin-top:0.55rem;font-size:0.9rem">Pick an icon</p>
   <div class="icon-picker" id="pathIcons" role="radiogroup" aria-label="Pick an icon"></div>
+  <div class="reminder-block" id="rpBlock">
+    <label class="field">Remind me<select id="rpRepeat"><option value="off">Off</option><option value="none">At a time</option><option value="daily">Every day</option><option value="weekly">Every week</option></select></label>
+    <div class="time-row" id="rpWhen" hidden>
+      <label class="field">Date<input id="rpDate" type="date" /></label>
+      <label class="field">Time<input id="rpTime" type="time" /></label>
+    </div>
+    <p class="hint">Reminders show when the app is open or running in the background.</p>
+    <p class="short-note" id="rpErr" hidden></p>
+  </div>
   <div class="actions">
     <button type="button" class="tiny" id="pathDelete" hidden>Delete</button>
     <button type="button" class="btn" id="pathArchive" hidden>Archive</button>
@@ -1576,7 +1621,7 @@ const PATH_ICON_LABELS = {
 };
 const PATH_WRESTLING_ICON = "icons/paths/wrestling.jpg";
 // Icon cache-bust: same filenames were re-cut, so every rendered icon URL carries ?v=. Stored data keeps plain paths.
-const ICON_VER = "18";
+const ICON_VER = "19";
 function plainIcon(src) { return String(src || "").split("?")[0]; }
 function iv(src) {
   const p = plainIcon(src);
@@ -1932,10 +1977,12 @@ function migrateLegacy(raw) {
     date: t.date || TODAY,
     notes: typeof t.notes === "string" ? t.notes : "",
     repeat: t.repeat === "daily" ? "daily" : "",
-    pathLogId: typeof t.pathLogId === "string" ? t.pathLogId : ""
+    pathLogId: typeof t.pathLogId === "string" ? t.pathLogId : "",
+    reminder: normalizeReminder(t.reminder)
   }));
   if (!Array.isArray(d.goals)) d.goals = [];
   d.goals = d.goals.map(g => ({
+    reminder: normalizeReminder(g.reminder),
     id: g.id || uid("g"), area: g.area || "personal", title: g.title || "Goal",
     start: g.start != null ? Number(g.start) : 0,
     current: g.current != null ? Number(g.current) : (g.now != null ? Number(g.now) : 0),
@@ -1993,7 +2040,8 @@ function migrateLegacy(raw) {
     })(),
     created: (typeof p.created === "string" && /^\d{4}-\d{2}-\d{2}$/.test(p.created)) ? p.created : TODAY,
     active: p.active !== false,
-    archived: !!p.archived
+    archived: !!p.archived,
+    reminder: normalizeReminder(p.reminder)
   })) : [];
   d.migrated = (d.migrated && typeof d.migrated === "object") ? d.migrated : {};
   if (!d.migrated.wrestlingIcon) {
@@ -2036,6 +2084,7 @@ function migrateLegacy(raw) {
   d.areaOrder = normalizeAreaOrder(d.areaOrder);
   d.areaGoals = normalizeAreaGoals(d.areaGoals);
   if (d.heavySeasonUntil != null && typeof d.heavySeasonUntil !== "string") d.heavySeasonUntil = null;
+  d.coachDismissedWeek = typeof d.coachDismissedWeek === "string" ? d.coachDismissedWeek : "";
   return d;
 }
 let data = null;
@@ -2101,8 +2150,9 @@ function hoursFor(date) {
 function dayUsed(date) {
   const h = hoursFor(date);
   const taskH = AREAS.reduce((s, a) => s + h[a.id], 0);
-  const sleepH = (data.days[date] && data.days[date].sleep) ? data.days[date].sleep.hours : 0;
-  return { taskH, sleepH, used: taskH + sleepH };
+  const sleepH = (data.days[date] && data.days[date].sleep) ? Number(data.days[date].sleep.hours) || 0 : 0;
+  const pathH = unlinkedPathHours(date);
+  return { taskH, sleepH, pathH, used: taskH + sleepH + pathH };
 }
 // Old v14-and-earlier check-ins still count; new days count when sleep is in and the paths are done.
 function legacyChecked(d) {
@@ -2405,7 +2455,7 @@ function addCustomPull(label, steer, opposite, img) {
 }
 function sortedDesc(list) { return list.slice().sort((a, b) => a.date < b.date ? 1 : a.date > b.date ? -1 : 0); }
 function bookSlot(label) {
-  return '<span class="book-slot" title="Area notes"><img class="book" src="icons/area-note.jpg?v=18" alt="" /><span>' + esc(label) + '</span></span>';
+  return '<span class="book-slot" title="Area notes"><img class="book" src="icons/area-note.jpg?v=19" alt="" /><span>' + esc(label) + '</span></span>';
 }
 function pickReplacement() {
   if (!data.replacements.length) return null;
@@ -2611,7 +2661,7 @@ function renderCheckin() {
       '<p class="hint" id="sleepPreview"></p>';
   }
   const body =
-    '<div class="sleep-row"><p class="q-title title-book"><img class="book" src="icons/sleep.jpg?v=18" alt="" />How did last night go?</p>' + sleepHtml + '</div>' +
+    '<div class="sleep-row"><p class="q-title title-book"><img class="book" src="icons/sleep.jpg?v=19" alt="" />How did last night go?</p>' + sleepHtml + '</div>' +
     pathCheckinHtml(date);
   document.getElementById("checkinBody").innerHTML = body;
   bindCheckin();
@@ -2622,8 +2672,12 @@ function checkinSteerChips(d) {
 }
 function bindCheckin() {
   const d = day(data.selected);
+  const date = data.selected;
   const confirm = document.getElementById("confirm8");
-  if (confirm) confirm.onclick = () => { d.sleep = { hours: 8, source: "confirm", acked: true }; save(); renderCheckin(); renderDerived(); };
+  if (confirm) confirm.onclick = () => {
+    if (!capGuard([date], () => document.getElementById("confirm8"), () => { d.sleep = { hours: 8, source: "confirm", acked: true }; })) return;
+    save(); renderCheckin(); renderDerived();
+  };
   const saveSleep = document.getElementById("saveSleep");
   if (saveSleep) {
     const preview = () => {
@@ -2640,7 +2694,7 @@ function bindCheckin() {
       const wake = document.getElementById("wake").value;
       const hrs = sleepHours(bed, wake);
       if (hrs == null) return;
-      d.sleep = { hours: hrs, source: "times", bed, wake, acked: true };
+      if (!capGuard([date], () => document.getElementById("bed"), () => { d.sleep = { hours: hrs, source: "times", bed, wake, acked: true }; })) return;
       save(); renderCheckin(); renderDerived();
     };
   }
@@ -3291,7 +3345,7 @@ function renderMoney() {
   }).join("");
 }
 function renderDerived() {
-  renderStats(); renderCoach(); renderStrip(); renderAreas();
+  renderStats(); renderCoach(); renderWeekNudges(); renderNotices(); renderStrip(); renderAreas();
   renderReplacements(); renderPurpose(); renderDiary(); renderPaths(); renderRoad();
   renderPie(); renderTrophies(); renderLog(); renderMoney();
 }
@@ -3316,19 +3370,28 @@ function addTask(area, title, hours, notes, expand7) {
   const note = typeof notes === "string" ? notes : "";
   const baseDate = data.selected;
   const days = expand7 ? 8 : 1; // today + next 7
-  if (AREAS.some(a => a.id === area)) data.lastTaskArea = area;
+  const dates = [];
   for (let i = 0; i < days; i++) {
     const date = shift(baseDate, i);
     if (i > 0 && hasSameTask(area, title, date)) continue; // no duplicate on a day that already has it
-    data.tasks.push({
-      id: uid("t"), area, title, hours: h, status: "todo",
-      date, notes: note, repeat: ""
-    });
+    dates.push(date);
   }
+  let first = null;
+  const ok = capGuard(dates, () => (document.getElementById("taskDialog").open ? document.getElementById("taskHours") : null), () => {
+    dates.forEach(date => {
+      const t = { id: uid("t"), area, title, hours: h, status: "todo", date, notes: note, repeat: "" };
+      if (!first) first = t;
+      data.tasks.push(t);
+    });
+  });
+  if (!ok) return null;
+  if (AREAS.some(a => a.id === area)) data.lastTaskArea = area;
   save(); renderDerived();
+  return first;
 }
 function openTaskDialog(taskId, areaId) {
   editingTaskId = taskId || null;
+  fillReminderFields("rt", null);
   const dlgTitle = document.getElementById("taskDialogTitle");
   const presetBlock = document.getElementById("taskPresetBlock");
   const expand = document.getElementById("taskExpand7");
@@ -3343,6 +3406,7 @@ function openTaskDialog(taskId, areaId) {
     document.getElementById("taskTitle").value = t.title || "";
     document.getElementById("taskHours").value = String(t.hours != null ? t.hours : 0.5);
     document.getElementById("taskNotes").value = t.notes || "";
+    fillReminderFields("rt", t.reminder);
     taskPresetChoice = "__custom";
   } else {
     dlgTitle.textContent = "Add task";
@@ -3515,6 +3579,7 @@ function syncGoalForm() {
 }
 function openGoalDialog(goalId, areaId) {
   editingGoalId = goalId || null;
+  fillReminderFields("rg", null);
   goalPresetChoice = null;
   document.getElementById("goalAccount").innerHTML = data.accounts.map(a => '<option value="' + esc(a.id) + '">' + esc(a.name) + '</option>').join("");
   document.getElementById("goalHint").hidden = true;
@@ -3522,6 +3587,7 @@ function openGoalDialog(goalId, areaId) {
   if (editingGoalId) {
     const gl = data.goals.find(x => x.id === editingGoalId);
     if (!gl) { editingGoalId = null; return; }
+    fillReminderFields("rg", gl.reminder);
     titleEl.textContent = "Edit goal";
     document.getElementById("goalPresets").hidden = true;
     document.getElementById("goalPickBlock").hidden = true;
@@ -3581,7 +3647,7 @@ function syncMoneyOther() {
 }
 
 document.querySelectorAll(".themes button").forEach(btn => { btn.onclick = () => applyTheme(btn.dataset.theme); });
-document.getElementById("btnOptions").onclick = () => document.getElementById("optionsDialog").showModal();
+document.getElementById("btnOptions").onclick = () => { renderReminderList(); document.getElementById("optionsDialog").showModal(); };
 document.getElementById("optionsClose").onclick = () => document.getElementById("optionsDialog").close();
 document.getElementById("btnAddTask").onclick = () => openTaskDialog(null);
 document.getElementById("btnAddGoal").onclick = () => openGoalDialog(null);
@@ -3682,28 +3748,34 @@ document.getElementById("taskSave").onclick = () => {
   if (editingTaskId) {
     const t = data.tasks.find(x => x.id === editingTaskId);
     if (!t) return;
-    t.area = chosen("taskArea");
-    t.title = title;
+    const rem = readReminderFields("rt");
+    if (rem === false) return;
     const hrs = Number(hours);
-    t.hours = (typeof hrs === "number" && !Number.isNaN(hrs) && hrs >= 0) ? hrs : 0;
-    t.notes = notes;
+    const newH = (typeof hrs === "number" && !Number.isNaN(hrs) && hrs >= 0) ? hrs : 0;
+    const area = chosen("taskArea");
+    const dates = [t.date];
+    if (expand7) for (let i = 1; i <= 7; i++) if (!hasSameTask(area, title, shift(t.date, i))) dates.push(shift(t.date, i));
+    const ok = capGuard(dates, () => document.getElementById("taskHours"), () => {
+      t.area = area; t.title = title; t.hours = newH; t.notes = notes;
+      dates.slice(1).forEach(dt => data.tasks.push({
+        id: uid("t"), area: t.area, title: t.title, hours: t.hours,
+        status: "todo", date: dt, notes: t.notes, repeat: ""
+      }));
+    });
+    if (!ok) return;
     data.lastTaskArea = t.area;
-    if (expand7) {
-      for (let i = 1; i <= 7; i++) {
-        if (hasSameTask(t.area, t.title, shift(t.date, i))) continue;
-        data.tasks.push({
-          id: uid("t"), area: t.area, title: t.title, hours: t.hours,
-          status: "todo", date: shift(t.date, i), notes: t.notes, repeat: ""
-        });
-      }
-    }
+    setItemReminder(t, rem);
     editingTaskId = null;
     save();
     document.getElementById("taskDialog").close();
     renderDerived();
     return;
   }
-  addTask(chosen("taskArea"), title, hours, notes, expand7);
+  const rem = readReminderFields("rt");
+  if (rem === false) return;
+  const nt = addTask(chosen("taskArea"), title, hours, notes, expand7);
+  if (!nt) return;
+  if (rem) { setItemReminder(nt, rem); save(); renderDerived(); }
   document.getElementById("taskDialog").close();
 };
 document.getElementById("goalSave").onclick = () => {
@@ -3721,6 +3793,9 @@ document.getElementById("goalSave").onclick = () => {
   const accountId = track ? document.getElementById("goalAccount").value : "";
   const incomeCounts = isMoney && !track && document.getElementById("goalIncome").checked;
   const area = chosen("goalArea");
+  const rem = readReminderFields("rg");
+  if (rem === false) return;
+  let savedGoal = null;
   if (editingGoalId) {
     const gl = data.goals.find(x => x.id === editingGoalId);
     if (!gl) return;
@@ -3729,8 +3804,9 @@ document.getElementById("goalSave").onclick = () => {
     if (accountId && accountId !== gl.accountId) gl.linkStart = Math.round(accountBal(accountId) * 100) / 100;
     if (!accountId) gl.linkStart = null;
     Object.assign(gl, { area, title, start, target, unit, unitCustom, direction, incomeCounts, accountId });
+    savedGoal = gl;
   } else {
-    data.goals.push({
+    data.goals.push(savedGoal = {
       id: uid("g"), area, title, start, current: start, target,
       unit, unitCustom, direction, incomeCounts, accountId,
       linkStart: accountId ? Math.round(accountBal(accountId) * 100) / 100 : null,
@@ -3738,6 +3814,7 @@ document.getElementById("goalSave").onclick = () => {
     });
   }
   data.lastTaskArea = area;
+  setItemReminder(savedGoal, rem);
   editingGoalId = null;
   save(); document.getElementById("goalDialog").close(); renderDerived();
 };
@@ -4127,6 +4204,7 @@ function openPathDialog(pathId) {
   if (editingPathId && !p) { editingPathId = null; return; }
   document.getElementById("pathDialogTitle").textContent = p ? p.name : "Add a path";
   document.getElementById("pathName").value = p ? p.name : "";
+  fillReminderFields("rp", p ? p.reminder : null);
   document.getElementById("pathDelete").hidden = !p;
   document.getElementById("pathArchive").hidden = !p || !!p.archived;
   pathIconPick = p ? pathIcon(p) : PATH_DEFAULT_ICON;
@@ -4143,8 +4221,12 @@ document.getElementById("pathSave").onclick = () => {
   const name = document.getElementById("pathName").value.trim().slice(0, 60);
   if (!name) { document.getElementById("pathName").focus(); return; }
   const p = editingPathId ? pathById(editingPathId) : null;
+  const rem = readReminderFields("rp");
+  if (rem === false) return;
+  let savedPath = p;
   if (p) { p.name = name; p.img = pathIconPick || PATH_DEFAULT_ICON; pathLogsFor(p.id).forEach(syncPathTask); }
-  else data.paths.push({ id: uid("pa"), name, img: pathIconPick || PATH_DEFAULT_ICON, created: TODAY, active: true, archived: false });
+  else data.paths.push(savedPath = { id: uid("pa"), name, img: pathIconPick || PATH_DEFAULT_ICON, created: TODAY, active: true, archived: false, reminder: null });
+  setItemReminder(savedPath, rem);
   editingPathId = null;
   save();
   document.getElementById("pathDialog").close();
@@ -4497,9 +4579,13 @@ document.getElementById("plSave").onclick = () => {
   }
   const fields = Object.assign(f, { rating: pathLogRating, pulls: plState.pulls.slice(), steered: plState.steered.slice(), logged: true });
   let l = existing;
-  if (l) Object.assign(l, fields);
-  else { l = Object.assign({ id: uid("pl"), pathId: pathLogFor, date: data.selected, taskId: "", source: "log" }, fields); data.pathLogs.push(l); }
-  syncPathTask(l);
+  const logDate = existing ? existing.date : data.selected;
+  const ok = capGuard([logDate], () => document.getElementById("plFields").querySelector('[data-pf="time"]'), () => {
+    if (l) Object.assign(l, fields);
+    else { l = Object.assign({ id: uid("pl"), pathId: pathLogFor, date: logDate, taskId: "", source: "log" }, fields); data.pathLogs.push(l); }
+    syncPathTask(l);
+  });
+  if (!ok) return;
   save();
   showToast(loggedToast(l));
   renderCheckin(); renderDerived();
@@ -4763,7 +4849,18 @@ function bindPathCheckin(date) {
       const sub = box.querySelector(".pc-submit");
       if (sub && !sub.querySelector("[data-pc-draft]")) sub.firstElementChild.outerHTML = '<p class="pc-draft" data-pc-draft>' + esc(PATH_STEP_COPY.notLogged) + '</p>';
     };
-    const commit = () => { ensure(); Object.assign(l, readPathFields(box)); markDraft(); syncPathTask(l); save(); renderDerived(); };
+    const commit = (ev) => {
+      const f = readPathFields(box);
+      const prevMin = l.minutes;
+      const ok = capGuard([l.date || date], () => box.querySelector('[data-pf="time"]'), () => { ensure(); Object.assign(l, f); syncPathTask(l); });
+      if (!ok) {
+        // Put the time field back to what was saved.
+        const tEl = box.querySelector('[data-pf="time"]'), uEl = box.querySelector('[data-pf="unit"]');
+        if (tEl) tEl.value = prevMin == null ? "" : String(uEl && uEl.value === "h" ? Math.round(prevMin / 6) / 10 : prevMin);
+        return;
+      }
+      markDraft(); save(); renderDerived();
+    };
     box.querySelectorAll("[data-pf]").forEach(el => {
       if (el.dataset.pf === "own") return;
       el.addEventListener(el.tagName === "SELECT" ? "change" : "input", commit);
@@ -4776,9 +4873,9 @@ function bindPathCheckin(date) {
         const row = box.closest(".pc-row"); if (row) row.scrollIntoView({ block: "start", behavior: "smooth" });
         return;
       }
-      ensure();
-      Object.assign(l, readPathFields(box), { logged: true });
-      syncPathTask(l);
+      const f2 = readPathFields(box);
+      const ok2 = capGuard([l.date || date], () => box.querySelector('[data-pf="time"]'), () => { ensure(); Object.assign(l, f2, { logged: true }); syncPathTask(l); });
+      if (!ok2) return;
       pcEditing.delete(l.id);
       pcOpen.delete(pid); pcAnother.delete(pid);
       day(date).pathNotToday = (day(date).pathNotToday || []).filter(x => x !== pid);
@@ -4921,7 +5018,7 @@ function showVault(mode, err) {
   if (mode === "setup") {
     html =
       '<div class="vault-screen">' +
-      '<div class="brand-mark" style="margin-bottom:0.6rem"><img class="book app-mark" src="icons/app-mark.jpg?v=18" alt="" /><span style="font-family:Georgia,serif;font-size:1.35rem">Higher Self</span></div>' +
+      '<div class="brand-mark" style="margin-bottom:0.6rem"><img class="book app-mark" src="icons/app-mark.jpg?v=19" alt="" /><span style="font-family:Georgia,serif;font-size:1.35rem">Higher Self</span></div>' +
       '<h1>Your data stays on this phone, encrypted.</h1>' +
       '<p class="hint">Set a passphrase. You\'ll need it to open your notes.</p>' +
       '<p class="hint">If you lose your passphrase, no one can recover your notes, us included. Write it down somewhere safe.</p>' +
@@ -4935,7 +5032,7 @@ function showVault(mode, err) {
   } else {
     html =
       '<div class="vault-screen">' +
-      '<div class="brand-mark" style="margin-bottom:0.6rem"><img class="book app-mark" src="icons/app-mark.jpg?v=18" alt="" /><span style="font-family:Georgia,serif;font-size:1.35rem">Higher Self</span></div>' +
+      '<div class="brand-mark" style="margin-bottom:0.6rem"><img class="book app-mark" src="icons/app-mark.jpg?v=19" alt="" /><span style="font-family:Georgia,serif;font-size:1.35rem">Higher Self</span></div>' +
       '<h1>Your data stays on this phone, encrypted.</h1>' +
       '<p class="hint">Enter your passphrase to open your notes.</p>' +
       '<p class="hint">We can\'t read this file without your passphrase.</p>' +
@@ -5044,15 +5141,407 @@ document.getElementById("guideOverlay").addEventListener("keydown", e => {
   else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
 });
 document.getElementById("optShowGuide").onclick = () => { document.getElementById("optionsDialog").close(); openGuide(); };
+// ===================== v19: 24-hour cap =====================
+const DAY_CAP = 24;
+// Path time with no area has no linked task; it still counts toward the day.
+function unlinkedPathHours(date) {
+  return (data.pathLogs || []).filter(l => l.date === date && Number(l.minutes) > 0 && !(l.area && AREAS.some(a => a.id === l.area)))
+    .reduce((s, l) => s + Number(l.minutes) / 60, 0);
+}
+// All logged time for a calendar day: tasks (any area, incl. path-linked), unlinked path time, sleep.
+function dayTotal(date) {
+  const taskH = data.tasks.reduce((s, t) => s + (t.date === date ? Number(t.hours) || 0 : 0), 0);
+  const d = data.days[date];
+  const sleepH = d && d.sleep ? Number(d.sleep.hours) || 0 : 0;
+  return taskH + sleepH + unlinkedPathHours(date);
+}
+const CAP_COPY = {
+  message: "That would put {day} at {total} hours. A day only has 24.",
+  change: "Change the time"
+};
+function capMessage(date, total) {
+  const which = date === TODAY ? "today" : parseISO(date).toLocaleDateString(undefined, { weekday: "long", month: "short", day: "numeric" });
+  return fillCopy(CAP_COPY.message, { day: which, total: fmtHours(total) });
+}
+// Runs apply(); if any touched day ends over 24h (and went up), undo everything and explain.
+// focusEl() = the time field to return to when the person taps "Change the time".
+function capGuard(dates, focusEl, apply) {
+  const uniq = Array.from(new Set(dates.filter(Boolean)));
+  const before = {}; uniq.forEach(dt => { before[dt] = dayTotal(dt); });
+  const tasksArr = data.tasks.slice(), tasksVal = tasksArr.map(t => JSON.stringify(t));
+  const logsArr = (data.pathLogs || []).slice(), logsVal = logsArr.map(l => JSON.stringify(l));
+  const daysSnap = {}; uniq.forEach(dt => { daysSnap[dt] = data.days[dt] ? { obj: data.days[dt], val: JSON.stringify(data.days[dt]) } : null; });
+  apply();
+  const EPS = 1e-6;
+  const bad = uniq.find(dt => { const a = dayTotal(dt); return a > DAY_CAP + EPS && a > before[dt] + EPS; });
+  if (!bad) return true;
+  const total = dayTotal(bad);
+  const restore = (obj, val) => { Object.keys(obj).forEach(k => delete obj[k]); Object.assign(obj, JSON.parse(val)); };
+  data.tasks = tasksArr; tasksArr.forEach((t, i) => restore(t, tasksVal[i]));
+  data.pathLogs = logsArr; logsArr.forEach((l, i) => restore(l, logsVal[i]));
+  uniq.forEach(dt => {
+    const sn = daysSnap[dt];
+    if (!sn) delete data.days[dt];
+    else { restore(sn.obj, sn.val); data.days[dt] = sn.obj; }
+  });
+  showCapBlocked(capMessage(bad, total), focusEl);
+  return false;
+}
+// Shown inside the open dialog (dialogs sit on the top layer) or at the top of the page.
+function showCapBlocked(msg, focusEl) {
+  window.__hsLastCap = msg;
+  const old = document.getElementById("capAlert"); if (old) old.remove();
+  const host = document.querySelector("dialog[open]") || document.body;
+  const box = document.createElement("div");
+  box.id = "capAlert"; box.className = "cap-alert"; box.setAttribute("role", "alert");
+  box.innerHTML = '<p>' + esc(msg) + '</p><button type="button" class="btn primary" id="capChange">' + esc(CAP_COPY.change) + '</button>';
+  if (host === document.body) box.classList.add("floating");
+  host.appendChild(box);
+  const btn = box.querySelector("#capChange");
+  btn.onclick = () => {
+    box.remove();
+    let el = null; try { el = typeof focusEl === "function" ? focusEl() : null; } catch (e) {}
+    if (el && el.isConnected) { el.focus(); if (el.select && el.type !== "button") { try { el.select(); } catch (e) {} } }
+  };
+  btn.focus();
+}
+function overCapDays() { return Object.keys(dateSetAll()).filter(dt => dayTotal(dt) > DAY_CAP + 1e-6).sort(); }
+function dateSetAll() {
+  const set = {};
+  data.tasks.forEach(t => { set[t.date] = 1; });
+  Object.keys(data.days || {}).forEach(k => { set[k] = 1; });
+  (data.pathLogs || []).forEach(l => { set[l.date] = 1; });
+  return set;
+}
+
+// ===================== v19: reminders =====================
+const REMINDER_REPEATS = ["none", "daily", "weekly"];
+function normalizeReminder(r) {
+  if (!r || typeof r !== "object" || typeof r.at !== "string" || !/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/.test(r.at)) return null;
+  return {
+    at: r.at,
+    repeat: REMINDER_REPEATS.includes(r.repeat) ? r.repeat : "none",
+    firedThrough: typeof r.firedThrough === "number" ? r.firedThrough : 0
+  };
+}
+function remAtMs(at) { const [d, t] = at.split("T"); const p = parseISO(d); const [h, m] = t.split(":").map(Number); p.setHours(h, m, 0, 0); return p.getTime(); }
+function remStep(r) { return r.repeat === "daily" ? 864e5 : r.repeat === "weekly" ? 7 * 864e5 : 0; }
+// Latest occurrence at or before now (ms), or null.
+function remLastDue(r, now) {
+  const t0 = remAtMs(r.at);
+  if (t0 > now) return null;
+  const step = remStep(r);
+  if (!step) return t0;
+  // Walk by calendar days so DST shifts keep the wall-clock time.
+  const days = step / 864e5;
+  const d = new Date(t0);
+  const n = Math.floor((now - t0) / step);
+  d.setDate(d.getDate() + n * days);
+  while (d.getTime() > now) d.setDate(d.getDate() - days);
+  const nx = new Date(d); nx.setDate(nx.getDate() + days);
+  if (nx.getTime() <= now) return nx.getTime();
+  return d.getTime();
+}
+function remNext(r, now) {
+  const t0 = remAtMs(r.at);
+  if (t0 > now) return t0;
+  const step = remStep(r);
+  if (!step) return null;
+  const last = remLastDue(r, now);
+  const d = new Date(last); d.setDate(d.getDate() + step / 864e5);
+  return d.getTime();
+}
+function remIsDue(r, now) { const last = remLastDue(r, now); return last != null && last > (r.firedThrough || 0); }
+function reminderItems() {
+  const out = [];
+  data.tasks.forEach(t => { if (t.reminder) out.push({ kind: "task", item: t, title: t.title }); });
+  data.goals.forEach(g => { if (g.reminder) out.push({ kind: "goal", item: g, title: g.title }); });
+  (data.paths || []).forEach(p => { if (p.reminder && !p.archived) out.push({ kind: "path", item: p, title: p.name }); });
+  return out;
+}
+function fillReminderFields(pfx, r) {
+  const el = id => document.getElementById(pfx + id);
+  if (!el("Date")) return;
+  el("Date").value = r ? r.at.slice(0, 10) : "";
+  el("Time").value = r ? r.at.slice(11, 16) : "";
+  el("Repeat").value = r ? r.repeat : "off";
+  el("Err").hidden = true;
+  const sync = () => {
+    const on = el("Repeat").value !== "off";
+    el("When").hidden = !on;
+    if (on && !el("Date").value) {
+      const d = new Date(Date.now() + 3600000); d.setMinutes(0, 0, 0);
+      el("Date").value = iso(d); el("Time").value = String(d.getHours()).padStart(2, "0") + ":00";
+    }
+  };
+  el("Repeat").onchange = sync;
+  el("When").hidden = !r;
+}
+// Returns null (no reminder), a reminder object, or false (invalid; message shown).
+function readReminderFields(pfx) {
+  const el = id => document.getElementById(pfx + id);
+  if (!el("Date")) return null;
+  if (el("Repeat").value === "off") return null;
+  const d = el("Date").value, t = el("Time").value;
+  if (!d || !t) { el("Err").textContent = "Pick both a date and a time for the reminder."; el("Err").hidden = false; el("When").hidden = false; return false; }
+  el("Err").hidden = true;
+  return { at: d + "T" + t, repeat: REMINDER_REPEATS.includes(el("Repeat").value) ? el("Repeat").value : "none", firedThrough: 0 };
+}
+function setItemReminder(item, rem) {
+  if (!item) return;
+  const prev = item.reminder;
+  if (!rem) { item.reminder = null; }
+  else if (prev && prev.at === rem.at && prev.repeat === rem.repeat) { /* unchanged: keep fired state */ }
+  else {
+    // A new time in the past does not fire right away.
+    rem.firedThrough = remLastDue(rem, Date.now()) || 0;
+    item.reminder = rem;
+    askNotifyPermissionOnce();
+  }
+  scheduleTriggers();
+}
+function notifySupported() { return typeof Notification !== "undefined"; }
+function askNotifyPermissionOnce() {
+  if (!notifySupported() || Notification.permission !== "default") return;
+  try { const p = Notification.requestPermission(); if (p && p.then) p.then(() => { renderReminderList(); scheduleTriggers(); }); } catch (e) {}
+}
+function remTag(kind, id) { return "hs-rem-" + kind + "-" + id; }
+const NOTIFY_TITLE = "Higher Self";
+const NOTIFY_BADGE = "icons/notify/badge.png";
+function notifyBody(name) { return fillCopy(REMINDER_COPY.notifyBody, { name }); }
+async function deliverNotification(title, body, kind, id, extra) {
+  window.__hsNotified = window.__hsNotified || [];
+  window.__hsNotified.push({ title, body, kind, id });
+  if (!notifySupported() || Notification.permission !== "granted") return false;
+  const opts = Object.assign({ body, tag: remTag(kind, id), icon: "icons/icon-192.png", badge: NOTIFY_BADGE, data: { kind, id, url: "./#open=" + kind + ":" + id } }, extra || {});
+  try {
+    if ("serviceWorker" in navigator) {
+      const reg = await navigator.serviceWorker.getRegistration();
+      if (reg) { await reg.showNotification(title, opts); return true; }
+    }
+    const n = new Notification(title, opts);
+    n.onclick = () => { window.focus(); openReminderTarget(kind, id); n.close(); };
+    return true;
+  } catch (e) { console.warn("notify failed", e); return false; }
+}
+let missedReminders = [];
+// On unlock: anything that came due while the app was closed goes to the banner, not a notification burst.
+function remindersOnUnlock() {
+  const now = Date.now();
+  missedReminders = [];
+  reminderItems().forEach(x => {
+    if (remIsDue(x.item.reminder, now)) {
+      missedReminders.push({ kind: x.kind, id: x.item.id, title: x.title, when: remLastDue(x.item.reminder, now) });
+      x.item.reminder.firedThrough = remLastDue(x.item.reminder, now);
+    }
+  });
+  if (missedReminders.length) save();
+  overCapWarn = overCapDays();
+  scheduleTriggers();
+}
+function checkReminders() {
+  if (!data) return;
+  const now = Date.now();
+  let changed = false;
+  reminderItems().forEach(x => {
+    const r = x.item.reminder;
+    if (!remIsDue(r, now)) return;
+    r.firedThrough = remLastDue(r, now);
+    changed = true;
+    deliverNotification(NOTIFY_TITLE, notifyBody(x.title), x.kind, x.item.id);
+  });
+  if (changed) { save(); scheduleTriggers(); if (document.getElementById("optionsDialog").open) renderReminderList(); }
+}
+// Progressive enhancement: Notification Triggers fire even with the app closed. Body stays generic (title is the item).
+async function scheduleTriggers() {
+  if (!data || !notifySupported() || Notification.permission !== "granted") return;
+  if (typeof TimestampTrigger === "undefined" || !("showTrigger" in Notification.prototype)) return;
+  if (!("serviceWorker" in navigator)) return;
+  try {
+    const reg = await navigator.serviceWorker.getRegistration();
+    if (!reg) return;
+    const pending = await reg.getNotifications({ includeTriggered: true });
+    pending.forEach(n => { if (n.tag && n.tag.indexOf("hs-rem-") === 0 && n.showTrigger) n.close(); });
+    const now = Date.now();
+    reminderItems().forEach(x => {
+      const next = remNext(x.item.reminder, now);
+      if (next == null) return;
+      reg.showNotification(NOTIFY_TITLE, { body: notifyBody(x.title), tag: remTag(x.kind, x.item.id), icon: "icons/icon-192.png", badge: NOTIFY_BADGE, data: { kind: x.kind, id: x.item.id, url: "./#open=" + x.kind + ":" + x.item.id }, showTrigger: new TimestampTrigger(next) }).catch(() => {});
+    });
+  } catch (e) {}
+}
+const REMINDER_COPY = {
+  notifyBody: "{name}: your reminder for now.",
+  dueTitle: "Due reminders",
+  dismiss: "Got it",
+  open: "Open",
+  remove: "Remove",
+  none: "No reminders yet. Add one when you edit a task, goal or path.",
+  permDefault: "Notifications are off until you set your first reminder.",
+  permGranted: "Notifications are on for this device.",
+  permDenied: "Notifications are blocked in this browser. Reminders still show here when the app opens.",
+  permUnsupported: "This browser can't show notifications. Reminders still show here when the app opens.",
+  overCap: "Some days have more than 24 hours logged. Nothing was removed. Check: "
+};
+function fmtRemWhen(r) {
+  const next = remNext(r, Date.now());
+  const ms = next != null ? next : remAtMs(r.at);
+  const s = new Date(ms).toLocaleString(undefined, { weekday: "short", month: "short", day: "numeric", hour: "numeric", minute: "2-digit" });
+  return s + (r.repeat === "daily" ? " · every day" : r.repeat === "weekly" ? " · every week" : "") + (next == null ? " · past" : "");
+}
+function renderReminderList() {
+  if (!data) return;
+  const note = document.getElementById("remPermNote"), btn = document.getElementById("remPermBtn"), list = document.getElementById("remList");
+  if (!note) return;
+  const perm = notifySupported() ? Notification.permission : "unsupported";
+  note.textContent = perm === "granted" ? REMINDER_COPY.permGranted : perm === "denied" ? REMINDER_COPY.permDenied : perm === "default" ? REMINDER_COPY.permDefault : REMINDER_COPY.permUnsupported;
+  btn.hidden = perm !== "default" || !reminderItems().length;
+  btn.onclick = () => { askNotifyPermissionOnce(); };
+  const items = reminderItems().sort((a, b) => (remNext(a.item.reminder, Date.now()) || 0) - (remNext(b.item.reminder, Date.now()) || 0));
+  list.innerHTML = items.length ? items.map(x =>
+    '<li data-rem="' + esc(x.kind + ":" + x.item.id) + '"><span><b>' + esc(x.title) + '</b> <span class="hint" style="display:inline">' + esc(x.kind) + ' · ' + esc(fmtRemWhen(x.item.reminder)) + '</span></span> ' +
+    '<button type="button" class="btn" data-rem-open="' + esc(x.kind + ":" + x.item.id) + '">' + REMINDER_COPY.open + '</button> ' +
+    '<button type="button" class="tiny" data-rem-del="' + esc(x.kind + ":" + x.item.id) + '">' + REMINDER_COPY.remove + '</button></li>').join("")
+    : '<li class="hint">' + esc(REMINDER_COPY.none) + '</li>';
+  list.querySelectorAll("[data-rem-open]").forEach(b => { b.onclick = () => { const [k, id] = b.dataset.remOpen.split(":"); document.getElementById("optionsDialog").close(); openReminderTarget(k, id); }; });
+  list.querySelectorAll("[data-rem-del]").forEach(b => { b.onclick = () => { const [k, id] = b.dataset.remDel.split(":"); const it = findRemItem(k, id); if (it) { it.reminder = null; save(); scheduleTriggers(); renderReminderList(); } }; });
+}
+function findRemItem(kind, id) {
+  if (kind === "task") return data.tasks.find(t => t.id === id) || null;
+  if (kind === "goal") return data.goals.find(g => g.id === id) || null;
+  if (kind === "path") return pathById(id);
+  return null;
+}
+function openReminderTarget(kind, id) {
+  if (!data) { pendingOpen = kind + ":" + id; return; }
+  const it = findRemItem(kind, id);
+  if (!it) return;
+  document.querySelectorAll("dialog[open]").forEach(dl => { try { dl.close(); } catch (e) {} });
+  if (kind === "task") {
+    if (it.date && it.date !== data.selected) { data.selected = it.date; syncComposerDates(); renderCheckin(); renderDerived(); }
+    openTaskDialog(it.id);
+  } else if (kind === "goal") openGoalDialog(it.id);
+  else openPathDialog(it.id);
+}
+let pendingOpen = null;
+function openFromHash() {
+  const m = /open=(task|goal|path):([\w-]+)/.exec(location.hash || "");
+  const want = m ? m[1] + ":" + m[2] : pendingOpen;
+  pendingOpen = null;
+  if (m) { try { history.replaceState(null, "", location.pathname + location.search); } catch (e) {} }
+  if (want) { const [k, id] = want.split(":"); openReminderTarget(k, id); }
+}
+let overCapWarn = [];
+function renderNotices() {
+  const box = document.getElementById("noticeArea");
+  if (!box) return;
+  const parts = [];
+  if (missedReminders.length) {
+    parts.push('<div class="notice" id="dueBanner" role="status"><b>' + esc(REMINDER_COPY.dueTitle) + '</b><ul>' +
+      missedReminders.map(r => '<li><button type="button" class="tiny" data-due-open="' + esc(r.kind + ":" + r.id) + '">' + esc(r.title) + '</button> <span class="hint" style="display:inline">' + esc(new Date(r.when).toLocaleString(undefined, { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" })) + '</span></li>').join("") +
+      '</ul><button type="button" class="btn" id="dueDismiss">' + esc(REMINDER_COPY.dismiss) + '</button></div>');
+  }
+  if (overCapWarn.length) {
+    parts.push('<div class="notice" id="overCapNotice" role="status">' + esc(REMINDER_COPY.overCap + overCapWarn.slice(0, 5).join(", ") + (overCapWarn.length > 5 ? "…" : "")) +
+      ' <button type="button" class="tiny" id="overCapDismiss">' + esc(REMINDER_COPY.dismiss) + '</button></div>');
+  }
+  box.innerHTML = parts.join("");
+  box.querySelectorAll("[data-due-open]").forEach(b => { b.onclick = () => { const [k, id] = b.dataset.dueOpen.split(":"); openReminderTarget(k, id); }; });
+  const dd = document.getElementById("dueDismiss"); if (dd) dd.onclick = () => { missedReminders = []; renderNotices(); };
+  const od = document.getElementById("overCapDismiss"); if (od) od.onclick = () => { overCapWarn = []; renderNotices(); };
+}
+setInterval(checkReminders, 30000);
+document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible") checkReminders(); });
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.addEventListener("message", ev => {
+    const m = ev.data || {};
+    if (m.type === "open-reminder" && m.kind && m.id) openReminderTarget(m.kind, m.id);
+  });
+}
+window.addEventListener("hashchange", () => { if (data) openFromHash(); });
+
+// ===================== v19: weekly coach nudges =====================
+// Final lines from Oni. {hours} {area} {days} are filled in.
+const COACH_COPY = {
+  kicker: "This week",
+  noSocial: "No social time logged this week. Who would you like to see? Even an hour counts.",
+  burnout: "{hours} hours at work this week. That's a lot to carry. Leave room to rest before it costs you.",
+  lowSleep: "You've averaged {hours} hours of sleep this week. Tonight, protect your sleep first.",
+  zeroArea: "Nothing in {area} for {days} days. One small move today?",
+  balanced: "Good balance this week. Every area got some time",
+  dismiss: "Hide for this week"
+};
+const NUDGE_ICONS = { noSocial: "icons/notify/nudge-social.png", burnout: "icons/notify/nudge-work.png", lowSleep: "icons/notify/nudge-sleep.png" };
+const ZERO_AREA_MIN_DAYS = 7;
+function fillCopy(s, vars) { return String(s).replace(/\{(\w+)\}/g, (m, k) => vars[k] != null ? vars[k] : m); }
+// An area is quiet while its reevaluate date (Time by area range) hasn't passed; career also while a heavy season runs.
+function nudgeAreaQuiet(areaId, date) {
+  if (insideReevaluateWindow(areaGoal(areaId), date)) return true;
+  if (areaId === "career" && data.heavySeasonUntil && date <= data.heavySeasonUntil) return true;
+  return false;
+}
+function firstDataDate() {
+  const all = data.tasks.map(t => t.date).concat(Object.keys(data.days || {}), (data.pathLogs || []).map(l => l.date)).filter(Boolean).sort();
+  return all[0] || TODAY;
+}
+function daysSinceArea(areaId, date) {
+  const last = data.tasks.filter(t => t.area === areaId && t.date <= date && (Number(t.hours) || 0) > 0).map(t => t.date).sort().pop();
+  return daysBetween(last || firstDataDate(), date) + (last ? 0 : 0);
+}
+// All nudges that apply, highest priority first: burnout, lowSleep, noSocial, zeroArea; balanced if none.
+function weekNudges(refDate) {
+  const from = startOfWeek(refDate);
+  const end = refDate;
+  const map = { career: 0, personal: 0, social: 0, spiritual: 0, time: 0 };
+  let any = false;
+  data.tasks.forEach(t => { if (t.date >= from && t.date <= end && map[t.area] != null) { map[t.area] += Number(t.hours) || 0; any = true; } });
+  (data.pathLogs || []).forEach(l => { if (l.date >= from && l.date <= end && Number(l.minutes) > 0) any = true; });
+  const daysIn = Math.max(1, Math.round((parseISO(end) - parseISO(from)) / 864e5) + 1);
+  const sleeps = [];
+  for (let i = 0; i < daysIn; i++) { const d = data.days[shift(from, i)]; if (d && d.sleep && Number(d.sleep.hours) > 0) sleeps.push(Number(d.sleep.hours)); }
+  if (!any && !sleeps.length) return [];
+  const out = [];
+  const career = map.career;
+  if ((career > 50 || career / daysIn > 10) && !nudgeAreaQuiet("career", end)) out.push({ key: "burnout", text: fillCopy(COACH_COPY.burnout, { hours: fmtHours(career) }) });
+  if (sleeps.length) {
+    const avg = sleeps.reduce((a, b) => a + b, 0) / sleeps.length;
+    if (avg < 7) out.push({ key: "lowSleep", text: fillCopy(COACH_COPY.lowSleep, { hours: fmtHours(avg) }) });
+  }
+  if (map.social === 0 && !nudgeAreaQuiet("social", end)) out.push({ key: "noSocial", text: COACH_COPY.noSocial });
+  const zeros = AREAS.filter(a => a.id !== "social" && map[a.id] === 0 && !nudgeAreaQuiet(a.id, end))
+    .map(a => ({ a, days: daysSinceArea(a.id, end) }))
+    .filter(z => z.days >= ZERO_AREA_MIN_DAYS)
+    .sort((x, y) => y.days - x.days);
+  zeros.forEach(z => out.push({ key: "zeroArea", area: z.a.id, text: fillCopy(COACH_COPY.zeroArea, { area: fastLabel(z.a.id), days: z.days }) }));
+  if (!out.length) out.push({ key: "balanced", text: COACH_COPY.balanced });
+  return out;
+}
+function renderWeekNudges() {
+  const el = document.getElementById("weekNudges");
+  if (!el) return;
+  const wk = startOfWeek(TODAY);
+  const list = data.coachDismissedWeek === wk ? [] : weekNudges(TODAY).slice(0, 1); // one nudge a day: the top one
+  if (!list.length) { el.hidden = true; el.innerHTML = ""; return; }
+  el.hidden = false;
+  el.innerHTML = '<p class="kicker">' + esc(COACH_COPY.kicker) + '</p>' +
+    list.map(n => '<p class="coach-line nudge" data-nudge="' + n.key + '"' + (n.area ? ' data-area="' + n.area + '"' : "") + '>' +
+      (NUDGE_ICONS[n.key] ? '<span class="nudge-icon" aria-hidden="true" style="--nudge-icon:url(&quot;' + esc(iv(NUDGE_ICONS[n.key])) + '&quot;)"></span>' : "") +
+      '<span>' + esc(n.text) + '</span></p>').join("") +
+    '<div class="row-actions" style="margin-top:0.5rem"><button type="button" class="btn" id="weekNudgeDismiss">' + esc(COACH_COPY.dismiss) + '</button></div>';
+  document.getElementById("weekNudgeDismiss").onclick = () => { data.coachDismissedWeek = wk; save(); renderWeekNudges(); };
+}
+
 function enterApp() {
   document.getElementById("vaultGate").hidden = true;
   document.getElementById("appRoot").hidden = false;
   applyTheme(data.theme);
   syncComposerDates();
   fillDiaryPullOptions("");
+  remindersOnUnlock();
   renderCheckin();
   renderDerived();
   if (!data.guideSeen) openGuide();
+  else openFromHash();
 }
 function lockApp() {
   // Close any open form so nothing private stays on screen over the lock.

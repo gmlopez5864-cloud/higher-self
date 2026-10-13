@@ -1,6 +1,6 @@
 /* Higher Self — offline shell for install / Add to Home Screen */
-const CACHE = "higher-self-v18";
-const ICON_VER = "18";
+const CACHE = "higher-self-v19";
+const ICON_VER = "19";
 // Plain URLs: shell + manifest/link icons. Versioned (?v=) URLs: every icon the page renders.
 const PRECACHE_PLAIN = [
   "./",
@@ -10,7 +10,8 @@ const PRECACHE_PLAIN = [
   "./icons/icon-192.png",
   "./icons/icon-512.png",
   "./icons/icon-512-maskable.png",
-  "./icons/icon-180.png"
+  "./icons/icon-180.png",
+  "./icons/notify/badge.png"
 ];
 const PRECACHE_ICONS = [
   "./icons/app-mark.jpg",
@@ -114,7 +115,10 @@ const PRECACHE_ICONS = [
   "./icons/guide/guide-2.jpg",
   "./icons/guide/guide-3.jpg",
   "./icons/guide/guide-4.jpg",
-  "./icons/guide/guide-5.jpg"
+  "./icons/guide/guide-5.jpg",
+  "./icons/notify/nudge-social.png",
+  "./icons/notify/nudge-work.png",
+  "./icons/notify/nudge-sleep.png"
 ];
 const PRECACHE = PRECACHE_PLAIN.concat(PRECACHE_ICONS.map((u) => u + "?v=" + ICON_VER));
 
@@ -160,6 +164,25 @@ self.addEventListener("fetch", (event) => {
         }
         return res;
       });
+    })
+  );
+});
+
+// v19: reminder taps open the app on the item.
+self.addEventListener("notificationclick", (event) => {
+  const n = event.notification;
+  const d = n.data || {};
+  n.close();
+  const target = new URL(d.url || "./", self.registration.scope).href;
+  event.waitUntil(
+    self.clients.matchAll({ type: "window", includeUncontrolled: true }).then((list) => {
+      for (const c of list) {
+        if (c.url.indexOf(self.registration.scope) === 0 && "focus" in c) {
+          c.postMessage({ type: "open-reminder", kind: d.kind, id: d.id });
+          return c.focus();
+        }
+      }
+      return self.clients.openWindow ? self.clients.openWindow(target) : null;
     })
   );
 });
