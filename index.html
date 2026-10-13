@@ -490,12 +490,7 @@
   .legend { list-style: none; margin: 0; padding: 0; flex: 1; min-width: 180px; }
   .legend li { display: grid; grid-template-columns: 12px 1fr auto; gap: 0.4rem; align-items: center; font-size: 0.84rem; padding: 0.18rem 0; }
   .swatch { width: 12px; height: 12px; border-radius: 3px; }
-  .trophies { display: flex; flex-direction: column; gap: 0.45rem; }
-  .trophy { display: flex; gap: 0.55rem; border: 1px solid var(--border); border-radius: 12px; padding: 0.5rem 0.6rem; background: var(--field); }
-  .trophy.earned { box-shadow: inset 3px 0 0 var(--gold); }
-  .trophy strong { display: block; font-size: 0.88rem; }
-  .trophy p { margin: 0.12rem 0 0; color: var(--muted); font-size: 0.76rem; }
-  .cup { width: 26px; height: 26px; flex: 0 0 auto; }
+  .returns-line { margin: 0.9rem 0 0; color: var(--muted); font-size: 0.92rem; text-align: center; }
   .log-list { list-style: none; margin: 0; padding: 0; }
   .log-list li { display: flex; justify-content: space-between; gap: 0.75rem; padding: 0.4rem 0; border-bottom: 1px solid var(--border); font-size: 0.88rem; }
   .log-list li:last-child { border-bottom: 0; }
@@ -526,15 +521,11 @@
     .themes { max-width: 100%; justify-content: flex-start; }
     .themes button { padding: 0.42rem 0.72rem; min-height: 36px; font-size: 0.8rem; }
     .stat { min-width: calc(50% - 0.3rem); flex: 1 1 7rem; }
-    .strip {
-      display: flex; overflow-x: auto; -webkit-overflow-scrolling: touch;
-      scroll-snap-type: x proximity; gap: 0.45rem; padding-bottom: 0.25rem;
-      grid-template-columns: none;
-    }
-    .day-btn {
-      flex: 0 0 3.4rem; min-height: 4.2rem; scroll-snap-align: start;
-      padding: 0.5rem 0.25rem;
-    }
+    /* All 7 days fit on narrow phones (360px+): no sideways scroll. */
+    .strip { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 0.25rem; }
+    .day-btn { min-width: 0; min-height: 4.2rem; padding: 0.45rem 0.1rem; overflow: hidden; }
+    .day-btn .dow { font-size: 0.62rem; letter-spacing: 0.02em; }
+    .strip .day-btn .sleep-hrs { white-space: normal; text-align: center; font-size: 0.56rem; overflow-wrap: anywhere; }
     button.btn, .ghost, .chip {
       min-height: 44px; padding: 0.55rem 0.95rem; font-size: 0.9rem;
     }
@@ -662,11 +653,6 @@
   .week-sum { font-size: 0.86rem; color: var(--muted); margin: 0.35rem 0 0.55rem; }
   .tag { display: inline-block; font-size: 0.72rem; color: var(--muted); margin-left: 0.35rem; }
   .mark-row { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.35rem; }
-  .returns-banner {
-    margin: 0.55rem 0 0; padding: 0.65rem 0.75rem; border-radius: 12px;
-    border: 1px solid var(--border); background: var(--field);
-  }
-  .returns-banner b { display: block; font-size: 1.05rem; }
   dialog.wide { width: min(520px, calc(100% - 2rem)); }
   .preset-block { margin: 0.45rem 0 0.65rem; }
   .preset-block .hint { margin-bottom: 0.35rem; }
@@ -686,20 +672,8 @@
 
   /* v11 */
   .status { text-transform: none; }
-  .fast-travel {
-    position: sticky; top: 0; z-index: 30;
-    display: flex; flex-wrap: nowrap; gap: 0.35rem; overflow-x: auto; -webkit-overflow-scrolling: touch;
-    margin: 0.75rem -0.35rem 0; padding: 0.45rem 0.35rem; background: var(--bg);
-    border-bottom: 1px solid var(--border); scrollbar-width: none; scroll-snap-type: x proximity;
-  }
-  .fast-travel::-webkit-scrollbar { display: none; }
-  .fast-travel button {
-    flex: 0 0 auto; display: inline-flex; align-items: center; gap: 0.35rem; white-space: nowrap;
-    border: 1px solid var(--border); background: var(--panel); color: var(--text); border-radius: 999px;
-    padding: 0.2rem 0.65rem 0.2rem 0.2rem; font-size: 0.8rem; min-height: 36px; scroll-snap-align: start;
-  }
-  .fast-travel img { width: 28px; height: 28px; border-radius: 50%; object-fit: cover; display: block; flex: 0 0 28px; }
-  #checkin, .area, #moneySection, #recordSection { scroll-margin-top: 4.25rem; }
+  /* Room for the floating logo button when the menu jumps to a section. */
+  #dayNav, #timeCard, #checkin, .area, #pathsPanel, #diaryPanel, #moneySection, #recordSection { scroll-margin-top: 3.6rem; }
   .day-btn .sleep-hrs { font-size: 0.6rem; color: var(--muted); line-height: 1.1; white-space: nowrap; font-variant-numeric: tabular-nums; }
   .area-add { margin-top: 0.55rem; }
   .qm-list { list-style: none; margin: 0.3rem 0 0.45rem; padding: 0; display: flex; flex-direction: column; gap: 0.3rem; }
@@ -741,8 +715,6 @@
   .rec-detail dt { color: var(--muted); font-size: 0.76rem; }
   .rec-detail dd { margin: 0; min-width: 0; overflow-wrap: anywhere; }
   .rec-detail .rec-reason { margin-top: 0.4rem; }
-  .trophy p.target { font-size: 0.72rem; }
-  .returns-banner span { display: block; }
 
   .diary-nav { margin: 0.35rem 0 0.2rem; }
   dialog.diary-full { width: 100vw; max-width: 100vw; height: 100vh; max-height: 100vh; margin: 0; border-radius: 0; border: 0; padding: 0.75rem 0.9rem 1rem; display: none; flex-direction: column; gap: 0.5rem; }
@@ -890,6 +862,23 @@
   .menu-item { padding: 0.4rem; font-size: 0.93rem; }
   .menu-sub { margin: 0.8rem 0 0.3rem; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
   .menu-list { list-style: none; margin: 0; padding: 0; }
+  .link-btn { background: none; border: 0; padding: 0.2rem 0; color: var(--muted); text-decoration: underline; font: inherit; font-size: 0.86rem; cursor: pointer; }
+  .vault-notice { margin: 0.6rem 0 0; font-size: 0.9rem; }
+  .day-nav { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem; margin-top: 0.9rem; }
+  .day-nav .week-label { flex: 1 1 auto; font-size: 0.86rem; color: var(--muted); min-width: 8rem; }
+  .day-nav .btn { padding: 0.3rem 0.7rem; }
+  .day-btn[disabled] { opacity: 0.4; cursor: default; }
+  .day-empty { margin: 0.4rem 0 0; }
+  .profile-tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(7rem, 1fr)); gap: 0.6rem; margin-top: 0.8rem; }
+  .profile-tile { display: flex; flex-direction: column; align-items: center; gap: 0.4rem; padding: 0.8rem 0.5rem; border: 1px solid var(--border); border-radius: 14px; background: var(--field); color: inherit; font: inherit; cursor: pointer; }
+  .profile-tile img { width: 56px; height: 56px; border-radius: 22%; object-fit: cover; }
+  .profile-tile.is-current { flex-direction: row; justify-content: flex-start; cursor: default; padding: 0.5rem 0.7rem; }
+  .profile-tile.is-current img { width: 40px; height: 40px; }
+  .profile-icons { display: grid; grid-template-columns: repeat(auto-fill, minmax(44px, 1fr)); gap: 0.35rem; max-height: 9.5rem; overflow-y: auto; padding: 2px; }
+  .profile-icons button { padding: 0; border: 2px solid transparent; border-radius: 12px; background: none; cursor: pointer; line-height: 0; }
+  .profile-icons button[aria-checked="true"] { border-color: var(--accent); }
+  .profile-icons img { width: 40px; height: 40px; border-radius: 22%; object-fit: cover; }
+  .menu-item.menu-danger { color: var(--warn); }
 </style>
 </head>
 <body>
@@ -898,7 +887,7 @@
   <header class="top">
     <div class="brand-row">
       <div class="brand">
-        <h1 class="brand-mark"><button type="button" class="logo-btn" id="logoBtn" aria-label="Open menu" aria-haspopup="dialog" aria-expanded="false" aria-controls="menuDrawer"><img class="book app-mark" id="logoImg" src="icons/logo.jpg?v=21" alt="" /></button>Higher Self</h1>
+        <h1 class="brand-mark"><button type="button" class="logo-btn" id="logoBtn" aria-label="Open menu" aria-haspopup="dialog" aria-expanded="false" aria-controls="menuDrawer"><img class="book app-mark" id="logoImg" src="icons/logo.jpg?v=22" alt="" /></button>Higher Self</h1>
         <p id="todayLabel"></p>
       </div>
     </div>
@@ -915,7 +904,7 @@
       </div>
     </div>
     <section class="panel time-card" id="timeCard" aria-labelledby="pieTitle">
-      <h2 id="pieTitle" class="title-book"><img class="book" src="icons/time-pie.jpg?v=21" alt="" />Where your time goes</h2>
+      <h2 id="pieTitle" class="title-book"><img class="book" src="icons/time-pie.jpg?v=22" alt="" />Where your time goes</h2>
       <div class="chip-row" id="timeViewToggle" role="radiogroup" aria-label="Time period">
         <button type="button" class="chip" data-tview="day" aria-pressed="true">Today</button>
         <button type="button" class="chip" data-tview="week" aria-pressed="false">This week</button>
@@ -937,17 +926,16 @@
     <section class="coach week-card" id="weekNudges" aria-live="polite" hidden></section>
   </header>
 
-  <nav class="fast-travel" id="fastTravel" aria-label="Fast travel">
-    <button type="button" data-jump="checkin"><img src="icons/sleep.jpg?v=21" alt="" />Check-in</button>
-    <button type="button" data-jump="career"><img src="icons/area-career-v2.jpg?v=21" alt="" />Career</button>
-    <button type="button" data-jump="personal"><img src="icons/personal-development.jpg?v=21" alt="" />Growth</button>
-    <button type="button" data-jump="spiritual"><img src="icons/spirit.jpg?v=21" alt="" />Spirit</button>
-    <button type="button" data-jump="social"><img src="icons/social.jpg?v=21" alt="" />Social</button>
-    <button type="button" data-jump="time"><img src="icons/hobbies.jpg?v=21" alt="" />Hobbies</button>
-    <button type="button" data-jump="money"><img src="icons/money.jpg?v=21" alt="" />Money</button>
-  </nav>
 
-  <div class="strip" id="strip" role="tablist" aria-label="This week, Sunday through Saturday"></div>
+  <div class="day-nav" id="dayNav">
+    <button type="button" class="btn" id="weekPrev" aria-label="Earlier week">‹</button>
+    <span class="week-label" id="weekLabel" aria-live="polite"></span>
+    <button type="button" class="btn" id="weekNext" aria-label="Later week">›</button>
+    <button type="button" class="btn" id="dayPickBtn" aria-haspopup="dialog">Go to a day</button>
+    <button type="button" class="link-btn" id="dayToday" hidden>Back to today</button>
+  </div>
+  <div class="strip" id="strip" role="tablist" aria-label="Week, Sunday through Saturday"></div>
+  <p class="hint day-empty" id="dayEmpty" hidden>No entry.</p>
 
   <section class="panel" id="checkin" aria-labelledby="checkinTitle">
     <h2 id="checkinTitle">Check-in</h2>
@@ -960,7 +948,7 @@
 
   <section class="panel" id="replacementPanel" aria-labelledby="replTitle">
     <h2 id="replTitle">Replacement list</h2>
-    <div class="book-slot"><img class="book" src="icons/shadow.jpg?v=21" alt="" /><span>When an urge hits</span></div>
+    <div class="book-slot"><img class="book" src="icons/shadow.jpg?v=22" alt="" /><span>When an urge hits</span></div>
     <p class="hint">Actions you picked ahead for when an urge hits.</p>
     <p class="hint">When a pull shows up, offer one from this list.</p>
     <ul class="entry-list" id="replList"></ul>
@@ -975,8 +963,8 @@
     <h2 id="diaryTitle">Diary</h2>
     <div class="book-slot" title="Diary and shadow icons">
       <span class="book-set">
-        <img class="book" src="icons/diary.jpg?v=21" alt="" />
-        <img class="book" src="icons/shadow.jpg?v=21" alt="" />
+        <img class="book" src="icons/diary.jpg?v=22" alt="" />
+        <img class="book" src="icons/shadow.jpg?v=22" alt="" />
       </span>
       <span>Diary</span>
     </div>
@@ -1014,19 +1002,13 @@
   </section>
 
   <section class="panel" id="pathsPanel" aria-labelledby="pathsTitle">
-    <h2 id="pathsTitle" class="title-book"><img class="book" src="icons/paths-section.jpg?v=21" alt="" />Your paths.</h2>
+    <h2 id="pathsTitle" class="title-book"><img class="book" src="icons/paths-section.jpg?v=22" alt="" />Your paths.</h2>
     <div class="row-actions"><button type="button" class="btn primary" id="pathAddBtn">Add a path</button><button type="button" class="btn" id="pathManageBtn">Manage paths</button></div>
     <p class="hint">Martial artist, writer, father, husband, whatever you're walking.</p>
     <div id="pathList"></div>
   </section>
 
-  <div class="split">
-    <section class="side" aria-labelledby="trophyTitle">
-      <h2 id="trophyTitle" class="title-book"><img class="book" src="icons/trophies.jpg?v=21" alt="" />Returns to practice</h2>
-      <div class="returns-banner" id="returnsBanner"></div>
-      <div class="trophies" id="trophies"></div>
-    </section>
-  </div>
+  <p class="returns-line" id="returnsLine" hidden></p>
 
   <div class="split">
     <section class="side" id="recordSection" aria-labelledby="logTitle">
@@ -1037,7 +1019,7 @@
       <ul class="log-list record-list" id="logList"></ul>
     </section>
     <section class="side" id="moneySection" aria-labelledby="moneyTitle">
-      <h2 id="moneyTitle" class="title-book"><img class="book" src="icons/money.jpg?v=21" alt="" />Money tracker</h2>
+      <h2 id="moneyTitle" class="title-book"><img class="book" src="icons/money.jpg?v=22" alt="" />Money tracker</h2>
       <div class="account-grid" id="accountGrid"></div>
       <p class="week-sum" id="weekSum"></p>
       <ul class="money-list" id="moneyList"></ul>
@@ -1265,7 +1247,7 @@
     <button type="button" class="btn" id="menuClose">Close</button>
   </div>
   <button type="button" class="menu-row menu-settings" id="menuSettingsToggle" aria-expanded="false" aria-controls="menuSettings">
-    <img src="icons/settings.jpg?v=21" alt="" /><span><b>Settings</b><small>Themes, backup, reminders, guide, lock</small></span>
+    <img src="icons/settings.jpg?v=22" alt="" /><span><b>Settings</b><small>Themes, backup, reminders, guide, lock</small></span>
   </button>
   <div class="menu-group" id="menuSettings" hidden>
     <button type="button" class="menu-item" id="btnOptions">Options · Dawn</button>
@@ -1274,9 +1256,15 @@
     <button type="button" class="menu-item" id="btnBackup">Back up the encrypted file</button>
     <button type="button" class="menu-item" id="btnRestore">Restore from a backup</button>
     <button type="button" class="menu-item" id="btnLock">Lock</button>
+    <button type="button" class="menu-item menu-danger" id="btnRemoveProfile">Remove this profile</button>
   </div>
   <h3 class="menu-sub" id="menuGoTitle">Go to</h3>
   <ul class="menu-list" id="menuGoList" aria-labelledby="menuGoTitle"></ul>
+</dialog>
+<dialog id="dayPickDialog" aria-labelledby="dayPickTitle">
+  <h3 id="dayPickTitle">Pick a day</h3>
+  <label class="field">Date<input id="dayPickInput" type="date" /></label>
+  <div class="row-actions"><button type="button" class="btn primary" id="dayPickGo">Go</button><button type="button" class="btn" id="dayPickCancel">Cancel</button></div>
 </dialog>
 <dialog id="optionsDialog" class="wide">
   <h3>Options</h3>
@@ -1305,7 +1293,7 @@
     <div class="row-actions"><button type="button" class="btn" id="optAddPull">Add pull</button><button type="button" class="btn" id="optManagePulls">Manage pulls</button></div>
   </div>
   <div class="subpanel" id="purposePanel" aria-labelledby="purposeTitle">
-    <h3 id="purposeTitle" class="title-book"><img class="book" src="icons/purpose.jpg?v=21" alt="" />Purpose (optional)</h3>
+    <h3 id="purposeTitle" class="title-book"><img class="book" src="icons/purpose.jpg?v=22" alt="" />Purpose (optional)</h3>
     <p class="hint">A note on how you're walking the path you already picked. Not a new choice, and not a finish.</p>
 
     <div class="subpanel">
@@ -1468,7 +1456,7 @@ const AREAS = [
   { id: "career", img: "icons/area-career-v2.jpg", name: "Career and responsibilities", color: "#5B9FD4", starter: "Finish one owed task." },
   { id: "personal", img: "icons/personal-development.jpg", name: "Personal development", color: "#3ECF8E", starter: "Practice a skill (25 min)." },
   { id: "social", img: "icons/social.jpg", name: "Social development", color: "#E07A9A", starter: "Reply to someone waiting." },
-  { id: "spiritual", img: "icons/spirit.jpg", name: "Spirit development", color: "#9B7EDE", starter: "Sit with no phone (10 min)." },
+  { id: "spiritual", img: "icons/spirit.jpg", imgAlt: "Rising light", name: "Spirit development", color: "#9B7EDE", starter: "Sit with no phone (10 min)." },
   { id: "time", img: "icons/hobbies.jpg", name: "Hobbies", color: "#E6B84D", starter: "Hobby time (30 min)." }
 ];
 const DEFAULT_AREA_ORDER = AREAS.map(a => a.id);
@@ -1660,7 +1648,7 @@ const PATH_ICON_LABELS = {
 };
 const PATH_WRESTLING_ICON = "icons/paths/wrestling.jpg";
 // Icon cache-bust: same filenames were re-cut, so every rendered icon URL carries ?v=. Stored data keeps plain paths.
-const ICON_VER = "21";
+const ICON_VER = "22";
 const LOGO_SRC = "icons/logo.jpg"; // swap the app logo here (header, menu button, vault screens)
 function plainIcon(src) { return String(src || "").split("?")[0]; }
 function iv(src) {
@@ -1735,7 +1723,8 @@ const PULLS = DEFAULT_PULLS; // alias for older call sites
 const INCOME_SOURCES = { paycheck: "Paycheck", side: "Side work", gift: "Gift", refund: "Refund", other: "Other" };
 const EXPENSE_TYPES = { bill: "Bill", date: "Date/dinner", groceries: "Groceries", project: "Project", transfer: "Transfer", other: "Other" };
 const ACCOUNT_DEFAULTS = ["Checking", "Savings", "Cash"];
-const KEY = "higherSelfApp.v2.enc";
+const KEY_SINGLE = "higherSelfApp.v2.enc"; // pre-profiles single vault (migrated into the first profile)
+let KEY = KEY_SINGLE; // the open profile's vault key
 const KEY_LEGACY = "higherSelfApp.v1";
 const SLEEP_SHORT = 7;
 const DAY_NAMES = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
@@ -2495,17 +2484,24 @@ function addCustomPull(label, steer, opposite, img) {
 }
 function sortedDesc(list) { return list.slice().sort((a, b) => a.date < b.date ? 1 : a.date > b.date ? -1 : 0); }
 function bookSlot(label) {
-  return '<span class="book-slot" title="Area notes"><img class="book" src="icons/area-note.jpg?v=21" alt="" /><span>' + esc(label) + '</span></span>';
+  return '<span class="book-slot" title="Area notes"><img class="book" src="icons/area-note.jpg?v=22" alt="" /><span>' + esc(label) + '</span></span>';
 }
 function pickReplacement() {
   if (!data.replacements.length) return null;
   return data.replacements[Math.floor(Math.random() * data.replacements.length)];
 }
+const persistSeq = {};
 async function persist() {
   if (!sessionPass || !data) return;
+  // Capture the target vault before the async encrypt, so a profile switch mid-save can never
+  // write one person's data into someone else's vault.
+  const key = KEY, pass = sessionPass, snapshot = data;
+  if (key === KEY_SINGLE && loadProfiles().length) return;
+  const seq = (persistSeq[key] = (persistSeq[key] || 0) + 1);
   try {
-    const envelope = await encryptPayload(data, sessionPass);
-    localStorage.setItem(KEY, JSON.stringify(envelope));
+    const envelope = await encryptPayload(snapshot, pass);
+    if (seq !== persistSeq[key]) return; // a newer save for this vault already won
+    localStorage.setItem(key, JSON.stringify(envelope));
   } catch (e) { console.error("persist failed", e); }
 }
 function save() { persist(); }
@@ -2676,14 +2672,38 @@ function renderStrip() {
     let mark = "mark";
     if (isReturn(date)) mark = "mark back";
     else if (checked(date)) mark = "mark on";
-    html.push('<button type="button" class="day-btn' + todayCls + '" role="tab" data-date="' + date + '" aria-pressed="' + pressed + '" aria-label="' + esc(DAY_NAMES[i] + " " + date) + '"><span class="' + mark + '"></span><span class="dow">' + DAY_SHORT[i] + '</span><span class="num">' + parseISO(date).getDate() + '</span><span class="hrs">' + (u.taskH ? fmtHours(u.taskH) + "h" : "—") + '</span>' + (u.sleepH ? '<span class="sleep-hrs">+' + fmtHours(u.sleepH) + 'h sleep</span>' : "") + '</button>');
+    const future = date > TODAY && !isCurrentWeek(date) ? " disabled" : "";
+    html.push('<button type="button" class="day-btn' + todayCls + '" role="tab" data-date="' + date + '"' + future + ' aria-pressed="' + pressed + '" aria-label="' + esc(DAY_NAMES[i] + " " + date) + '"><span class="' + mark + '"></span><span class="dow">' + DAY_SHORT[i] + '</span><span class="num">' + parseISO(date).getDate() + '</span><span class="hrs">' + (u.taskH ? fmtHours(u.taskH) + "h" : "—") + '</span>' + (u.sleepH ? '<span class="sleep-hrs">+' + fmtHours(u.sleepH) + 'h sleep</span>' : "") + '</button>');
   }
   const strip = document.getElementById("strip");
   strip.innerHTML = html.join("");
   strip.querySelectorAll(".day-btn").forEach(btn => {
-    btn.onclick = () => { data.selected = btn.dataset.date; save(); syncComposerDates(); renderCheckin(); renderDerived(); };
+    btn.onclick = () => goToDay(btn.dataset.date);
   });
+  const end = shift(sun, 6);
+  const fmt = d => parseISO(d).toLocaleDateString(undefined, { month: "short", day: "numeric" });
+  document.getElementById("weekLabel").textContent = isCurrentWeek(data.selected) ? "This week" : fmt(sun) + " – " + fmt(end) + ", " + parseISO(end).getFullYear();
+  document.getElementById("weekNext").disabled = isCurrentWeek(data.selected);
+  document.getElementById("dayToday").hidden = data.selected === TODAY;
+  const u = dayUsed(data.selected);
+  const hasPath = (data.pathLogs || []).some(l => l.date === data.selected);
+  const dd = data.days[data.selected] || {};
+  const hasDay = Object.keys(dd).some(k => { const v = dd[k]; return v && (Array.isArray(v) ? v.length : typeof v === "object" ? Object.keys(v).length : true); });
+  document.getElementById("dayEmpty").hidden = !(data.selected < TODAY && !u.used && !hasPath && !hasDay);
 }
+function isCurrentWeek(date) { return startOfWeek(date) === startOfWeek(TODAY); }
+// Any past day, or any day in the current week (as before). Later weeks stay closed.
+function goToDay(date) {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(String(date || ""))) return;
+  if (date > TODAY && !isCurrentWeek(date)) date = TODAY;
+  data.selected = date; save(); syncComposerDates(); renderCheckin(); renderDerived();
+}
+document.getElementById("weekPrev").onclick = () => goToDay(shift(data.selected, -7));
+document.getElementById("weekNext").onclick = () => { const n = shift(data.selected, 7); goToDay(n > TODAY ? TODAY : n); };
+document.getElementById("dayToday").onclick = () => goToDay(TODAY);
+document.getElementById("dayPickBtn").onclick = () => { const i = document.getElementById("dayPickInput"); i.max = TODAY; i.value = data.selected; document.getElementById("dayPickDialog").showModal(); i.focus(); };
+document.getElementById("dayPickCancel").onclick = () => document.getElementById("dayPickDialog").close();
+document.getElementById("dayPickGo").onclick = () => { const v = document.getElementById("dayPickInput").value; document.getElementById("dayPickDialog").close(); if (v) goToDay(v > TODAY ? TODAY : v); };
 function renderCheckin() {
   const date = data.selected;
   const d = day(date);
@@ -2701,7 +2721,7 @@ function renderCheckin() {
       '<p class="hint" id="sleepPreview"></p>';
   }
   const body =
-    '<div class="sleep-row"><p class="q-title title-book"><img class="book" src="icons/sleep.jpg?v=21" alt="" />How did last night go?</p>' + sleepHtml + '</div>' +
+    '<div class="sleep-row"><p class="q-title title-book"><img class="book" src="icons/sleep.jpg?v=22" alt="" />How did last night go?</p>' + sleepHtml + '</div>' +
     pathCheckinHtml(date);
   document.getElementById("checkinBody").innerHTML = body;
   bindCheckin();
@@ -2762,7 +2782,7 @@ function renderAreas() {
     const collapsed = isCollapsed(area.id);
     const head = '<div class="area-head">' +
       '<span class="drag-handle" draggable="true" title="Drag to reorder" aria-hidden="true">⠿</span>' +
-      '<h3><img class="book" src="' + esc(iv(area.img)) + '" alt="" />' + esc(area.name) + '</h3>' +
+      '<h3><img class="book" src="' + esc(iv(area.img)) + '" alt="' + esc(area.imgAlt || "") + '" />' + esc(area.name) + '</h3>' +
       '<span class="hrs">' + fmtHours(hours[area.id]) + 'h</span>' +
       '<button type="button" class="tiny" data-collapse="' + area.id + '" aria-expanded="' + (collapsed ? "false" : "true") + '">' + (collapsed ? "Show" : "Hide") + '</button>' +
       '<div class="area-controls" role="group" aria-label="Reorder ' + esc(area.name) + '">' +
@@ -3233,29 +3253,13 @@ function renderPie() {
     '<li><span class="swatch" style="background:' + SLEEP_COLOR + '"></span><span>Sleep</span><span>' + fmtHours(sleepH) + 'h</span></li>' +
     '<li><span class="swatch open-swatch"></span><span>Open time</span><span>' + fmtHours(openH) + 'h</span></li>';
 }
-function cup(earned) {
-  const fill = earned ? "var(--gold)" : "var(--muted)";
-  return '<svg class="cup" viewBox="0 0 32 32" aria-hidden="true"><path fill="' + fill + '" d="M9 7h14v3a6 6 0 0 1-4.2 5.7A6 6 0 0 1 16 21a6 6 0 0 1-2.8-5.3A6 6 0 0 1 9 10V7z"/><path fill="' + fill + '" d="M14 21h4v2h3v2H11v-2h3z"/></svg>';
-}
-const TROPHIES = [
-  { name: "Came back", need: 1, target: "One return day" },
-  { name: "Came back again", need: 3, target: "Three return days" },
-  { name: "Kept coming back", need: 7, target: "Seven return days" }
-];
-function renderTrophies() {
+// One quiet line about returns to practice. Nothing at all when there are none yet.
+function renderReturns() {
+  const el = document.getElementById("returnsLine");
+  if (!el) return;
   const n = returnCount();
-  const days = returnDays();
-  document.getElementById("returnsBanner").innerHTML =
-    '<b>Returns to practice. Not a streak.</b>' +
-    '<span>' + n + (n === 1 ? " day" : " days") + ' you returned.</span>';
-  const dayCards = days.slice(-5).reverse().map(d =>
-    '<article class="trophy earned">' + cup(true) + '<div><strong>' + esc(prettyDate(d)) + '</strong></div></article>'
-  ).join("");
-  document.getElementById("trophies").innerHTML = TROPHIES.map(t => {
-    const earned = n >= t.need;
-    return '<article class="trophy' + (earned ? " earned" : "") + '" data-earned="' + (earned ? "true" : "false") + '">' + cup(earned) + '<div><strong>' + esc(t.name) + '</strong>' +
-      (earned ? '' : '<p>Not yet.</p>') + '<p class="target">' + esc(t.target) + '</p></div></article>';
-  }).join("") + dayCards;
+  el.hidden = n <= 0;
+  el.textContent = n > 0 ? "You've come back " + n + (n === 1 ? " time" : " times") + ". Each return counts." : "";
 }
 let recordFilter = "";
 const recordOpen = new Set();
@@ -3394,7 +3398,7 @@ function renderMoney() {
 function renderDerived() {
   renderStats(); renderCoach(); renderWeekNudges(); renderNotices(); renderStrip(); renderAreas();
   renderReplacements(); renderPurpose(); renderDiary(); renderPaths(); renderRoad();
-  renderPie(); renderTrophies(); renderLog(); renderMoney();
+  renderPie(); renderReturns(); renderLog(); renderMoney();
 }
 function syncComposerDates() {
   diaryDay = data.selected;
@@ -4074,20 +4078,6 @@ document.getElementById("moveSave").onclick = () => {
   renderAreas();
 };
 
-// ---------- Fast travel
-document.querySelectorAll("#fastTravel [data-jump]").forEach(btn => {
-  btn.onclick = () => {
-    const k = btn.dataset.jump;
-    let el = null;
-    if (k === "checkin") el = document.getElementById("checkin");
-    else if (k === "money") el = document.getElementById("moneySection");
-    else {
-      el = document.querySelector('[data-area-id="' + k + '"]');
-      if (data) data.lastTaskArea = k;
-    }
-    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
-  };
-});
 
 // ---------- Diary day view + full screen
 let diaryDay = null;
@@ -4477,7 +4467,8 @@ function showToast(msg) {
   clearTimeout(showToast._t);
   showToast._t = setTimeout(() => { t.hidden = true; }, 1600);
 }
-function chipIcon(src) { return src ? '<img class="chip-icon" src="' + esc(iv(src)) + '" alt="" />' : ""; }
+const ICON_ALTS = { "icons/spirit.jpg": "Rising light" };
+function chipIcon(src) { return src ? '<img class="chip-icon" src="' + esc(iv(src)) + '" alt="' + esc(ICON_ALTS[src] || "") + '" />' : ""; }
 // ----- Shared path-log fields (the "Log on this path" form and each check-in path row use this)
 function pathFieldsHtml(pfx, l, afterDid) {
   const C = PATH_STEP_COPY;
@@ -5075,82 +5066,174 @@ document.getElementById("progressSave").onclick = () => {
   save(); document.getElementById("progressDialog").close(); renderDerived();
 };
 
-function showVault(mode, err) {
+// ---------- Profiles: several people on one phone, each with their own passphrase and vault.
+// Only names and icons are stored in the clear (PROFILES_KEY). Each vault is encrypted under its own key.
+const PROFILES_KEY = "higherSelfApp.profiles";
+const VAULT_PREFIX = "higherSelfApp.v2.enc.p.";
+let currentProfile = null; // { id, name, icon }
+let pendingProfile = null; // profile being created (add / migrate / reset)
+function loadProfiles() { try { const p = JSON.parse(localStorage.getItem(PROFILES_KEY) || "[]"); return Array.isArray(p) ? p.filter(x => x && x.id && x.name) : []; } catch (e) { return []; } }
+function saveProfiles(list) { localStorage.setItem(PROFILES_KEY, JSON.stringify(list.map(p => ({ id: p.id, name: p.name, icon: p.icon || PATH_DEFAULT_ICON })))); }
+function vaultKeyFor(id) { return VAULT_PREFIX + id; }
+function useProfile(p) { currentProfile = p; KEY = p ? vaultKeyFor(p.id) : KEY_SINGLE; }
+function upsertProfile(p) { const list = loadProfiles(); const i = list.findIndex(x => x.id === p.id); if (i >= 0) list[i] = p; else list.push(p); saveProfiles(list); }
+function profileIcon(p) { return PATH_ICONS.includes(p && p.icon) ? p.icon : PATH_DEFAULT_ICON; }
+function iconPickHtml(current) {
+  return '<div class="profile-icons" role="radiogroup" aria-label="Pick an icon">' + PATH_ICONS.map(src =>
+    '<button type="button" role="radio" data-picon="' + esc(src) + '" aria-checked="' + (src === current ? "true" : "false") + '" aria-label="' + esc(PATH_ICON_LABELS[src] || src.split("/").pop().replace(/\.jpg$/, "").replace(/-/g, " ")) + '"><img src="' + esc(iv(src)) + '" alt="" loading="lazy" /></button>').join("") + '</div>';
+}
+function vaultHead() {
+  return '<div class="brand-mark" style="margin-bottom:0.6rem"><img class="book app-mark" src="' + iv(LOGO_SRC) + '" alt="" /><span style="font-family:Georgia,serif;font-size:1.35rem">Higher Self</span></div>';
+}
+function showVault(mode, err, notice) {
   document.getElementById("appRoot").hidden = true;
   const gate = document.getElementById("vaultGate");
   gate.hidden = false;
+  const errHtml = err ? '<p class="vault-err" role="alert">' + esc(err) + '</p>' : "";
+  const noticeHtml = notice ? '<p class="vault-notice" role="status">' + esc(notice) + '</p>' : "";
+  const profiles = loadProfiles();
+  const p = currentProfile;
   let html = "";
-  if (mode === "setup") {
-    html =
-      '<div class="vault-screen">' +
-      '<div class="brand-mark" style="margin-bottom:0.6rem"><img class="book app-mark" src="' + iv(LOGO_SRC) + '" alt="" /><span style="font-family:Georgia,serif;font-size:1.35rem">Higher Self</span></div>' +
-      '<h1>Your data stays on this phone, encrypted.</h1>' +
-      '<p class="hint">Set a passphrase. You\'ll need it to open your notes.</p>' +
-      '<p class="hint">If you lose your passphrase, no one can recover your notes, us included. Write it down somewhere safe.</p>' +
-      '<label class="field" style="margin-top:0.7rem">Passphrase<input id="vaultPass" type="password" autocomplete="new-password" /></label>' +
-      '<label class="field" style="margin-top:0.45rem">Confirm<input id="vaultPass2" type="password" autocomplete="new-password" /></label>' +
-      (err ? '<p class="vault-err">' + esc(err) + '</p>' : "") +
-      '<div class="actions"><button type="button" class="btn primary" id="vaultSetup">Create encrypted vault</button>' +
-      '<button type="button" class="btn" id="vaultRestoreFirst">Restore from a backup</button></div>' +
-      '<p class="hint" style="margin-top:0.85rem">Cloud sync (Google Drive) is planned for a later phase. For now use Back up the encrypted file. You can put that file in Drive yourself.</p>' +
-      '</div>';
-  } else {
-    html =
-      '<div class="vault-screen">' +
-      '<div class="brand-mark" style="margin-bottom:0.6rem"><img class="book app-mark" src="' + iv(LOGO_SRC) + '" alt="" /><span style="font-family:Georgia,serif;font-size:1.35rem">Higher Self</span></div>' +
-      '<h1>Your data stays on this phone, encrypted.</h1>' +
-      '<p class="hint">Enter your passphrase to open your notes.</p>' +
-      '<p class="hint">We can\'t read this file without your passphrase.</p>' +
-      '<label class="field" style="margin-top:0.7rem">Passphrase<input id="vaultPass" type="password" autocomplete="current-password" /></label>' +
-      (err ? '<p class="vault-err">' + esc(err) + '</p>' : "") +
+  if (mode === "pick") {
+    html = '<div class="vault-screen">' + vaultHead() + '<h1>Who\'s here?</h1>' + noticeHtml +
+      '<div class="profile-tiles">' + profiles.map(x => '<button type="button" class="profile-tile" data-profile="' + esc(x.id) + '"><img src="' + esc(iv(profileIcon(x))) + '" alt="" /><span>' + esc(x.name) + '</span></button>').join("") + '</div>' +
+      '<div class="actions"><button type="button" class="btn" id="profileAdd">Add someone</button></div></div>';
+  } else if (mode === "add" || mode === "reset" || mode === "migrate") {
+    const pp = pendingProfile || { name: "", icon: PATH_DEFAULT_ICON };
+    const title = mode === "add" ? "Add someone" : mode === "reset" ? esc(pp.name) : "Your data stays on this phone, encrypted.";
+    html = '<div class="vault-screen">' + vaultHead() + '<h1>' + title + '</h1>' + noticeHtml +
+      (mode === "migrate" ? '<p class="hint">This phone can now hold more than one person. Name your profile, then open it with your passphrase.</p>' : "") +
+      (mode === "reset" ? "" : '<label class="field" style="margin-top:0.7rem">Name<input id="profileName" type="text" maxlength="40" autocomplete="off" value="' + esc(pp.name) + '" /></label>' +
+        '<p class="q-title" style="margin:0.6rem 0 0.3rem">Pick an icon</p>' + iconPickHtml(pp.icon)) +
+      '<label class="field" style="margin-top:0.7rem">Passphrase<input id="vaultPass" type="password" autocomplete="' + (mode === "migrate" ? "current-password" : "new-password") + '" /></label>' +
+      (mode === "migrate" ? "" : '<label class="field" style="margin-top:0.45rem">Type it again<input id="vaultPass2" type="password" autocomplete="new-password" /></label>') +
+      errHtml +
+      (mode === "migrate" ? "" : '<p class="hint" style="margin-top:0.6rem">Each person\'s data is locked with their own passphrase. No one else on this phone can open it. Only names and icons show here.</p>') +
+      '<div class="actions"><button type="button" class="btn primary" id="' + (mode === "migrate" ? "vaultUnlock" : "vaultSetup") + '">' + (mode === "migrate" ? "Open" : "Create profile") + '</button>' +
+      '<button type="button" class="btn" id="vaultRestoreFirst">Restore from a backup</button>' +
+      (mode !== "migrate" && profiles.length ? '<button type="button" class="btn" id="profileBack">Back</button>' : "") + '</div></div>';
+  } else if (mode === "fresh") {
+    html = '<div class="vault-screen" role="dialog" aria-modal="true" aria-labelledby="freshTitle">' +
+      '<h1 id="freshTitle">Start fresh</h1>' +
+      '<p class="hint">Your data is locked with your passphrase, and no one can recover it, not even us. Starting fresh erases everything in this profile. If you have a backup file, restore it instead.</p>' +
+      '<div class="actions"><button type="button" class="btn primary" id="vaultRestoreFirst">Restore a backup</button>' +
+      '<button type="button" class="btn danger" id="freshErase">Erase and start fresh</button>' +
+      '<button type="button" class="btn" id="freshCancel">Cancel</button></div></div>';
+  } else if (mode === "fresh-confirm") {
+    html = '<div class="vault-screen" role="alertdialog" aria-modal="true" aria-labelledby="freshTitle" aria-describedby="freshMsg">' +
+      '<h1 id="freshTitle">Start fresh</h1>' +
+      '<p class="hint" id="freshMsg">Erase everything in this profile? This can\'t be undone.</p>' +
+      '<label class="field" style="margin-top:0.6rem">Type ' + esc(p ? p.name : "") + ' to confirm<input id="freshName" type="text" autocomplete="off" /></label>' +
+      '<div class="actions"><button type="button" class="btn danger" id="freshEraseIt" disabled>Erase it.</button>' +
+      '<button type="button" class="btn" id="freshCancel">Cancel</button></div></div>';
+  } else { // unlock (a profile is selected)
+    html = '<div class="vault-screen">' + vaultHead() +
+      '<div class="profile-tile is-current"><img src="' + esc(iv(profileIcon(p))) + '" alt="" /><span>' + esc(p ? p.name : "") + '</span></div>' +
+      '<label class="field" style="margin-top:0.7rem">' + esc((p ? p.name : "") + "'s passphrase.") + '<input id="vaultPass" type="password" autocomplete="current-password" /></label>' +
+      '<p style="margin:0.35rem 0 0"><button type="button" class="link-btn" id="vaultFresh">Forgot it, or want a clean start?</button></p>' +
+      errHtml +
       '<div class="actions"><button type="button" class="btn primary" id="vaultUnlock">Open</button>' +
-      '<button type="button" class="btn" id="vaultRestoreFirst">Restore from a backup</button></div>' +
-      '</div>';
+      '<button type="button" class="btn" id="profileBack">Back</button></div></div>';
   }
   gate.innerHTML = html;
-  const passEl = document.getElementById("vaultPass");
-  if (passEl) passEl.focus();
-  const setupBtn = document.getElementById("vaultSetup");
-  if (setupBtn) setupBtn.onclick = onSetupVault;
-  const unlockBtn = document.getElementById("vaultUnlock");
-  if (unlockBtn) unlockBtn.onclick = onUnlockVault;
-  const restoreBtn = document.getElementById("vaultRestoreFirst");
-  if (restoreBtn) restoreBtn.onclick = () => document.getElementById("restoreFile").click();
-  if (passEl) passEl.addEventListener("keydown", e => {
-    if (e.key === "Enter") {
-      if (setupBtn) setupBtn.click();
-      else if (unlockBtn) unlockBtn.click();
-    }
+  const $ = id => document.getElementById(id);
+  gate.querySelectorAll("[data-profile]").forEach(b => b.onclick = () => { const x = loadProfiles().find(y => y.id === b.dataset.profile); if (!x) return; useProfile(x); if (localStorage.getItem(KEY)) { pendingProfile = null; showVault("unlock"); } else { pendingProfile = Object.assign({}, x); showVault("reset", "", "Clean start. Pick a new passphrase."); } });
+  if ($("profileAdd")) $("profileAdd").onclick = () => { pendingProfile = { id: uid("pr"), name: "", icon: PATH_DEFAULT_ICON, isNew: true }; useProfile(null); KEY = vaultKeyFor(pendingProfile.id); showVault("add"); };
+  if ($("profileBack")) $("profileBack").onclick = () => { pendingProfile = null; useProfile(null); showVault("pick"); };
+  gate.querySelectorAll("[data-picon]").forEach(b => b.onclick = () => {
+    if (pendingProfile) pendingProfile.icon = b.dataset.picon;
+    gate.querySelectorAll("[data-picon]").forEach(o => o.setAttribute("aria-checked", o === b ? "true" : "false"));
   });
+  const nameEl = $("profileName");
+  if (nameEl) nameEl.oninput = () => { if (pendingProfile) pendingProfile.name = nameEl.value; };
+  const passEl = $("vaultPass");
+  if (nameEl && !nameEl.value) nameEl.focus(); else if (passEl) passEl.focus();
+  const setupBtn = $("vaultSetup"); if (setupBtn) setupBtn.onclick = onSetupVault;
+  const unlockBtn = $("vaultUnlock"); if (unlockBtn) unlockBtn.onclick = onUnlockVault;
+  if ($("vaultFresh")) $("vaultFresh").onclick = () => showVault("fresh");
+  if ($("freshErase")) $("freshErase").onclick = () => showVault("fresh-confirm");
+  if ($("freshCancel")) $("freshCancel").onclick = () => showVault("unlock");
+  const fn = $("freshName"), eraseIt = $("freshEraseIt");
+  if (fn && eraseIt) { fn.oninput = () => { eraseIt.disabled = !(p && fn.value === p.name); }; fn.focus(); }
+  if (eraseIt) eraseIt.onclick = () => { if (p && fn && fn.value === p.name) eraseVaultAndStartFresh(); };
+  if (!passEl && !fn) { const f = $("freshCancel") || gate.querySelector(".profile-tile, #profileAdd"); if (f) f.focus(); }
+  const restoreBtn = $("vaultRestoreFirst");
+  if (restoreBtn) restoreBtn.onclick = () => {
+    // Restore lands in the profile on screen; a new profile gets its name and icon from the form.
+    if (pendingProfile) { const nm = String((nameEl && nameEl.value) || pendingProfile.name || "").trim(); if (!nm && mode !== "reset") return showVault(mode, "Add a name first."); if (nm) pendingProfile.name = nm; }
+    document.getElementById("restoreFile").click();
+  };
+  if (passEl) passEl.addEventListener("keydown", e => { if (e.key === "Enter") { if (setupBtn) setupBtn.click(); else if (unlockBtn) unlockBtn.click(); } });
+  const pass2 = $("vaultPass2"); if (pass2) pass2.addEventListener("keydown", e => { if (e.key === "Enter" && setupBtn) setupBtn.click(); });
+}
+// Start fresh: the passphrase can't be recovered, so the only way past a lost one is to erase this profile's vault.
+function eraseVaultAndStartFresh() {
+  if (!currentProfile) return;
+  try { localStorage.removeItem(vaultKeyFor(currentProfile.id)); } catch (e) {}
+  sessionPass = null; data = null;
+  pendingProfile = Object.assign({}, currentProfile);
+  showVault("reset", "", "Clean start. Pick a new passphrase.");
+}
+function profileFormName(mode) {
+  const el = document.getElementById("profileName");
+  return String(el ? el.value : (pendingProfile && pendingProfile.name) || "").trim();
 }
 async function onSetupVault() {
+  const mode = pendingProfile && !pendingProfile.isNew ? "reset" : "add";
+  const name = profileFormName(mode);
   const p1 = document.getElementById("vaultPass").value;
   const p2 = document.getElementById("vaultPass2").value;
-  if (!p1 || p1.length < 6) return showVault("setup", "Use at least 6 characters.");
-  if (p1 !== p2) return showVault("setup", "Passphrases do not match.");
+  if (pendingProfile) pendingProfile.name = name || pendingProfile.name;
+  if (!name) return showVault(mode, "Add a name.");
+  if (loadProfiles().some(x => x.name.toLowerCase() === name.toLowerCase() && (!pendingProfile || x.id !== pendingProfile.id))) return showVault(mode, "Someone here already has that name.");
+  if (!p1 || p1.length < 6) return showVault(mode, "Use at least 6 characters.");
+  if (p1 !== p2) return showVault(mode, "Passphrases do not match.");
+  const prof = { id: pendingProfile ? pendingProfile.id : uid("pr"), name, icon: (pendingProfile && pendingProfile.icon) || PATH_DEFAULT_ICON };
+  const first = loadProfiles().length === 0;
+  useProfile(prof);
   sessionPass = p1;
   let base = wantDemoSeed() ? seed() : blankData();
-  try {
-    const legacy = localStorage.getItem(KEY_LEGACY);
-    if (legacy) base = migrateLegacy(JSON.parse(legacy));
-  } catch (e) {}
+  if (first) { try { const legacy = localStorage.getItem(KEY_LEGACY); if (legacy) base = migrateLegacy(JSON.parse(legacy)); } catch (e) {} }
   data = migrateLegacy(base);
   await persist();
-  try { localStorage.removeItem(KEY_LEGACY); } catch (e) {}
+  upsertProfile(prof);
+  if (first) { try { localStorage.removeItem(KEY_LEGACY); } catch (e) {} }
+  pendingProfile = null;
   enterApp();
 }
 async function onUnlockVault() {
   const p = document.getElementById("vaultPass").value;
-  if (!p) return showVault("unlock", "Enter your passphrase.");
+  const migrating = !currentProfile && !!pendingProfile && pendingProfile.migrate;
+  const back = migrating ? "migrate" : "unlock";
+  if (migrating) { const nm = profileFormName("migrate"); pendingProfile.name = nm; if (!nm) return showVault("migrate", "Add a name."); }
+  if (!p) return showVault(back, "Enter your passphrase.");
   try {
-    const envelope = JSON.parse(localStorage.getItem(KEY));
+    const raw = localStorage.getItem(migrating ? KEY_SINGLE : KEY);
+    const envelope = JSON.parse(raw);
     const unlocked = await decryptPayload(envelope, p);
+    if (migrating) {
+      // Move the old single vault into the first profile: copy, verify, then remove the old key.
+      const prof = { id: pendingProfile.id, name: pendingProfile.name, icon: pendingProfile.icon || PATH_DEFAULT_ICON };
+      localStorage.setItem(vaultKeyFor(prof.id), raw);
+      if (localStorage.getItem(vaultKeyFor(prof.id)) !== raw) throw new Error("copy failed");
+      upsertProfile(prof);
+      localStorage.removeItem(KEY_SINGLE);
+      useProfile(prof); pendingProfile = null;
+    }
     sessionPass = p;
     data = migrateLegacy(unlocked);
     enterApp();
   } catch (e) {
-    showVault("unlock", "We can't read this file without your passphrase.");
+    showVault(back, migrating ? "We can't read this file without your passphrase." : "That passphrase doesn't open " + (currentProfile ? currentProfile.name : "this profile") + "'s data.");
   }
+}
+function showStartScreen(notice) {
+  const profiles = loadProfiles();
+  pendingProfile = null; useProfile(null);
+  if (profiles.length) return showVault("pick", "", notice);
+  if (localStorage.getItem(KEY_SINGLE)) { pendingProfile = { id: uid("pr"), name: "Me", icon: PATH_DEFAULT_ICON, migrate: true }; return showVault("migrate"); }
+  pendingProfile = { id: uid("pr"), name: "", icon: PATH_DEFAULT_ICON, isNew: true }; KEY = vaultKeyFor(pendingProfile.id);
+  showVault("add");
 }
 
 const GUIDE_SCREENS = [
@@ -5616,7 +5699,7 @@ function lockApp() {
   document.getElementById("appRoot").removeAttribute("aria-hidden");
   sessionPass = null;
   data = null;
-  showVault("unlock");
+  showStartScreen();
 }
 async function downloadBackup() {
   if (!sessionPass || !data) return;
@@ -5626,7 +5709,8 @@ async function downloadBackup() {
   const blob = new Blob([JSON.stringify(envelope, null, 2)], { type: "application/json" });
   const a = document.createElement("a");
   a.href = URL.createObjectURL(blob);
-  a.download = "higher-self-backup-" + TODAY + ".hsbak";
+  const who = currentProfile ? currentProfile.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") : "";
+  a.download = "higher-self-backup-" + (who ? who + "-" : "") + TODAY + ".hsbak";
   a.click();
   setTimeout(() => URL.revokeObjectURL(a.href), 2000);
 }
@@ -5637,9 +5721,17 @@ async function importBackupFile(file) {
     const pass = prompt("Passphrase for this backup.\\n\\nWe can't read this file without your passphrase.");
     if (!pass) return;
     const unlocked = await decryptPayload(envelope, pass);
+    if (pendingProfile && !currentProfile) {
+      const prof = { id: pendingProfile.id, name: pendingProfile.name || "Me", icon: pendingProfile.icon || PATH_DEFAULT_ICON };
+      useProfile(prof);
+    }
+    if (!currentProfile) throw new Error("no profile");
     sessionPass = pass;
     data = migrateLegacy(unlocked);
     await persist();
+    upsertProfile(currentProfile);
+    if (pendingProfile && pendingProfile.migrate) { try { localStorage.removeItem(KEY_SINGLE); } catch (e) {} }
+    pendingProfile = null;
     enterApp();
   } catch (e) {
     alert("We can't read this file without your passphrase.");
@@ -5648,6 +5740,15 @@ async function importBackupFile(file) {
 document.getElementById("btnBackup").onclick = downloadBackup;
 document.getElementById("btnRestore").onclick = () => document.getElementById("restoreFile").click();
 document.getElementById("btnLock").onclick = lockApp;
+document.getElementById("btnRemoveProfile").onclick = async () => {
+  if (!currentProfile) return;
+  const prof = currentProfile;
+  const ok = await askDelete("Remove " + prof.name + " and all their data? This can't be undone.", "Remove");
+  if (!ok) return;
+  try { localStorage.removeItem(vaultKeyFor(prof.id)); } catch (e) {}
+  saveProfiles(loadProfiles().filter(x => x.id !== prof.id));
+  lockApp();
+};
 
 // ---------- Menu drawer (opened from the logo)
 const MENU_GO = [
@@ -5656,10 +5757,11 @@ const MENU_GO = [
   { label: "Career and responsibilities", icon: "icons/area-career-v2.jpg", area: "career" },
   { label: "Personal development", icon: "icons/personal-development.jpg", area: "personal" },
   { label: "Social development", icon: "icons/social.jpg", area: "social" },
-  { label: "Spirit development", icon: "icons/spirit.jpg", area: "spiritual" },
+  { label: "Spirit development", icon: "icons/spirit.jpg", alt: "Rising light", area: "spiritual" },
   { label: "Hobbies", icon: "icons/hobbies.jpg", area: "time" },
   { label: "Paths", icon: "icons/paths-section.jpg", el: () => document.getElementById("pathsPanel") },
-  { label: "Diary", icon: "icons/diary.jpg", el: () => document.getElementById("diaryPanel") }
+  { label: "Diary", icon: "icons/diary.jpg", el: () => document.getElementById("diaryPanel") },
+  { label: "Money", icon: "icons/money.jpg", el: () => document.getElementById("moneySection") }
 ];
 (function setupMenu() {
   const dlg = document.getElementById("menuDrawer");
@@ -5670,7 +5772,7 @@ const MENU_GO = [
   let viaHistory = false, returnFocus = true;
   try { history.scrollRestoration = "manual"; } catch (e) {}
   document.getElementById("menuGoList").innerHTML = MENU_GO.map((g, i) =>
-    '<li><button type="button" data-menu-go="' + i + '"><img src="' + esc(iv(g.icon)) + '" alt="" /><span>' + esc(g.label) + '</span></button></li>').join("");
+    '<li><button type="button" data-menu-go="' + i + '"><img src="' + esc(iv(g.icon)) + '" alt="' + esc(g.alt || "") + '" /><span>' + esc(g.label) + '</span></button></li>').join("");
   const open = () => {
     if (dlg.open) return;
     returnFocus = true;
@@ -5751,9 +5853,7 @@ function registerServiceWorker() {
 (function boot() {
   registerServiceWorker();
   if (!cryptoReady()) { showCryptoBlocked(); return; }
-  const enc = localStorage.getItem(KEY);
-  if (enc) showVault("unlock");
-  else showVault("setup");
+  showStartScreen();
 })();
 </script>
 </body>

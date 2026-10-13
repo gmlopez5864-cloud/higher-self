@@ -40,3 +40,5 @@ Actions: **Keep the range** / **Change the range** / **Feed this area again**.
 ## Icons not shipped
 
 `icons/logo-options/`, `icons/logo-options-sheet.jpg`, and the old flower mark (`icons/app-mark.jpg`, `icons/icon-*.png`) stay on disk but are not referenced or precached. Leave them out of any upload/zip. Used copies: `icons/paths-section.jpg` (option 1), `icons/area-career-v2.jpg` (option 3), `icons/paths/wolf.jpg` (option 4). Old `career.jpg` is retired, not shipped.
+
+`icons/spirit-options/` and `icons/spirit-options-sheet.jpg` (Spirit icon candidates) are never shipped either. The chosen Spirit icon is `icons/spirit.jpg` ("Rising light", v22; replaced the lotus).
