@@ -1,5 +1,5 @@
 /* Higher Self — offline shell for install / Add to Home Screen */
-const CACHE = "higher-self-v19";
+const CACHE = "higher-self-v20";
 const ICON_VER = "19";
 // Plain URLs: shell + manifest/link icons. Versioned (?v=) URLs: every icon the page renders.
 const PRECACHE_PLAIN = [
