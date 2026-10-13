@@ -11,9 +11,8 @@
 <meta name="description" content="Private growth journal with encrypted vault and soft season check-ins." />
 <title>Higher Self</title>
 <link rel="manifest" href="manifest.webmanifest" />
-<link rel="icon" href="icons/icon-192.png" type="image/png" />
-<link rel="icon" href="icons/app-mark.jpg" />
-<link rel="apple-touch-icon" href="icons/icon-180.png" />
+<link rel="icon" href="icons/logo-192.png" type="image/png" />
+<link rel="apple-touch-icon" href="icons/logo-180.png" />
 <style>
   html[data-theme="dawn"] {
     --bg: #F7F1E8;
@@ -874,6 +873,23 @@
   .footer-actions { display: flex; flex-wrap: wrap; gap: 0.4rem; justify-content: center; }
   .footer-actions .btn { font-size: 0.85rem; padding: 0.4rem 0.75rem; }
   .app-footer .hint { text-align: center; margin: 0.4rem 0 0; font-size: 0.78rem; }
+  .logo-btn { background: none; border: 0; padding: 0; margin: 0; cursor: pointer; border-radius: 22%; line-height: 0; }
+  .logo-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .logo-btn.floating { position: fixed; top: 8px; left: 8px; z-index: 60; box-shadow: 0 2px 10px rgba(0,0,0,0.35); }
+  dialog.menu-drawer { margin: 0; inset: 0 auto 0 0; height: 100%; max-height: 100%; width: min(340px, 88vw); max-width: 88vw; border: 0; border-right: 1px solid var(--border); border-radius: 0 14px 14px 0; padding: 0.9rem; background: var(--panel); color: inherit; overflow-y: auto; animation: menuIn 0.18s ease-out; }
+  dialog.menu-drawer::backdrop { background: rgba(0,0,0,0.45); }
+  @keyframes menuIn { from { transform: translateX(-100%); } to { transform: none; } }
+  @media (prefers-reduced-motion: reduce) { dialog.menu-drawer { animation: none; } }
+  .menu-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem; }
+  .menu-title { margin: 0; font-size: 1.1rem; }
+  .menu-row, .menu-item, .menu-list button { display: flex; align-items: center; gap: 0.6rem; width: 100%; text-align: left; background: none; border: 0; color: inherit; font: inherit; padding: 0.5rem 0.4rem; border-radius: 10px; cursor: pointer; }
+  .menu-row:hover, .menu-item:hover, .menu-list button:hover { background: rgba(127,127,127,0.12); }
+  .menu-row img, .menu-list img { width: 32px; height: 32px; border-radius: 22%; object-fit: cover; flex: 0 0 32px; }
+  .menu-row small { display: block; color: var(--muted); font-size: 0.8rem; }
+  .menu-group { padding: 0 0 0.4rem 2.6rem; }
+  .menu-item { padding: 0.4rem; font-size: 0.93rem; }
+  .menu-sub { margin: 0.8rem 0 0.3rem; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
+  .menu-list { list-style: none; margin: 0; padding: 0; }
 </style>
 </head>
 <body>
@@ -882,7 +898,7 @@
   <header class="top">
     <div class="brand-row">
       <div class="brand">
-        <h1 class="brand-mark"><img class="book app-mark" src="icons/app-mark.jpg?v=20" alt="" />Higher Self</h1>
+        <h1 class="brand-mark"><button type="button" class="logo-btn" id="logoBtn" aria-label="Open menu" aria-haspopup="dialog" aria-expanded="false" aria-controls="menuDrawer"><img class="book app-mark" id="logoImg" src="icons/logo.jpg?v=21" alt="" /></button>Higher Self</h1>
         <p id="todayLabel"></p>
       </div>
     </div>
@@ -899,7 +915,7 @@
       </div>
     </div>
     <section class="panel time-card" id="timeCard" aria-labelledby="pieTitle">
-      <h2 id="pieTitle" class="title-book"><img class="book" src="icons/time-pie.jpg?v=20" alt="" />Where your time goes</h2>
+      <h2 id="pieTitle" class="title-book"><img class="book" src="icons/time-pie.jpg?v=21" alt="" />Where your time goes</h2>
       <div class="chip-row" id="timeViewToggle" role="radiogroup" aria-label="Time period">
         <button type="button" class="chip" data-tview="day" aria-pressed="true">Today</button>
         <button type="button" class="chip" data-tview="week" aria-pressed="false">This week</button>
@@ -922,13 +938,13 @@
   </header>
 
   <nav class="fast-travel" id="fastTravel" aria-label="Fast travel">
-    <button type="button" data-jump="checkin"><img src="icons/sleep.jpg?v=20" alt="" />Check-in</button>
-    <button type="button" data-jump="career"><img src="icons/career.jpg?v=20" alt="" />Career</button>
-    <button type="button" data-jump="personal"><img src="icons/personal-development.jpg?v=20" alt="" />Growth</button>
-    <button type="button" data-jump="spiritual"><img src="icons/spirit.jpg?v=20" alt="" />Spirit</button>
-    <button type="button" data-jump="social"><img src="icons/social.jpg?v=20" alt="" />Social</button>
-    <button type="button" data-jump="time"><img src="icons/hobbies.jpg?v=20" alt="" />Hobbies</button>
-    <button type="button" data-jump="money"><img src="icons/money.jpg?v=20" alt="" />Money</button>
+    <button type="button" data-jump="checkin"><img src="icons/sleep.jpg?v=21" alt="" />Check-in</button>
+    <button type="button" data-jump="career"><img src="icons/area-career-v2.jpg?v=21" alt="" />Career</button>
+    <button type="button" data-jump="personal"><img src="icons/personal-development.jpg?v=21" alt="" />Growth</button>
+    <button type="button" data-jump="spiritual"><img src="icons/spirit.jpg?v=21" alt="" />Spirit</button>
+    <button type="button" data-jump="social"><img src="icons/social.jpg?v=21" alt="" />Social</button>
+    <button type="button" data-jump="time"><img src="icons/hobbies.jpg?v=21" alt="" />Hobbies</button>
+    <button type="button" data-jump="money"><img src="icons/money.jpg?v=21" alt="" />Money</button>
   </nav>
 
   <div class="strip" id="strip" role="tablist" aria-label="This week, Sunday through Saturday"></div>
@@ -944,7 +960,7 @@
 
   <section class="panel" id="replacementPanel" aria-labelledby="replTitle">
     <h2 id="replTitle">Replacement list</h2>
-    <div class="book-slot"><img class="book" src="icons/shadow.jpg?v=20" alt="" /><span>When an urge hits</span></div>
+    <div class="book-slot"><img class="book" src="icons/shadow.jpg?v=21" alt="" /><span>When an urge hits</span></div>
     <p class="hint">Actions you picked ahead for when an urge hits.</p>
     <p class="hint">When a pull shows up, offer one from this list.</p>
     <ul class="entry-list" id="replList"></ul>
@@ -959,8 +975,8 @@
     <h2 id="diaryTitle">Diary</h2>
     <div class="book-slot" title="Diary and shadow icons">
       <span class="book-set">
-        <img class="book" src="icons/diary.jpg?v=20" alt="" />
-        <img class="book" src="icons/shadow.jpg?v=20" alt="" />
+        <img class="book" src="icons/diary.jpg?v=21" alt="" />
+        <img class="book" src="icons/shadow.jpg?v=21" alt="" />
       </span>
       <span>Diary</span>
     </div>
@@ -998,7 +1014,7 @@
   </section>
 
   <section class="panel" id="pathsPanel" aria-labelledby="pathsTitle">
-    <h2 id="pathsTitle">Your paths.</h2>
+    <h2 id="pathsTitle" class="title-book"><img class="book" src="icons/paths-section.jpg?v=21" alt="" />Your paths.</h2>
     <div class="row-actions"><button type="button" class="btn primary" id="pathAddBtn">Add a path</button><button type="button" class="btn" id="pathManageBtn">Manage paths</button></div>
     <p class="hint">Martial artist, writer, father, husband, whatever you're walking.</p>
     <div id="pathList"></div>
@@ -1006,7 +1022,7 @@
 
   <div class="split">
     <section class="side" aria-labelledby="trophyTitle">
-      <h2 id="trophyTitle" class="title-book"><img class="book" src="icons/trophies.jpg?v=20" alt="" />Returns to practice</h2>
+      <h2 id="trophyTitle" class="title-book"><img class="book" src="icons/trophies.jpg?v=21" alt="" />Returns to practice</h2>
       <div class="returns-banner" id="returnsBanner"></div>
       <div class="trophies" id="trophies"></div>
     </section>
@@ -1021,7 +1037,7 @@
       <ul class="log-list record-list" id="logList"></ul>
     </section>
     <section class="side" id="moneySection" aria-labelledby="moneyTitle">
-      <h2 id="moneyTitle" class="title-book"><img class="book" src="icons/money.jpg?v=20" alt="" />Money tracker</h2>
+      <h2 id="moneyTitle" class="title-book"><img class="book" src="icons/money.jpg?v=21" alt="" />Money tracker</h2>
       <div class="account-grid" id="accountGrid"></div>
       <p class="week-sum" id="weekSum"></p>
       <ul class="money-list" id="moneyList"></ul>
@@ -1030,13 +1046,7 @@
       </div>
     </section>
   </div>
-  <footer class="app-footer" aria-label="Settings and backup">
-    <div class="footer-actions">
-      <button type="button" class="btn" id="btnOptions">Options · Dawn</button>
-      <button type="button" class="btn" id="btnBackup">Back up the encrypted file</button>
-      <button type="button" class="btn" id="btnRestore">Restore from a backup</button>
-      <button type="button" class="btn" id="btnLock">Lock</button>
-    </div>
+  <footer class="app-footer" aria-label="Privacy">
     <p class="hint">Your data stays on this phone, encrypted. Cloud sync (Google Drive) is coming — for now, save the backup file wherever you like.</p>
   </footer>
 </div>
@@ -1249,6 +1259,25 @@
     <div><button type="button" class="guide-skip" id="guideSkip">Skip</button></div>
   </div>
 </div>
+<dialog id="menuDrawer" class="menu-drawer" aria-labelledby="menuTitle">
+  <div class="menu-head">
+    <h2 id="menuTitle" class="menu-title">Menu</h2>
+    <button type="button" class="btn" id="menuClose">Close</button>
+  </div>
+  <button type="button" class="menu-row menu-settings" id="menuSettingsToggle" aria-expanded="false" aria-controls="menuSettings">
+    <img src="icons/settings.jpg?v=21" alt="" /><span><b>Settings</b><small>Themes, backup, reminders, guide, lock</small></span>
+  </button>
+  <div class="menu-group" id="menuSettings" hidden>
+    <button type="button" class="menu-item" id="btnOptions">Options · Dawn</button>
+    <button type="button" class="menu-item" id="menuReminders">Reminders</button>
+    <button type="button" class="menu-item" id="menuGuide">Show the guide</button>
+    <button type="button" class="menu-item" id="btnBackup">Back up the encrypted file</button>
+    <button type="button" class="menu-item" id="btnRestore">Restore from a backup</button>
+    <button type="button" class="menu-item" id="btnLock">Lock</button>
+  </div>
+  <h3 class="menu-sub" id="menuGoTitle">Go to</h3>
+  <ul class="menu-list" id="menuGoList" aria-labelledby="menuGoTitle"></ul>
+</dialog>
 <dialog id="optionsDialog" class="wide">
   <h3>Options</h3>
   <p class="hint">Color scheme</p>
@@ -1276,7 +1305,7 @@
     <div class="row-actions"><button type="button" class="btn" id="optAddPull">Add pull</button><button type="button" class="btn" id="optManagePulls">Manage pulls</button></div>
   </div>
   <div class="subpanel" id="purposePanel" aria-labelledby="purposeTitle">
-    <h3 id="purposeTitle" class="title-book"><img class="book" src="icons/purpose.jpg?v=20" alt="" />Purpose (optional)</h3>
+    <h3 id="purposeTitle" class="title-book"><img class="book" src="icons/purpose.jpg?v=21" alt="" />Purpose (optional)</h3>
     <p class="hint">A note on how you're walking the path you already picked. Not a new choice, and not a finish.</p>
 
     <div class="subpanel">
@@ -1313,7 +1342,7 @@
     </div>
   </div>
   <div class="subpanel" id="remindersPanel">
-    <h3>Reminders</h3>
+    <h3 id="remTitle">Reminders</h3>
     <p class="hint" id="remPermNote"></p>
     <div class="row-actions"><button type="button" class="btn" id="remPermBtn" hidden>Turn on notifications</button></div>
     <ul class="entry-list" id="remList"></ul>
@@ -1436,7 +1465,7 @@ const THIN_MOVES = {
   time: "Hobby time (30 min)."
 };
 const AREAS = [
-  { id: "career", img: "icons/career.jpg", name: "Career and responsibilities", color: "#5B9FD4", starter: "Finish one owed task." },
+  { id: "career", img: "icons/area-career-v2.jpg", name: "Career and responsibilities", color: "#5B9FD4", starter: "Finish one owed task." },
   { id: "personal", img: "icons/personal-development.jpg", name: "Personal development", color: "#3ECF8E", starter: "Practice a skill (25 min)." },
   { id: "social", img: "icons/social.jpg", name: "Social development", color: "#E07A9A", starter: "Reply to someone waiting." },
   { id: "spiritual", img: "icons/spirit.jpg", name: "Spirit development", color: "#9B7EDE", starter: "Sit with no phone (10 min)." },
@@ -1606,10 +1635,11 @@ const PATH_DEFAULT_ICON = "icons/paths/custom.jpg";
 const PATH_ICONS = [
   "icons/paths/martial-artist.jpg", "icons/paths/wrestling.jpg", "icons/paths/writer.jpg", "icons/paths/parent.jpg", "icons/paths/partner.jpg",
   "icons/paths/athlete.jpg", "icons/paths/musician.jpg", "icons/paths/builder.jpg",
-  "icons/paths/pen.jpg", "icons/paths/hammer.jpg", "icons/paths/weights.jpg", "icons/paths/running-shoes.jpg", "icons/paths/boots.jpg", "icons/paths/sandals.jpg", "icons/paths/kitchen.jpg", "icons/paths/wrench.jpg", "icons/paths/paintbrush.jpg", "icons/paths/dance.jpg", "icons/paths/video.jpg", "icons/paths/mother.jpg", "icons/paths/father.jpg", "icons/paths/son.jpg", "icons/paths/daughter.jpg", "icons/paths/friend.jpg", "icons/paths/lover.jpg",
+  "icons/paths/pen.jpg", "icons/paths/hammer.jpg", "icons/paths/weights.jpg", "icons/paths/running-shoes.jpg", "icons/paths/boots.jpg", "icons/paths/sandals.jpg", "icons/paths/kitchen.jpg", "icons/paths/wrench.jpg", "icons/paths/paintbrush.jpg", "icons/paths/dance.jpg", "icons/paths/video.jpg", "icons/paths/mother.jpg", "icons/paths/father.jpg", "icons/paths/son.jpg", "icons/paths/daughter.jpg", "icons/paths/friend.jpg", "icons/paths/lover.jpg", "icons/paths/wolf.jpg",
   "icons/paths/custom.jpg"
 ];
 const PATH_ICON_LABELS = {
+  "icons/paths/wolf.jpg": "Wolf",
   "icons/paths/pen.jpg": "Pen",
   "icons/paths/hammer.jpg": "Hammer",
   "icons/paths/weights.jpg": "Weights",
@@ -1630,7 +1660,8 @@ const PATH_ICON_LABELS = {
 };
 const PATH_WRESTLING_ICON = "icons/paths/wrestling.jpg";
 // Icon cache-bust: same filenames were re-cut, so every rendered icon URL carries ?v=. Stored data keeps plain paths.
-const ICON_VER = "20";
+const ICON_VER = "21";
+const LOGO_SRC = "icons/logo.jpg"; // swap the app logo here (header, menu button, vault screens)
 function plainIcon(src) { return String(src || "").split("?")[0]; }
 function iv(src) {
   const p = plainIcon(src);
@@ -2464,7 +2495,7 @@ function addCustomPull(label, steer, opposite, img) {
 }
 function sortedDesc(list) { return list.slice().sort((a, b) => a.date < b.date ? 1 : a.date > b.date ? -1 : 0); }
 function bookSlot(label) {
-  return '<span class="book-slot" title="Area notes"><img class="book" src="icons/area-note.jpg?v=20" alt="" /><span>' + esc(label) + '</span></span>';
+  return '<span class="book-slot" title="Area notes"><img class="book" src="icons/area-note.jpg?v=21" alt="" /><span>' + esc(label) + '</span></span>';
 }
 function pickReplacement() {
   if (!data.replacements.length) return null;
@@ -2670,7 +2701,7 @@ function renderCheckin() {
       '<p class="hint" id="sleepPreview"></p>';
   }
   const body =
-    '<div class="sleep-row"><p class="q-title title-book"><img class="book" src="icons/sleep.jpg?v=20" alt="" />How did last night go?</p>' + sleepHtml + '</div>' +
+    '<div class="sleep-row"><p class="q-title title-book"><img class="book" src="icons/sleep.jpg?v=21" alt="" />How did last night go?</p>' + sleepHtml + '</div>' +
     pathCheckinHtml(date);
   document.getElementById("checkinBody").innerHTML = body;
   bindCheckin();
@@ -5052,7 +5083,7 @@ function showVault(mode, err) {
   if (mode === "setup") {
     html =
       '<div class="vault-screen">' +
-      '<div class="brand-mark" style="margin-bottom:0.6rem"><img class="book app-mark" src="icons/app-mark.jpg?v=20" alt="" /><span style="font-family:Georgia,serif;font-size:1.35rem">Higher Self</span></div>' +
+      '<div class="brand-mark" style="margin-bottom:0.6rem"><img class="book app-mark" src="' + iv(LOGO_SRC) + '" alt="" /><span style="font-family:Georgia,serif;font-size:1.35rem">Higher Self</span></div>' +
       '<h1>Your data stays on this phone, encrypted.</h1>' +
       '<p class="hint">Set a passphrase. You\'ll need it to open your notes.</p>' +
       '<p class="hint">If you lose your passphrase, no one can recover your notes, us included. Write it down somewhere safe.</p>' +
@@ -5066,7 +5097,7 @@ function showVault(mode, err) {
   } else {
     html =
       '<div class="vault-screen">' +
-      '<div class="brand-mark" style="margin-bottom:0.6rem"><img class="book app-mark" src="icons/app-mark.jpg?v=20" alt="" /><span style="font-family:Georgia,serif;font-size:1.35rem">Higher Self</span></div>' +
+      '<div class="brand-mark" style="margin-bottom:0.6rem"><img class="book app-mark" src="' + iv(LOGO_SRC) + '" alt="" /><span style="font-family:Georgia,serif;font-size:1.35rem">Higher Self</span></div>' +
       '<h1>Your data stays on this phone, encrypted.</h1>' +
       '<p class="hint">Enter your passphrase to open your notes.</p>' +
       '<p class="hint">We can\'t read this file without your passphrase.</p>' +
@@ -5347,7 +5378,7 @@ async function deliverNotification(title, body, kind, id, extra) {
   window.__hsNotified = window.__hsNotified || [];
   window.__hsNotified.push({ title, body, kind, id });
   if (!notifySupported() || Notification.permission !== "granted") return false;
-  const opts = Object.assign({ body, tag: remTag(kind, id), icon: "icons/icon-192.png", badge: NOTIFY_BADGE, data: { kind, id, url: "./#open=" + kind + ":" + id } }, extra || {});
+  const opts = Object.assign({ body, tag: remTag(kind, id), icon: "icons/logo-192.png", badge: NOTIFY_BADGE, data: { kind, id, url: "./#open=" + kind + ":" + id } }, extra || {});
   try {
     if ("serviceWorker" in navigator) {
       const reg = await navigator.serviceWorker.getRegistration();
@@ -5400,7 +5431,7 @@ async function scheduleTriggers() {
     reminderItems().forEach(x => {
       const next = remNext(x.item.reminder, now);
       if (next == null) return;
-      reg.showNotification(NOTIFY_TITLE, { body: notifyBody(x.title), tag: remTag(x.kind, x.item.id), icon: "icons/icon-192.png", badge: NOTIFY_BADGE, data: { kind: x.kind, id: x.item.id, url: "./#open=" + x.kind + ":" + x.item.id }, showTrigger: new TimestampTrigger(next) }).catch(() => {});
+      reg.showNotification(NOTIFY_TITLE, { body: notifyBody(x.title), tag: remTag(x.kind, x.item.id), icon: "icons/logo-192.png", badge: NOTIFY_BADGE, data: { kind: x.kind, id: x.item.id, url: "./#open=" + x.kind + ":" + x.item.id }, showTrigger: new TimestampTrigger(next) }).catch(() => {});
     });
   } catch (e) {}
 }
@@ -5617,6 +5648,73 @@ async function importBackupFile(file) {
 document.getElementById("btnBackup").onclick = downloadBackup;
 document.getElementById("btnRestore").onclick = () => document.getElementById("restoreFile").click();
 document.getElementById("btnLock").onclick = lockApp;
+
+// ---------- Menu drawer (opened from the logo)
+const MENU_GO = [
+  { label: "Where your time goes", icon: "icons/time-pie.jpg", el: () => document.getElementById("timeCard") },
+  { label: "Check-in", icon: "icons/sleep.jpg", el: () => document.getElementById("checkin") },
+  { label: "Career and responsibilities", icon: "icons/area-career-v2.jpg", area: "career" },
+  { label: "Personal development", icon: "icons/personal-development.jpg", area: "personal" },
+  { label: "Social development", icon: "icons/social.jpg", area: "social" },
+  { label: "Spirit development", icon: "icons/spirit.jpg", area: "spiritual" },
+  { label: "Hobbies", icon: "icons/hobbies.jpg", area: "time" },
+  { label: "Paths", icon: "icons/paths-section.jpg", el: () => document.getElementById("pathsPanel") },
+  { label: "Diary", icon: "icons/diary.jpg", el: () => document.getElementById("diaryPanel") }
+];
+(function setupMenu() {
+  const dlg = document.getElementById("menuDrawer");
+  const logo = document.getElementById("logoBtn");
+  const logoImg = document.getElementById("logoImg");
+  if (!dlg || !logo) return;
+  logoImg.src = iv(LOGO_SRC);
+  let viaHistory = false, returnFocus = true;
+  try { history.scrollRestoration = "manual"; } catch (e) {}
+  document.getElementById("menuGoList").innerHTML = MENU_GO.map((g, i) =>
+    '<li><button type="button" data-menu-go="' + i + '"><img src="' + esc(iv(g.icon)) + '" alt="" /><span>' + esc(g.label) + '</span></button></li>').join("");
+  const open = () => {
+    if (dlg.open) return;
+    returnFocus = true;
+    dlg.showModal(); logo.setAttribute("aria-expanded", "true");
+    try { history.pushState({ hsMenu: 1 }, ""); viaHistory = true; } catch (e) { viaHistory = false; }
+    const first = document.getElementById("menuClose"); if (first) first.focus();
+  };
+  const close = () => { if (dlg.open) dlg.close(); };
+  window.hsMenuOpen = open; window.hsMenuClose = close;
+  dlg.addEventListener("close", () => {
+    logo.setAttribute("aria-expanded", "false");
+    if (viaHistory) { viaHistory = false; if (history.state && history.state.hsMenu) history.back(); }
+    if (returnFocus && document.getElementById("appRoot") && !document.getElementById("appRoot").hidden) logo.focus();
+  });
+  window.addEventListener("popstate", () => { if (dlg.open) { viaHistory = false; dlg.close(); } });
+  logo.onclick = open;
+  document.getElementById("menuClose").onclick = close;
+  dlg.addEventListener("click", e => { if (e.target === dlg) { const r = dlg.getBoundingClientRect(); if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) close(); } });
+  const tog = document.getElementById("menuSettingsToggle");
+  tog.onclick = () => { const g = document.getElementById("menuSettings"); g.hidden = !g.hidden; tog.setAttribute("aria-expanded", g.hidden ? "false" : "true"); };
+  // Settings items: close the menu first, then run the action (capture phase so it runs before the item's own handler).
+  dlg.querySelectorAll(".menu-item").forEach(b => b.addEventListener("click", () => { returnFocus = false; close(); }, true));
+  document.getElementById("menuReminders").onclick = () => {
+    renderReminderList(); document.getElementById("optionsDialog").showModal();
+    const t = document.getElementById("remTitle"); if (t) t.scrollIntoView({ block: "start" });
+  };
+  document.getElementById("menuGuide").onclick = () => openGuide();
+  dlg.querySelectorAll("[data-menu-go]").forEach(b => b.onclick = () => {
+    const g = MENU_GO[Number(b.dataset.menuGo)];
+    returnFocus = false; close();
+    if (g.area && isCollapsed(g.area)) {
+      data.collapsedAreas = data.collapsedAreas.filter(x => x !== g.area); save(); renderAreas();
+    }
+    if (g.area && data) data.lastTaskArea = g.area;
+    // Wait a beat so closing the menu (history step) can't cancel the smooth scroll.
+    setTimeout(() => {
+      const el = g.area ? document.querySelector('[data-area-id="' + g.area + '"]') : g.el();
+      if (el) { el.setAttribute("tabindex", "-1"); el.focus({ preventScroll: true }); el.scrollIntoView({ behavior: "smooth", block: "start" }); }
+    }, 80);
+  });
+  const row = document.querySelector(".brand-row");
+  const onScroll = () => { if (row) logo.classList.toggle("floating", row.getBoundingClientRect().bottom < 0); };
+  window.addEventListener("scroll", onScroll, { passive: true });
+})();
 document.getElementById("restoreFile").onchange = e => {
   const f = e.target.files && e.target.files[0];
   e.target.value = "";

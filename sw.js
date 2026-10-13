@@ -1,21 +1,26 @@
 /* Higher Self — offline shell for install / Add to Home Screen */
-const CACHE = "higher-self-v20";
-const ICON_VER = "19";
+const CACHE = "higher-self-v21";
+const ICON_VER = "21";
 // Plain URLs: shell + manifest/link icons. Versioned (?v=) URLs: every icon the page renders.
 const PRECACHE_PLAIN = [
   "./",
   "./index.html",
   "./manifest.webmanifest",
-  "./icons/app-mark.jpg",
-  "./icons/icon-192.png",
-  "./icons/icon-512.png",
-  "./icons/icon-512-maskable.png",
-  "./icons/icon-180.png",
+  "./icons/logo.jpg",
+  "./icons/logo-180.png",
+  "./icons/logo-192.png",
+  "./icons/logo-512.png",
+  "./icons/logo-maskable-192.png",
+  "./icons/logo-maskable-512.png",
   "./icons/notify/badge.png"
 ];
+// Not shipped: icons/logo-options/ (candidate logos), logo-options-sheet.jpg, app-mark.jpg and icon-*.png (old flower mark).
+// Used copies of logo-options: paths-section.jpg (1), area-career-v2.jpg (3), paths/wolf.jpg (4). career.jpg retired.
 const PRECACHE_ICONS = [
-  "./icons/app-mark.jpg",
-  "./icons/career.jpg",
+  "./icons/logo.jpg",
+  "./icons/paths-section.jpg",
+  "./icons/settings.jpg",
+  "./icons/area-career-v2.jpg",
   "./icons/personal-development.jpg",
   "./icons/social.jpg",
   "./icons/spirit.jpg",
@@ -88,6 +93,7 @@ const PRECACHE_ICONS = [
   "./icons/paths/athlete.jpg",
   "./icons/paths/builder.jpg",
   "./icons/paths/custom.jpg",
+  "./icons/paths/wolf.jpg",
   "./icons/paths/martial-artist.jpg",
   "./icons/paths/musician.jpg",
   "./icons/paths/parent.jpg",
