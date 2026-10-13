@@ -909,7 +909,7 @@
   <header class="top">
     <div class="brand-row">
       <div class="brand">
-        <h1 class="brand-mark"><button type="button" class="logo-btn" id="logoBtn" aria-label="Open menu" aria-haspopup="dialog" aria-expanded="false" aria-controls="menuDrawer"><img class="book app-mark" id="logoImg" src="icons/logo.jpg?v=23" alt="" /></button>Higher Self</h1>
+        <h1 class="brand-mark"><button type="button" class="logo-btn" id="logoBtn" aria-label="Open menu" aria-haspopup="dialog" aria-expanded="false" aria-controls="menuDrawer"><img class="book app-mark" id="logoImg" src="icons/logo.jpg?v=24" alt="" /></button>Higher Self</h1>
         <p id="todayLabel"></p>
       </div>
     </div>
@@ -926,7 +926,7 @@
       </div>
     </div>
     <section class="panel time-card" id="timeCard" aria-labelledby="pieTitle">
-      <h2 id="pieTitle" class="title-book"><img class="book" src="icons/time-pie.jpg?v=23" alt="" />Where your time goes</h2>
+      <h2 id="pieTitle" class="title-book"><img class="book" src="icons/time-pie.jpg?v=24" alt="" />Where your time goes</h2>
       <div class="chip-row" id="timeViewToggle" role="radiogroup" aria-label="Time period">
         <button type="button" class="chip" data-tview="day" aria-pressed="true">Today</button>
         <button type="button" class="chip" data-tview="week" aria-pressed="false">This week</button>
@@ -970,7 +970,7 @@
 
   <section class="panel" id="replacementPanel" aria-labelledby="replTitle">
     <h2 id="replTitle">Replacement list</h2>
-    <div class="book-slot"><img class="book" src="icons/shadow.jpg?v=23" alt="" /><span>When an urge hits</span></div>
+    <div class="book-slot"><img class="book" src="icons/shadow.jpg?v=24" alt="" /><span>When an urge hits</span></div>
     <p class="hint">Actions you picked ahead for when an urge hits.</p>
     <p class="hint">When a pull shows up, offer one from this list.</p>
     <ul class="entry-list" id="replList"></ul>
@@ -985,8 +985,8 @@
     <h2 id="diaryTitle">Diary</h2>
     <div class="book-slot" title="Diary and shadow icons">
       <span class="book-set">
-        <img class="book" src="icons/diary.jpg?v=23" alt="" />
-        <img class="book" src="icons/shadow.jpg?v=23" alt="" />
+        <img class="book" src="icons/diary.jpg?v=24" alt="" />
+        <img class="book" src="icons/shadow.jpg?v=24" alt="" />
       </span>
       <span>Diary</span>
     </div>
@@ -1024,7 +1024,7 @@
   </section>
 
   <section class="panel" id="pathsPanel" aria-labelledby="pathsTitle">
-    <h2 id="pathsTitle" class="title-book"><img class="book" src="icons/paths-section.jpg?v=23" alt="" />Your paths.</h2>
+    <h2 id="pathsTitle" class="title-book"><img class="book" src="icons/paths-section.jpg?v=24" alt="" />Your paths.</h2>
     <div class="row-actions"><button type="button" class="btn primary" id="pathAddBtn">Add a path</button><button type="button" class="btn" id="pathManageBtn">Manage paths</button></div>
     <p class="hint">Martial artist, writer, father, husband, whatever you're walking.</p>
     <div id="pathList"></div>
@@ -1041,7 +1041,7 @@
       <ul class="log-list record-list" id="logList"></ul>
     </section>
     <section class="side" id="moneySection" aria-labelledby="moneyTitle">
-      <h2 id="moneyTitle" class="title-book"><img class="book" src="icons/money.jpg?v=23" alt="" />Money tracker</h2>
+      <h2 id="moneyTitle" class="title-book"><img class="book" src="icons/money.jpg?v=24" alt="" />Money tracker</h2>
       <div class="account-grid" id="accountGrid"></div>
       <p class="week-sum" id="weekSum"></p>
       <ul class="money-list" id="moneyList"></ul>
@@ -1269,7 +1269,7 @@
     <button type="button" class="btn" id="menuClose">Close</button>
   </div>
   <button type="button" class="menu-row menu-settings" id="menuSettingsToggle" aria-expanded="false" aria-controls="menuSettings">
-    <img src="icons/settings.jpg?v=23" alt="" /><span><b>Settings</b><small>Themes, backup, reminders, guide, lock</small></span>
+    <img src="icons/settings.jpg?v=24" alt="" /><span><b>Settings</b><small>Themes, backup, reminders, guide, lock</small></span>
   </button>
   <div class="menu-group" id="menuSettings" hidden>
     <button type="button" class="menu-item" id="btnOptions">Options · Dawn</button>
@@ -1346,7 +1346,7 @@
     <div class="row-actions"><button type="button" class="btn" id="optAddPull">Add pull</button><button type="button" class="btn" id="optManagePulls">Manage pulls</button></div>
   </div>
   <div class="subpanel" id="purposePanel" aria-labelledby="purposeTitle">
-    <h3 id="purposeTitle" class="title-book"><img class="book" src="icons/purpose.jpg?v=23" alt="" />Purpose (optional)</h3>
+    <h3 id="purposeTitle" class="title-book"><img class="book" src="icons/purpose.jpg?v=24" alt="" />Purpose (optional)</h3>
     <p class="hint">A note on how you're walking the path you already picked. Not a new choice, and not a finish.</p>
 
     <div class="subpanel">
@@ -1701,7 +1701,7 @@ const PATH_ICON_LABELS = {
 };
 const PATH_WRESTLING_ICON = "icons/paths/wrestling.jpg";
 // Icon cache-bust: same filenames were re-cut, so every rendered icon URL carries ?v=. Stored data keeps plain paths.
-const ICON_VER = "23";
+const ICON_VER = "24";
 const LOGO_SRC = "icons/logo.jpg"; // swap the app logo here (header, menu button, vault screens)
 function plainIcon(src) { return String(src || "").split("?")[0]; }
 function iv(src) {
@@ -2537,7 +2537,7 @@ function addCustomPull(label, steer, opposite, img) {
 }
 function sortedDesc(list) { return list.slice().sort((a, b) => a.date < b.date ? 1 : a.date > b.date ? -1 : 0); }
 function bookSlot(label) {
-  return '<span class="book-slot" title="Area notes"><img class="book" src="icons/area-note.jpg?v=23" alt="" /><span>' + esc(label) + '</span></span>';
+  return '<span class="book-slot" title="Area notes"><img class="book" src="icons/area-note.jpg?v=24" alt="" /><span>' + esc(label) + '</span></span>';
 }
 function pickReplacement() {
   if (!data.replacements.length) return null;
@@ -2760,7 +2760,7 @@ function renderCheckin() {
       '<p class="hint" id="sleepPreview"></p>';
   }
   const body =
-    '<div class="sleep-row"><p class="q-title title-book"><img class="book" src="icons/sleep.jpg?v=23" alt="" />How did last night go?</p>' + sleepHtml + '</div>' +
+    '<div class="sleep-row"><p class="q-title title-book"><img class="book" src="icons/sleep.jpg?v=24" alt="" />How did last night go?</p>' + sleepHtml + '</div>' +
     pathCheckinHtml(date);
   document.getElementById("checkinBody").innerHTML = body;
   bindCheckin();
@@ -3737,7 +3737,7 @@ function syncMoneyOther() {
 }
 
 document.querySelectorAll(".themes button").forEach(btn => { btn.onclick = () => applyTheme(btn.dataset.theme); });
-document.getElementById("btnOptions").onclick = () => { renderReminderList(); document.getElementById("optionsDialog").showModal(); };
+document.getElementById("btnOptions").onclick = () => { renderReminderList(); openSheet(document.getElementById("optionsDialog")); };
 document.getElementById("optionsClose").onclick = () => document.getElementById("optionsDialog").close();
 document.getElementById("btnAddTask").onclick = () => openTaskDialog(null);
 document.getElementById("btnAddGoal").onclick = () => openGoalDialog(null);
@@ -5947,10 +5947,10 @@ function shrinkPhoto(file) {
 }
 (function setupThemes() {
   const dlg = document.getElementById("themesDialog");
-  window.openThemes = () => { renderThemesScreen(); if (!dlg.open) dlg.showModal(); };
+  window.openThemes = () => { renderThemesScreen(); openSheet(dlg); };
   dlg.addEventListener("close", () => { if (data) applyTheme(data.theme, { noSave: true }); }); // drop an unsaved custom preview
   document.getElementById("themesDone").onclick = () => dlg.close();
-  document.getElementById("optThemes").onclick = () => { document.getElementById("optionsDialog").close(); openThemes(); };
+  document.getElementById("optThemes").onclick = () => openThemes();
   document.getElementById("ctPhotoBtn").onclick = () => document.getElementById("ctPhotoFile").click();
   document.getElementById("ctPhotoFile").onchange = async e => {
     const f = e.target.files && e.target.files[0]; e.target.value = ""; if (!f) return;
@@ -5983,6 +5983,16 @@ function setupGlyphs() {
   })).observe(document.body, { subtree: true, childList: true, attributes: true, attributeFilter: ["src"] });
 }
 
+// ---------- Sheets: one way to open a dialog so it is always the visible, topmost one.
+function openSheet(dlg, focusEl) {
+  if (!dlg) return;
+  // Close any other open sheet first so nothing stacks on top of this one.
+  document.querySelectorAll("dialog[open]").forEach(d => { if (d !== dlg) { try { d.close(); } catch (e) {} } });
+  if (dlg.open) dlg.close();
+  dlg.showModal();
+  dlg.scrollTop = 0;
+  if (focusEl) { focusEl.scrollIntoView({ block: "start" }); if (focusEl.tabIndex < 0) focusEl.setAttribute("tabindex", "-1"); focusEl.focus({ preventScroll: true }); }
+}
 // ---------- Menu drawer (opened from the logo)
 const MENU_GO = [
   { label: "Where your time goes", icon: "icons/time-pie.jpg", el: () => document.getElementById("timeCard") },
@@ -6026,26 +6036,42 @@ const MENU_GO = [
   dlg.addEventListener("click", e => { if (e.target === dlg) { const r = dlg.getBoundingClientRect(); if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) close(); } });
   const tog = document.getElementById("menuSettingsToggle");
   tog.onclick = () => { const g = document.getElementById("menuSettings"); g.hidden = !g.hidden; tog.setAttribute("aria-expanded", g.hidden ? "false" : "true"); };
-  // Settings items: close the menu first, then run the action (capture phase so it runs before the item's own handler).
-  dlg.querySelectorAll(".menu-item").forEach(b => b.addEventListener("click", () => { returnFocus = false; close(); }, true));
+  // Close the menu, then run fn once the menu's history step has fully settled. Opening a sheet while the
+  // browser is still processing that back step lets mobile browsers close (or bury) the new sheet.
+  const closeMenuThen = (fn, sync) => {
+    returnFocus = false;
+    if (sync || !viaHistory || !dlg.open) { close(); fn(); return; }
+    let ran = false;
+    const go = () => { if (ran) return; ran = true; window.removeEventListener("popstate", onPop); requestAnimationFrame(() => setTimeout(fn, 0)); };
+    const onPop = () => go();
+    window.addEventListener("popstate", onPop);
+    setTimeout(go, 500); // fallback if the browser never reports the back step
+    close();
+  };
+  window.hsCloseMenuThen = closeMenuThen;
+  // Settings items run their action after the menu is gone. File picker and download stay synchronous
+  // (browsers only allow them inside the tap itself).
+  const SYNC_ITEMS = new Set(["btnRestore", "btnBackup", "btnLock"]);
+  dlg.querySelectorAll(".menu-item").forEach(b => b.addEventListener("click", e => {
+    if (e.__hsMenuRun) return;
+    e.stopImmediatePropagation(); e.preventDefault();
+    closeMenuThen(() => { const h = b.onclick; if (h) h.call(b, Object.assign(new MouseEvent("click"), { __hsMenuRun: true })); }, SYNC_ITEMS.has(b.id));
+  }, true));
   document.getElementById("menuReminders").onclick = () => {
-    renderReminderList(); document.getElementById("optionsDialog").showModal();
-    const t = document.getElementById("remTitle"); if (t) t.scrollIntoView({ block: "start" });
+    renderReminderList(); openSheet(document.getElementById("optionsDialog"), document.getElementById("remTitle"));
   };
   document.getElementById("menuGuide").onclick = () => openGuide();
   document.getElementById("menuThemes").onclick = () => openThemes();
   dlg.querySelectorAll("[data-menu-go]").forEach(b => b.onclick = () => {
     const g = MENU_GO[Number(b.dataset.menuGo)];
-    returnFocus = false; close();
-    if (g.area && isCollapsed(g.area)) {
-      data.collapsedAreas = data.collapsedAreas.filter(x => x !== g.area); save(); renderAreas();
-    }
-    if (g.area && data) data.lastTaskArea = g.area;
-    // Wait a beat so closing the menu (history step) can't cancel the smooth scroll.
-    setTimeout(() => {
+    closeMenuThen(() => {
+      if (g.area && isCollapsed(g.area)) {
+        data.collapsedAreas = data.collapsedAreas.filter(x => x !== g.area); save(); renderAreas();
+      }
+      if (g.area && data) data.lastTaskArea = g.area;
       const el = g.area ? document.querySelector('[data-area-id="' + g.area + '"]') : g.el();
       if (el) { el.setAttribute("tabindex", "-1"); el.focus({ preventScroll: true }); el.scrollIntoView({ behavior: "smooth", block: "start" }); }
-    }, 80);
+    });
   });
   const row = document.querySelector(".brand-row");
   const onScroll = () => { if (row) logo.classList.toggle("floating", row.getBoundingClientRect().bottom < 0); };
