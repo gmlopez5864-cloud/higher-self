@@ -1,6 +1,6 @@
 /* Higher Self — offline shell for install / Add to Home Screen */
-const CACHE = "higher-self-v24";
-const ICON_VER = "24";
+const CACHE = "higher-self-v25";
+const ICON_VER = "25";
 // Plain URLs: shell + manifest/link icons. Versioned (?v=) URLs: every icon the page renders.
 const PRECACHE_PLAIN = [
   "./",
@@ -17,6 +17,7 @@ const PRECACHE_PLAIN = [
 // Not shipped: icons/glyphs/ (Pablo's 512px glyph sources; the app ships icons/glyphs128/ built by /workspace/make-glyphs128.sh), themes/picture-themes-sheet.jpg, icons/spirit-options/, icons/spirit-options-sheet.jpg (candidate spirit icons; icons/spirit.jpg is the chosen one), icons/logo-options/ (candidate logos), logo-options-sheet.jpg, app-mark.jpg and icon-*.png (old flower mark).
 // Used copies of logo-options: paths-section.jpg (1), area-career-v2.jpg (3), paths/wolf.jpg (4). career.jpg retired.
 const PRECACHE_ICONS = [
+  "./icons/glyphs128/money/index.json",
   "./icons/glyphs128/area-career-v2.png",
   "./icons/glyphs128/area-note.png",
   "./icons/glyphs128/diary.png",
@@ -230,7 +231,11 @@ const PRECACHE = PRECACHE_PLAIN.concat(PRECACHE_ICONS.map((u) => u + "?v=" + ICO
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
-    caches.open(CACHE).then((cache) => cache.addAll(PRECACHE.map((u) => new Request(u, { cache: "reload" })))).then(() => self.skipWaiting())
+    caches.open(CACHE).then((cache) => cache.addAll(PRECACHE.map((u) => new Request(u, { cache: "reload" })))
+      // Money category glyphs Pablo has drawn so far (listed by make-glyphs128.sh); best effort so a missing file never blocks install.
+      .then(() => fetch("./icons/glyphs128/money/index.json?v=" + ICON_VER, { cache: "reload" }).then((r) => r.json()).catch(() => []))
+      .then((slugs) => Promise.all((Array.isArray(slugs) ? slugs : []).map((s) => cache.add(new Request("./icons/glyphs128/money/" + s + ".png?v=" + ICON_VER, { cache: "reload" })).catch(() => {}))))
+    ).then(() => self.skipWaiting())
   );
 });
 

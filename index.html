@@ -629,6 +629,42 @@
   .purpose-name { margin-top: 0.55rem; }
   @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
 
+  /* v25 money: categories, pie, debts */
+  .cat-grid { display: flex; flex-wrap: wrap; gap: 0.35rem; margin: 0.3rem 0 0.2rem; max-height: 15rem; overflow-y: auto; }
+  .cat-chip { display: inline-flex; align-items: center; gap: 0.3rem; border: 1px solid var(--border); background: var(--field); border-radius: 999px; padding: 0.2rem 0.25rem 0.2rem 0.3rem; font-size: 0.8rem; color: var(--text); }
+  .cat-chip[aria-pressed="true"] { background: var(--accent); border-color: transparent; color: var(--onBtn); font-weight: 700; }
+  .cat-chip .cat-pick { border: 0; background: transparent; color: inherit; font: inherit; display: inline-flex; align-items: center; gap: 0.3rem; padding: 0.1rem 0.15rem; min-height: 32px; }
+  .cat-chip .cat-star { border: 0; background: transparent; color: inherit; font-size: 1rem; line-height: 1; padding: 0.1rem 0.3rem; min-width: 28px; min-height: 32px; opacity: 0.55; }
+  .cat-chip .cat-star[aria-pressed="true"] { opacity: 1; color: #E6A817; }
+  .cat-chip[aria-pressed="true"] .cat-star[aria-pressed="true"] { color: inherit; }
+  .cat-ico { width: 22px; height: 22px; border-radius: 6px; flex: none; display: inline-grid; place-items: center; font-size: 0.7rem; font-weight: 700; background: var(--icon-tile, var(--accent)); color: var(--onBtn, #fff); object-fit: cover; }
+  .money-pie-wrap { display: flex; gap: 0.9rem; align-items: center; flex-wrap: wrap; margin: 0.4rem 0 0.6rem; }
+  .money-pie-wrap svg { width: 132px; height: 132px; flex: none; }
+  .money-legend { list-style: none; margin: 0; padding: 0; flex: 1 1 10rem; min-width: 0; font-size: 0.82rem; }
+  .money-legend li { display: flex; align-items: center; gap: 0.4rem; padding: 0.16rem 0; }
+  .money-legend .sw { width: 10px; height: 10px; border-radius: 3px; flex: none; }
+  .money-legend .nm { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .money-legend .am { font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .debt-list { display: grid; gap: 0.45rem; margin: 0.35rem 0; }
+  .debt-card { text-align: left; border: 1px solid var(--border); background: var(--field); border-radius: 12px; padding: 0.55rem 0.7rem; color: var(--text); font: inherit; width: 100%; }
+  .debt-card .dn { font-weight: 700; display: flex; justify-content: space-between; gap: 0.5rem; }
+  .debt-card .ds { font-size: 0.8rem; color: var(--muted); margin-top: 0.15rem; }
+  .debt-result { margin-top: 0.6rem; padding: 0.6rem 0.7rem; border-radius: 12px; background: var(--field); border: 1px solid var(--border); font-size: 0.9rem; }
+  .debt-result p { margin: 0.2rem 0; }
+  .debt-result .warn { color: var(--warn); font-weight: 600; }
+  .debt-sugs { margin: 0.5rem 0 0; }
+  .debt-sug { min-height: 40px; min-width: 64px; text-align: center; font-size: 0.9rem; }
+  .net-worth { margin-top: 0.7rem; }
+  .net-worth .nw-row { display: flex; justify-content: space-between; gap: 0.5rem; font-size: 0.95rem; }
+  .net-worth .nw-sub { display: block; font-size: 0.78rem; color: var(--muted); margin-top: 0.1rem; }
+  .payoff-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.45rem; margin: 0.4rem 0; }
+  .payoff-card { border: 1px solid var(--border); background: var(--field); border-radius: 12px; padding: 0.55rem 0.6rem; display: flex; flex-direction: column; gap: 0.25rem; min-width: 0; font-size: 0.84rem; }
+  .payoff-card[data-active="true"] { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
+  .payoff-card h4 { margin: 0; font-size: 0.92rem; display: flex; align-items: center; gap: 0.35rem; }
+  .payoff-card .sub { color: var(--muted); font-size: 0.78rem; }
+  .payoff-card ol { margin: 0.15rem 0 0.2rem; padding-left: 1.1rem; font-size: 0.8rem; }
+  .payoff-card .btn { margin-top: auto; font-size: 0.82rem; padding: 0.4rem 0.5rem; }
+  .debt-disclaimer { font-size: 0.75rem; color: var(--muted); margin: 0.45rem 0 0; }
   .subpanel { margin-top: 0.85rem; border-top: 1px solid var(--line); padding-top: 0.7rem; }
   .subpanel h3 { margin: 0 0 0.35rem; font-size: 0.95rem; font-family: Georgia, serif; font-weight: 500; }
   .chip-row { display: flex; flex-wrap: wrap; gap: 0.35rem; margin: 0.35rem 0 0.55rem; }
@@ -897,6 +933,11 @@
   .picture-theme { display: flex; gap: 0.6rem; align-items: center; padding: 0.4rem; border: 1px solid var(--border); border-radius: 12px; background: var(--field); color: var(--text); font: inherit; text-align: left; cursor: pointer; }
   .picture-theme img { width: 3.2rem; height: 5.4rem; object-fit: cover; border-radius: 8px; flex: 0 0 auto; }
   .picture-theme small { display: block; color: var(--muted); font-size: 0.82rem; }
+  .custom-tiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.45rem; margin: 0.3rem 0; }
+  .custom-tile { border: 1px solid var(--border); border-radius: 12px; background: var(--field); padding: 0.35rem; display: grid; gap: 0.3rem; min-width: 0; }
+  .custom-tile .theme-swatch { width: 100%; }
+  .custom-tile .ct-acts { display: flex; justify-content: space-between; gap: 0.2rem; }
+  .custom-tile .ct-acts .tiny { min-height: 32px; font-size: 0.8rem; }
   .custom-theme { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.45rem; }
   .color-field input[type="color"] { width: 100%; height: 2.4rem; padding: 2px; border: 1px solid var(--border); border-radius: 10px; background: var(--field); }
   .ct-thumb { width: 2.6rem; height: 4.4rem; object-fit: cover; border-radius: 6px; border: 1px solid var(--border); }
@@ -909,7 +950,7 @@
   <header class="top">
     <div class="brand-row">
       <div class="brand">
-        <h1 class="brand-mark"><button type="button" class="logo-btn" id="logoBtn" aria-label="Open menu" aria-haspopup="dialog" aria-expanded="false" aria-controls="menuDrawer"><img class="book app-mark" id="logoImg" src="icons/logo.jpg?v=24" alt="" /></button>Higher Self</h1>
+        <h1 class="brand-mark"><button type="button" class="logo-btn" id="logoBtn" aria-label="Open menu" aria-haspopup="dialog" aria-expanded="false" aria-controls="menuDrawer"><img class="book app-mark" id="logoImg" src="icons/logo.jpg?v=25" alt="" /></button>Higher Self</h1>
         <p id="todayLabel"></p>
       </div>
     </div>
@@ -926,7 +967,7 @@
       </div>
     </div>
     <section class="panel time-card" id="timeCard" aria-labelledby="pieTitle">
-      <h2 id="pieTitle" class="title-book"><img class="book" src="icons/time-pie.jpg?v=24" alt="" />Where your time goes</h2>
+      <h2 id="pieTitle" class="title-book"><img class="book" src="icons/time-pie.jpg?v=25" alt="" />Where your time goes</h2>
       <div class="chip-row" id="timeViewToggle" role="radiogroup" aria-label="Time period">
         <button type="button" class="chip" data-tview="day" aria-pressed="true">Today</button>
         <button type="button" class="chip" data-tview="week" aria-pressed="false">This week</button>
@@ -970,7 +1011,7 @@
 
   <section class="panel" id="replacementPanel" aria-labelledby="replTitle">
     <h2 id="replTitle">Replacement list</h2>
-    <div class="book-slot"><img class="book" src="icons/shadow.jpg?v=24" alt="" /><span>When an urge hits</span></div>
+    <div class="book-slot"><img class="book" src="icons/shadow.jpg?v=25" alt="" /><span>When an urge hits</span></div>
     <p class="hint">Actions you picked ahead for when an urge hits.</p>
     <p class="hint">When a pull shows up, offer one from this list.</p>
     <ul class="entry-list" id="replList"></ul>
@@ -985,8 +1026,8 @@
     <h2 id="diaryTitle">Diary</h2>
     <div class="book-slot" title="Diary and shadow icons">
       <span class="book-set">
-        <img class="book" src="icons/diary.jpg?v=24" alt="" />
-        <img class="book" src="icons/shadow.jpg?v=24" alt="" />
+        <img class="book" src="icons/diary.jpg?v=25" alt="" />
+        <img class="book" src="icons/shadow.jpg?v=25" alt="" />
       </span>
       <span>Diary</span>
     </div>
@@ -1024,7 +1065,7 @@
   </section>
 
   <section class="panel" id="pathsPanel" aria-labelledby="pathsTitle">
-    <h2 id="pathsTitle" class="title-book"><img class="book" src="icons/paths-section.jpg?v=24" alt="" />Your paths.</h2>
+    <h2 id="pathsTitle" class="title-book"><img class="book" src="icons/paths-section.jpg?v=25" alt="" />Your paths.</h2>
     <div class="row-actions"><button type="button" class="btn primary" id="pathAddBtn">Add a path</button><button type="button" class="btn" id="pathManageBtn">Manage paths</button></div>
     <p class="hint">Martial artist, writer, father, husband, whatever you're walking.</p>
     <div id="pathList"></div>
@@ -1041,12 +1082,32 @@
       <ul class="log-list record-list" id="logList"></ul>
     </section>
     <section class="side" id="moneySection" aria-labelledby="moneyTitle">
-      <h2 id="moneyTitle" class="title-book"><img class="book" src="icons/money.jpg?v=24" alt="" />Money tracker</h2>
+      <h2 id="moneyTitle" class="title-book"><img class="book" src="icons/money.jpg?v=25" alt="" />Money tracker</h2>
       <div class="account-grid" id="accountGrid"></div>
       <p class="week-sum" id="weekSum"></p>
+      <div class="subpanel" id="moneyPiePanel">
+        <h3 id="moneyPieTitle">Where your money goes</h3>
+        <div class="chip-row" id="moneyPieToggle" role="radiogroup" aria-labelledby="moneyPieTitle">
+          <button type="button" class="chip" role="radio" data-mrange="month" aria-pressed="true" aria-checked="true">This month</button>
+          <button type="button" class="chip" role="radio" data-mrange="year" aria-pressed="false" aria-checked="false">This year</button>
+        </div>
+        <div class="money-pie-wrap" id="moneyPie"></div>
+      </div>
       <ul class="money-list" id="moneyList"></ul>
       <div class="time-row" style="margin-top:0.55rem">
         <button type="button" class="btn" id="btnAddAccount">Add account</button>
+      </div>
+      <div class="subpanel" id="debtPanel">
+        <h3>Debts</h3>
+        <div class="debt-list" id="debtList"></div>
+        <button type="button" class="btn" id="btnAddDebt">Add a debt</button>
+        <div id="payoffPlans" hidden></div>
+      </div>
+      <div class="subpanel" id="savingsPanel">
+        <h3>Savings and investments</h3>
+        <div class="debt-list" id="savingsList"></div>
+        <button type="button" class="btn" id="btnAddSavings">Add savings or investment</button>
+        <p class="week-sum net-worth" id="netWorthLine" hidden></p>
       </div>
     </section>
   </div>
@@ -1214,15 +1275,23 @@
     </select>
   </label>
   <label class="field" id="moneyExpenseWrap" style="margin-top:0.45rem" hidden>What it was for
-    <select id="moneyExpense">
-      <option value="bill">Bill</option>
-      <option value="date">Date/dinner</option>
-      <option value="groceries">Groceries</option>
-      <option value="project">Project</option>
-      <option value="transfer">Transfer</option>
-      <option value="other">Other</option>
-    </select>
+    <input type="hidden" id="moneyExpense" value="other" />
   </label>
+  <div id="moneyCatWrap" hidden>
+    <p class="hint" style="margin:0.15rem 0 0">Star the ones you use most.</p>
+    <div class="cat-grid" id="moneyCatGrid" role="group" aria-label="Category"></div>
+    <button type="button" class="tiny" id="moneyCatAdd" style="font-size:0.85rem;padding:0.4rem 0.2rem">+ Add a category</button>
+    <div class="time-row" id="moneyCatNewRow" hidden style="margin-top:0.3rem;gap:0.4rem">
+      <input id="moneyCatNew" type="text" maxlength="40" placeholder="Category name" aria-label="New category name" style="flex:1;min-width:0" />
+      <button type="button" class="btn" id="moneyCatNewSave">Add</button>
+    </div>
+  </div>
+  <div id="moneyDebtWrap" hidden>
+    <label class="field" style="margin-top:0.45rem">Which debt
+      <select id="moneyDebt"><option value="">None</option></select>
+    </label>
+    <label class="check-line"><input type="checkbox" id="moneyDebtApply" checked /> Lower this debt's balance</label>
+  </div>
   <label class="field" id="moneyOtherWrap" style="margin-top:0.45rem" hidden>Label<input id="moneyOther" type="text" maxlength="80" /></label>
   <label class="field" id="moneyGoalWrap" style="margin-top:0.45rem" hidden><span id="moneyGoalLabel">Put toward a project</span>
     <select id="moneyGoal"><option value="">None</option></select>
@@ -1234,6 +1303,54 @@
   </div>
 </dialog>
 
+<dialog id="debtDialog" class="wide" aria-labelledby="debtDialogTitle">
+  <h3 id="debtDialogTitle">Add a debt</h3>
+  <label class="field">Name<input id="debtName" type="text" maxlength="60" placeholder="Credit card, car loan…" /></label>
+  <label class="field" style="margin-top:0.45rem">Balance<input id="debtBalance" type="number" step="0.01" min="0" inputmode="decimal" /></label>
+  <label class="field" style="margin-top:0.45rem">Interest rate (APR %)<input id="debtApr" type="number" step="0.01" min="0" inputmode="decimal" /></label>
+  <div class="chip-row" id="debtModeRow" role="radiogroup" aria-label="Payment">
+    <button type="button" class="chip" role="radio" data-dmode="fixed" aria-pressed="true" aria-checked="true">Fixed payment</button>
+    <button type="button" class="chip" role="radio" data-dmode="minimum" aria-pressed="false" aria-checked="false">Card minimum (% of balance)</button>
+  </div>
+  <label class="field" id="debtFixedWrap">Monthly payment<input id="debtPayment" type="number" step="0.01" min="0" inputmode="decimal" /></label>
+  <div id="debtMinWrap" hidden>
+    <label class="field">Percent of balance<input id="debtPct" type="number" step="0.1" min="0" value="1" inputmode="decimal" /></label>
+    <p class="hint" style="margin:0.2rem 0 0">Plus that month's interest, with a $25 floor (or the remaining balance if less).</p>
+  </div>
+  <label class="field" style="margin-top:0.45rem">Extra each month<input id="debtExtra" type="number" step="1" min="0" inputmode="decimal" /></label>
+  <div class="debt-result" id="debtResult" aria-live="polite"></div>
+  <p class="debt-disclaimer" id="debtDisclaimer">This is an estimate only. It assumes a fixed rate and the same payment every month. Your lender's numbers may differ.</p>
+  <div class="actions">
+    <button type="button" class="btn" id="debtDelete" hidden>Remove</button>
+    <button type="button" class="btn" id="debtCancel">Cancel</button>
+    <button type="button" class="btn primary" id="debtSave">Save</button>
+  </div>
+</dialog>
+<dialog id="savingsDialog" class="wide" aria-labelledby="savingsDialogTitle">
+  <h3 id="savingsDialogTitle">Add savings or investment</h3>
+  <label class="field">Name<input id="savName" type="text" maxlength="60" placeholder="Emergency fund, 401(k)…" /></label>
+  <div class="chip-row" id="savKindRow" role="radiogroup" aria-label="Type">
+    <button type="button" class="chip" role="radio" data-skind="savings" aria-pressed="true" aria-checked="true">Savings</button>
+    <button type="button" class="chip" role="radio" data-skind="cd" aria-pressed="false" aria-checked="false">CD</button>
+    <button type="button" class="chip" role="radio" data-skind="investment" aria-pressed="false" aria-checked="false">Investment</button>
+  </div>
+  <label class="field">Balance<input id="savBalance" type="number" step="0.01" min="0" inputmode="decimal" /></label>
+  <label class="field" style="margin-top:0.45rem">Expected yearly return (%)<input id="savRate" type="number" step="0.01" min="0" inputmode="decimal" /></label>
+  <label class="field" style="margin-top:0.45rem">Monthly deposit<input id="savDeposit" type="number" step="1" min="0" inputmode="decimal" /></label>
+  <div class="chip-row" id="savYearsRow" role="radiogroup" aria-label="Years" style="margin-top:0.55rem">
+    <button type="button" class="chip" role="radio" data-syears="5" aria-pressed="false" aria-checked="false">5 years</button>
+    <button type="button" class="chip" role="radio" data-syears="10" aria-pressed="true" aria-checked="true">10 years</button>
+    <button type="button" class="chip" role="radio" data-syears="20" aria-pressed="false" aria-checked="false">20 years</button>
+    <button type="button" class="chip" role="radio" data-syears="30" aria-pressed="false" aria-checked="false">30 years</button>
+  </div>
+  <div class="debt-result" id="savResult" aria-live="polite"></div>
+  <p class="debt-disclaimer" id="savDisclaimer">This is an estimate only. Investment returns aren't guaranteed and can go down as well as up.</p>
+  <div class="actions">
+    <button type="button" class="btn" id="savDelete" hidden>Remove</button>
+    <button type="button" class="btn" id="savCancel">Cancel</button>
+    <button type="button" class="btn primary" id="savSave">Save</button>
+  </div>
+</dialog>
 <dialog id="accountDialog">
   <h3 id="accountDialogTitle">Add account</h3>
   <div class="chip-row" id="accountPresets">
@@ -1269,7 +1386,7 @@
     <button type="button" class="btn" id="menuClose">Close</button>
   </div>
   <button type="button" class="menu-row menu-settings" id="menuSettingsToggle" aria-expanded="false" aria-controls="menuSettings">
-    <img src="icons/settings.jpg?v=24" alt="" /><span><b>Settings</b><small>Themes, backup, reminders, guide, lock</small></span>
+    <img src="icons/settings.jpg?v=25" alt="" /><span><b>Settings</b><small>Themes, backup, reminders, guide, lock</small></span>
   </button>
   <div class="menu-group" id="menuSettings" hidden>
     <button type="button" class="menu-item" id="btnOptions">Options · Dawn</button>
@@ -1318,7 +1435,14 @@
   <p class="hint">Pick art you love. Your cards stay easy to read on top.</p>
   <div class="picture-themes" id="pictureThemes" role="group" aria-label="Picture themes"></div>
   <h4 class="theme-group">Custom</h4>
-  <div class="custom-theme">
+  <div class="custom-tiles" id="customThemes" role="group" aria-label="Your custom themes"></div>
+  <div class="row-actions"><button type="button" class="btn" id="ctNew">New theme</button><button type="button" class="btn" id="ctStartBtn" aria-expanded="false" aria-controls="ctStartWrap">Start from…</button></div>
+  <label class="field" id="ctStartWrap" hidden>Start from…
+    <select id="ctStartFrom"><option value="">Choose a theme…</option></select>
+  </label>
+  <p class="hint" id="ctEditing" style="margin:0.4rem 0 0.2rem;font-weight:600">New theme</p>
+  <label class="field">Name this theme<input id="ctName" type="text" maxlength="40" placeholder="My theme" /></label>
+  <div class="custom-theme" style="margin-top:0.45rem">
     <label class="field color-field">Background<input type="color" id="ctBg" /></label>
     <label class="field color-field">Cards<input type="color" id="ctCard" /></label>
     <label class="field color-field">Accent<input type="color" id="ctAccent" /></label>
@@ -1346,7 +1470,7 @@
     <div class="row-actions"><button type="button" class="btn" id="optAddPull">Add pull</button><button type="button" class="btn" id="optManagePulls">Manage pulls</button></div>
   </div>
   <div class="subpanel" id="purposePanel" aria-labelledby="purposeTitle">
-    <h3 id="purposeTitle" class="title-book"><img class="book" src="icons/purpose.jpg?v=24" alt="" />Purpose (optional)</h3>
+    <h3 id="purposeTitle" class="title-book"><img class="book" src="icons/purpose.jpg?v=25" alt="" />Purpose (optional)</h3>
     <p class="hint">A note on how you're walking the path you already picked. Not a new choice, and not a finish.</p>
 
     <div class="subpanel">
@@ -1701,7 +1825,7 @@ const PATH_ICON_LABELS = {
 };
 const PATH_WRESTLING_ICON = "icons/paths/wrestling.jpg";
 // Icon cache-bust: same filenames were re-cut, so every rendered icon URL carries ?v=. Stored data keeps plain paths.
-const ICON_VER = "24";
+const ICON_VER = "25";
 const LOGO_SRC = "icons/logo.jpg"; // swap the app logo here (header, menu button, vault screens)
 function plainIcon(src) { return String(src || "").split("?")[0]; }
 function iv(src) {
@@ -1774,7 +1898,19 @@ PULL_OPPOSITES.appetite = PULL_OPPOSITES.gluttony;
 PULL_OPPOSITES.avoidance = PULL_OPPOSITES.sloth;
 const PULLS = DEFAULT_PULLS; // alias for older call sites
 const INCOME_SOURCES = { paycheck: "Paycheck", side: "Side work", gift: "Gift", refund: "Refund", other: "Other" };
-const EXPENSE_TYPES = { bill: "Bill", date: "Date/dinner", groceries: "Groceries", project: "Project", transfer: "Transfer", other: "Other" };
+const EXPENSE_CATS = [
+  ["rent-or-mortgage", "Rent or mortgage"], ["groceries", "Groceries"], ["eating-out", "Eating out"], ["phone", "Phone"],
+  ["electric", "Electric"], ["water", "Water"], ["gas-and-fuel", "Gas and fuel"], ["internet", "Internet"], ["insurance", "Insurance"],
+  ["car-payment", "Car payment"], ["debt-payment", "Debt payment"], ["subscriptions", "Subscriptions"], ["kids", "Kids"],
+  ["health", "Health"], ["gifts", "Gifts"], ["fun", "Fun"], ["other", "Other"]
+];
+// Pre-v25 expense types keep their stored ids and old labels (no data rewritten); they just aren't offered for new entries.
+const PAYOFF_METHODS = { smallest: { title: "Smallest first", sub: "Clear small balances fast. Quick wins keep you going.", icon: "smallest-first" }, highest: { title: "Highest rate first", sub: "Tackle the costliest debt first. Pays the least interest.", icon: "highest-rate" } };
+const SAVINGS_KINDS = { savings: "Savings", cd: "CD", investment: "Investment" };
+const SAVINGS_YEARS = [5, 10, 20, 30];
+const EXPENSE_LEGACY = { bill: "Bills", date: "Date/dinner", project: "Project", transfer: "Transfer" };
+const EXPENSE_TYPES = Object.assign({}, EXPENSE_LEGACY, Object.fromEntries(EXPENSE_CATS));
+const MONEY_PIE_COLORS = ["#5B9FD4", "#3ECF8E", "#E07A9A", "#9B7EDE", "#E6B84D", "#E9804F", "#4FC1C9", "#B5895A", "#8FA35B", "#D65A5A", "#7C8DB0", "#C77DBB"];
 const ACCOUNT_DEFAULTS = ["Checking", "Savings", "Cash"];
 const KEY_SINGLE = "higherSelfApp.v2.enc"; // pre-profiles single vault (migrated into the first profile)
 let KEY = KEY_SINGLE; // the open profile's vault key
@@ -1953,7 +2089,7 @@ function blankData() {
   let theme = "dawn";
   try { const h = new Date().getHours(); if (h >= 20 || h < 6) theme = "dusk"; } catch (e) {}
   return {
-    theme, selected: TODAY, tasks: [], goals: [], accounts: defaultAccounts(), money: [], days: {},
+    theme, selected: TODAY, tasks: [], goals: [], accounts: defaultAccounts(), money: [], days: {}, debts: [], savings: [], expenseCustom: [], expenseFavs: [], moneyPieRange: "month",
     notes: [], purpose: blankPurpose(), diary: [], customPulls: [],
     areaOrder: DEFAULT_AREA_ORDER.slice(),
     areaGoals: blankAreaGoals(),
@@ -2163,6 +2299,28 @@ function migrateLegacy(raw) {
     openingBalance: a.openingBalance != null && !Number.isNaN(Number(a.openingBalance)) ? Number(a.openingBalance) : 0
   }));
   if (!Array.isArray(d.money)) d.money = [];
+  d.expenseCustom = Array.isArray(d.expenseCustom) ? d.expenseCustom.filter(c => c && c.id && c.name).map(c => ({ id: String(c.id), name: String(c.name).slice(0, 40) })) : [];
+  d.expenseFavs = Array.isArray(d.expenseFavs) ? d.expenseFavs.filter(x => typeof x === "string") : [];
+  d.moneyPieRange = d.moneyPieRange === "year" ? "year" : "month";
+  d.debts = Array.isArray(d.debts) ? d.debts.filter(x => x && x.id).map(x => ({
+    id: String(x.id), name: String(x.name || "Debt").slice(0, 60),
+    balance: Math.max(0, Number(x.balance) || 0), apr: Math.max(0, Number(x.apr) || 0),
+    mode: x.mode === "minimum" ? "minimum" : "fixed", payment: Math.max(0, Number(x.payment) || 0),
+    pct: x.pct != null && !Number.isNaN(Number(x.pct)) ? Math.max(0, Number(x.pct)) : 1, extra: Math.max(0, Number(x.extra) || 0)
+  })) : [];
+  d.savings = Array.isArray(d.savings) ? d.savings.filter(x => x && x.id).map(x => ({
+    id: String(x.id), name: String(x.name || "Savings").slice(0, 60), kind: SAVINGS_KINDS[x.kind] ? x.kind : (["stocks", "retirement", "other"].includes(x.kind) ? "investment" : "savings"),
+    balance: Math.max(0, Number(x.balance) || 0), rate: Number(x.rate) || 0, deposit: Math.max(0, Number(x.deposit) || 0),
+    years: SAVINGS_YEARS.includes(Number(x.years)) ? Number(x.years) : SAVINGS_YEARS.reduce((b, y) => Math.abs(y - (Number(x.years) || 10)) < Math.abs(b - (Number(x.years) || 10)) ? y : b, 10)
+  })) : [];
+  // v25: many named custom themes. The old single data.customTheme becomes the first one (photo included).
+  d.customThemes = Array.isArray(d.customThemes) ? d.customThemes.filter(t => t && t.id) : [];
+  if (d.customTheme && typeof d.customTheme === "object" && !d.customThemes.length) {
+    d.customThemes.push(Object.assign({}, CUSTOM_DEFAULT, d.customTheme, { id: "custom-1", name: "My theme" }));
+  }
+  delete d.customTheme;
+  if (d.theme === "custom") d.theme = d.customThemes.length ? d.customThemes[0].id : "dawn";
+  d.payoffPlan = d.payoffPlan === "smallest" || d.payoffPlan === "highest" ? d.payoffPlan : "";
   d.areaOrder = normalizeAreaOrder(d.areaOrder);
   d.areaGoals = normalizeAreaGoals(d.areaGoals);
   if (d.heavySeasonUntil != null && typeof d.heavySeasonUntil !== "string") d.heavySeasonUntil = null;
@@ -2537,7 +2695,7 @@ function addCustomPull(label, steer, opposite, img) {
 }
 function sortedDesc(list) { return list.slice().sort((a, b) => a.date < b.date ? 1 : a.date > b.date ? -1 : 0); }
 function bookSlot(label) {
-  return '<span class="book-slot" title="Area notes"><img class="book" src="icons/area-note.jpg?v=24" alt="" /><span>' + esc(label) + '</span></span>';
+  return '<span class="book-slot" title="Area notes"><img class="book" src="icons/area-note.jpg?v=25" alt="" /><span>' + esc(label) + '</span></span>';
 }
 function pickReplacement() {
   if (!data.replacements.length) return null;
@@ -2760,7 +2918,7 @@ function renderCheckin() {
       '<p class="hint" id="sleepPreview"></p>';
   }
   const body =
-    '<div class="sleep-row"><p class="q-title title-book"><img class="book" src="icons/sleep.jpg?v=24" alt="" />How did last night go?</p>' + sleepHtml + '</div>' +
+    '<div class="sleep-row"><p class="q-title title-book"><img class="book" src="icons/sleep.jpg?v=25" alt="" />How did last night go?</p>' + sleepHtml + '</div>' +
     pathCheckinHtml(date);
   document.getElementById("checkinBody").innerHTML = body;
   bindCheckin();
@@ -3418,6 +3576,7 @@ function renderMoney() {
   grid.querySelectorAll("[data-edit-account]").forEach(btn => {
     btn.onclick = () => openAccountDialog(btn.dataset.editAccount);
   });
+  renderMoneyPie(); renderDebts(); renderSavings();
   const w = weekMoneySummary();
   document.getElementById("weekSum").textContent =
     "This week (" + prettyDate(w.sun) + "–" + prettyDate(w.end) + "): " + moneyFmt(w.inn) + " in · " + moneyFmt(-w.out) + " out · net " + moneyFmt(w.net);
@@ -3425,7 +3584,7 @@ function renderMoney() {
   if (!data.money.length) { list.innerHTML = '<li><span class="empty">Nothing entered.</span></li>'; return; }
   list.innerHTML = data.money.slice().sort((a, b) => a.date < b.date ? 1 : -1).map(m => {
     const acc = data.accounts.find(a => a.id === m.accountId);
-    const cat = m.type === "income" ? (INCOME_SOURCES[m.category] || m.label || "Income") : (EXPENSE_TYPES[m.category] || m.label || "Expense");
+    const cat = m.type === "income" ? (INCOME_SOURCES[m.category] || m.label || "Income") : expenseCatName(m.category, m.label);
     const extra = (m.label && (m.category === "other" || m.category === "project")) ? (" · " + m.label) : "";
     const goal = m.goalId ? data.goals.find(g => g.id === m.goalId) : null;
     const toward = goal ? (" · toward " + goal.title) : "";
@@ -3433,6 +3592,343 @@ function renderMoney() {
     const amt = signedAmount(m);
     return '<li><span>' + esc(cat + extra) + ' · ' + esc(acc ? acc.name : "?") + ' · ' + esc(prettyDate(m.date)) + esc(toward) + '</span><span class="' + (amt < 0 ? "money-neg" : "money-pos") + '">' + moneyFmt(amt) + '</span></li>';
   }).join("");
+}
+
+// ---------- v25 money: expense categories, money pie, debts ----------
+let MONEY_GLYPH_SET = new Set();
+fetch("icons/glyphs128/money/index.json?v=" + ICON_VER).then(r => r.ok ? r.json() : []).then(list => { MONEY_GLYPH_SET = new Set(Array.isArray(list) ? list : []); if (data) { renderMoney(); if (!document.getElementById("moneyCatWrap").hidden) renderCatGrid(); } }).catch(() => {});
+function expenseCatName(id, label) {
+  if (EXPENSE_TYPES[id]) return (id === "other" && label) ? label : EXPENSE_TYPES[id];
+  const c = data && data.expenseCustom.find(x => x.id === id);
+  return c ? c.name : (label || "Other");
+}
+function catIcon(id, name) {
+  if (MONEY_GLYPH_SET.has(id)) return '<img class="cat-ico glyph" src="icons/glyphs128/money/' + esc(id) + '.png?v=' + ICON_VER + '" alt="" />';
+  return '<span class="cat-ico" aria-hidden="true">' + esc(String(name || "?").trim().charAt(0).toUpperCase()) + '</span>';
+}
+function expenseCatList() {
+  const all = EXPENSE_CATS.map(([id, name]) => ({ id, name })).concat(data.expenseCustom);
+  const fav = data.expenseFavs;
+  return all.filter(c => fav.includes(c.id)).sort((a, b) => fav.indexOf(a.id) - fav.indexOf(b.id)).concat(all.filter(c => !fav.includes(c.id)));
+}
+function renderCatGrid() {
+  const cur = document.getElementById("moneyExpense").value;
+  const grid = document.getElementById("moneyCatGrid");
+  grid.innerHTML = expenseCatList().map(c => {
+    const on = c.id === cur, fav = data.expenseFavs.includes(c.id);
+    return '<span class="cat-chip" aria-pressed="' + on + '"><button type="button" class="cat-pick" data-cat="' + esc(c.id) + '" aria-pressed="' + on + '">' + catIcon(c.id, c.name) + esc(c.name) + '</button>' +
+      '<button type="button" class="cat-star" data-star="' + esc(c.id) + '" aria-pressed="' + fav + '" aria-label="' + (fav ? "Unstar " : "Star ") + esc(c.name) + '">' + (fav ? "★" : "☆") + '</button></span>';
+  }).join("");
+  grid.querySelectorAll("[data-cat]").forEach(b => b.onclick = () => { document.getElementById("moneyExpense").value = b.dataset.cat; renderCatGrid(); syncMoneyOther(); syncMoneyDebt(); });
+  grid.querySelectorAll("[data-star]").forEach(b => b.onclick = () => {
+    const id = b.dataset.star, i = data.expenseFavs.indexOf(id);
+    if (i >= 0) data.expenseFavs.splice(i, 1); else data.expenseFavs.push(id);
+    save(); renderCatGrid();
+    const again = grid.querySelector('[data-star="' + CSS.escape(id) + '"]'); if (again) again.focus();
+  });
+}
+function syncMoneyDebt() {
+  const show = moneyType === "expense" && document.getElementById("moneyExpense").value === "debt-payment" && data.debts.length > 0;
+  document.getElementById("moneyDebtWrap").hidden = !show;
+  if (show) {
+    const sel = document.getElementById("moneyDebt"), keep = sel.value;
+    sel.innerHTML = '<option value="">None</option>' + data.debts.map(x => '<option value="' + esc(x.id) + '">' + esc(x.name) + ' (' + moneyPlain(x.balance) + ')</option>').join("");
+    sel.value = data.debts.some(x => x.id === keep) ? keep : (data.debts.length === 1 ? data.debts[0].id : "");
+  }
+}
+document.getElementById("moneyCatAdd").onclick = () => { const r = document.getElementById("moneyCatNewRow"); r.hidden = false; document.getElementById("moneyCatNew").value = ""; document.getElementById("moneyCatNew").focus(); };
+function addCustomCat() {
+  const name = document.getElementById("moneyCatNew").value.trim().replace(/\s+/g, " ");
+  if (!name) return;
+  const known = expenseCatList().find(c => c.name.toLowerCase() === name.toLowerCase());
+  const id = known ? known.id : uid("cat_");
+  if (!known) data.expenseCustom.push({ id, name: name.slice(0, 40) });
+  document.getElementById("moneyExpense").value = id;
+  document.getElementById("moneyCatNewRow").hidden = true;
+  save(); renderCatGrid(); syncMoneyOther(); syncMoneyDebt();
+}
+document.getElementById("moneyCatNewSave").onclick = addCustomCat;
+document.getElementById("moneyCatNew").onkeydown = e => { if (e.key === "Enter") { e.preventDefault(); addCustomCat(); } };
+
+// Money pie: expenses by category for the selected day's month or year (transfers are moves, not spending).
+function moneyPieData(range) {
+  const sel = data.selected, from = range === "year" ? sel.slice(0, 4) + "-01-01" : sel.slice(0, 7) + "-01", to = range === "year" ? sel.slice(0, 4) + "-12-31" : sel.slice(0, 7) + "-31";
+  const sums = {};
+  data.money.forEach(m => {
+    if (m.type !== "expense" || m.category === "transfer" || m.date < from || m.date > to) return;
+    const id = m.category || "other"; sums[id] = (sums[id] || 0) + (Number(m.amount) || 0);
+  });
+  const rows = Object.keys(sums).filter(k => sums[k] > 0).map(id => ({ id, name: expenseCatName(id, ""), amt: sums[id] })).sort((a, b) => b.amt - a.amt);
+  return { rows, total: rows.reduce((s, r) => s + r.amt, 0) };
+}
+function renderMoneyPie() {
+  const range = data.moneyPieRange || "month";
+  document.querySelectorAll("#moneyPieToggle .chip").forEach(b => { const on = b.dataset.mrange === range; b.setAttribute("aria-pressed", on); b.setAttribute("aria-checked", on); });
+  const box = document.getElementById("moneyPie");
+  const { rows, total } = moneyPieData(range);
+  if (!total) { box.innerHTML = '<p class="empty" style="margin:0">No spending ' + (range === "year" ? "this year" : "this month") + ' yet. Add an expense to see where it goes.</p>'; return; }
+  let a0 = -Math.PI / 2, paths = "";
+  rows.forEach((r, i) => {
+    const col = MONEY_PIE_COLORS[i % MONEY_PIE_COLORS.length], frac = r.amt / total;
+    if (frac >= 0.9999) { paths += '<circle cx="50" cy="50" r="48" fill="' + col + '"/>'; return; }
+    const a1 = a0 + frac * 2 * Math.PI, big = frac > 0.5 ? 1 : 0;
+    paths += '<path d="M50 50 L' + (50 + 48 * Math.cos(a0)).toFixed(2) + ' ' + (50 + 48 * Math.sin(a0)).toFixed(2) + ' A48 48 0 ' + big + ' 1 ' + (50 + 48 * Math.cos(a1)).toFixed(2) + ' ' + (50 + 48 * Math.sin(a1)).toFixed(2) + ' Z" fill="' + col + '"/>';
+    a0 = a1;
+  });
+  const label = "Spending " + (range === "year" ? "this year" : "this month") + ", " + moneyPlain(total) + ": " + rows.map(r => r.name + " " + Math.round(r.amt / total * 100) + "%").join(", ");
+  box.innerHTML = '<svg viewBox="0 0 100 100" role="img" aria-label="' + esc(label) + '">' + paths + '<circle cx="50" cy="50" r="27" fill="var(--card, #fff)"/><text x="50" y="47" text-anchor="middle" font-size="8" fill="var(--muted)">Spent</text><text x="50" y="58" text-anchor="middle" font-size="10" font-weight="700" fill="var(--text)">' + esc(moneyPlain(Math.round(total))) + '</text></svg>' +
+    '<ul class="money-legend">' + rows.map((r, i) => '<li><span class="sw" style="background:' + MONEY_PIE_COLORS[i % MONEY_PIE_COLORS.length] + '"></span>' + catIcon(r.id, r.name) + '<span class="nm">' + esc(r.name) + '</span><span class="am">' + moneyPlain(r.amt) + ' · ' + Math.round(r.amt / total * 100) + '%</span></li>').join("") + '</ul>';
+}
+document.querySelectorAll("#moneyPieToggle .chip").forEach(b => b.onclick = () => { data.moneyPieRange = b.dataset.mrange; save(); renderMoneyPie(); });
+
+// Debt payoff estimate. Monthly compounding: interest = balance × APR / 12, rounded to cents.
+// mode "fixed": the same payment every month. mode "minimum": pct% of balance + that month's interest, $25 floor, never more than what's owed.
+function debtPlan(balance, apr, mode, payment, pct, extra) {
+  const r = (Number(apr) || 0) / 100 / 12; let bal = Math.max(0, Number(balance) || 0);
+  extra = Math.max(0, Number(extra) || 0);
+  const firstInt = Math.round(bal * r * 100) / 100;
+  let months = 0, interest = 0, paid = 0;
+  if (bal <= 0) return { ok: true, months: 0, interest: 0, paid: 0 };
+  while (bal > 0.004) {
+    const int = Math.round(bal * r * 100) / 100;
+    let pay = mode === "minimum" ? Math.max(25, bal * (Number(pct) || 0) / 100 + int) : (Number(payment) || 0);
+    pay += extra;
+    if (pay <= int) return { ok: false, months, interest, paid, firstInt, needAtLeast: Math.floor(firstInt) + 1 };
+    pay = Math.min(pay, bal + int);
+    bal = Math.round((bal + int - pay) * 100) / 100; interest += int; paid += pay; months++;
+    if (months > 1200) return { ok: false, months, interest, paid, firstInt, needAtLeast: Math.floor(firstInt) + 1, tooLong: true };
+  }
+  return { ok: true, months, interest: Math.round(interest * 100) / 100, paid: Math.round(paid * 100) / 100, firstInt };
+}
+function yearsMonths(n) {
+  const y = Math.floor(n / 12), m = n % 12;
+  return (y ? y + (y === 1 ? " year" : " years") : "") + (y && m ? " " : "") + (m || !y ? m + (m === 1 ? " month" : " months") : "");
+}
+function moneyWhole(n) { return "$" + Math.round(Number(n)).toLocaleString(); }
+function debtSuggestions(d) {
+  const ladder = [25, 50, 100, 200, 500, 1000, 2000, 5000];
+  let i = ladder.findIndex(x => x >= d.balance * 0.025); if (i < 0) i = ladder.length - 3; i = Math.min(i, ladder.length - 3);
+  const base = debtPlan(d.balance, d.apr, d.mode, d.payment, d.pct, 0);
+  return ladder.slice(i, i + 3).map(x => ({ x, plan: debtPlan(d.balance, d.apr, d.mode, d.payment, d.pct, x), base }))
+    .filter(o => o.plan.ok && (!base.ok || o.plan.months < base.months));
+}
+function debtExtraLine(x, plan, base) {
+  return "Add " + moneyWhole(x) + " a month and you'll be done in " + yearsMonths(plan.months) + (base.ok ? ", saving about " + moneyWhole(base.interest - plan.interest) + " in interest." : ".");
+}
+function debtSummaryHtml(d, withSuggestions) {
+  if (!(d.balance > 0)) return "<p>Nothing owed. Nice work.</p>";
+  const base = debtPlan(d.balance, d.apr, d.mode, d.payment, d.pct, 0);
+  const plan = d.extra > 0 ? debtPlan(d.balance, d.apr, d.mode, d.payment, d.pct, d.extra) : base;
+  let h = "";
+  if (!base.ok) h += '<p class="warn">This payment doesn\'t cover the interest, so the balance will keep growing. Try at least ' + moneyWhole(base.needAtLeast) + '.</p>';
+  else h += "<p>Paid off in about " + yearsMonths(base.months) + ". Total interest is about " + moneyWhole(base.interest) + ".</p>";
+  if (d.extra > 0) h += plan.ok ? "<p>" + debtExtraLine(d.extra, plan, base) + "</p>" : '<p class="warn">Even with ' + moneyWhole(d.extra) + " extra, the payment doesn't cover the interest. Try at least " + moneyWhole(plan.needAtLeast) + ".</p>";
+  if (d.mode === "minimum") h += "<p>Card minimums change every month, so this is a rough estimate.</p>";
+  if (withSuggestions) {
+    const sug = debtSuggestions(d);
+    if (sug.length) h += '<div class="chip-row debt-sugs" role="group" aria-label="Extra each month">' + sug.map(o => '<button type="button" class="chip debt-sug" data-extra="' + o.x + '" aria-pressed="' + (d.extra === o.x) + '" aria-label="Add ' + moneyWhole(o.x) + ' a month">+' + moneyWhole(o.x) + '</button>').join("") + '</div>';
+  }
+  return h;
+}
+function renderDebts() {
+  const list = document.getElementById("debtList");
+  list.innerHTML = data.debts.map(d => {
+    const p = debtPlan(d.balance, d.apr, d.mode, d.payment, d.pct, d.extra);
+    const line = !(d.balance > 0) ? "Paid off" : (p.ok ? "About " + yearsMonths(p.months) + " to go · ~" + moneyWhole(p.interest) + " interest" : "Payment doesn't cover the interest");
+    return '<button type="button" class="debt-card" data-debt="' + esc(d.id) + '"><div class="dn"><span>' + esc(d.name) + '</span><span class="money-neg">' + moneyPlain(d.balance) + '</span></div><div class="ds">' + esc(d.apr + "% APR · " + (d.mode === "minimum" ? "card minimum " + d.pct + "% + interest" : moneyPlain(d.payment) + "/month") + (d.extra > 0 ? " + " + moneyPlain(d.extra) + " extra" : "")) + '</div><div class="ds' + (p.ok || !(d.balance > 0) ? "" : " money-neg") + '">' + esc(line) + '</div></button>';
+  }).join("") || '<p class="empty" style="margin:0">No debts added.</p>';
+  renderPayoffPlans();
+  list.querySelectorAll("[data-debt]").forEach(b => b.onclick = () => openDebtDialog(b.dataset.debt));
+}
+let editingDebtId = null, debtMode = "fixed";
+function debtFromForm() {
+  return { name: document.getElementById("debtName").value.trim() || "Debt", balance: Math.max(0, Number(document.getElementById("debtBalance").value) || 0),
+    apr: Math.max(0, Number(document.getElementById("debtApr").value) || 0), mode: debtMode, payment: Math.max(0, Number(document.getElementById("debtPayment").value) || 0),
+    pct: Math.max(0, Number(document.getElementById("debtPct").value) || 0), extra: Math.max(0, Number(document.getElementById("debtExtra").value) || 0) };
+}
+function syncDebtForm() {
+  document.querySelectorAll("#debtModeRow .chip").forEach(b => { const on = b.dataset.dmode === debtMode; b.setAttribute("aria-pressed", on); b.setAttribute("aria-checked", on); });
+  document.getElementById("debtFixedWrap").hidden = debtMode !== "fixed";
+  document.getElementById("debtMinWrap").hidden = debtMode !== "minimum";
+  const d = debtFromForm();
+  const box = document.getElementById("debtResult");
+  box.innerHTML = (d.balance > 0 && (d.mode === "minimum" || d.payment > 0)) ? debtSummaryHtml(d, true) : '<p class="hint" style="margin:0">Enter a balance and payment to see an estimate.</p>';
+  box.querySelectorAll("[data-extra]").forEach(b => b.onclick = () => { const f = document.getElementById("debtExtra"); f.value = b.dataset.extra; syncDebtForm(); const again = box.querySelector('[data-extra="' + b.dataset.extra + '"]'); if (again) again.focus(); });
+}
+function openDebtDialog(id) {
+  const d = id ? data.debts.find(x => x.id === id) : null;
+  editingDebtId = d ? d.id : null; debtMode = d ? d.mode : "fixed";
+  document.getElementById("debtDialogTitle").textContent = d ? "Edit debt" : "Add a debt";
+  document.getElementById("debtName").value = d ? d.name : "";
+  document.getElementById("debtBalance").value = d ? d.balance : "";
+  document.getElementById("debtApr").value = d ? d.apr : "";
+  document.getElementById("debtPayment").value = d && d.payment ? d.payment : "";
+  document.getElementById("debtPct").value = d ? d.pct : 1;
+  document.getElementById("debtExtra").value = d && d.extra ? d.extra : "";
+  document.getElementById("debtDelete").hidden = !d;
+  syncDebtForm();
+  openSheet(document.getElementById("debtDialog"), document.getElementById("debtName"));
+}
+document.getElementById("btnAddDebt").onclick = () => openDebtDialog(null);
+document.querySelectorAll("#debtModeRow .chip").forEach(b => b.onclick = () => { debtMode = b.dataset.dmode; syncDebtForm(); });
+["debtBalance", "debtApr", "debtPayment", "debtPct", "debtExtra"].forEach(id => document.getElementById(id).addEventListener("input", syncDebtForm));
+document.getElementById("debtCancel").onclick = () => document.getElementById("debtDialog").close();
+document.getElementById("debtSave").onclick = () => {
+  const f = debtFromForm();
+  if (!(f.balance >= 0) || !document.getElementById("debtBalance").value) { document.getElementById("debtBalance").focus(); return; }
+  if (editingDebtId) Object.assign(data.debts.find(x => x.id === editingDebtId), f); else data.debts.push(Object.assign({ id: uid("d") }, f));
+  save(); document.getElementById("debtDialog").close(); renderMoney();
+};
+document.getElementById("debtDelete").onclick = () => {
+  if (!editingDebtId) return;
+  data.debts = data.debts.filter(x => x.id !== editingDebtId);
+  save(); document.getElementById("debtDialog").close(); renderMoney();
+};
+
+// Savings / investment projection. Monthly compounding: each month balance grows by rate/12, then the deposit is added.
+function savingsPlan(balance, rate, deposit, years) {
+  const r = (Number(rate) || 0) / 100 / 12, n = Math.max(0, Math.round((Number(years) || 0) * 12));
+  let bal = Math.max(0, Number(balance) || 0); const start = bal; deposit = Math.max(0, Number(deposit) || 0);
+  for (let i = 0; i < n; i++) bal = bal * (1 + r) + deposit;
+  const deposited = deposit * n;
+  return { value: Math.round(bal * 100) / 100, deposited, start, growth: Math.round((bal - start - deposited) * 100) / 100 };
+}
+function yearsWord(y) { return y + (y === 1 ? " year" : " years"); }
+function savingsSuggestions(v) {
+  const ladder = [25, 50, 100, 200, 500, 1000, 2000];
+  let i = ladder.findIndex(x => x >= Math.max(25, v.deposit * 0.25)); if (i < 0 || i > ladder.length - 3) i = ladder.length - 3;
+  const base = savingsPlan(v.balance, v.rate, v.deposit, v.years);
+  return ladder.slice(i, i + 3).map(x => ({ x, more: savingsPlan(v.balance, v.rate, v.deposit + x, v.years).value - base.value }));
+}
+function savingsSummaryHtml(v, withSuggestions) {
+  const p = savingsPlan(v.balance, v.rate, v.deposit, v.years), putIn = p.start + p.deposited;
+  let h = "<p>In " + v.years + " years, about " + moneyWhole(p.value) + ". You put in " + moneyWhole(putIn) + ", and growth adds " + moneyWhole(p.value - putIn) + ".</p>";
+  if (withSuggestions) h += '<div class="debt-sugs" role="group" aria-label="Try saving more" style="display:grid;gap:0.35rem">' + savingsSuggestions(v).map(o => '<button type="button" class="chip sav-sug" data-sav-extra="' + o.x + '" style="text-align:left;min-height:40px">Add ' + moneyWhole(o.x) + " more a month and you'd have about " + moneyWhole(o.more) + " more.</button>").join("") + "</div>";
+  return h;
+}
+function renderSavings() {
+  const list = document.getElementById("savingsList");
+  list.innerHTML = data.savings.map(v => {
+    const p = savingsPlan(v.balance, v.rate, v.deposit, v.years);
+    const ico = MONEY_GLYPH_SET.has(v.kind) ? '<img class="cat-ico glyph" src="icons/glyphs128/money/' + v.kind + '.png?v=' + ICON_VER + '" alt="" style="margin-right:0.35rem;vertical-align:-5px" />' : "";
+    return '<button type="button" class="debt-card" data-sav="' + esc(v.id) + '"><div class="dn"><span>' + ico + esc(v.name) + '</span><span class="money-pos">' + moneyPlain(v.balance) + '</span></div><div class="ds">' + esc(SAVINGS_KINDS[v.kind] + " · " + v.rate + "% a year" + (v.deposit ? " · +" + moneyPlain(v.deposit) + "/month" : "")) + '</div><div class="ds">' + esc("In " + v.years + " years, about " + moneyWhole(p.value)) + '</div></button>';
+  }).join("") || '<p class="empty" style="margin:0">No savings or investments added.</p>';
+  list.querySelectorAll("[data-sav]").forEach(b => b.onclick = () => openSavingsDialog(b.dataset.sav));
+  const nw = document.getElementById("netWorthLine");
+  const sav = data.savings.reduce((t, v) => t + v.balance, 0), debt = data.debts.reduce((t, x) => t + x.balance, 0);
+  nw.hidden = !(data.savings.length || data.debts.length);
+  const val = sav - debt;
+  nw.innerHTML = '<span class="nw-row"><b>Net worth</b> <b class="' + (val < 0 ? "money-neg" : "money-pos") + '" id="netWorthValue">' + esc(moneyPlain(val)) + '</b></span><span class="nw-sub">Savings and investments minus debts. It\'s a number, not a grade.</span>';
+}
+let editingSavingsId = null, savKind = "savings", savYears = 10;
+function savingsFromForm() {
+  return { name: document.getElementById("savName").value.trim() || "Savings", kind: savKind,
+    balance: Math.max(0, Number(document.getElementById("savBalance").value) || 0), rate: Number(document.getElementById("savRate").value) || 0,
+    deposit: Math.max(0, Number(document.getElementById("savDeposit").value) || 0), years: savYears };
+}
+function syncSavingsForm() {
+  document.querySelectorAll("#savKindRow .chip").forEach(b => { const on = b.dataset.skind === savKind; b.setAttribute("aria-pressed", on); b.setAttribute("aria-checked", on); });
+  document.querySelectorAll("#savYearsRow .chip").forEach(b => { const on = Number(b.dataset.syears) === savYears; b.setAttribute("aria-pressed", on); b.setAttribute("aria-checked", on); });
+  const v = savingsFromForm();
+  const box = document.getElementById("savResult");
+  box.innerHTML = (v.balance > 0 || v.deposit > 0) ? savingsSummaryHtml(v, true) : '<p class="hint" style="margin:0">Enter a balance or monthly deposit to see a projection.</p>';
+  box.querySelectorAll("[data-sav-extra]").forEach(b => b.onclick = () => { const f = document.getElementById("savDeposit"); f.value = (Number(f.value) || 0) + Number(b.dataset.savExtra); syncSavingsForm(); });
+}
+function openSavingsDialog(id) {
+  const v = id ? data.savings.find(x => x.id === id) : null;
+  editingSavingsId = v ? v.id : null; savKind = v ? v.kind : "savings"; savYears = v ? v.years : 10;
+  document.getElementById("savingsDialogTitle").textContent = v ? "Edit savings or investment" : "Add savings or investment";
+  document.getElementById("savName").value = v ? v.name : "";
+  document.getElementById("savBalance").value = v ? v.balance : "";
+  document.getElementById("savRate").value = v ? v.rate : "";
+  document.getElementById("savDeposit").value = v && v.deposit ? v.deposit : "";
+  document.getElementById("savDelete").hidden = !v;
+  syncSavingsForm();
+  openSheet(document.getElementById("savingsDialog"), document.getElementById("savName"));
+}
+document.querySelectorAll("#savKindRow .chip").forEach(b => b.onclick = () => { savKind = b.dataset.skind; syncSavingsForm(); });
+document.querySelectorAll("#savYearsRow .chip").forEach(b => b.onclick = () => { savYears = Number(b.dataset.syears); syncSavingsForm(); });
+document.getElementById("btnAddSavings").onclick = () => openSavingsDialog(null);
+["savBalance", "savRate", "savDeposit"].forEach(id => document.getElementById(id).addEventListener("input", syncSavingsForm));
+document.getElementById("savCancel").onclick = () => document.getElementById("savingsDialog").close();
+document.getElementById("savSave").onclick = () => {
+  const f = savingsFromForm();
+  if (editingSavingsId) Object.assign(data.savings.find(x => x.id === editingSavingsId), f); else data.savings.push(Object.assign({ id: uid("s") }, f));
+  save(); document.getElementById("savingsDialog").close(); renderMoney();
+};
+document.getElementById("savDelete").onclick = () => {
+  if (!editingSavingsId) return;
+  data.savings = data.savings.filter(x => x.id !== editingSavingsId);
+  save(); document.getElementById("savingsDialog").close(); renderMoney();
+};
+
+// Multi-debt payoff plan. Every month: interest on each debt, every minimum paid, then the extra (plus the payments
+// of debts already paid off, which roll forward) goes to the target: smallest balance first, or highest rate first.
+function debtMinPayment(d, bal, int) {
+  if (d.mode === "minimum") return Math.min(bal + int, Math.max(25, bal * (Number(d.pct) || 0) / 100 + int));
+  return Math.min(bal + int, Number(d.payment) || 0);
+}
+function payoffPlan(debts, method, extra) {
+  const ds = debts.filter(d => d.balance > 0).map(d => ({ d, bal: d.balance, paidMonth: 0, sched: d.mode === "minimum" ? Math.max(25, d.balance * (Number(d.pct) || 0) / 100 + d.balance * d.apr / 1200) : (Number(d.payment) || 0) }));
+  let month = 0, interest = 0, freed = 0; const order = [];
+  extra = Math.max(0, Number(extra) || 0);
+  while (ds.some(x => x.bal > 0.004)) {
+    month++; if (month > 1200) return { ok: false, months: month, interest, order };
+    let pool = extra + freed;
+    const live = ds.filter(x => x.bal > 0.004);
+    let grew = 0;
+    live.forEach(x => {
+      const int = Math.round(x.bal * x.d.apr / 1200 * 100) / 100; interest += int;
+      const pay = debtMinPayment(x.d, x.bal, int);
+      if (pay <= int && pay < x.bal + int) grew++;
+      x.bal = Math.round((x.bal + int - pay) * 100) / 100;
+    });
+    const targets = ds.filter(x => x.bal > 0.004).sort(method === "highest" ? (a, b) => b.d.apr - a.d.apr || a.bal - b.bal : (a, b) => a.bal - b.bal || b.d.apr - a.d.apr);
+    for (const x of targets) { if (pool <= 0) break; const p = Math.min(pool, x.bal); x.bal = Math.round((x.bal - p) * 100) / 100; pool -= p; }
+    ds.forEach(x => { if (x.bal <= 0.004 && !x.paidMonth) { x.bal = 0; x.paidMonth = month; order.push({ id: x.d.id, name: x.d.name, month }); freed += x.sched; } });
+    if (grew === live.length && extra + freed <= 0) return { ok: false, months: month, interest, order };
+  }
+  return { ok: true, months: month, interest: Math.round(interest * 100) / 100, order };
+}
+function monthYearFromNow(n) { const d = parseISO(TODAY); d.setDate(1); d.setMonth(d.getMonth() + n); return d.toLocaleDateString(undefined, { month: "long", year: "numeric" }); }
+function payoffTipHtml(live) {
+  if (!data.payoffPlan) return "";
+  if (data.payoffPlan === "highest") { const t = live.slice().sort((a, b) => b.apr - a.apr || a.balance - b.balance)[0]; return '<p class="week-sum" id="payoffTip">' + esc("Put the extra on " + t.name + " first. It has the highest rate.") + "</p>"; }
+  const t = live.slice().sort((a, b) => a.balance - b.balance || b.apr - a.apr)[0];
+  return '<p class="week-sum" id="payoffTip">' + esc("Put the extra on " + t.name + " first. It's your smallest balance.") + "</p>";
+}
+function renderPayoffPlans() {
+  const box = document.getElementById("payoffPlans");
+  const live = data.debts.filter(d => d.balance > 0);
+  box.hidden = live.length < 2;
+  if (live.length < 2) { box.innerHTML = ""; return; }
+  const extra = live.reduce((t, d) => t + (d.extra || 0), 0);
+  const plans = { smallest: payoffPlan(live, "smallest", extra), highest: payoffPlan(live, "highest", extra) };
+  const card = m => {
+    const p = plans[m], M = PAYOFF_METHODS[m], on = data.payoffPlan === m;
+    const slug = MONEY_GLYPH_SET.has(PAYOFF_METHODS[m].icon) ? PAYOFF_METHODS[m].icon : ""; const icon = slug ? '<img class="cat-ico glyph" src="icons/glyphs128/money/' + slug + '.png?v=' + ICON_VER + '" alt="" />' : "";
+    return '<div class="payoff-card" data-active="' + on + '" data-method="' + m + '"><h4>' + icon + esc(M.title) + '</h4><span class="sub">' + esc(M.sub) + '</span>' +
+      (p.ok ? '<span class="pp-line">' + esc("Debt-free " + monthYearFromNow(p.months) + " · about " + moneyWhole(p.interest) + " in interest") + '</span><ol>' + p.order.map(o => '<li>' + esc(o.name) + '</li>').join("") + '</ol>'
+            : '<span class="pp-line warn">' + esc("These payments don't cover the interest, so this plan never finishes.") + '</span>') +
+      '<button type="button" class="btn' + (on ? " primary" : "") + '" data-use-plan="' + m + '" aria-pressed="' + on + '">Use this plan</button></div>';
+  };
+  const s = plans.smallest, a = plans.highest;
+  let cmp = "";
+  if (s.ok && a.ok) {
+    const same = s.order.map(o => o.id).join() === a.order.map(o => o.id).join();
+    if (same) cmp = "Both plans pay these in the same order.";
+    else {
+      const diff = Math.round(s.interest - a.interest), sooner = a.order[0].month - s.order[0].month;
+      const parts = [];
+      if (diff > 0) parts.push("Highest rate first saves about " + moneyWhole(diff) + ".");
+      if (sooner > 0) parts.push("Smallest first clears your first debt " + sooner + (sooner === 1 ? " month" : " months") + " sooner.");
+      cmp = parts.join(" ");
+    }
+  }
+  box.innerHTML = '<h3 style="margin-top:0.8rem">Pay off your debts</h3><div class="payoff-grid">' + card("smallest") + card("highest") + '</div>' +
+    (cmp ? '<p class="week-sum" id="payoffCompare">' + esc(cmp) + '</p>' : "") + payoffTipHtml(live) +
+    '<p class="debt-disclaimer">When a debt is paid off, its payment rolls into the next one.</p>';
+  box.querySelectorAll("[data-use-plan]").forEach(b => b.onclick = () => { data.payoffPlan = b.dataset.usePlan; save(); renderPayoffPlans(); const again = box.querySelector('[data-use-plan="' + b.dataset.usePlan + '"]'); if (again) again.focus(); });
 }
 function renderDerived() {
   renderStats(); renderCoach(); renderWeekNudges(); renderNotices(); renderStrip(); renderAreas();
@@ -3725,6 +4221,9 @@ function syncMoneyTypeUI() {
   });
   document.getElementById("moneySourceWrap").hidden = moneyType !== "income";
   document.getElementById("moneyExpenseWrap").hidden = moneyType !== "expense";
+  document.getElementById("moneyCatWrap").hidden = moneyType !== "expense";
+  if (moneyType === "expense") renderCatGrid();
+  syncMoneyDebt();
   fillMoneyGoals();
   const incomeGoals = data.goals.some(g => g.incomeCounts && !goalAccount(g));
   document.getElementById("moneyGoalLabel").textContent = moneyType === "income" ? "Count toward a goal" : "Put toward a project";
@@ -3749,7 +4248,9 @@ document.getElementById("btnAddMoney").onclick = () => {
   document.getElementById("moneyAmt").value = "";
   document.getElementById("moneyOther").value = "";
   document.getElementById("moneySource").value = "paycheck";
-  document.getElementById("moneyExpense").value = "bill";
+  document.getElementById("moneyExpense").value = "other";
+  document.getElementById("moneyCatNewRow").hidden = true;
+  document.getElementById("moneyDebtApply").checked = true;
   document.getElementById("moneyGoal").value = "";
   syncMoneyTypeUI();
   document.getElementById("moneyDialog").showModal();
@@ -3915,17 +4416,25 @@ document.getElementById("moneySave").onclick = () => {
   if (!accountId) return;
   const category = moneyType === "income" ? document.getElementById("moneySource").value : document.getElementById("moneyExpense").value;
   const label = document.getElementById("moneyOther").value.trim();
-  if (category === "other" && !label) return;
+  if (category === "other" && !label && moneyType === "income") return;
   let goalId = document.getElementById("moneyGoal").value || "";
   if (moneyType === "income") {
     const gl = data.goals.find(g => g.id === goalId);
     if (gl && gl.incomeCounts && !goalAccount(gl)) gl.current = Math.round(((Number(gl.current) || 0) + amount) * 100) / 100;
     else goalId = "";
   }
-  data.money.push({ id: uid("m"), type: moneyType, amount, accountId, category, label, date: data.selected, goalId });
+  const entry = { id: uid("m"), type: moneyType, amount, accountId, category, label, date: data.selected, goalId };
+  if (moneyType === "expense" && category === "debt-payment") {
+    const debt = data.debts.find(x => x.id === document.getElementById("moneyDebt").value);
+    if (debt) {
+      entry.debtId = debt.id;
+      if (document.getElementById("moneyDebtApply").checked) { const cut = Math.min(debt.balance, amount); debt.balance = Math.round((debt.balance - cut) * 100) / 100; entry.debtApplied = cut; }
+    }
+  }
+  data.money.push(entry);
   save(); document.getElementById("moneyDialog").close(); renderDerived();
 };
-["taskDialog", "goalDialog", "moneyDialog", "accountDialog", "pullDialog", "pullsDialog", "moveDialog", "pathDialog", "pathLogDialog", "progressDialog", "pathsManageDialog"].forEach(id => {
+["taskDialog", "goalDialog", "moneyDialog", "debtDialog", "savingsDialog", "accountDialog", "pullDialog", "pullsDialog", "moveDialog", "pathDialog", "pathLogDialog", "progressDialog", "pathsManageDialog"].forEach(id => {
   const dlg = document.getElementById(id);
   dlg.addEventListener("click", e => { if (e.target === dlg) dlg.close(); });
 });
@@ -5860,7 +6369,10 @@ function themeSpec(id) {
   if (THEMES.includes(id)) return { kind: "calm", id, name: id.charAt(0).toUpperCase() + id.slice(1) };
   const b = BOLD_THEMES.find(t => t.id === id); if (b) return { kind: "bold", id, name: b.name, p: b };
   const pic = PICTURE_THEMES.find(t => t.id === id); if (pic) return { kind: "picture", id, name: pic.name, p: pic, img: iv(pic.img) };
-  if (id === "custom" && data && data.customTheme) { const c = Object.assign({}, CUSTOM_DEFAULT, data.customTheme); return { kind: "custom", id, name: "Custom", p: { ...c, accent2: c.accent }, img: c.photo || "", veil: !!c.veil }; }
+  if (data && Array.isArray(data.customThemes) && /^custom/.test(id)) {
+    const t = data.customThemes.find(x => x.id === id) || (id === "custom" ? data.customThemes[0] : null);
+    if (t) { const c = Object.assign({}, CUSTOM_DEFAULT, t); return { kind: "custom", id: t.id, name: t.name || "Custom", p: { ...c, accent2: c.accent }, img: c.photo || "", veil: !!c.veil }; }
+  }
   return { kind: "calm", id: "dawn", name: "Dawn" };
 }
 function paintTheme(spec) {
@@ -5903,18 +6415,65 @@ function renderThemesScreen() {
   document.getElementById("boldThemes").innerHTML = BOLD_THEMES.map(swatch).join("");
   document.getElementById("pictureThemes").innerHTML = PICTURE_THEMES.map(t => '<button type="button" class="picture-theme" data-theme-pick="' + t.id + '" aria-pressed="false"><img src="' + esc(iv(t.img)) + '" alt="" loading="lazy" /><span><b>' + esc(t.name) + '</b><small>' + esc(t.desc) + '</small></span></button>').join("");
   document.querySelectorAll("#boldThemes [data-theme-pick], #pictureThemes [data-theme-pick]").forEach(b => b.onclick = () => applyTheme(b.dataset.themePick));
-  loadCustomEditor();
+  renderCustomTiles();
+  loadCustomEditor(null);
   applyTheme(data.theme, { noSave: true });
 }
-let customDraft = null;
-function loadCustomEditor() {
-  customDraft = Object.assign({}, CUSTOM_DEFAULT, data.customTheme || {});
+let customDraft = null, editingCustomThemeId = null;
+function renderCustomTiles() {
+  const box = document.getElementById("customThemes");
+  box.innerHTML = data.customThemes.map(t => '<div class="custom-tile"><button type="button" class="theme-swatch" data-theme-pick="' + esc(t.id) + '" aria-pressed="' + (data.theme === t.id) + '" style="--sw-bg:' + t.bg + ';--sw-card:' + t.card + ';--sw-accent:' + t.accent + ';--sw-accent2:' + t.accent + ';--sw-text:' + t.text + (t.photo ? ';background-image:url(&quot;' + esc(t.photo) + '&quot;);background-size:cover' : '') + '"><span class="sw-chip" aria-hidden="true"><i></i><b></b></span><span class="sw-name">' + esc(t.name) + '</span></button>' +
+    '<div class="ct-acts"><button type="button" class="tiny" data-ct-edit="' + esc(t.id) + '" aria-label="Rename ' + esc(t.name) + '">Rename</button><button type="button" class="tiny" data-ct-del="' + esc(t.id) + '" aria-label="Delete ' + esc(t.name) + '">Delete</button></div></div>').join("") || '<p class="empty" style="margin:0;grid-column:1/-1">No custom themes yet. Make one below.</p>';
+  box.querySelectorAll("[data-theme-pick]").forEach(b => b.onclick = () => { applyTheme(b.dataset.themePick); renderCustomTiles(); loadCustomEditor(b.dataset.themePick); });
+  box.querySelectorAll("[data-ct-edit]").forEach(b => b.onclick = () => { loadCustomEditor(b.dataset.ctEdit); const n = document.getElementById("ctName"); n.focus(); n.select(); });
+  box.querySelectorAll("[data-ct-del]").forEach(b => b.onclick = async () => {
+    const id = b.dataset.ctDel, t = data.customThemes.find(x => x.id === id); if (!t) return;
+    if (!(await askDelete("Delete " + t.name + "? This can't be undone.", "Delete"))) return;
+    data.customThemes = data.customThemes.filter(t => t.id !== id);
+    if (editingCustomThemeId === id) loadCustomEditor(null);
+    if (data.theme === id) applyTheme("dawn"); else save();
+    renderCustomTiles(); showToast("Theme deleted.");
+  });
+}
+function fillStartFrom() {
+  const opt = (v, n) => '<option value="' + esc(v) + '">' + esc(n) + '</option>';
+  document.getElementById("ctStartFrom").innerHTML = '<option value="">Choose a theme…</option>' +
+    '<optgroup label="Calm">' + THEMES.map(t => opt(t, t.charAt(0).toUpperCase() + t.slice(1))).join("") + '</optgroup>' +
+    '<optgroup label="Bold">' + BOLD_THEMES.map(t => opt(t.id, t.name)).join("") + '</optgroup>' +
+    '<optgroup label="Picture">' + PICTURE_THEMES.map(t => opt(t.id, t.name)).join("") + '</optgroup>' +
+    (data.customThemes.length ? '<optgroup label="Custom">' + data.customThemes.map(t => opt(t.id, t.name)).join("") + '</optgroup>' : "");
+}
+// Copy any theme's colors (and picture) into the editor so it can be tweaked and saved under a new name.
+function startCustomFrom(id) {
+  const spec = themeSpec(id); if (!spec) return;
+  let c;
+  if (spec.kind === "calm") {
+    paintTheme(spec); const cs = getComputedStyle(document.documentElement), g = v => cssColorHex(cs.getPropertyValue(v));
+    c = { bg: g("--bg"), card: g("--panel"), accent: g("--accent"), text: g("--text"), photo: "", veil: false };
+  } else c = { bg: spec.p.bg, card: spec.p.card, accent: spec.p.accent, text: spec.p.text, photo: spec.img || "", veil: !!spec.veil };
+  Object.assign(customDraft, c);
+  const nm = document.getElementById("ctName"); nm.value = spec.name + " copy"; nm.dataset.auto = "1";
+  syncCustomInputs(); photoAvg = null; updatePhotoUi(); previewCustom();
+  if (customDraft.photo) photoAverage(customDraft.photo).then(a => { photoAvg = a; checkPhotoContrast(); });
+}
+function syncCustomInputs() {
   [["ctBg", "bg"], ["ctCard", "card"], ["ctAccent", "accent"], ["ctText", "text"]].forEach(([id, k]) => {
     const el = document.getElementById(id); el.value = customDraft[k];
     el.oninput = () => { customDraft[k] = el.value; previewCustom(); };
   });
+}
+function loadCustomEditor(id) {
+  const t = id ? data.customThemes.find(x => x.id === id) : null;
+  editingCustomThemeId = t ? t.id : null;
+  customDraft = Object.assign({}, CUSTOM_DEFAULT, t || {});
+  const nm = document.getElementById("ctName"); nm.value = t ? t.name : ""; nm.dataset.auto = "";
+  document.getElementById("ctEditing").textContent = t ? "Editing " + t.name : "New theme";
+  document.getElementById("ctSave").textContent = t ? "Save changes" : "Save theme";
+  fillStartFrom();
+  syncCustomInputs();
   photoAvg = null; updatePhotoUi();
   if (customDraft.photo) photoAverage(customDraft.photo).then(a => { photoAvg = a; checkPhotoContrast(); });
+  if (t) previewCustom(); else if (data) applyTheme(data.theme, { noSave: true });
 }
 function previewCustom() {
   paintTheme({ kind: "custom", id: "custom", name: "Custom", p: { ...customDraft, accent2: customDraft.accent }, img: customDraft.photo, veil: customDraft.veil });
@@ -5959,7 +6518,18 @@ function shrinkPhoto(file) {
   document.getElementById("ctPhotoRemove").onclick = () => { customDraft.photo = ""; customDraft.veil = false; photoAvg = null; updatePhotoUi(); previewCustom(); };
   document.getElementById("ctVeilYes").onclick = () => { customDraft.veil = true; previewCustom(); };
   document.getElementById("ctVeilNo").onclick = () => { document.getElementById("ctContrast").hidden = true; };
-  document.getElementById("ctSave").onclick = () => { data.customTheme = Object.assign({}, customDraft); applyTheme("custom"); showToast("Theme saved."); };
+  document.getElementById("ctSave").onclick = () => {
+    const name = document.getElementById("ctName").value.trim().slice(0, 40) || "My theme";
+    const vals = { name, bg: customDraft.bg, card: customDraft.card, accent: customDraft.accent, text: customDraft.text, photo: customDraft.photo || "", veil: !!customDraft.veil };
+    let id = editingCustomThemeId;
+    if (id && data.customThemes.some(t => t.id === id)) Object.assign(data.customThemes.find(t => t.id === id), vals);
+    else { id = uid("custom-"); data.customThemes.push(Object.assign({ id }, vals)); }
+    applyTheme(id); renderCustomTiles(); loadCustomEditor(id); showToast("Theme saved.");
+  };
+  document.getElementById("ctNew").onclick = () => { loadCustomEditor(null); document.getElementById("ctName").focus(); };
+  document.getElementById("ctStartBtn").onclick = () => { const w = document.getElementById("ctStartWrap"), b = document.getElementById("ctStartBtn"); w.hidden = !w.hidden; b.setAttribute("aria-expanded", String(!w.hidden)); if (!w.hidden) document.getElementById("ctStartFrom").focus(); };
+  document.getElementById("ctStartFrom").onchange = e => { if (!e.target.value) return; editingCustomThemeId = null; document.getElementById("ctEditing").textContent = "New theme"; document.getElementById("ctSave").textContent = "Save theme"; startCustomFrom(e.target.value); e.target.value = ""; document.getElementById("ctStartWrap").hidden = true; document.getElementById("ctStartBtn").setAttribute("aria-expanded", "false"); };
+  document.getElementById("ctName").oninput = e => { e.target.dataset.auto = ""; };
   if (typeof GLYPHS !== "undefined") setupGlyphs();
 })();
 // ---- Icon tiles: cream glyph on a theme-colored tile. Falls back to the original art if no glyph exists.
