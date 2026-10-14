@@ -495,6 +495,20 @@
   .log-list li { display: flex; justify-content: space-between; gap: 0.75rem; padding: 0.4rem 0; border-bottom: 1px solid var(--border); font-size: 0.88rem; }
   .log-list li:last-child { border-bottom: 0; }
   .money-list { list-style: none; margin: 0; padding: 0; }
+  .money-list li.act { padding: 0; }
+  .act-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 0.6rem; width: 100%; border: 0; background: transparent; color: var(--text); font: inherit; font-size: 0.86rem; text-align: left; padding: 0.42rem 0; min-height: 44px; }
+  .act-row .act-main { min-width: 0; overflow-wrap: anywhere; }
+  .act-row .act-tag { display: block; font-size: 0.75rem; color: var(--muted); margin-top: 0.1rem; }
+  .act-row .act-amt { white-space: nowrap; font-variant-numeric: tabular-nums; font-weight: 600; }
+  .rep-row { display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
+  .rep-row .rep-acts { display: flex; gap: 0.2rem; }
+  .rep-row .tiny { min-height: 36px; font-size: 0.82rem; }
+  #moneySplit { display: block; white-space: normal; overflow-wrap: anywhere; }
+  #moneySplit .nw { white-space: nowrap; text-transform: none; letter-spacing: 0; font-size: inherit; color: inherit; }
+  .week-sum { overflow-wrap: anywhere; }
+  .week-sum .nw { white-space: nowrap; }
+  .debt-item { display: grid; gap: 0.25rem; }
+  .debt-item .debt-log { justify-self: start; }
   .money-list li { display: flex; justify-content: space-between; gap: 0.6rem; font-size: 0.86rem; padding: 0.32rem 0; border-bottom: 1px solid var(--border); }
   .tools { display: flex; flex-wrap: wrap; gap: 0.4rem; }
   dialog {
@@ -642,7 +656,6 @@
   .money-pie-wrap svg { width: 132px; height: 132px; flex: none; }
   .money-legend { list-style: none; margin: 0; padding: 0; flex: 1 1 10rem; min-width: 0; font-size: 0.82rem; }
   .money-legend li { display: flex; align-items: center; gap: 0.4rem; padding: 0.16rem 0; }
-  .money-legend .sw { width: 10px; height: 10px; border-radius: 3px; flex: none; }
   .money-legend .nm { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .money-legend .am { font-variant-numeric: tabular-nums; white-space: nowrap; }
   .debt-list { display: grid; gap: 0.45rem; margin: 0.35rem 0; }
@@ -950,7 +963,7 @@
   <header class="top">
     <div class="brand-row">
       <div class="brand">
-        <h1 class="brand-mark"><button type="button" class="logo-btn" id="logoBtn" aria-label="Open menu" aria-haspopup="dialog" aria-expanded="false" aria-controls="menuDrawer"><img class="book app-mark" id="logoImg" src="icons/logo.jpg?v=25" alt="" /></button>Higher Self</h1>
+        <h1 class="brand-mark"><button type="button" class="logo-btn" id="logoBtn" aria-label="Open menu" aria-haspopup="dialog" aria-expanded="false" aria-controls="menuDrawer"><img class="book app-mark" id="logoImg" src="icons/logo.jpg?v=26" alt="" /></button>Higher Self</h1>
         <p id="todayLabel"></p>
       </div>
     </div>
@@ -967,7 +980,7 @@
       </div>
     </div>
     <section class="panel time-card" id="timeCard" aria-labelledby="pieTitle">
-      <h2 id="pieTitle" class="title-book"><img class="book" src="icons/time-pie.jpg?v=25" alt="" />Where your time goes</h2>
+      <h2 id="pieTitle" class="title-book"><img class="book" src="icons/time-pie.jpg?v=26" alt="" />Where your time goes</h2>
       <div class="chip-row" id="timeViewToggle" role="radiogroup" aria-label="Time period">
         <button type="button" class="chip" data-tview="day" aria-pressed="true">Today</button>
         <button type="button" class="chip" data-tview="week" aria-pressed="false">This week</button>
@@ -1011,7 +1024,7 @@
 
   <section class="panel" id="replacementPanel" aria-labelledby="replTitle">
     <h2 id="replTitle">Replacement list</h2>
-    <div class="book-slot"><img class="book" src="icons/shadow.jpg?v=25" alt="" /><span>When an urge hits</span></div>
+    <div class="book-slot"><img class="book" src="icons/shadow.jpg?v=26" alt="" /><span>When an urge hits</span></div>
     <p class="hint">Actions you picked ahead for when an urge hits.</p>
     <p class="hint">When a pull shows up, offer one from this list.</p>
     <ul class="entry-list" id="replList"></ul>
@@ -1026,8 +1039,8 @@
     <h2 id="diaryTitle">Diary</h2>
     <div class="book-slot" title="Diary and shadow icons">
       <span class="book-set">
-        <img class="book" src="icons/diary.jpg?v=25" alt="" />
-        <img class="book" src="icons/shadow.jpg?v=25" alt="" />
+        <img class="book" src="icons/diary.jpg?v=26" alt="" />
+        <img class="book" src="icons/shadow.jpg?v=26" alt="" />
       </span>
       <span>Diary</span>
     </div>
@@ -1065,7 +1078,7 @@
   </section>
 
   <section class="panel" id="pathsPanel" aria-labelledby="pathsTitle">
-    <h2 id="pathsTitle" class="title-book"><img class="book" src="icons/paths-section.jpg?v=25" alt="" />Your paths.</h2>
+    <h2 id="pathsTitle" class="title-book"><img class="book" src="icons/paths-section.jpg?v=26" alt="" />Your paths.</h2>
     <div class="row-actions"><button type="button" class="btn primary" id="pathAddBtn">Add a path</button><button type="button" class="btn" id="pathManageBtn">Manage paths</button></div>
     <p class="hint">Martial artist, writer, father, husband, whatever you're walking.</p>
     <div id="pathList"></div>
@@ -1082,7 +1095,7 @@
       <ul class="log-list record-list" id="logList"></ul>
     </section>
     <section class="side" id="moneySection" aria-labelledby="moneyTitle">
-      <h2 id="moneyTitle" class="title-book"><img class="book" src="icons/money.jpg?v=25" alt="" />Money tracker</h2>
+      <h2 id="moneyTitle" class="title-book"><img class="book" src="icons/money.jpg?v=26" alt="" />Money tracker</h2>
       <div class="account-grid" id="accountGrid"></div>
       <p class="week-sum" id="weekSum"></p>
       <div class="subpanel" id="moneyPiePanel">
@@ -1093,7 +1106,15 @@
         </div>
         <div class="money-pie-wrap" id="moneyPie"></div>
       </div>
-      <ul class="money-list" id="moneyList"></ul>
+      <div class="subpanel" id="activityPanel">
+        <h3>Recent activity</h3>
+        <ul class="money-list" id="moneyList"></ul>
+        <button type="button" class="tiny" id="moneyListMore" hidden style="font-size:0.85rem;padding:0.4rem 0.2rem">Show all</button>
+      </div>
+      <div class="subpanel" id="repeatsPanel" hidden>
+        <h3>Coming up</h3>
+        <ul class="money-list" id="repeatList"></ul>
+      </div>
       <div class="time-row" style="margin-top:0.55rem">
         <button type="button" class="btn" id="btnAddAccount">Add account</button>
       </div>
@@ -1255,8 +1276,8 @@
   </div>
 </dialog>
 
-<dialog id="moneyDialog" class="wide">
-  <h3>Add money</h3>
+<dialog id="moneyDialog" class="wide" aria-labelledby="moneyDialogTitle">
+  <h3 id="moneyDialogTitle">Add money</h3>
   <div class="chip-row" id="moneyTypeRow">
     <button type="button" class="chip" data-mtype="income" aria-pressed="true">Income</button>
     <button type="button" class="chip" data-mtype="expense" aria-pressed="false">Expense</button>
@@ -1264,7 +1285,8 @@
   <label class="field">Account
     <select id="moneyAccount"></select>
   </label>
-  <label class="field" style="margin-top:0.45rem">Amount<input id="moneyAmt" type="number" step="0.01" min="0" /></label>
+  <label class="field" style="margin-top:0.45rem">Amount<input id="moneyAmt" type="number" step="0.01" min="0" inputmode="decimal" /></label>
+  <label class="field" style="margin-top:0.45rem">Date<input id="moneyDate" type="date" /></label>
   <label class="field" id="moneySourceWrap" style="margin-top:0.45rem">Where it came from
     <select id="moneySource">
       <option value="paycheck">Paycheck</option>
@@ -1296,8 +1318,22 @@
   <label class="field" id="moneyGoalWrap" style="margin-top:0.45rem" hidden><span id="moneyGoalLabel">Put toward a project</span>
     <select id="moneyGoal"><option value="">None</option></select>
   </label>
+  <label class="field" id="moneyRepeatWrap" style="margin-top:0.45rem">Repeats
+    <select id="moneyRepeat">
+      <option value="never">Never</option>
+      <option value="week">Every week</option>
+      <option value="2weeks">Every 2 weeks</option>
+      <option value="month">Every month</option>
+      <option value="year">Every year</option>
+    </select>
+  </label>
+  <label class="field" id="moneyRepeatDayWrap" style="margin-top:0.45rem" hidden>On the
+    <select id="moneyRepeatDay"></select>
+  </label>
+  <label class="field" id="moneyRepeatStartWrap" style="margin-top:0.45rem" hidden>Starting<input id="moneyRepeatStart" type="date" /></label>
   <p class="hint">Money is a tracker, not a sixth area.</p>
   <div class="actions">
+    <button type="button" class="btn danger" id="moneyDelete" hidden>Delete</button>
     <button type="button" class="btn" id="moneyCancel">Cancel</button>
     <button type="button" class="btn primary" id="moneySave">Save</button>
   </div>
@@ -1386,7 +1422,7 @@
     <button type="button" class="btn" id="menuClose">Close</button>
   </div>
   <button type="button" class="menu-row menu-settings" id="menuSettingsToggle" aria-expanded="false" aria-controls="menuSettings">
-    <img src="icons/settings.jpg?v=25" alt="" /><span><b>Settings</b><small>Themes, backup, reminders, guide, lock</small></span>
+    <img src="icons/settings.jpg?v=26" alt="" /><span><b>Settings</b><small>Themes, backup, reminders, guide, lock</small></span>
   </button>
   <div class="menu-group" id="menuSettings" hidden>
     <button type="button" class="menu-item" id="btnOptions">Options · Dawn</button>
@@ -1470,7 +1506,7 @@
     <div class="row-actions"><button type="button" class="btn" id="optAddPull">Add pull</button><button type="button" class="btn" id="optManagePulls">Manage pulls</button></div>
   </div>
   <div class="subpanel" id="purposePanel" aria-labelledby="purposeTitle">
-    <h3 id="purposeTitle" class="title-book"><img class="book" src="icons/purpose.jpg?v=25" alt="" />Purpose (optional)</h3>
+    <h3 id="purposeTitle" class="title-book"><img class="book" src="icons/purpose.jpg?v=26" alt="" />Purpose (optional)</h3>
     <p class="hint">A note on how you're walking the path you already picked. Not a new choice, and not a finish.</p>
 
     <div class="subpanel">
@@ -1591,6 +1627,14 @@
   </div>
 </dialog>
 
+<dialog id="choiceDialog" aria-labelledby="choiceMsg">
+  <p class="q-title" id="choiceMsg"></p>
+  <div class="actions" style="flex-wrap:wrap">
+    <button type="button" class="btn" id="choiceA"></button>
+    <button type="button" class="btn primary" id="choiceB"></button>
+    <button type="button" class="btn" id="choiceCancel">Cancel</button>
+  </div>
+</dialog>
 <dialog id="confirmDialog">
   <p class="q-title" id="confirmMsg"></p>
   <div class="actions">
@@ -1825,7 +1869,7 @@ const PATH_ICON_LABELS = {
 };
 const PATH_WRESTLING_ICON = "icons/paths/wrestling.jpg";
 // Icon cache-bust: same filenames were re-cut, so every rendered icon URL carries ?v=. Stored data keeps plain paths.
-const ICON_VER = "25";
+const ICON_VER = "26";
 const LOGO_SRC = "icons/logo.jpg"; // swap the app logo here (header, menu button, vault screens)
 function plainIcon(src) { return String(src || "").split("?")[0]; }
 function iv(src) {
@@ -1906,6 +1950,7 @@ const EXPENSE_CATS = [
 ];
 // Pre-v25 expense types keep their stored ids and old labels (no data rewritten); they just aren't offered for new entries.
 const PAYOFF_METHODS = { smallest: { title: "Smallest first", sub: "Clear small balances fast. Quick wins keep you going.", icon: "smallest-first" }, highest: { title: "Highest rate first", sub: "Tackle the costliest debt first. Pays the least interest.", icon: "highest-rate" } };
+const REPEAT_FREQS = { week: "Every week", "2weeks": "Every 2 weeks", month: "Every month", year: "Every year" };
 const SAVINGS_KINDS = { savings: "Savings", cd: "CD", investment: "Investment" };
 const SAVINGS_YEARS = [5, 10, 20, 30];
 const EXPENSE_LEGACY = { bill: "Bills", date: "Date/dinner", project: "Project", transfer: "Transfer" };
@@ -2089,7 +2134,7 @@ function blankData() {
   let theme = "dawn";
   try { const h = new Date().getHours(); if (h >= 20 || h < 6) theme = "dusk"; } catch (e) {}
   return {
-    theme, selected: TODAY, tasks: [], goals: [], accounts: defaultAccounts(), money: [], days: {}, debts: [], savings: [], expenseCustom: [], expenseFavs: [], moneyPieRange: "month",
+    theme, selected: TODAY, tasks: [], goals: [], accounts: defaultAccounts(), money: [], days: {}, debts: [], savings: [], repeats: [], expenseCustom: [], expenseFavs: [], moneyPieRange: "month",
     notes: [], purpose: blankPurpose(), diary: [], customPulls: [],
     areaOrder: DEFAULT_AREA_ORDER.slice(),
     areaGoals: blankAreaGoals(),
@@ -2320,6 +2365,13 @@ function migrateLegacy(raw) {
   }
   delete d.customTheme;
   if (d.theme === "custom") d.theme = d.customThemes.length ? d.customThemes[0].id : "dawn";
+  // v26: repeating money. Each rule posts dated entries (repeatId + occ) up to today; lastPosted makes posting idempotent.
+  d.repeats = Array.isArray(d.repeats) ? d.repeats.filter(r => r && r.id && REPEAT_FREQS[r.freq] && /^\d{4}-\d{2}-\d{2}$/.test(r.start || "")).map(r => ({
+    id: String(r.id), freq: r.freq, start: r.start, day: r.day === "last" ? "last" : Math.min(31, Math.max(1, Number(r.day) || Number(r.start.slice(8)))),
+    type: r.type === "income" ? "income" : "expense", amount: Math.max(0, Number(r.amount) || 0), accountId: String(r.accountId || ""),
+    category: String(r.category || "other"), label: String(r.label || ""), goalId: String(r.goalId || ""), debtId: String(r.debtId || ""), applyDebt: r.applyDebt !== false,
+    lastPosted: typeof r.lastPosted === "string" ? r.lastPosted : "", active: r.active !== false
+  })) : [];
   d.payoffPlan = d.payoffPlan === "smallest" || d.payoffPlan === "highest" ? d.payoffPlan : "";
   d.areaOrder = normalizeAreaOrder(d.areaOrder);
   d.areaGoals = normalizeAreaGoals(d.areaGoals);
@@ -2695,7 +2747,7 @@ function addCustomPull(label, steer, opposite, img) {
 }
 function sortedDesc(list) { return list.slice().sort((a, b) => a.date < b.date ? 1 : a.date > b.date ? -1 : 0); }
 function bookSlot(label) {
-  return '<span class="book-slot" title="Area notes"><img class="book" src="icons/area-note.jpg?v=25" alt="" /><span>' + esc(label) + '</span></span>';
+  return '<span class="book-slot" title="Area notes"><img class="book" src="icons/area-note.jpg?v=26" alt="" /><span>' + esc(label) + '</span></span>';
 }
 function pickReplacement() {
   if (!data.replacements.length) return null;
@@ -2854,7 +2906,7 @@ function renderStats() {
   const moneyEl = document.getElementById("moneyNet");
   moneyEl.textContent = moneyFmt(net);
   moneyEl.className = net >= 0 ? "money-pos" : "money-neg";
-  document.getElementById("moneySplit").textContent = moneyFmt(inn) + " in · " + moneyFmt(-out) + " out";
+  document.getElementById("moneySplit").innerHTML = '<span class="nw">' + esc(moneyFmt(inn) + " in") + '</span> · <span class="nw">' + esc(moneyFmt(-out) + " out") + '</span>';
   const d = parseISO(TODAY);
   document.getElementById("todayLabel").textContent = DAY_NAMES[d.getDay()] + " · " + d.toLocaleDateString(undefined, { month: "long", day: "numeric" }) + " · five areas, not a sixth list";
 }
@@ -2918,7 +2970,7 @@ function renderCheckin() {
       '<p class="hint" id="sleepPreview"></p>';
   }
   const body =
-    '<div class="sleep-row"><p class="q-title title-book"><img class="book" src="icons/sleep.jpg?v=25" alt="" />How did last night go?</p>' + sleepHtml + '</div>' +
+    '<div class="sleep-row"><p class="q-title title-book"><img class="book" src="icons/sleep.jpg?v=26" alt="" />How did last night go?</p>' + sleepHtml + '</div>' +
     pathCheckinHtml(date);
   document.getElementById("checkinBody").innerHTML = body;
   bindCheckin();
@@ -3578,20 +3630,9 @@ function renderMoney() {
   });
   renderMoneyPie(); renderDebts(); renderSavings();
   const w = weekMoneySummary();
-  document.getElementById("weekSum").textContent =
-    "This week (" + prettyDate(w.sun) + "–" + prettyDate(w.end) + "): " + moneyFmt(w.inn) + " in · " + moneyFmt(-w.out) + " out · net " + moneyFmt(w.net);
-  const list = document.getElementById("moneyList");
-  if (!data.money.length) { list.innerHTML = '<li><span class="empty">Nothing entered.</span></li>'; return; }
-  list.innerHTML = data.money.slice().sort((a, b) => a.date < b.date ? 1 : -1).map(m => {
-    const acc = data.accounts.find(a => a.id === m.accountId);
-    const cat = m.type === "income" ? (INCOME_SOURCES[m.category] || m.label || "Income") : expenseCatName(m.category, m.label);
-    const extra = (m.label && (m.category === "other" || m.category === "project")) ? (" · " + m.label) : "";
-    const goal = m.goalId ? data.goals.find(g => g.id === m.goalId) : null;
-    const toward = goal ? (" · toward " + goal.title) : "";
-
-    const amt = signedAmount(m);
-    return '<li><span>' + esc(cat + extra) + ' · ' + esc(acc ? acc.name : "?") + ' · ' + esc(prettyDate(m.date)) + esc(toward) + '</span><span class="' + (amt < 0 ? "money-neg" : "money-pos") + '">' + moneyFmt(amt) + '</span></li>';
-  }).join("");
+  document.getElementById("weekSum").innerHTML = esc("This week (" + prettyDate(w.sun) + "–" + prettyDate(w.end) + "): ") +
+    '<span class="nw">' + esc(moneyFmt(w.inn) + " in") + '</span> · <span class="nw">' + esc(moneyFmt(-w.out) + " out") + '</span> · <span class="nw">' + esc("net " + moneyFmt(w.net)) + '</span>';
+  renderActivity(); renderRepeats();
 }
 
 // ---------- v25 money: expense categories, money pie, debts ----------
@@ -3602,9 +3643,10 @@ function expenseCatName(id, label) {
   const c = data && data.expenseCustom.find(x => x.id === id);
   return c ? c.name : (label || "Other");
 }
-function catIcon(id, name) {
-  if (MONEY_GLYPH_SET.has(id)) return '<img class="cat-ico glyph" src="icons/glyphs128/money/' + esc(id) + '.png?v=' + ICON_VER + '" alt="" />';
-  return '<span class="cat-ico" aria-hidden="true">' + esc(String(name || "?").trim().charAt(0).toUpperCase()) + '</span>';
+function catIcon(id, name, color) {
+  const st = color ? ' style="background:' + color + '"' : "";
+  if (MONEY_GLYPH_SET.has(id)) return '<img class="cat-ico glyph" src="icons/glyphs128/money/' + esc(id) + '.png?v=' + ICON_VER + '" alt=""' + st + ' />';
+  return '<span class="cat-ico" aria-hidden="true"' + st + '>' + esc(String(name || "?").trim().charAt(0).toUpperCase()) + '</span>';
 }
 function expenseCatList() {
   const all = EXPENSE_CATS.map(([id, name]) => ({ id, name })).concat(data.expenseCustom);
@@ -3628,7 +3670,7 @@ function renderCatGrid() {
   });
 }
 function syncMoneyDebt() {
-  const show = moneyType === "expense" && document.getElementById("moneyExpense").value === "debt-payment" && data.debts.length > 0;
+  const show = moneyType === "expense" && DEBT_CATS.includes(document.getElementById("moneyExpense").value) && data.debts.length > 0;
   document.getElementById("moneyDebtWrap").hidden = !show;
   if (show) {
     const sel = document.getElementById("moneyDebt"), keep = sel.value;
@@ -3677,7 +3719,7 @@ function renderMoneyPie() {
   });
   const label = "Spending " + (range === "year" ? "this year" : "this month") + ", " + moneyPlain(total) + ": " + rows.map(r => r.name + " " + Math.round(r.amt / total * 100) + "%").join(", ");
   box.innerHTML = '<svg viewBox="0 0 100 100" role="img" aria-label="' + esc(label) + '">' + paths + '<circle cx="50" cy="50" r="27" fill="var(--card, #fff)"/><text x="50" y="47" text-anchor="middle" font-size="8" fill="var(--muted)">Spent</text><text x="50" y="58" text-anchor="middle" font-size="10" font-weight="700" fill="var(--text)">' + esc(moneyPlain(Math.round(total))) + '</text></svg>' +
-    '<ul class="money-legend">' + rows.map((r, i) => '<li><span class="sw" style="background:' + MONEY_PIE_COLORS[i % MONEY_PIE_COLORS.length] + '"></span>' + catIcon(r.id, r.name) + '<span class="nm">' + esc(r.name) + '</span><span class="am">' + moneyPlain(r.amt) + ' · ' + Math.round(r.amt / total * 100) + '%</span></li>').join("") + '</ul>';
+    '<ul class="money-legend">' + rows.map((r, i) => '<li>' + catIcon(r.id, r.name, MONEY_PIE_COLORS[i % MONEY_PIE_COLORS.length]) + '<span class="nm">' + esc(r.name) + '</span><span class="am">' + moneyPlain(r.amt) + ' · ' + Math.round(r.amt / total * 100) + '%</span></li>').join("") + '</ul>';
 }
 document.querySelectorAll("#moneyPieToggle .chip").forEach(b => b.onclick = () => { data.moneyPieRange = b.dataset.mrange; save(); renderMoneyPie(); });
 
@@ -3734,11 +3776,13 @@ function renderDebts() {
   const list = document.getElementById("debtList");
   list.innerHTML = data.debts.map(d => {
     const p = debtPlan(d.balance, d.apr, d.mode, d.payment, d.pct, d.extra);
-    const line = !(d.balance > 0) ? "Paid off" : (p.ok ? "About " + yearsMonths(p.months) + " to go · ~" + moneyWhole(p.interest) + " interest" : "Payment doesn't cover the interest");
-    return '<button type="button" class="debt-card" data-debt="' + esc(d.id) + '"><div class="dn"><span>' + esc(d.name) + '</span><span class="money-neg">' + moneyPlain(d.balance) + '</span></div><div class="ds">' + esc(d.apr + "% APR · " + (d.mode === "minimum" ? "card minimum " + d.pct + "% + interest" : moneyPlain(d.payment) + "/month") + (d.extra > 0 ? " + " + moneyPlain(d.extra) + " extra" : "")) + '</div><div class="ds' + (p.ok || !(d.balance > 0) ? "" : " money-neg") + '">' + esc(line) + '</div></button>';
+    const line = !(d.balance > 0) ? "Paid off" : (p.ok ? "About " + yearsMonths(p.months) + " to go · about " + moneyWhole(p.interest) + " in interest" : "Payment doesn't cover the interest");
+    return '<div class="debt-item"><button type="button" class="debt-card" data-debt="' + esc(d.id) + '"><div class="dn"><span>' + esc(d.name) + '</span><span class="money-neg">' + moneyPlain(d.balance) + '</span></div><div class="ds">' + esc(d.apr + "% APR · " + (d.mode === "minimum" ? "card minimum " + d.pct + "% + interest" : moneyPlain(d.payment) + "/month") + (d.extra > 0 ? " + " + moneyPlain(d.extra) + " extra" : "")) + '</div><div class="ds' + (p.ok || !(d.balance > 0) ? "" : " money-neg") + '">' + esc(line) + '</div></button>' +
+      (d.balance > 0 ? '<button type="button" class="btn debt-log" data-debt-log="' + esc(d.id) + '">Log payment</button>' : "") + '</div>';
   }).join("") || '<p class="empty" style="margin:0">No debts added.</p>';
   renderPayoffPlans();
   list.querySelectorAll("[data-debt]").forEach(b => b.onclick = () => openDebtDialog(b.dataset.debt));
+  list.querySelectorAll("[data-debt-log]").forEach(b => b.onclick = () => openDebtPayment(b.dataset.debtLog));
 }
 let editingDebtId = null, debtMode = "fixed";
 function debtFromForm() {
@@ -3929,6 +3973,279 @@ function renderPayoffPlans() {
     (cmp ? '<p class="week-sum" id="payoffCompare">' + esc(cmp) + '</p>' : "") + payoffTipHtml(live) +
     '<p class="debt-disclaimer">When a debt is paid off, its payment rolls into the next one.</p>';
   box.querySelectorAll("[data-use-plan]").forEach(b => b.onclick = () => { data.payoffPlan = b.dataset.usePlan; save(); renderPayoffPlans(); const again = box.querySelector('[data-use-plan="' + b.dataset.usePlan + '"]'); if (again) again.focus(); });
+}
+
+// ---------- v26: money entries (add / edit / delete), debt payments, repeating money ----------
+const DEBT_CATS = ["debt-payment", "car-payment"];
+let editingMoneyId = null, editingRepeatId = null;
+function ordinal(n) { const s = ["th", "st", "nd", "rd"], v = n % 100; return n + (s[(v - 20) % 10] || s[v] || s[0]); }
+function lastDayOf(y, m) { return new Date(y, m + 1, 0).getDate(); } // m is 0-based
+function repeatTag(r) {
+  if (r.freq === "week") return "Repeats every week";
+  if (r.freq === "2weeks") return "Repeats every 2 weeks";
+  if (r.freq === "month") return "Repeats monthly on the " + (r.day === "last" ? "last day" : ordinal(Number(r.day)));
+  const d = parseISO(r.start); return "Repeats every year on " + d.toLocaleDateString(undefined, { month: "long", day: "numeric" });
+}
+// All occurrence dates of a rule in (after, upto]. Months clamp: the 29th–31st land on the last day of shorter months.
+function repeatOccurrences(r, after, upto) {
+  const out = []; if (!r || !r.start || upto < r.start) return out;
+  const push = d => { if (d >= r.start && d <= upto && (!after || d > after)) out.push(d); };
+  if (r.freq === "week" || r.freq === "2weeks") {
+    const step = r.freq === "week" ? 7 : 14; let d = r.start, n = 0;
+    while (d <= upto && n++ < 2000) { push(d); d = shift(d, step); }
+  } else if (r.freq === "month") {
+    const s0 = parseISO(r.start); let y = s0.getFullYear(), m = s0.getMonth(), n = 0;
+    while (n++ < 1200) {
+      const last = lastDayOf(y, m), day = r.day === "last" ? last : Math.min(Number(r.day), last);
+      const d = iso(new Date(y, m, day)); if (d > upto) break; push(d);
+      m++; if (m > 11) { m = 0; y++; }
+    }
+  } else if (r.freq === "year") {
+    const s0 = parseISO(r.start); let y = s0.getFullYear(), n = 0; const m = s0.getMonth(), want = s0.getDate();
+    while (n++ < 200) { const d = iso(new Date(y, m, Math.min(want, lastDayOf(y, m)))); if (d > upto) break; push(d); y++; }
+  }
+  return out;
+}
+function nextOccurrence(r, fromDay) {
+  const far = shift(fromDay, 400), list = repeatOccurrences(r, shift(fromDay, -1), far);
+  return list[0] || "";
+}
+function applyEntryEffects(m) {
+  if (m.type === "expense" && m.debtId && m.applyDebt !== false) {
+    const debt = data.debts.find(x => x.id === m.debtId);
+    if (debt) { const cut = Math.min(debt.balance, Number(m.amount) || 0); debt.balance = Math.round((debt.balance - cut) * 100) / 100; m.debtApplied = cut; }
+  }
+  if (m.type === "income" && m.goalId) {
+    const gl = data.goals.find(g => g.id === m.goalId);
+    if (gl && gl.incomeCounts && !goalAccount(gl)) { gl.current = Math.round(((Number(gl.current) || 0) + Number(m.amount)) * 100) / 100; m.goalApplied = Number(m.amount); }
+  }
+}
+function revertEntryEffects(m) {
+  if (m.debtApplied) { const debt = data.debts.find(x => x.id === m.debtId); if (debt) debt.balance = Math.round((debt.balance + Number(m.debtApplied)) * 100) / 100; m.debtApplied = 0; }
+  if (m.goalApplied) { const gl = data.goals.find(g => g.id === m.goalId); if (gl) gl.current = Math.round(((Number(gl.current) || 0) - Number(m.goalApplied)) * 100) / 100; m.goalApplied = 0; }
+}
+function entryFromRepeat(r, occ) {
+  return { id: uid("m"), type: r.type, amount: r.amount, accountId: r.accountId, category: r.category, label: r.label, date: occ, goalId: r.goalId, debtId: r.debtId, applyDebt: r.applyDebt, repeatId: r.id, occ };
+}
+// Post every due occurrence up to today (real date). Safe to call any time: an occurrence posts once, ever.
+function postDueRepeats() {
+  if (!data || !Array.isArray(data.repeats)) return 0;
+  const today = iso(new Date()); let n = 0;
+  data.repeats.forEach(r => {
+    if (!r.active) return;
+    repeatOccurrences(r, r.lastPosted, today).forEach(occ => {
+      if (!data.money.some(m => m.repeatId === r.id && m.occ === occ)) { const m = entryFromRepeat(r, occ); applyEntryEffects(m); data.money.push(m); n++; }
+      r.lastPosted = occ;
+    });
+  });
+  if (n) save();
+  return n;
+}
+let repeatDayChecked = "";
+function checkRepeatsNow() { if (!data) return; const t = iso(new Date()); const n = postDueRepeats(); if (n || repeatDayChecked !== t) { repeatDayChecked = t; if (n) renderDerived(); } }
+document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible") checkRepeatsNow(); });
+setInterval(checkRepeatsNow, 10 * 60 * 1000);
+
+function moneyRowLabel(m) {
+  if (m.type === "income") return INCOME_SOURCES[m.category] === "Other" && m.label ? m.label : (INCOME_SOURCES[m.category] || m.label || "Income");
+  if (m.debtId) { const d = data.debts.find(x => x.id === m.debtId); return (d ? d.name : (m.label || "Debt")) + " payment"; }
+  const cat = expenseCatName(m.category, m.label);
+  return cat + ((m.label && m.category === "project") ? " · " + m.label : "");
+}
+let activityShowAll = false;
+function renderActivity() {
+  const list = document.getElementById("moneyList"), more = document.getElementById("moneyListMore");
+  if (!data.money.length) { list.innerHTML = '<li><span class="empty">Nothing entered.</span></li>'; more.hidden = true; return; }
+  const rows = data.money.slice().sort((a, b) => a.date < b.date ? 1 : a.date > b.date ? -1 : 0);
+  const shown = activityShowAll ? rows : rows.slice(0, 12);
+  list.innerHTML = shown.map(m => {
+    const acc = data.accounts.find(a => a.id === m.accountId);
+    const goal = m.goalId ? data.goals.find(g => g.id === m.goalId) : null;
+    const amt = signedAmount(m), rp = m.repeatId ? data.repeats.find(r => r.id === m.repeatId) : null;
+    const tail = " · " + (acc ? acc.name : "?") + " · " + prettyDate(m.date) + (goal ? " · toward " + goal.title : "");
+    return '<li class="act"><button type="button" class="act-row" data-money="' + esc(m.id) + '" aria-label="Edit ' + esc(moneyRowLabel(m) + " " + moneyFmt(amt) + tail) + '"><span class="act-main">' + esc(moneyRowLabel(m) + " · ") +
+      '<span class="act-amt ' + (amt < 0 ? "money-neg" : "money-pos") + '">' + esc(moneyFmt(amt)) + '</span>' + esc(tail) +
+      (rp && rp.active ? '<span class="act-tag">' + esc(repeatTag(rp)) + '</span>' : "") + '</span></button></li>';
+  }).join("");
+  more.hidden = rows.length <= 12; more.textContent = activityShowAll ? "Show less" : "Show all";
+  list.querySelectorAll("[data-money]").forEach(b => b.onclick = () => openMoneyDialog(b.dataset.money));
+}
+document.getElementById("moneyListMore").onclick = () => { activityShowAll = !activityShowAll; renderActivity(); };
+function renderRepeats() {
+  const panel = document.getElementById("repeatsPanel"), list = document.getElementById("repeatList");
+  const live = data.repeats.filter(r => r.active);
+  panel.hidden = !live.length;
+  const today = iso(new Date());
+  list.innerHTML = live.map(r => ({ r, next: nextOccurrence(r, shift(today, 1)) })).sort((a, b) => a.next < b.next ? -1 : 1).map(({ r, next }) => {
+    const acc = data.accounts.find(a => a.id === r.accountId);
+    const name = moneyRowLabel(r);
+    const amt = r.type === "income" ? r.amount : -r.amount;
+    return '<li><div class="rep-row"><span>' + esc(name + " · " + moneyFmt(amt) + " · " + (acc ? acc.name : "?")) + '<span class="act-tag">' + esc(repeatTag(r) + (next ? " · next " + prettyDate(next) : "")) + '</span></span>' +
+      '<span class="rep-acts"><button type="button" class="tiny" data-rep-edit="' + esc(r.id) + '" aria-label="Edit ' + esc(name) + '">Edit</button><button type="button" class="tiny" data-rep-stop="' + esc(r.id) + '" aria-label="Stop ' + esc(name) + ' repeating">Stop</button></span></div></li>';
+  }).join("");
+  list.querySelectorAll("[data-rep-edit]").forEach(b => b.onclick = () => openRepeatEditor(b.dataset.repEdit));
+  list.querySelectorAll("[data-rep-stop]").forEach(b => b.onclick = async () => {
+    const r = data.repeats.find(x => x.id === b.dataset.repStop); if (!r) return;
+    if (!(await askDelete("Stop " + moneyRowLabel(r) + " repeating? Past entries stay.", "Stop repeating"))) return;
+    r.active = false; save(); renderDerived();
+  });
+}
+function askChoice(msg, a, b) {
+  return new Promise(resolve => {
+    const dlg = document.getElementById("choiceDialog");
+    document.getElementById("choiceMsg").textContent = msg;
+    document.getElementById("choiceA").textContent = a; document.getElementById("choiceB").textContent = b;
+    let done = false; const finish = v => { if (done) return; done = true; if (dlg.open) dlg.close(); resolve(v); };
+    document.getElementById("choiceA").onclick = () => finish("a");
+    document.getElementById("choiceB").onclick = () => finish("b");
+    document.getElementById("choiceCancel").onclick = () => finish(null);
+    dlg.onclose = () => finish(null);
+    dlg.showModal(); document.getElementById("choiceCancel").focus();
+  });
+}
+function fillRepeatDays() {
+  const sel = document.getElementById("moneyRepeatDay");
+  if (sel.options.length) return;
+  sel.innerHTML = Array.from({ length: 31 }, (_, i) => '<option value="' + (i + 1) + '">' + ordinal(i + 1) + '</option>').join("") + '<option value="last">Last day</option>';
+}
+function syncRepeatUI() {
+  const f = document.getElementById("moneyRepeat").value;
+  document.getElementById("moneyRepeatDayWrap").hidden = f !== "month";
+  document.getElementById("moneyRepeatStartWrap").hidden = f !== "2weeks";
+}
+document.getElementById("moneyRepeat").onchange = () => {
+  const date = document.getElementById("moneyDate").value || data.selected;
+  if (document.getElementById("moneyRepeat").value === "month" && !document.getElementById("moneyRepeatDay").dataset.touched) document.getElementById("moneyRepeatDay").value = String(Number(date.slice(8)));
+  if (!document.getElementById("moneyRepeatStart").value) document.getElementById("moneyRepeatStart").value = date;
+  syncRepeatUI();
+};
+document.getElementById("moneyRepeatDay").onchange = e => { e.target.dataset.touched = "1"; };
+document.getElementById("moneyDate").onchange = () => {
+  const date = document.getElementById("moneyDate").value; if (!date) return;
+  if (!document.getElementById("moneyRepeatDay").dataset.touched) document.getElementById("moneyRepeatDay").value = String(Number(date.slice(8)));
+  if (!editingRepeatId) document.getElementById("moneyRepeatStart").value = date;
+};
+// Open the money sheet: id = entry to edit, or null for a new one. opts.debtId presets a debt payment; opts.repeatId edits a rule.
+function openMoneyDialog(id, opts) {
+  opts = opts || {};
+  const m = id ? data.money.find(x => x.id === id) : null;
+  const r = opts.repeatId ? data.repeats.find(x => x.id === opts.repeatId) : (m && m.repeatId ? data.repeats.find(x => x.id === m.repeatId) : null);
+  const src = m || (opts.repeatId ? r : null);
+  editingMoneyId = m ? m.id : null; editingRepeatId = opts.repeatId || null;
+  moneyType = src ? src.type : (opts.debtId ? "expense" : "income");
+  fillMoneyAccounts(); fillMoneyGoals(); fillRepeatDays();
+  const $ = x => document.getElementById(x);
+  $("moneyDialogTitle").textContent = opts.repeatId ? "Edit repeating" : m ? "Edit entry" : opts.debtId ? "Log payment" : "Add money";
+  $("moneyAmt").value = src ? src.amount : "";
+  $("moneyOther").value = src ? src.label || "" : "";
+  $("moneySource").value = src && src.type === "income" ? src.category : "paycheck";
+  $("moneyExpense").value = src && src.type === "expense" ? src.category : "other";
+  $("moneyCatNewRow").hidden = true;
+  $("moneyDebtApply").checked = src ? src.applyDebt !== false : true;
+  $("moneyGoal").value = src ? src.goalId || "" : "";
+  if (src && src.accountId) $("moneyAccount").value = src.accountId;
+  $("moneyDate").value = m ? m.date : (opts.repeatId ? nextOccurrence(r, shift(iso(new Date()), 1)) || r.start : data.selected);
+  $("moneyDate").disabled = false;
+  const rr = r && r.active ? r : null;
+  $("moneyRepeat").value = rr ? rr.freq : "never";
+  $("moneyRepeatDay").value = rr && rr.freq === "month" ? String(rr.day) : String(Number($("moneyDate").value.slice(8)));
+  delete $("moneyRepeatDay").dataset.touched; if (rr) $("moneyRepeatDay").dataset.touched = "1";
+  $("moneyRepeatStart").value = rr ? rr.start : $("moneyDate").value;
+  $("moneyRepeatWrap").hidden = !!(m && !rr && m.repeatId); // a detached old occurrence can't restart a rule
+  $("moneyDelete").hidden = !(m || opts.repeatId);
+  $("moneyDelete").textContent = opts.repeatId ? "Stop repeating" : "Delete";
+  if (opts.debtId) {
+    const d = data.debts.find(x => x.id === opts.debtId);
+    $("moneyExpense").value = /car|auto|vehicle|truck/i.test(d.name) ? "car-payment" : "debt-payment";
+    $("moneyAmt").value = d.mode === "minimum" ? Math.ceil(Math.max(25, d.balance * d.pct / 100 + d.balance * d.apr / 1200)) : (d.payment || "");
+  }
+  syncMoneyTypeUI(); syncRepeatUI();
+  if (opts.debtId || (src && src.debtId)) { const sel = $("moneyDebt"); sel.value = opts.debtId || src.debtId; }
+  openSheet($("moneyDialog"), $("moneyAmt"));
+}
+function openDebtPayment(debtId) { openMoneyDialog(null, { debtId }); }
+function openRepeatEditor(repeatId) { openMoneyDialog(null, { repeatId }); }
+function readMoneyForm() {
+  const $ = x => document.getElementById(x);
+  const amount = Number($("moneyAmt").value);
+  if (!$("moneyAmt").value || !(amount >= 0) || Number.isNaN(amount)) { $("moneyAmt").focus(); return null; }
+  const accountId = $("moneyAccount").value; if (!accountId) return null;
+  const category = moneyType === "income" ? $("moneySource").value : $("moneyExpense").value;
+  const label = $("moneyOther").value.trim();
+  if (category === "other" && !label && moneyType === "income") { $("moneyOther").focus(); return null; }
+  let goalId = $("moneyGoal").value || "";
+  if (moneyType === "income") { const gl = data.goals.find(g => g.id === goalId); if (!(gl && gl.incomeCounts && !goalAccount(gl))) goalId = ""; }
+  let debtId = "", applyDebt = true;
+  if (moneyType === "expense" && DEBT_CATS.includes(category) && !$("moneyDebtWrap").hidden) { debtId = $("moneyDebt").value || ""; applyDebt = $("moneyDebtApply").checked; }
+  const date = $("moneyDate").value || data.selected;
+  const freq = $("moneyRepeat").value;
+  const rep = REPEAT_FREQS[freq] ? { freq, day: freq === "month" ? ($("moneyRepeatDay").value === "last" ? "last" : Number($("moneyRepeatDay").value)) : Number(date.slice(8)), start: freq === "2weeks" ? ($("moneyRepeatStart").value || date) : date } : null;
+  return { type: moneyType, amount: Math.round(amount * 100) / 100, accountId, category, label: debtId ? ((data.debts.find(x => x.id === debtId) || {}).name || label) : label, goalId, debtId, applyDebt, date, rep };
+}
+function templateFields(f) { return { type: f.type, amount: f.amount, accountId: f.accountId, category: f.category, label: f.label, goalId: f.goalId, debtId: f.debtId, applyDebt: f.applyDebt }; }
+async function saveMoneyDialog() {
+  const f = readMoneyForm(); if (!f) return;
+  const dlg = document.getElementById("moneyDialog");
+  if (editingRepeatId) { // editing a rule from "Coming up": changes future ones only
+    const r = data.repeats.find(x => x.id === editingRepeatId);
+    if (r) {
+      Object.assign(r, templateFields(f));
+      if (f.rep && (f.rep.freq !== r.freq || String(f.rep.day) !== String(r.day) || f.rep.start !== r.start)) {
+        // New schedule from the chosen date (never before tomorrow); what already posted stays.
+        const tomorrow = shift(iso(new Date()), 1);
+        const from = f.rep.freq === "2weeks" ? f.rep.start : f.date;
+        r.freq = f.rep.freq; r.day = f.rep.day; r.start = from < tomorrow && f.rep.freq !== "2weeks" ? tomorrow : from;
+      }
+      if (!f.rep) r.active = false;
+    }
+    editingRepeatId = null; save(); dlg.close(); postDueRepeats(); renderDerived(); return;
+  }
+  if (editingMoneyId) {
+    const m = data.money.find(x => x.id === editingMoneyId); if (!m) return;
+    const r = m.repeatId ? data.repeats.find(x => x.id === m.repeatId && x.active) : null;
+    let scope = "one";
+    if (r) { const c = await askChoice("Change just this one, or this and all future ones?", "Just this one", "All future"); if (!c) return; scope = c === "b" ? "future" : "one"; }
+    revertEntryEffects(m);
+    Object.assign(m, templateFields(f), { date: f.date });
+    applyEntryEffects(m);
+    if (r && scope === "future") {
+      Object.assign(r, templateFields(f));
+      if (f.rep) { const changed = f.rep.freq !== r.freq || String(f.rep.day) !== String(r.day); if (changed) { r.freq = f.rep.freq; r.day = f.rep.day; r.start = f.rep.freq === "2weeks" ? f.rep.start : f.date; r.lastPosted = m.occ = f.date; } }
+      else r.active = false;
+    } else if (!r && f.rep) { // turn a one-off into a repeating one, starting from this entry
+      const nr = Object.assign({ id: uid("r"), active: true }, templateFields(f), { freq: f.rep.freq, day: f.rep.day, start: f.rep.start, lastPosted: "" });
+      data.repeats.push(nr);
+      if (repeatOccurrences(nr, "", f.date).includes(f.date)) { m.repeatId = nr.id; m.occ = f.date; }
+    }
+    editingMoneyId = null; save(); dlg.close(); postDueRepeats(); renderDerived(); return;
+  }
+  // new entry
+  const entry = Object.assign({ id: uid("m") }, templateFields(f), { date: f.date });
+  if (f.rep) {
+    const r = Object.assign({ id: uid("r"), active: true }, templateFields(f), { freq: f.rep.freq, day: f.rep.day, start: f.rep.start, lastPosted: "" });
+    data.repeats.push(r);
+    // If this date is on the schedule, this entry is that occurrence (so catch-up never doubles it).
+    if (repeatOccurrences(r, "", f.date).includes(f.date)) { entry.repeatId = r.id; entry.occ = f.date; }
+  }
+  applyEntryEffects(entry); data.money.push(entry);
+  save(); dlg.close(); postDueRepeats(); renderDerived();
+}
+async function deleteMoneyEntry() {
+  const dlg = document.getElementById("moneyDialog");
+  if (editingRepeatId) {
+    const r = data.repeats.find(x => x.id === editingRepeatId);
+    if (r && await askDelete("Stop " + moneyRowLabel(r) + " repeating? Past entries stay.", "Stop repeating")) { r.active = false; editingRepeatId = null; save(); dlg.close(); renderDerived(); }
+    return;
+  }
+  const m = data.money.find(x => x.id === editingMoneyId); if (!m) return;
+  const r = m.repeatId ? data.repeats.find(x => x.id === m.repeatId && x.active) : null;
+  if (r) {
+    const c = await askChoice("Delete just this one, or stop it repeating?", "Just this one", "Stop repeating"); if (!c) return;
+    if (c === "b") r.active = false;
+  } else if (!(await askDelete("Delete " + moneyRowLabel(m) + " (" + moneyFmt(signedAmount(m)) + ")? This can't be undone.", "Delete"))) return;
+  revertEntryEffects(m);
+  data.money = data.money.filter(x => x.id !== m.id); // its occurrence date stays "posted", so it never comes back
+  editingMoneyId = null; save(); dlg.close(); renderDerived();
 }
 function renderDerived() {
   renderStats(); renderCoach(); renderWeekNudges(); renderNotices(); renderStrip(); renderAreas();
@@ -4242,19 +4559,7 @@ document.getElementById("btnAddTask").onclick = () => openTaskDialog(null);
 document.getElementById("btnAddGoal").onclick = () => openGoalDialog(null);
 document.getElementById("goalUnit").onchange = syncGoalForm;
 document.getElementById("goalTrack").onchange = syncGoalForm;
-document.getElementById("btnAddMoney").onclick = () => {
-  moneyType = "income";
-  fillMoneyAccounts(); fillMoneyGoals();
-  document.getElementById("moneyAmt").value = "";
-  document.getElementById("moneyOther").value = "";
-  document.getElementById("moneySource").value = "paycheck";
-  document.getElementById("moneyExpense").value = "other";
-  document.getElementById("moneyCatNewRow").hidden = true;
-  document.getElementById("moneyDebtApply").checked = true;
-  document.getElementById("moneyGoal").value = "";
-  syncMoneyTypeUI();
-  document.getElementById("moneyDialog").showModal();
-};
+document.getElementById("btnAddMoney").onclick = () => openMoneyDialog(null);
 document.querySelectorAll("#moneyTypeRow .chip").forEach(btn => {
   btn.onclick = () => { moneyType = btn.dataset.mtype; syncMoneyTypeUI(); };
 });
@@ -4409,31 +4714,8 @@ document.getElementById("goalSave").onclick = () => {
   editingGoalId = null;
   save(); document.getElementById("goalDialog").close(); renderDerived();
 };
-document.getElementById("moneySave").onclick = () => {
-  const amount = Number(document.getElementById("moneyAmt").value);
-  if (!(amount >= 0) || Number.isNaN(amount)) return;
-  const accountId = document.getElementById("moneyAccount").value;
-  if (!accountId) return;
-  const category = moneyType === "income" ? document.getElementById("moneySource").value : document.getElementById("moneyExpense").value;
-  const label = document.getElementById("moneyOther").value.trim();
-  if (category === "other" && !label && moneyType === "income") return;
-  let goalId = document.getElementById("moneyGoal").value || "";
-  if (moneyType === "income") {
-    const gl = data.goals.find(g => g.id === goalId);
-    if (gl && gl.incomeCounts && !goalAccount(gl)) gl.current = Math.round(((Number(gl.current) || 0) + amount) * 100) / 100;
-    else goalId = "";
-  }
-  const entry = { id: uid("m"), type: moneyType, amount, accountId, category, label, date: data.selected, goalId };
-  if (moneyType === "expense" && category === "debt-payment") {
-    const debt = data.debts.find(x => x.id === document.getElementById("moneyDebt").value);
-    if (debt) {
-      entry.debtId = debt.id;
-      if (document.getElementById("moneyDebtApply").checked) { const cut = Math.min(debt.balance, amount); debt.balance = Math.round((debt.balance - cut) * 100) / 100; entry.debtApplied = cut; }
-    }
-  }
-  data.money.push(entry);
-  save(); document.getElementById("moneyDialog").close(); renderDerived();
-};
+document.getElementById("moneySave").onclick = () => saveMoneyDialog();
+document.getElementById("moneyDelete").onclick = () => deleteMoneyEntry();
 ["taskDialog", "goalDialog", "moneyDialog", "debtDialog", "savingsDialog", "accountDialog", "pullDialog", "pullsDialog", "moveDialog", "pathDialog", "pathLogDialog", "progressDialog", "pathsManageDialog"].forEach(id => {
   const dlg = document.getElementById(id);
   dlg.addEventListener("click", e => { if (e.target === dlg) dlg.close(); });
@@ -6234,6 +6516,7 @@ function enterApp() {
   syncComposerDates();
   fillDiaryPullOptions("");
   remindersOnUnlock();
+  postDueRepeats(); repeatDayChecked = iso(new Date());
   renderCheckin();
   renderDerived();
   if (!data.guideSeen) openGuide();
