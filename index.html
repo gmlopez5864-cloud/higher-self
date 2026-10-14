@@ -502,12 +502,15 @@
   .act-row .act-amt { white-space: nowrap; font-variant-numeric: tabular-nums; font-weight: 600; }
   .rep-row { display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
   .rep-row .rep-acts { display: flex; gap: 0.2rem; }
+  .rep-row .act-tag { display: block; font-size: 0.75rem; color: var(--muted); margin-top: 0.1rem; }
   .rep-row .tiny { min-height: 36px; font-size: 0.82rem; }
   #moneySplit { display: block; white-space: normal; overflow-wrap: anywhere; }
   #moneySplit .nw { white-space: nowrap; text-transform: none; letter-spacing: 0; font-size: inherit; color: inherit; }
   .week-sum { overflow-wrap: anywhere; }
   .week-sum .nw { white-space: nowrap; }
   .debt-item { display: grid; gap: 0.25rem; }
+  .money-legend li.coming { color: var(--muted); }
+  .money-legend li.coming .cat-ico { opacity: 0.55; }
   .debt-item .debt-log { justify-self: start; }
   .money-list li { display: flex; justify-content: space-between; gap: 0.6rem; font-size: 0.86rem; padding: 0.32rem 0; border-bottom: 1px solid var(--border); }
   .tools { display: flex; flex-wrap: wrap; gap: 0.4rem; }
@@ -963,7 +966,7 @@
   <header class="top">
     <div class="brand-row">
       <div class="brand">
-        <h1 class="brand-mark"><button type="button" class="logo-btn" id="logoBtn" aria-label="Open menu" aria-haspopup="dialog" aria-expanded="false" aria-controls="menuDrawer"><img class="book app-mark" id="logoImg" src="icons/logo.jpg?v=26" alt="" /></button>Higher Self</h1>
+        <h1 class="brand-mark"><button type="button" class="logo-btn" id="logoBtn" aria-label="Open menu" aria-haspopup="dialog" aria-expanded="false" aria-controls="menuDrawer"><img class="book app-mark" id="logoImg" src="icons/logo.jpg?v=27" alt="" /></button>Higher Self</h1>
         <p id="todayLabel"></p>
       </div>
     </div>
@@ -980,7 +983,7 @@
       </div>
     </div>
     <section class="panel time-card" id="timeCard" aria-labelledby="pieTitle">
-      <h2 id="pieTitle" class="title-book"><img class="book" src="icons/time-pie.jpg?v=26" alt="" />Where your time goes</h2>
+      <h2 id="pieTitle" class="title-book"><img class="book" src="icons/time-pie.jpg?v=27" alt="" />Where your time goes</h2>
       <div class="chip-row" id="timeViewToggle" role="radiogroup" aria-label="Time period">
         <button type="button" class="chip" data-tview="day" aria-pressed="true">Today</button>
         <button type="button" class="chip" data-tview="week" aria-pressed="false">This week</button>
@@ -1024,7 +1027,7 @@
 
   <section class="panel" id="replacementPanel" aria-labelledby="replTitle">
     <h2 id="replTitle">Replacement list</h2>
-    <div class="book-slot"><img class="book" src="icons/shadow.jpg?v=26" alt="" /><span>When an urge hits</span></div>
+    <div class="book-slot"><img class="book" src="icons/shadow.jpg?v=27" alt="" /><span>When an urge hits</span></div>
     <p class="hint">Actions you picked ahead for when an urge hits.</p>
     <p class="hint">When a pull shows up, offer one from this list.</p>
     <ul class="entry-list" id="replList"></ul>
@@ -1039,8 +1042,8 @@
     <h2 id="diaryTitle">Diary</h2>
     <div class="book-slot" title="Diary and shadow icons">
       <span class="book-set">
-        <img class="book" src="icons/diary.jpg?v=26" alt="" />
-        <img class="book" src="icons/shadow.jpg?v=26" alt="" />
+        <img class="book" src="icons/diary.jpg?v=27" alt="" />
+        <img class="book" src="icons/shadow.jpg?v=27" alt="" />
       </span>
       <span>Diary</span>
     </div>
@@ -1078,7 +1081,7 @@
   </section>
 
   <section class="panel" id="pathsPanel" aria-labelledby="pathsTitle">
-    <h2 id="pathsTitle" class="title-book"><img class="book" src="icons/paths-section.jpg?v=26" alt="" />Your paths.</h2>
+    <h2 id="pathsTitle" class="title-book"><img class="book" src="icons/paths-section.jpg?v=27" alt="" />Your paths.</h2>
     <div class="row-actions"><button type="button" class="btn primary" id="pathAddBtn">Add a path</button><button type="button" class="btn" id="pathManageBtn">Manage paths</button></div>
     <p class="hint">Martial artist, writer, father, husband, whatever you're walking.</p>
     <div id="pathList"></div>
@@ -1095,7 +1098,7 @@
       <ul class="log-list record-list" id="logList"></ul>
     </section>
     <section class="side" id="moneySection" aria-labelledby="moneyTitle">
-      <h2 id="moneyTitle" class="title-book"><img class="book" src="icons/money.jpg?v=26" alt="" />Money tracker</h2>
+      <h2 id="moneyTitle" class="title-book"><img class="book" src="icons/money.jpg?v=27" alt="" />Money tracker</h2>
       <div class="account-grid" id="accountGrid"></div>
       <p class="week-sum" id="weekSum"></p>
       <div class="subpanel" id="moneyPiePanel">
@@ -1120,6 +1123,10 @@
       </div>
       <div class="subpanel" id="debtPanel">
         <h3>Debts</h3>
+        <div class="offer" id="debtBillBanner" role="status" hidden>
+          <p style="margin:0">Set when each bill is paid so it shows in your spending.</p>
+          <div class="row-actions"><button type="button" class="btn primary" id="debtBillSetup">Set it up</button><button type="button" class="btn" id="debtBillLater">Not now</button></div>
+        </div>
         <div class="debt-list" id="debtList"></div>
         <button type="button" class="btn" id="btnAddDebt">Add a debt</button>
         <div id="payoffPlans" hidden></div>
@@ -1354,6 +1361,13 @@
     <p class="hint" style="margin:0.2rem 0 0">Plus that month's interest, with a $25 floor (or the remaining balance if less).</p>
   </div>
   <label class="field" style="margin-top:0.45rem">Extra each month<input id="debtExtra" type="number" step="1" min="0" inputmode="decimal" /></label>
+  <label class="field" style="margin-top:0.45rem">Pays from
+    <select id="debtPayFrom"></select>
+  </label>
+  <label class="field" id="debtDueWrap" style="margin-top:0.45rem">Due on the
+    <select id="debtDueDay"></select>
+  </label>
+  <p class="hint" id="debtBillHint" style="margin:0.2rem 0 0">The payment is added to your spending on that day each month.</p>
   <div class="debt-result" id="debtResult" aria-live="polite"></div>
   <p class="debt-disclaimer" id="debtDisclaimer">This is an estimate only. It assumes a fixed rate and the same payment every month. Your lender's numbers may differ.</p>
   <div class="actions">
@@ -1422,7 +1436,7 @@
     <button type="button" class="btn" id="menuClose">Close</button>
   </div>
   <button type="button" class="menu-row menu-settings" id="menuSettingsToggle" aria-expanded="false" aria-controls="menuSettings">
-    <img src="icons/settings.jpg?v=26" alt="" /><span><b>Settings</b><small>Themes, backup, reminders, guide, lock</small></span>
+    <img src="icons/settings.jpg?v=27" alt="" /><span><b>Settings</b><small>Themes, backup, reminders, guide, lock</small></span>
   </button>
   <div class="menu-group" id="menuSettings" hidden>
     <button type="button" class="menu-item" id="btnOptions">Options · Dawn</button>
@@ -1506,7 +1520,7 @@
     <div class="row-actions"><button type="button" class="btn" id="optAddPull">Add pull</button><button type="button" class="btn" id="optManagePulls">Manage pulls</button></div>
   </div>
   <div class="subpanel" id="purposePanel" aria-labelledby="purposeTitle">
-    <h3 id="purposeTitle" class="title-book"><img class="book" src="icons/purpose.jpg?v=26" alt="" />Purpose (optional)</h3>
+    <h3 id="purposeTitle" class="title-book"><img class="book" src="icons/purpose.jpg?v=27" alt="" />Purpose (optional)</h3>
     <p class="hint">A note on how you're walking the path you already picked. Not a new choice, and not a finish.</p>
 
     <div class="subpanel">
@@ -1869,7 +1883,7 @@ const PATH_ICON_LABELS = {
 };
 const PATH_WRESTLING_ICON = "icons/paths/wrestling.jpg";
 // Icon cache-bust: same filenames were re-cut, so every rendered icon URL carries ?v=. Stored data keeps plain paths.
-const ICON_VER = "26";
+const ICON_VER = "27";
 const LOGO_SRC = "icons/logo.jpg"; // swap the app logo here (header, menu button, vault screens)
 function plainIcon(src) { return String(src || "").split("?")[0]; }
 function iv(src) {
@@ -1950,6 +1964,11 @@ const EXPENSE_CATS = [
 ];
 // Pre-v25 expense types keep their stored ids and old labels (no data rewritten); they just aren't offered for new entries.
 const PAYOFF_METHODS = { smallest: { title: "Smallest first", sub: "Clear small balances fast. Quick wins keep you going.", icon: "smallest-first" }, highest: { title: "Highest rate first", sub: "Tackle the costliest debt first. Pays the least interest.", icon: "highest-rate" } };
+function defaultPayFrom(accounts) {
+  const list = Array.isArray(accounts) ? accounts : [];
+  const a = list.find(x => /checking/i.test(x.name || "")) || list[0];
+  return a ? a.id : "";
+}
 const REPEAT_FREQS = { week: "Every week", "2weeks": "Every 2 weeks", month: "Every month", year: "Every year" };
 const SAVINGS_KINDS = { savings: "Savings", cd: "CD", investment: "Investment" };
 const SAVINGS_YEARS = [5, 10, 20, 30];
@@ -2351,7 +2370,10 @@ function migrateLegacy(raw) {
     id: String(x.id), name: String(x.name || "Debt").slice(0, 60),
     balance: Math.max(0, Number(x.balance) || 0), apr: Math.max(0, Number(x.apr) || 0),
     mode: x.mode === "minimum" ? "minimum" : "fixed", payment: Math.max(0, Number(x.payment) || 0),
-    pct: x.pct != null && !Number.isNaN(Number(x.pct)) ? Math.max(0, Number(x.pct)) : 1, extra: Math.max(0, Number(x.extra) || 0)
+    pct: x.pct != null && !Number.isNaN(Number(x.pct)) ? Math.max(0, Number(x.pct)) : 1, extra: Math.max(0, Number(x.extra) || 0),
+    // v27: the monthly bill. Older debts get a default (first checking account, today's day) that the user confirms once.
+    payFrom: typeof x.payFrom === "string" ? x.payFrom : defaultPayFrom(d.accounts), dueDay: x.dueDay === "last" ? "last" : (Number(x.dueDay) >= 1 && Number(x.dueDay) <= 31 ? Number(x.dueDay) : Number(TODAY.slice(8))),
+    billRepeatId: typeof x.billRepeatId === "string" ? x.billRepeatId : "", billConfirmed: x.billConfirmed === true
   })) : [];
   d.savings = Array.isArray(d.savings) ? d.savings.filter(x => x && x.id).map(x => ({
     id: String(x.id), name: String(x.name || "Savings").slice(0, 60), kind: SAVINGS_KINDS[x.kind] ? x.kind : (["stocks", "retirement", "other"].includes(x.kind) ? "investment" : "savings"),
@@ -2370,7 +2392,7 @@ function migrateLegacy(raw) {
     id: String(r.id), freq: r.freq, start: r.start, day: r.day === "last" ? "last" : Math.min(31, Math.max(1, Number(r.day) || Number(r.start.slice(8)))),
     type: r.type === "income" ? "income" : "expense", amount: Math.max(0, Number(r.amount) || 0), accountId: String(r.accountId || ""),
     category: String(r.category || "other"), label: String(r.label || ""), goalId: String(r.goalId || ""), debtId: String(r.debtId || ""), applyDebt: r.applyDebt !== false,
-    lastPosted: typeof r.lastPosted === "string" ? r.lastPosted : "", active: r.active !== false
+    lastPosted: typeof r.lastPosted === "string" ? r.lastPosted : "", active: r.active !== false, debtAuto: r.debtAuto === true
   })) : [];
   d.payoffPlan = d.payoffPlan === "smallest" || d.payoffPlan === "highest" ? d.payoffPlan : "";
   d.areaOrder = normalizeAreaOrder(d.areaOrder);
@@ -2747,7 +2769,7 @@ function addCustomPull(label, steer, opposite, img) {
 }
 function sortedDesc(list) { return list.slice().sort((a, b) => a.date < b.date ? 1 : a.date > b.date ? -1 : 0); }
 function bookSlot(label) {
-  return '<span class="book-slot" title="Area notes"><img class="book" src="icons/area-note.jpg?v=26" alt="" /><span>' + esc(label) + '</span></span>';
+  return '<span class="book-slot" title="Area notes"><img class="book" src="icons/area-note.jpg?v=27" alt="" /><span>' + esc(label) + '</span></span>';
 }
 function pickReplacement() {
   if (!data.replacements.length) return null;
@@ -2970,7 +2992,7 @@ function renderCheckin() {
       '<p class="hint" id="sleepPreview"></p>';
   }
   const body =
-    '<div class="sleep-row"><p class="q-title title-book"><img class="book" src="icons/sleep.jpg?v=26" alt="" />How did last night go?</p>' + sleepHtml + '</div>' +
+    '<div class="sleep-row"><p class="q-title title-book"><img class="book" src="icons/sleep.jpg?v=27" alt="" />How did last night go?</p>' + sleepHtml + '</div>' +
     pathCheckinHtml(date);
   document.getElementById("checkinBody").innerHTML = body;
   bindCheckin();
@@ -3628,7 +3650,7 @@ function renderMoney() {
   grid.querySelectorAll("[data-edit-account]").forEach(btn => {
     btn.onclick = () => openAccountDialog(btn.dataset.editAccount);
   });
-  renderMoneyPie(); renderDebts(); renderSavings();
+  renderMoneyPie(); renderDebts(); renderSavings(); renderDebtBillBanner();
   const w = weekMoneySummary();
   document.getElementById("weekSum").innerHTML = esc("This week (" + prettyDate(w.sun) + "–" + prettyDate(w.end) + "): ") +
     '<span class="nw">' + esc(moneyFmt(w.inn) + " in") + '</span> · <span class="nw">' + esc(moneyFmt(-w.out) + " out") + '</span> · <span class="nw">' + esc("net " + moneyFmt(w.net)) + '</span>';
@@ -3708,18 +3730,23 @@ function renderMoneyPie() {
   document.querySelectorAll("#moneyPieToggle .chip").forEach(b => { const on = b.dataset.mrange === range; b.setAttribute("aria-pressed", on); b.setAttribute("aria-checked", on); });
   const box = document.getElementById("moneyPie");
   const { rows, total } = moneyPieData(range);
-  if (!total) { box.innerHTML = '<p class="empty" style="margin:0">No spending ' + (range === "year" ? "this year" : "this month") + ' yet. Add an expense to see where it goes.</p>'; return; }
+  const coming = comingUpThisMonth();
+  const whole = total + coming;
+  if (!whole) { box.innerHTML = '<p class="empty" style="margin:0">No spending ' + (range === "year" ? "this year" : "this month") + ' yet. Add an expense to see where it goes.</p>'; return; }
+  const slices = rows.map((r, i) => ({ amt: r.amt, fill: MONEY_PIE_COLORS[i % MONEY_PIE_COLORS.length], op: 1 }));
+  if (coming) slices.push({ amt: coming, fill: "var(--muted)", op: 0.3, coming: true });
   let a0 = -Math.PI / 2, paths = "";
-  rows.forEach((r, i) => {
-    const col = MONEY_PIE_COLORS[i % MONEY_PIE_COLORS.length], frac = r.amt / total;
-    if (frac >= 0.9999) { paths += '<circle cx="50" cy="50" r="48" fill="' + col + '"/>'; return; }
+  slices.forEach(sl => {
+    const frac = sl.amt / whole, attrs = ' fill="' + sl.fill + '"' + (sl.op < 1 ? ' fill-opacity="' + sl.op + '" data-coming="1"' : "");
+    if (frac >= 0.9999) { paths += '<circle cx="50" cy="50" r="48"' + attrs + '/>'; return; }
     const a1 = a0 + frac * 2 * Math.PI, big = frac > 0.5 ? 1 : 0;
-    paths += '<path d="M50 50 L' + (50 + 48 * Math.cos(a0)).toFixed(2) + ' ' + (50 + 48 * Math.sin(a0)).toFixed(2) + ' A48 48 0 ' + big + ' 1 ' + (50 + 48 * Math.cos(a1)).toFixed(2) + ' ' + (50 + 48 * Math.sin(a1)).toFixed(2) + ' Z" fill="' + col + '"/>';
+    paths += '<path d="M50 50 L' + (50 + 48 * Math.cos(a0)).toFixed(2) + ' ' + (50 + 48 * Math.sin(a0)).toFixed(2) + ' A48 48 0 ' + big + ' 1 ' + (50 + 48 * Math.cos(a1)).toFixed(2) + ' ' + (50 + 48 * Math.sin(a1)).toFixed(2) + ' Z"' + attrs + '/>';
     a0 = a1;
   });
-  const label = "Spending " + (range === "year" ? "this year" : "this month") + ", " + moneyPlain(total) + ": " + rows.map(r => r.name + " " + Math.round(r.amt / total * 100) + "%").join(", ");
+  const label = "Spending " + (range === "year" ? "this year" : "this month") + ", " + moneyPlain(total) + (rows.length ? ": " + rows.map(r => r.name + " " + Math.round(r.amt / whole * 100) + "%").join(", ") : "") + (coming ? ". Coming up this month: " + moneyPlain(coming) : "");
   box.innerHTML = '<svg viewBox="0 0 100 100" role="img" aria-label="' + esc(label) + '">' + paths + '<circle cx="50" cy="50" r="27" fill="var(--card, #fff)"/><text x="50" y="47" text-anchor="middle" font-size="8" fill="var(--muted)">Spent</text><text x="50" y="58" text-anchor="middle" font-size="10" font-weight="700" fill="var(--text)">' + esc(moneyPlain(Math.round(total))) + '</text></svg>' +
-    '<ul class="money-legend">' + rows.map((r, i) => '<li>' + catIcon(r.id, r.name, MONEY_PIE_COLORS[i % MONEY_PIE_COLORS.length]) + '<span class="nm">' + esc(r.name) + '</span><span class="am">' + moneyPlain(r.amt) + ' · ' + Math.round(r.amt / total * 100) + '%</span></li>').join("") + '</ul>';
+    '<ul class="money-legend">' + rows.map((r, i) => '<li>' + catIcon(r.id, r.name, MONEY_PIE_COLORS[i % MONEY_PIE_COLORS.length]) + '<span class="nm">' + esc(r.name) + '</span><span class="am">' + moneyPlain(r.amt) + ' · ' + Math.round(r.amt / whole * 100) + '%</span></li>').join("") +
+    (coming ? '<li class="coming" id="pieComingUp"><span class="cat-ico" aria-hidden="true" style="background:var(--muted)">…</span><span class="nm">Coming up</span><span class="am">' + moneyPlain(coming) + '</span></li>' : "") + '</ul>';
 }
 document.querySelectorAll("#moneyPieToggle .chip").forEach(b => b.onclick = () => { data.moneyPieRange = b.dataset.mrange; save(); renderMoneyPie(); });
 
@@ -3777,7 +3804,7 @@ function renderDebts() {
   list.innerHTML = data.debts.map(d => {
     const p = debtPlan(d.balance, d.apr, d.mode, d.payment, d.pct, d.extra);
     const line = !(d.balance > 0) ? "Paid off" : (p.ok ? "About " + yearsMonths(p.months) + " to go · about " + moneyWhole(p.interest) + " in interest" : "Payment doesn't cover the interest");
-    return '<div class="debt-item"><button type="button" class="debt-card" data-debt="' + esc(d.id) + '"><div class="dn"><span>' + esc(d.name) + '</span><span class="money-neg">' + moneyPlain(d.balance) + '</span></div><div class="ds">' + esc(d.apr + "% APR · " + (d.mode === "minimum" ? "card minimum " + d.pct + "% + interest" : moneyPlain(d.payment) + "/month") + (d.extra > 0 ? " + " + moneyPlain(d.extra) + " extra" : "")) + '</div><div class="ds' + (p.ok || !(d.balance > 0) ? "" : " money-neg") + '">' + esc(line) + '</div></button>' +
+    return '<div class="debt-item"><button type="button" class="debt-card" data-debt="' + esc(d.id) + '"><div class="dn"><span>' + esc(d.name) + '</span><span class="money-neg">' + moneyPlain(d.balance) + '</span></div><div class="ds">' + esc(d.apr + "% APR · " + (d.mode === "minimum" ? "card minimum " + d.pct + "% + interest" : moneyPlain(d.payment) + "/month") + (d.extra > 0 ? " + " + moneyPlain(d.extra) + " extra" : "") + (d.payFrom && data.accounts.some(x => x.id === d.payFrom) ? " · due the " + (d.dueDay === "last" ? "last day" : ordinal(Number(d.dueDay))) : "")) + '</div><div class="ds' + (p.ok || !(d.balance > 0) ? "" : " money-neg") + '">' + esc(line) + '</div></button>' +
       (d.balance > 0 ? '<button type="button" class="btn debt-log" data-debt-log="' + esc(d.id) + '">Log payment</button>' : "") + '</div>';
   }).join("") || '<p class="empty" style="margin:0">No debts added.</p>';
   renderPayoffPlans();
@@ -3810,6 +3837,7 @@ function openDebtDialog(id) {
   document.getElementById("debtPct").value = d ? d.pct : 1;
   document.getElementById("debtExtra").value = d && d.extra ? d.extra : "";
   document.getElementById("debtDelete").hidden = !d;
+  fillDebtBillFields(d);
   syncDebtForm();
   openSheet(document.getElementById("debtDialog"), document.getElementById("debtName"));
 }
@@ -3820,13 +3848,17 @@ document.getElementById("debtCancel").onclick = () => document.getElementById("d
 document.getElementById("debtSave").onclick = () => {
   const f = debtFromForm();
   if (!(f.balance >= 0) || !document.getElementById("debtBalance").value) { document.getElementById("debtBalance").focus(); return; }
-  if (editingDebtId) Object.assign(data.debts.find(x => x.id === editingDebtId), f); else data.debts.push(Object.assign({ id: uid("d") }, f));
-  save(); document.getElementById("debtDialog").close(); renderMoney();
+  Object.assign(f, readDebtBillFields(), { billConfirmed: true });
+  if (editingDebtId) Object.assign(data.debts.find(x => x.id === editingDebtId), f); else data.debts.push(Object.assign({ id: uid("d"), billRepeatId: "" }, f));
+  syncDebtBills(); postDueRepeats();
+  save(); document.getElementById("debtDialog").close(); renderDerived();
 };
 document.getElementById("debtDelete").onclick = () => {
   if (!editingDebtId) return;
+  const gone = data.debts.find(x => x.id === editingDebtId);
+  if (gone && gone.billRepeatId) { const r = data.repeats.find(x => x.id === gone.billRepeatId); if (r) r.active = false; }
   data.debts = data.debts.filter(x => x.id !== editingDebtId);
-  save(); document.getElementById("debtDialog").close(); renderMoney();
+  save(); document.getElementById("debtDialog").close(); renderDerived();
 };
 
 // Savings / investment projection. Monthly compounding: each month balance grows by rate/12, then the deposit is added.
@@ -4025,6 +4057,7 @@ function revertEntryEffects(m) {
   if (m.goalApplied) { const gl = data.goals.find(g => g.id === m.goalId); if (gl) gl.current = Math.round(((Number(gl.current) || 0) - Number(m.goalApplied)) * 100) / 100; m.goalApplied = 0; }
 }
 function entryFromRepeat(r, occ) {
+  if (r.debtAuto) { const d = data.debts.find(x => x.id === r.debtId); const amt = d ? debtBillAmount(d) : 0; if (!(amt > 0)) return null; return { id: uid("m"), type: "expense", amount: amt, accountId: r.accountId, category: r.category, label: d.name, date: occ, goalId: "", debtId: d.id, applyDebt: true, repeatId: r.id, occ }; }
   return { id: uid("m"), type: r.type, amount: r.amount, accountId: r.accountId, category: r.category, label: r.label, date: occ, goalId: r.goalId, debtId: r.debtId, applyDebt: r.applyDebt, repeatId: r.id, occ };
 }
 // Post every due occurrence up to today (real date). Safe to call any time: an occurrence posts once, ever.
@@ -4034,7 +4067,8 @@ function postDueRepeats() {
   data.repeats.forEach(r => {
     if (!r.active) return;
     repeatOccurrences(r, r.lastPosted, today).forEach(occ => {
-      if (!data.money.some(m => m.repeatId === r.id && m.occ === occ)) { const m = entryFromRepeat(r, occ); applyEntryEffects(m); data.money.push(m); n++; }
+      const dup = data.money.some(m => m.repeatId === r.id && m.occ === occ) || (r.debtAuto && debtPaidInMonth(r.debtId, occ));
+      if (!dup) { const m = entryFromRepeat(r, occ); if (m) { applyEntryEffects(m); data.money.push(m); n++; } }
       r.lastPosted = occ;
     });
   });
@@ -4079,15 +4113,17 @@ function renderRepeats() {
   list.innerHTML = live.map(r => ({ r, next: nextOccurrence(r, shift(today, 1)) })).sort((a, b) => a.next < b.next ? -1 : 1).map(({ r, next }) => {
     const acc = data.accounts.find(a => a.id === r.accountId);
     const name = moneyRowLabel(r);
-    const amt = r.type === "income" ? r.amount : -r.amount;
+    const amt = r.debtAuto ? -debtBillAmount(data.debts.find(x => x.id === r.debtId) || {}) : (r.type === "income" ? r.amount : -r.amount);
     return '<li><div class="rep-row"><span>' + esc(name + " · " + moneyFmt(amt) + " · " + (acc ? acc.name : "?")) + '<span class="act-tag">' + esc(repeatTag(r) + (next ? " · next " + prettyDate(next) : "")) + '</span></span>' +
       '<span class="rep-acts"><button type="button" class="tiny" data-rep-edit="' + esc(r.id) + '" aria-label="Edit ' + esc(name) + '">Edit</button><button type="button" class="tiny" data-rep-stop="' + esc(r.id) + '" aria-label="Stop ' + esc(name) + ' repeating">Stop</button></span></div></li>';
   }).join("");
-  list.querySelectorAll("[data-rep-edit]").forEach(b => b.onclick = () => openRepeatEditor(b.dataset.repEdit));
+  list.querySelectorAll("[data-rep-edit]").forEach(b => b.onclick = () => { const r = data.repeats.find(x => x.id === b.dataset.repEdit); if (r && r.debtAuto) openDebtDialog(r.debtId); else openRepeatEditor(b.dataset.repEdit); });
   list.querySelectorAll("[data-rep-stop]").forEach(b => b.onclick = async () => {
     const r = data.repeats.find(x => x.id === b.dataset.repStop); if (!r) return;
     if (!(await askDelete("Stop " + moneyRowLabel(r) + " repeating? Past entries stay.", "Stop repeating"))) return;
-    r.active = false; save(); renderDerived();
+    r.active = false;
+    if (r.debtAuto) { const d = data.debts.find(x => x.id === r.debtId); if (d) { d.payFrom = ""; d.billConfirmed = true; } }
+    save(); renderDerived();
   });
 }
 function askChoice(msg, a, b) {
@@ -4208,7 +4244,11 @@ async function saveMoneyDialog() {
     revertEntryEffects(m);
     Object.assign(m, templateFields(f), { date: f.date });
     applyEntryEffects(m);
-    if (r && scope === "future") {
+    if (r && scope === "future" && r.debtAuto) {
+      const d = data.debts.find(x => x.id === r.debtId);
+      if (d) { if (d.mode === "fixed") d.payment = f.amount; d.payFrom = f.accountId; }
+      r.accountId = f.accountId; r.category = f.category;
+    } else if (r && scope === "future") {
       Object.assign(r, templateFields(f));
       if (f.rep) { const changed = f.rep.freq !== r.freq || String(f.rep.day) !== String(r.day); if (changed) { r.freq = f.rep.freq; r.day = f.rep.day; r.start = f.rep.freq === "2weeks" ? f.rep.start : f.date; r.lastPosted = m.occ = f.date; } }
       else r.active = false;
@@ -4246,6 +4286,73 @@ async function deleteMoneyEntry() {
   revertEntryEffects(m);
   data.money = data.money.filter(x => x.id !== m.id); // its occurrence date stays "posted", so it never comes back
   editingMoneyId = null; save(); dlg.close(); renderDerived();
+}
+
+// ---------- v27: each debt's monthly bill posts itself (a debtAuto repeat), so it shows in spending ----------
+function debtBillAmount(d) {
+  if (!d || !(d.balance > 0)) return 0;
+  const int = d.balance * (Number(d.apr) || 0) / 1200;
+  const due = d.mode === "minimum" ? Math.max(25, d.balance * (Number(d.pct) || 0) / 100 + int) : (Number(d.payment) || 0);
+  return Math.round(Math.min(due, d.balance + int) * 100) / 100;
+}
+function debtBillCategory(d) { return /car|auto|vehicle|truck/i.test(d.name || "") ? "car-payment" : "debt-payment"; }
+function sameMonth(a, b) { return String(a).slice(0, 7) === String(b).slice(0, 7); }
+// A bill counts once a month: if any payment for this debt is already in that month (logged by hand or posted), don't add another.
+function debtPaidInMonth(debtId, day) { return data.money.some(m => m.type === "expense" && m.debtId === debtId && sameMonth(m.date, day)); }
+function syncDebtBills() {
+  if (!data) return;
+  const today = iso(new Date()), monthStart = today.slice(0, 8) + "01";
+  data.debts.forEach(d => {
+    const acct = d.payFrom && data.accounts.some(a => a.id === d.payFrom);
+    let r = d.billRepeatId ? data.repeats.find(x => x.id === d.billRepeatId) : null;
+    // A repeating payment set up by hand in v26 already covers this bill; don't add a second one.
+    const manual = data.repeats.some(x => x.active && !x.debtAuto && x.debtId === d.id);
+    if (!acct || manual || !(debtBillAmount(d) > 0)) { if (r) r.active = false; return; }
+    if (!r) {
+      r = { id: uid("r"), freq: "month", start: monthStart, day: d.dueDay, type: "expense", amount: 0, accountId: d.payFrom, category: debtBillCategory(d), label: d.name, goalId: "", debtId: d.id, applyDebt: true, lastPosted: "", active: true, debtAuto: true };
+      data.repeats.push(r); d.billRepeatId = r.id;
+    }
+    r.active = true; r.day = d.dueDay; r.accountId = d.payFrom; r.label = d.name; r.category = r.category === "car-payment" || r.category === "debt-payment" ? r.category : debtBillCategory(d);
+  });
+}
+function fillDebtBillFields(d) {
+  const from = document.getElementById("debtPayFrom"), due = document.getElementById("debtDueDay");
+  from.innerHTML = data.accounts.map(a => '<option value="' + esc(a.id) + '">' + esc(a.name) + '</option>').join("") + '<option value="">I\'ll log it myself</option>';
+  due.innerHTML = Array.from({ length: 31 }, (_, i) => '<option value="' + (i + 1) + '">' + ordinal(i + 1) + '</option>').join("") + '<option value="last">Last day</option>';
+  from.value = d ? d.payFrom : defaultPayFrom(data.accounts);
+  due.value = String(d ? d.dueDay : Number(TODAY.slice(8)));
+  syncDebtBillFields();
+}
+function syncDebtBillFields() {
+  const on = !!document.getElementById("debtPayFrom").value;
+  document.getElementById("debtDueWrap").hidden = !on;
+  document.getElementById("debtBillHint").textContent = on ? "The payment is added to your spending on that day each month." : "Use Log payment on the debt each time you pay.";
+}
+document.getElementById("debtPayFrom").onchange = syncDebtBillFields;
+function readDebtBillFields() {
+  const v = document.getElementById("debtDueDay").value;
+  return { payFrom: document.getElementById("debtPayFrom").value, dueDay: v === "last" ? "last" : Number(v) };
+}
+function renderDebtBillBanner() {
+  const b = document.getElementById("debtBillBanner");
+  b.hidden = !!data.debtBillBannerSeen || !data.debts.some(d => d.balance > 0 && !d.billConfirmed);
+}
+document.getElementById("debtBillSetup").onclick = () => { const d = data.debts.find(x => x.balance > 0 && !x.billConfirmed); if (d) openDebtDialog(d.id); };
+document.getElementById("debtBillLater").onclick = () => { data.debtBillBannerSeen = true; save(); renderDebtBillBanner(); };
+// Scheduled expense repeats still to come this month (shown faded in the pie; nothing is spent yet).
+function comingUpThisMonth() {
+  const today = iso(new Date()), sel = data.selected;
+  if (!sameMonth(sel, today) && !(data.moneyPieRange === "year" && sel.slice(0, 4) === today.slice(0, 4))) return 0;
+  const end = today.slice(0, 8) + String(lastDayOf(Number(today.slice(0, 4)), Number(today.slice(5, 7)) - 1)).padStart(2, "0");
+  let sum = 0;
+  data.repeats.forEach(r => {
+    if (!r.active || r.type !== "expense" || r.category === "transfer") return;
+    repeatOccurrences(r, today, end).forEach(occ => {
+      if (r.debtAuto) { const d = data.debts.find(x => x.id === r.debtId); if (!d || debtPaidInMonth(d.id, occ)) return; sum += debtBillAmount(d); }
+      else sum += Number(r.amount) || 0;
+    });
+  });
+  return Math.round(sum * 100) / 100;
 }
 function renderDerived() {
   renderStats(); renderCoach(); renderWeekNudges(); renderNotices(); renderStrip(); renderAreas();
@@ -6516,7 +6623,7 @@ function enterApp() {
   syncComposerDates();
   fillDiaryPullOptions("");
   remindersOnUnlock();
-  postDueRepeats(); repeatDayChecked = iso(new Date());
+  syncDebtBills(); postDueRepeats(); repeatDayChecked = iso(new Date());
   renderCheckin();
   renderDerived();
   if (!data.guideSeen) openGuide();
