@@ -957,6 +957,34 @@
   .custom-theme { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.45rem; }
   .color-field input[type="color"] { width: 100%; height: 2.4rem; padding: 2px; border: 1px solid var(--border); border-radius: 10px; background: var(--field); }
   .ct-thumb { width: 2.6rem; height: 4.4rem; object-fit: cover; border-radius: 6px; border: 1px solid var(--border); }
+  /* v28: Coach home + one section per screen */
+  html:not(.hs-all) .screen-off { display: none !important; }
+  html:not(.hs-all) .split.one-col { display: block; }
+  html:not(.hs-all) #areas[data-only="career"] > .area:not([data-area-id="career"]) { display: none !important; }
+  html:not(.hs-all) #areas[data-only="personal"] > .area:not([data-area-id="personal"]) { display: none !important; }
+  html:not(.hs-all) #areas[data-only="social"] > .area:not([data-area-id="social"]) { display: none !important; }
+  html:not(.hs-all) #areas[data-only="spiritual"] > .area:not([data-area-id="spiritual"]) { display: none !important; }
+  html:not(.hs-all) #areas[data-only="time"] > .area:not([data-area-id="time"]) { display: none !important; }
+  .screen-only { display: none; }
+  html:not(.hs-all) body[data-screen="money"] .screen-only { display: flex; }
+  .screen-bar { display: flex; align-items: center; gap: 0.6rem; margin: 0.4rem 0 0.6rem; }
+  .screen-bar h2 { margin: 0; font-size: 1.2rem; min-width: 0; overflow-wrap: anywhere; }
+  .coach-notes .greet { margin: 0; font-size: 1.15rem; font-weight: 700; }
+  .coach-notes .greet-sub { margin: 0.1rem 0 0.5rem; color: var(--muted); font-size: 0.9rem; }
+  .coach-note { position: relative; padding: 0.55rem 2.2rem 0.55rem 0; border-top: 1px solid var(--border); }
+  .coach-note p { margin: 0; font-size: 1rem; overflow-wrap: anywhere; }
+  .coach-note .row-actions { margin-top: 0.4rem; }
+  .coach-group-act { margin: 0 0 0.55rem; }
+  .coach-note .note-x { position: absolute; top: 0.35rem; right: 0; width: 2rem; height: 2rem; border: 0; background: none; color: var(--muted); font-size: 1.2rem; cursor: pointer; border-radius: 50%; }
+  .pie-day { display: flex; align-items: center; justify-content: center; gap: 0.6rem; margin: 0.4rem 0; }
+  .pie-day span { min-width: 7rem; text-align: center; font-weight: 600; }
+  /* room under the last content so nothing ends under the floating logo button */
+  #appRoot { padding-bottom: 6rem; }
+  .home-tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 0.7rem; margin: 0.9rem 0 1rem; }
+  .home-tile { aspect-ratio: 1 / 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.5rem; background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); color: var(--text); font: inherit; font-size: 1rem; font-weight: 600; cursor: pointer; padding: 0.5rem; min-width: 0; }
+  .home-tile img, .home-tile .tile-fb { width: 56%; max-width: 96px; aspect-ratio: 1 / 1; height: auto; border-radius: 22%; }
+  .home-tile .tile-fb { display: flex; align-items: center; justify-content: center; background: var(--icon-tile, var(--accent)); color: #F6EBD9; font-size: 2rem; }
+  .goal-row { display: flex; justify-content: space-between; gap: 0.5rem; flex-wrap: wrap; }
 </style>
 </head>
 <body>
@@ -966,11 +994,13 @@
   <header class="top">
     <div class="brand-row">
       <div class="brand">
-        <h1 class="brand-mark"><button type="button" class="logo-btn" id="logoBtn" aria-label="Open menu" aria-haspopup="dialog" aria-expanded="false" aria-controls="menuDrawer"><img class="book app-mark" id="logoImg" src="icons/logo.jpg?v=27" alt="" /></button>Higher Self</h1>
+        <h1 class="brand-mark"><button type="button" class="logo-btn" id="logoBtn" aria-label="Open menu" aria-haspopup="dialog" aria-expanded="false" aria-controls="menuDrawer"><img class="book app-mark" id="logoImg" src="icons/logo.jpg?v=28" alt="" /></button>Higher Self</h1>
         <p id="todayLabel"></p>
       </div>
     </div>
-    <div class="stat-row">
+    <div class="screen-bar" id="screenBar" hidden><button type="button" class="btn" id="screenBack" aria-label="Back to home">‹ Back</button><h2 id="screenTitle"></h2></div>
+    <section class="coach coach-notes" id="coachNotes" data-scr="home" aria-live="polite"></section>
+    <div class="stat-row" data-scr="">
       <div class="stats" aria-label="Today at a glance">
         <div class="stat"><span>Hours used</span><b id="hoursUsed">—</b></div>
         <div class="stat"><span>Hours left</span><b id="hoursLeft">—</b></div>
@@ -982,52 +1012,55 @@
         <button type="button" class="btn" id="btnAddMoney">Add money</button>
       </div>
     </div>
-    <section class="panel time-card" id="timeCard" aria-labelledby="pieTitle">
-      <h2 id="pieTitle" class="title-book"><img class="book" src="icons/time-pie.jpg?v=27" alt="" />Where your time goes</h2>
-      <div class="chip-row" id="timeViewToggle" role="radiogroup" aria-label="Time period">
+    <section class="panel time-card" id="timeCard" data-scr="home" aria-labelledby="pieTitle">
+      <h2 id="pieTitle" class="title-book"><img class="book" src="icons/time-pie.jpg?v=28" alt="" />Where your time goes</h2>
+      <div class="chip-row" id="timeViewToggle" role="radiogroup" aria-label="Day / Week">
         <button type="button" class="chip" data-tview="day" aria-pressed="true">Today</button>
         <button type="button" class="chip" data-tview="week" aria-pressed="false">This week</button>
       </div>
+      <div class="pie-day" id="pieDayNav"><button type="button" class="btn" id="pieDayPrev" aria-label="Previous day">‹</button><span id="pieDayLabel" aria-live="polite"></span><button type="button" class="btn" id="pieDayNext" aria-label="Next day">›</button></div>
       <div class="pie-layout">
         <svg class="pie" id="pie" viewBox="0 0 200 200" role="img" aria-label="Pie chart of time by area"></svg>
         <ul class="legend" id="legend"></ul>
       </div>
       <p class="hint" id="pieNote"></p>
-      <hr class="time-card-divider" />
-      <div id="roadPanel" aria-labelledby="roadTitle">
+    </section>
+    <div id="noticeArea" data-scr="home"></div>
+    <section class="coach" id="coach" data-scr="week" aria-live="polite"></section>
+    <section class="coach week-card" id="weekNudges" data-scr="week" aria-live="polite" hidden></section>
+      
+      <div id="roadPanel" class="panel" data-scr="week" aria-labelledby="roadTitle">
         <h3 id="roadTitle" class="q-title">Your road</h3>
         <ul class="road-list" id="roadList"></ul>
         <p class="hint" id="roadText"></p>
       </div>
-    </section>
-    <section class="coach" id="coach" aria-live="polite"></section>
-    <div id="noticeArea"></div>
-    <section class="coach week-card" id="weekNudges" aria-live="polite" hidden></section>
+
   </header>
 
 
-  <div class="day-nav" id="dayNav">
+  <div class="day-nav" id="dayNav" data-scr="home area week">
     <button type="button" class="btn" id="weekPrev" aria-label="Earlier week">‹</button>
     <span class="week-label" id="weekLabel" aria-live="polite"></span>
     <button type="button" class="btn" id="weekNext" aria-label="Later week">›</button>
     <button type="button" class="btn" id="dayPickBtn" aria-haspopup="dialog">Go to a day</button>
     <button type="button" class="link-btn" id="dayToday" hidden>Back to today</button>
   </div>
-  <div class="strip" id="strip" role="tablist" aria-label="Week, Sunday through Saturday"></div>
-  <p class="hint day-empty" id="dayEmpty" hidden>No entry.</p>
+  <div class="strip" id="strip" data-scr="home area week" role="tablist" aria-label="Week, Sunday through Saturday"></div>
+  <p class="hint day-empty" id="dayEmpty" data-scr="home area" hidden>No entry.</p>
+  <nav class="home-tiles" id="homeTiles" data-scr="home" aria-label="Sections"></nav>
 
-  <section class="panel" id="checkin" aria-labelledby="checkinTitle">
+  <section class="panel" id="checkin" data-scr="week" aria-labelledby="checkinTitle">
     <h2 id="checkinTitle">Check-in</h2>
     <div id="checkinBody"></div>
   </section>
 
-  <p class="hint areas-hint">Drag to put what you&#39;re focusing on first right now on top.</p>
-  <p class="hint" style="margin:0 0 0.45rem">The order is yours. Change it when your path shifts.</p>
-  <div class="areas" id="areas"></div>
+  <p class="hint areas-hint" data-scr="">Drag to put what you&#39;re focusing on first right now on top.</p>
+  <p class="hint" data-scr="" style="margin:0 0 0.45rem">The order is yours. Change it when your path shifts.</p>
+  <div class="areas" id="areas" data-scr="area"></div>
 
-  <section class="panel" id="replacementPanel" aria-labelledby="replTitle">
+  <section class="panel" id="replacementPanel" data-scr="record" aria-labelledby="replTitle">
     <h2 id="replTitle">Replacement list</h2>
-    <div class="book-slot"><img class="book" src="icons/shadow.jpg?v=27" alt="" /><span>When an urge hits</span></div>
+    <div class="book-slot"><img class="book" src="icons/shadow.jpg?v=28" alt="" /><span>When an urge hits</span></div>
     <p class="hint">Actions you picked ahead for when an urge hits.</p>
     <p class="hint">When a pull shows up, offer one from this list.</p>
     <ul class="entry-list" id="replList"></ul>
@@ -1038,12 +1071,12 @@
     <p class="hint">It may not make the pull leave. It gives you the next move.</p>
   </section>
 
-  <section class="panel" id="diaryPanel" aria-labelledby="diaryTitle">
+  <section class="panel" id="diaryPanel" data-scr="diary" aria-labelledby="diaryTitle">
     <h2 id="diaryTitle">Diary</h2>
     <div class="book-slot" title="Diary and shadow icons">
       <span class="book-set">
-        <img class="book" src="icons/diary.jpg?v=27" alt="" />
-        <img class="book" src="icons/shadow.jpg?v=27" alt="" />
+        <img class="book" src="icons/diary.jpg?v=28" alt="" />
+        <img class="book" src="icons/shadow.jpg?v=28" alt="" />
       </span>
       <span>Diary</span>
     </div>
@@ -1080,25 +1113,27 @@
     </div>
   </section>
 
-  <section class="panel" id="pathsPanel" aria-labelledby="pathsTitle">
-    <h2 id="pathsTitle" class="title-book"><img class="book" src="icons/paths-section.jpg?v=27" alt="" />Your paths.</h2>
+  <section class="panel" id="pathsPanel" data-scr="paths" aria-labelledby="pathsTitle">
+    <h2 id="pathsTitle" class="title-book"><img class="book" src="icons/paths-section.jpg?v=28" alt="" />Your paths.</h2>
     <div class="row-actions"><button type="button" class="btn primary" id="pathAddBtn">Add a path</button><button type="button" class="btn" id="pathManageBtn">Manage paths</button></div>
     <p class="hint">Martial artist, writer, father, husband, whatever you're walking.</p>
     <div id="pathList"></div>
   </section>
 
-  <p class="returns-line" id="returnsLine" hidden></p>
+  <section class="panel" id="goalsPanel" data-scr="goals" aria-labelledby="goalsTitle"><h2 id="goalsTitle" class="title-book">Goals</h2><div class="row-actions"><button type="button" class="btn primary" id="goalsAdd">Add goal</button></div><ul class="entry-list" id="goalsList"></ul></section>
+  <p class="returns-line" id="returnsLine" data-scr="week" hidden></p>
 
   <div class="split">
-    <section class="side" id="recordSection" aria-labelledby="logTitle">
+    <section class="side" id="recordSection" data-scr="record" aria-labelledby="logTitle">
       <h2 id="logTitle">The record</h2>
       <p class="hint">Did you notice the pull and steer it? That's the record.</p>
       <label class="field record-filter"><select id="recordFilter" aria-label="Filter the record by pull"><option value="">All pulls</option></select></label>
       <div class="tally" id="recordTally"></div>
       <ul class="log-list record-list" id="logList"></ul>
     </section>
-    <section class="side" id="moneySection" aria-labelledby="moneyTitle">
-      <h2 id="moneyTitle" class="title-book"><img class="book" src="icons/money.jpg?v=27" alt="" />Money tracker</h2>
+    <section class="side" id="moneySection" data-scr="money" aria-labelledby="moneyTitle">
+      <h2 id="moneyTitle" class="title-book"><img class="book" src="icons/money.jpg?v=28" alt="" />Money tracker</h2>
+      <div class="row-actions screen-only"><button type="button" class="btn primary" id="moneyAddHere">Add money</button></div>
       <div class="account-grid" id="accountGrid"></div>
       <p class="week-sum" id="weekSum"></p>
       <div class="subpanel" id="moneyPiePanel">
@@ -1116,6 +1151,7 @@
       </div>
       <div class="subpanel" id="repeatsPanel" hidden>
         <h3>Coming up</h3>
+        <p class="hint" style="margin:0 0 0.3rem">Bills and repeats due this month.</p>
         <ul class="money-list" id="repeatList"></ul>
       </div>
       <div class="time-row" style="margin-top:0.55rem">
@@ -1124,7 +1160,7 @@
       <div class="subpanel" id="debtPanel">
         <h3>Debts</h3>
         <div class="offer" id="debtBillBanner" role="status" hidden>
-          <p style="margin:0">Set when each bill is paid so it shows in your spending.</p>
+          <p style="margin:0">Set the day each bill is paid, and it&#39;ll show in your spending.</p>
           <div class="row-actions"><button type="button" class="btn primary" id="debtBillSetup">Set it up</button><button type="button" class="btn" id="debtBillLater">Not now</button></div>
         </div>
         <div class="debt-list" id="debtList"></div>
@@ -1436,10 +1472,10 @@
     <button type="button" class="btn" id="menuClose">Close</button>
   </div>
   <button type="button" class="menu-row menu-settings" id="menuSettingsToggle" aria-expanded="false" aria-controls="menuSettings">
-    <img src="icons/settings.jpg?v=27" alt="" /><span><b>Settings</b><small>Themes, backup, reminders, guide, lock</small></span>
+    <img src="icons/settings.jpg?v=28" alt="" /><span><b>Settings</b><small>Themes, backup, reminders, guide, lock</small></span>
   </button>
   <div class="menu-group" id="menuSettings" hidden>
-    <button type="button" class="menu-item" id="btnOptions">Options · Dawn</button>
+    <button type="button" class="menu-item" id="btnOptions">Settings · Dawn</button>
     <button type="button" class="menu-item" id="menuThemes">Themes</button>
     <button type="button" class="menu-item" id="menuReminders">Reminders</button>
     <button type="button" class="menu-item" id="menuGuide">Show the guide</button>
@@ -1513,14 +1549,14 @@
   <div class="row-actions" style="justify-content:flex-end"><button type="button" class="btn" id="themesDone">Done</button></div>
 </dialog>
 <dialog id="optionsDialog" class="wide">
-  <h3>Options</h3>
+  <h3>Settings</h3>
   <div class="row-actions"><button type="button" class="btn" id="optThemes">Themes</button></div>
   <div class="subpanel" id="pullsOptions">
     <h3>Pulls</h3>
     <div class="row-actions"><button type="button" class="btn" id="optAddPull">Add pull</button><button type="button" class="btn" id="optManagePulls">Manage pulls</button></div>
   </div>
   <div class="subpanel" id="purposePanel" aria-labelledby="purposeTitle">
-    <h3 id="purposeTitle" class="title-book"><img class="book" src="icons/purpose.jpg?v=27" alt="" />Purpose (optional)</h3>
+    <h3 id="purposeTitle" class="title-book"><img class="book" src="icons/purpose.jpg?v=28" alt="" />Purpose (optional)</h3>
     <p class="hint">A note on how you're walking the path you already picked. Not a new choice, and not a finish.</p>
 
     <div class="subpanel">
@@ -1883,7 +1919,7 @@ const PATH_ICON_LABELS = {
 };
 const PATH_WRESTLING_ICON = "icons/paths/wrestling.jpg";
 // Icon cache-bust: same filenames were re-cut, so every rendered icon URL carries ?v=. Stored data keeps plain paths.
-const ICON_VER = "27";
+const ICON_VER = "28";
 const LOGO_SRC = "icons/logo.jpg"; // swap the app logo here (header, menu button, vault screens)
 function plainIcon(src) { return String(src || "").split("?")[0]; }
 function iv(src) {
@@ -2653,11 +2689,11 @@ function goalProgressText(gl) {
     const lost = Math.max(0, start - cur);
     const need = Math.abs(start - target);
     if (unit === "$") return "Down " + moneyPlain(lost) + " of " + moneyPlain(need);
-    return "Down " + numFmt(lost) + " " + unit + " of " + numFmt(need);
+    return "Down " + numFmt(lost) + " " + unitFor(lost, unit) + " of " + numFmt(need);
   }
   if (unit === "$") return moneyPlain(cur) + " of " + moneyPlain(target);
   if (gl.direction === "complete" && unit === "times") return numFmt(cur) + " of " + numFmt(target);
-  return numFmt(cur) + " of " + numFmt(target) + " " + unit;
+  return numFmt(cur) + " of " + numFmt(target) + " " + unitFor(target, unit);
 }
 function nearestGoal() {
   const open = data.goals.filter(g => goalPct(g) < 100);
@@ -2769,7 +2805,7 @@ function addCustomPull(label, steer, opposite, img) {
 }
 function sortedDesc(list) { return list.slice().sort((a, b) => a.date < b.date ? 1 : a.date > b.date ? -1 : 0); }
 function bookSlot(label) {
-  return '<span class="book-slot" title="Area notes"><img class="book" src="icons/area-note.jpg?v=27" alt="" /><span>' + esc(label) + '</span></span>';
+  return '<span class="book-slot" title="Area notes"><img class="book" src="icons/area-note.jpg?v=28" alt="" /><span>' + esc(label) + '</span></span>';
 }
 function pickReplacement() {
   if (!data.replacements.length) return null;
@@ -2992,7 +3028,7 @@ function renderCheckin() {
       '<p class="hint" id="sleepPreview"></p>';
   }
   const body =
-    '<div class="sleep-row"><p class="q-title title-book"><img class="book" src="icons/sleep.jpg?v=27" alt="" />How did last night go?</p>' + sleepHtml + '</div>' +
+    '<div class="sleep-row"><p class="q-title title-book"><img class="book" src="icons/sleep.jpg?v=28" alt="" />How did last night go?</p>' + sleepHtml + '</div>' +
     pathCheckinHtml(date);
   document.getElementById("checkinBody").innerHTML = body;
   bindCheckin();
@@ -3474,6 +3510,7 @@ function renderDiary() {
 }
 
 function renderPie() {
+  renderPieDay();
   const date = data.selected;
   const isWeek = timeView() === "week";
   const days = isWeek ? [0,1,2,3,4,5,6].map(i => shift(startOfWeek(date), i)) : [date];
@@ -3519,7 +3556,7 @@ function renderPie() {
     return '<path d="M ' + cx + ' ' + cy + ' L ' + x1.toFixed(2) + ' ' + y1.toFixed(2) + ' A ' + r + ' ' + r + ' 0 ' + large + ' 1 ' + x2.toFixed(2) + ' ' + y2.toFixed(2) + ' Z" fill="' + sl.color + '"></path>';
   });
   svg.innerHTML = defs + paths.join("") + '<circle cx="100" cy="100" r="42" fill="var(--panel)"/>';
-  svg.setAttribute("aria-label", (isWeek ? "Whole week. " : "Whole day. ") + slices.map(s => s.name + " " + fmtHours(s.hours) + " hours").join(", "));
+  svg.setAttribute("aria-label", (isWeek ? "Whole week. " : "Whole day. ") + slices.map(s => s.name + " " + fmtHours(s.hours) + " " + pluralWord(s.hours, "hour")).join(", "));
   legend.innerHTML = areas.map(a => '<li><span class="swatch" style="background:' + a.color + '"></span><span>' + esc(a.name) + '</span><span>' + fmtHours(hours[a.id]) + 'h</span></li>').join("") +
     '<li><span class="swatch" style="background:' + SLEEP_COLOR + '"></span><span>Sleep</span><span>' + fmtHours(sleepH) + 'h</span></li>' +
     '<li><span class="swatch open-swatch"></span><span>Open time</span><span>' + fmtHours(openH) + 'h</span></li>';
@@ -3869,7 +3906,7 @@ function savingsPlan(balance, rate, deposit, years) {
   const deposited = deposit * n;
   return { value: Math.round(bal * 100) / 100, deposited, start, growth: Math.round((bal - start - deposited) * 100) / 100 };
 }
-function yearsWord(y) { return y + (y === 1 ? " year" : " years"); }
+function yearsWord(y) { return y + (Number(y) === 1 ? " year" : " years"); }
 function savingsSuggestions(v) {
   const ladder = [25, 50, 100, 200, 500, 1000, 2000];
   let i = ladder.findIndex(x => x >= Math.max(25, v.deposit * 0.25)); if (i < 0 || i > ladder.length - 3) i = ladder.length - 3;
@@ -3878,7 +3915,7 @@ function savingsSuggestions(v) {
 }
 function savingsSummaryHtml(v, withSuggestions) {
   const p = savingsPlan(v.balance, v.rate, v.deposit, v.years), putIn = p.start + p.deposited;
-  let h = "<p>In " + v.years + " years, about " + moneyWhole(p.value) + ". You put in " + moneyWhole(putIn) + ", and growth adds " + moneyWhole(p.value - putIn) + ".</p>";
+  let h = "<p>In " + yearsWord(v.years) + ", about " + moneyWhole(p.value) + ". You put in " + moneyWhole(putIn) + ", and growth adds " + moneyWhole(p.value - putIn) + ".</p>";
   if (withSuggestions) h += '<div class="debt-sugs" role="group" aria-label="Try saving more" style="display:grid;gap:0.35rem">' + savingsSuggestions(v).map(o => '<button type="button" class="chip sav-sug" data-sav-extra="' + o.x + '" style="text-align:left;min-height:40px">Add ' + moneyWhole(o.x) + " more a month and you'd have about " + moneyWhole(o.more) + " more.</button>").join("") + "</div>";
   return h;
 }
@@ -3887,7 +3924,7 @@ function renderSavings() {
   list.innerHTML = data.savings.map(v => {
     const p = savingsPlan(v.balance, v.rate, v.deposit, v.years);
     const ico = MONEY_GLYPH_SET.has(v.kind) ? '<img class="cat-ico glyph" src="icons/glyphs128/money/' + v.kind + '.png?v=' + ICON_VER + '" alt="" style="margin-right:0.35rem;vertical-align:-5px" />' : "";
-    return '<button type="button" class="debt-card" data-sav="' + esc(v.id) + '"><div class="dn"><span>' + ico + esc(v.name) + '</span><span class="money-pos">' + moneyPlain(v.balance) + '</span></div><div class="ds">' + esc(SAVINGS_KINDS[v.kind] + " · " + v.rate + "% a year" + (v.deposit ? " · +" + moneyPlain(v.deposit) + "/month" : "")) + '</div><div class="ds">' + esc("In " + v.years + " years, about " + moneyWhole(p.value)) + '</div></button>';
+    return '<button type="button" class="debt-card" data-sav="' + esc(v.id) + '"><div class="dn"><span>' + ico + esc(v.name) + '</span><span class="money-pos">' + moneyPlain(v.balance) + '</span></div><div class="ds">' + esc(SAVINGS_KINDS[v.kind] + " · " + v.rate + "% a year" + (v.deposit ? " · +" + moneyPlain(v.deposit) + "/month" : "")) + '</div><div class="ds">' + esc("In " + yearsWord(v.years) + ", about " + moneyWhole(p.value)) + '</div></button>';
   }).join("") || '<p class="empty" style="margin:0">No savings or investments added.</p>';
   list.querySelectorAll("[data-sav]").forEach(b => b.onclick = () => openSavingsDialog(b.dataset.sav));
   const nw = document.getElementById("netWorthLine");
@@ -4358,6 +4395,7 @@ function renderDerived() {
   renderStats(); renderCoach(); renderWeekNudges(); renderNotices(); renderStrip(); renderAreas();
   renderReplacements(); renderPurpose(); renderDiary(); renderPaths(); renderRoad();
   renderPie(); renderReturns(); renderLog(); renderMoney();
+  renderGoalsPanel(); renderPieDay(); if (currentScreen === "home") renderCoachNotes();
 }
 function syncComposerDates() {
   diaryDay = data.selected;
@@ -5924,7 +5962,7 @@ function progressRowText(gl, r) {
   const sign = d < 0 ? "−" : "+";
   const abs = Math.abs(d);
   const amt = unit === "$" ? sign + "$" + abs.toLocaleString(undefined, { maximumFractionDigits: 2 })
-    : sign + numFmt(abs) + (unit && unit !== "times" ? " " + unit : "");
+    : sign + numFmt(abs) + (unit && unit !== "times" ? " " + unitFor(abs, unit) : "");
   return shortDate(r.date) + " · " + amt + (r.note ? " · " + r.note : "");
 }
 // Records a change in the goal's own direction-neutral value (delta on current), plus its log row.
@@ -6558,7 +6596,21 @@ const COACH_COPY = {
 };
 const NUDGE_ICONS = { noSocial: "icons/notify/nudge-social.png", burnout: "icons/notify/nudge-work.png", lowSleep: "icons/notify/nudge-sleep.png" };
 const ZERO_AREA_MIN_DAYS = 7;
-function fillCopy(s, vars) { return String(s).replace(/\{(\w+)\}/g, (m, k) => vars[k] != null ? vars[k] : m); }
+// Singular/plural by count. plural(1, "month") → "1 month"; plural(3, "month") → "3 months".
+const PLURALS = { day: "days", hour: "hours", minute: "minutes", week: "weeks", month: "months", year: "years", time: "times", entry: "entries" };
+function pluralWord(n, one, many) { return Number(n) === 1 ? one : (many || PLURALS[one] || one + "s"); }
+function plural(n, one, many) { return n + " " + pluralWord(n, one, many); }
+// User-typed goal units: "books" → "book" when the count is 1 (only a trailing single s; "glass" stays).
+function unitFor(n, unit) {
+  const u = String(unit || "");
+  if (Math.abs(Number(n)) === 1 && /[^s]s$/i.test(u) && u.length > 2) return u.slice(0, -1);
+  return u;
+}
+// Copy with {placeholders}; afterwards "1 days" / "1 months" etc. read as singular.
+function fillCopy(s, vars) {
+  return String(s).replace(/\{(\w+)\}/g, (m, k) => vars[k] != null ? vars[k] : m)
+    .replace(/(^|[^\d.,$])1 (days|hours|minutes|weeks|months|years|times)\b/g, (m, pre, w) => pre + "1 " + w.slice(0, -1));
+}
 // An area is quiet while its reevaluate date (Time by area range) hasn't passed; career also while a heavy season runs.
 function nudgeAreaQuiet(areaId, date) {
   if (insideReevaluateWindow(areaGoal(areaId), date)) return true;
@@ -6616,6 +6668,333 @@ function renderWeekNudges() {
   document.getElementById("weekNudgeDismiss").onclick = () => { data.coachDismissedWeek = wk; save(); renderWeekNudges(); };
 }
 
+// ---------- v28: Coach home. Notes come from the vault only; nothing leaves the device.
+// All wording lives in COACH_COPY (Oni's copy); {placeholders} are filled by fillCopy.
+Object.assign(COACH_COPY, {
+  greetMorning: "Good morning, {name}.",
+  greetAfternoon: "Good afternoon, {name}.",
+  greetEvening: "Good evening, {name}.",
+  greetSub: "Here's where things stand.",
+  goalProgress: "{goal} is at {percent}%. One step today?",
+  goalClose: "{goal} is almost there, {left} to go.",
+  goalStale: "{goal}: no progress in {days} days. Still want it?",
+  goalDeadline: "{goal} is due in {days} days.",
+  goalDone: "{goal} is done. Set the next one?",
+  goalAddProgress: "Add progress",
+  goalPause: "Pause it",
+  goalNext: "Set the next one",
+  areaUnderMin: "{area} is under the {min}h you set this week. Worth a look?",
+  areaLeast: "{area} has had the least of your time this week. Worth a look?",
+  areaBalanced: "Your time is spread across every area this week.",
+  pathWhile: "{path}: nothing logged in {days} days. One move today?",
+  taskWhile: "{task} hasn't come up in {days} days. Still on your list?",
+  taskToday: "Do it today",
+  taskArchive: "Archive",
+  billSoon: "{bill} is due {day}, ${amount} from {account}.",
+  lowBalance: "{account} is at ${balance}, and {bill} is due {day}. Worth a check.",
+  debtClose: "{debt} is down to ${balance}, about {months} months left.",
+  debtPaid: "{debt} is paid off. Its ${payment} can go to {next} or savings.",
+  debtPaidNoNext: "{debt} is paid off, and you're debt-free. Its ${payment} can go to savings now.",
+  savingsLeft: "{account} is ${left} from your {goal} goal.",
+  spendUp: "{category} is up {percent}% from last month, ${amount} so far. Worth a look?",
+  openMoney: "Open Money",
+  reeval: "Time to look at {area} again.",
+  empty: "All quiet. Pick a section below.",
+  dismissNote: "Hide for today",
+  today: "today", tomorrow: "tomorrow", onDay: "on {weekday}"
+});
+const COACH_MAX = 3;
+const COACH_STALE_GOAL_DAYS = 14, COACH_PATH_DAYS = 7, COACH_TASK_DAYS = 14, COACH_BILL_DAYS = 3;
+function amt(n) { return moneyPlain(n).replace(/^\$/, ""); }
+function coachDayWord(date) {
+  const n = daysBetween(TODAY, date);
+  if (n <= 0) return COACH_COPY.today;
+  if (n === 1) return COACH_COPY.tomorrow;
+  return fillCopy(COACH_COPY.onDay, { weekday: parseISO(date).toLocaleDateString("en-US", { weekday: "long" }) });
+}
+function coachGreeting(now) {
+  const h = (now || new Date()).getHours();
+  const name = String((currentProfile && currentProfile.name) || "").trim() || "friend";
+  return fillCopy(h < 12 ? COACH_COPY.greetMorning : h < 17 ? COACH_COPY.greetAfternoon : COACH_COPY.greetEvening, { name });
+}
+function goalLeftText(gl) {
+  const unit = goalUnit(gl), cur = goalCurrent(gl), target = Number(gl.target) || 0;
+  const left = Math.abs(target - cur);
+  return unit === "$" ? moneyPlain(left) : numFmt(left) + (unit && unit !== "times" ? " " + unitFor(left, unit) : unit === "times" ? " more" : "");
+}
+// Every note that applies today. type: goal | area | while | money. urgent notes go first.
+function coachCandidates(today) {
+  today = today || TODAY;
+  const out = [];
+  const goalName = gl => String(gl.title || "Your goal").trim();
+  // (a) Goals, across all areas
+  (data.goals || []).filter(g => !g.paused).forEach(gl => {
+    const pct = goalPct(gl), key = "goal:" + gl.id;
+    const btn = [{ act: "progress", id: gl.id, label: COACH_COPY.goalAddProgress }];
+    if (pct >= 100) { out.push({ key, type: "goal", text: fillCopy(COACH_COPY.goalDone, { goal: goalName(gl) }), actions: [{ act: "newgoal", id: gl.area, label: COACH_COPY.goalNext }] }); return; }
+    const due = gl.deadline || gl.dueDate || gl.due || "";
+    if (/^\d{4}-\d{2}-\d{2}$/.test(due)) { const d = daysBetween(today, due); if (d >= 0 && d <= 14) { out.push({ key, type: "goal", urgent: d <= 3, text: fillCopy(COACH_COPY.goalDeadline, { goal: goalName(gl), days: d }), actions: btn }); return; } }
+    const last = (gl.progress || []).map(p => p.date).filter(Boolean).sort().pop();
+    if (last && daysBetween(last, today) >= COACH_STALE_GOAL_DAYS) {
+      out.push({ key, type: "goal", text: fillCopy(COACH_COPY.goalStale, { goal: goalName(gl), days: daysBetween(last, today) }), actions: btn.concat([{ act: "pause", id: gl.id, label: COACH_COPY.goalPause }]) }); return;
+    }
+    if (pct >= 80) out.push({ key, type: "goal", text: fillCopy(COACH_COPY.goalClose, { goal: goalName(gl), left: goalLeftText(gl) }), actions: btn });
+    else out.push({ key, type: "goal", text: fillCopy(COACH_COPY.goalProgress, { goal: goalName(gl), percent: pct }), actions: btn });
+  });
+  // Season check-ins that are due (the full prompt lives on This week)
+  dueReevaluateAreas(today).forEach(a => out.push({ key: "reeval:" + a.id + ":" + today, type: "area", urgent: true, text: fillCopy(COACH_COPY.reeval, { area: areaShort(a) }), actions: [{ act: "screen", id: "week", label: "Open This week" }] }));
+  // (b) The area with the least time this week (quiet / heavy-season areas are skipped until their reevaluate date)
+  const from = startOfWeek(today), hrs = {};
+  let anyTime = false;
+  AREAS.forEach(a => { hrs[a.id] = 0; });
+  data.tasks.forEach(t => { if (t.date >= from && t.date <= today && hrs[t.area] != null) { const h = Number(t.hours) || 0; hrs[t.area] += h; if (h > 0) anyTime = true; } });
+  if (anyTime) {
+    const live = AREAS.filter(a => !nudgeAreaQuiet(a.id, today));
+    const under = live.filter(a => { const m = areaGoal(a.id).min; return m != null && m !== "" && Number(m) > 0 && hrs[a.id] < Number(m); })
+      .sort((x, y) => (hrs[x.id] / Number(areaGoal(x.id).min)) - (hrs[y.id] / Number(areaGoal(y.id).min)));
+    if (under.length) out.push({ key: "area:" + under[0].id, type: "area", text: fillCopy(COACH_COPY.areaUnderMin, { area: fastLabel(under[0].id), min: numFmt(areaGoal(under[0].id).min) }), actions: [{ act: "screen", id: "area:" + under[0].id, label: "Open " + fastLabel(under[0].id) }] });
+    else if (live.length && live.every(a => hrs[a.id] > 0)) out.push({ key: "area:balanced", type: "area", text: COACH_COPY.areaBalanced });
+    else if (live.length) {
+      const least = live.slice().sort((x, y) => hrs[x.id] - hrs[y.id] || orderedAreas().indexOf(x) - orderedAreas().indexOf(y))[0];
+      out.push({ key: "area:" + least.id, type: "area", text: fillCopy(COACH_COPY.areaLeast, { area: fastLabel(least.id) }), actions: [{ act: "screen", id: "area:" + least.id, label: "Open " + fastLabel(least.id) }] });
+    }
+  }
+  // (c) Paths and tasks not logged in a while
+  activePaths().forEach(p => {
+    const last = (data.pathLogs || []).filter(l => l.pathId === p.id && l.date <= today).map(l => l.date).sort().pop() || p.created;
+    if (!last) return;
+    const d = daysBetween(last, today);
+    if (d >= COACH_PATH_DAYS) out.push({ key: "path:" + p.id, type: "while", days: d, text: fillCopy(COACH_COPY.pathWhile, { path: p.name, days: d }), actions: [{ act: "screen", id: "paths", label: "Open Paths" }] });
+  });
+  const archived = new Set((data.coachArchivedTasks || []).map(s => s.toLowerCase()));
+  const byTitle = {};
+  data.tasks.forEach(t => {
+    const title = String(t.title || "").trim(); if (!title || t.date > today) return;
+    const k = title.toLowerCase(); if (archived.has(k)) return;
+    const e = byTitle[k] || (byTitle[k] = { title, n: 0, last: "", area: t.area, hours: t.hours });
+    e.n++; if (t.date > e.last) { e.last = t.date; e.area = t.area; e.hours = t.hours; }
+  });
+  Object.keys(byTitle).forEach(k => {
+    const e = byTitle[k]; if (e.n < 2) return; // only things that were a habit
+    const d = daysBetween(e.last, today);
+    if (d >= COACH_TASK_DAYS) out.push({ key: "task:" + k, type: "while", days: d, text: fillCopy(COACH_COPY.taskWhile, { task: e.title, days: d }), actions: [{ act: "taskToday", id: k, label: COACH_COPY.taskToday }, { act: "taskArchive", id: k, label: COACH_COPY.taskArchive }], task: e });
+  });
+  // (d) Money
+  const accName = id => { const a = data.accounts.find(x => x.id === id); return a ? a.name : "your account"; };
+  (data.repeats || []).forEach(r => {
+    if (!r.active || r.type !== "expense" || r.category === "transfer") return;
+    const occ = repeatOccurrences(r, shift(today, -1), shift(today, COACH_BILL_DAYS));
+    const next = occ.find(o => !(r.lastPosted && o <= r.lastPosted));
+    if (!next) return;
+    let amount = Number(r.amount) || 0, bill = r.label || expenseCatName(r.category, "");
+    if (r.debtAuto) { const d = data.debts.find(x => x.id === r.debtId); if (!d || debtPaidInMonth(d.id, next)) return; amount = debtBillAmount(d); bill = d.name; }
+    if (!(amount > 0)) return;
+    const bal = r.accountId ? accountBal(r.accountId) : null;
+    if (bal != null && bal < amount) out.push({ key: "low:" + r.id + ":" + next, type: "money", urgent: true, text: fillCopy(COACH_COPY.lowBalance, { account: accName(r.accountId), balance: amt(bal), bill, day: coachDayWord(next) }), actions: [{ act: "screen", id: "money", label: COACH_COPY.openMoney }] });
+    else out.push({ key: "bill:" + r.id + ":" + next, type: "money", urgent: true, text: fillCopy(COACH_COPY.billSoon, { bill, day: coachDayWord(next), amount: amt(amount), account: accName(r.accountId) }), actions: [{ act: "screen", id: "money", label: COACH_COPY.openMoney }] });
+  });
+  const owing = (data.debts || []).filter(d => d.balance > 0).sort((a, b) => a.balance - b.balance);
+  (data.debts || []).forEach(d => {
+    if (d.balance > 0) {
+      const pay = debtBillAmount(d);
+      const plan = pay > 0 ? debtPlan(d.balance, d.apr, d.mode, d.payment, d.pct, d.extra) : null;
+      if (plan && plan.ok && plan.months > 0 && plan.months <= 3) out.push({ key: "debt:" + d.id, type: "money", text: fillCopy(COACH_COPY.debtClose, { debt: d.name, balance: amt(d.balance), months: plan.months }) });
+      return;
+    }
+    const lastPay = data.money.filter(m => m.debtId === d.id && m.type === "expense").map(m => m.date).sort().pop();
+    if (!lastPay || daysBetween(lastPay, today) > 30) return;
+    const next = owing[0];
+    const payment = Number(d.payment) || data.money.filter(m => m.debtId === d.id && m.date === lastPay).reduce((s, m) => s + (Number(m.amount) || 0), 0);
+    out.push({ key: "paid:" + d.id, type: "money", text: fillCopy(next ? COACH_COPY.debtPaid : COACH_COPY.debtPaidNoNext, { debt: d.name, payment: amt(payment), next: next ? next.name : "" }) });
+  });
+  (data.goals || []).filter(g => !g.paused && goalAccount(g) && goalUnit(g) === "$" && g.direction !== "down" && goalPct(g) < 100).forEach(gl => {
+    out.push({ key: "save:" + gl.id, type: "money", text: fillCopy(COACH_COPY.savingsLeft, { account: goalAccount(gl).name, left: amt(Math.max(0, (Number(gl.target) || 0) - goalCurrent(gl))), goal: goalNameInLine(gl.title) }) });
+  });
+  // Spending in a category up on last month (same days so far)
+  const mFrom = today.slice(0, 8) + "01", dayN = Number(today.slice(8, 10));
+  const pm = parseISO(mFrom); pm.setMonth(pm.getMonth() - 1);
+  const pFrom = iso(pm), pTo = pFrom.slice(0, 8) + String(Math.min(dayN, lastDayOf(pm.getFullYear(), pm.getMonth()))).padStart(2, "0");
+  const cur = {}, prev = {};
+  data.money.forEach(m => {
+    if (m.type !== "expense" || m.category === "transfer" || m.debtId) return;
+    const c = m.category || "other", a = Number(m.amount) || 0;
+    if (m.date >= mFrom && m.date <= today) cur[c] = (cur[c] || 0) + a;
+    else if (m.date >= pFrom && m.date <= pTo) prev[c] = (prev[c] || 0) + a;
+  });
+  const ups = Object.keys(cur).filter(c => prev[c] > 0 && cur[c] - prev[c] >= 25 && cur[c] / prev[c] >= 1.2).sort((a, b) => (cur[b] / prev[b]) - (cur[a] / prev[a]));
+  if (ups.length) { const c = ups[0]; out.push({ key: "spend:" + c + ":" + mFrom, type: "money", text: fillCopy(COACH_COPY.spendUp, { category: expenseCatName(c, ""), percent: Math.round((cur[c] / prev[c] - 1) * 100), amount: amt(cur[c]) }), actions: [{ act: "screen", id: "money", label: COACH_COPY.openMoney }] }); }
+  return out;
+}
+// Pick up to COACH_MAX: urgent first, then whatever was shown least recently (so notes rotate and goals cycle),
+// one per type before doubling up. The pick is kept for the day so the card doesn't reshuffle on every render.
+function coachPick(today) {
+  today = today || TODAY;
+  const all = coachCandidates(today);
+  const dis = data.coachDismissed && data.coachDismissed.date === today ? new Set(data.coachDismissed.keys) : new Set();
+  const live = all.filter(n => !dis.has(n.key));
+  const byKey = new Map(live.map(n => [n.key, n]));
+  const log = data.coachToday;
+  if (log && log.date === today) {
+    const kept = log.keys.map(k => byKey.get(k)).filter(Boolean);
+    const urgentNew = live.filter(n => n.urgent && !log.keys.includes(n.key));
+    if (!urgentNew.length && (kept.length || !live.length)) return kept.slice(0, COACH_MAX);
+  }
+  const seen = data.coachSeen || {};
+  const order = live.slice().sort((a, b) => (b.urgent ? 1 : 0) - (a.urgent ? 1 : 0) || String(seen[a.key] || "").localeCompare(String(seen[b.key] || "")) || (b.days || 0) - (a.days || 0));
+  const pick = [], types = new Set();
+  order.forEach(n => { if (pick.length < COACH_MAX && (n.urgent || !types.has(n.type))) { pick.push(n); types.add(n.type); } });
+  order.forEach(n => { if (pick.length < COACH_MAX && !pick.includes(n)) pick.push(n); });
+  data.coachSeen = Object.assign({}, seen); pick.forEach(n => { data.coachSeen[n.key] = today; });
+  // keep the seen map small
+  const ks = Object.keys(data.coachSeen); if (ks.length > 300) ks.sort((a, b) => data.coachSeen[a].localeCompare(data.coachSeen[b])).slice(0, ks.length - 300).forEach(k => delete data.coachSeen[k]);
+  data.coachToday = { date: today, keys: pick.map(n => n.key) };
+  try { save(); } catch (e) {}
+  return pick;
+}
+function renderCoachNotes() {
+  const el = document.getElementById("coachNotes");
+  if (!el || !data) return;
+  const notes = coachPick(TODAY);
+  // A run of Money notes shares one "Open Money" button under the group.
+  const isMoneyOpen = a => a.act === "screen" && a.id === "money";
+  const groupEnd = new Set();
+  notes.forEach((n, i) => { n._grouped = false; });
+  for (let i = 0; i < notes.length;) {
+    let j = i; while (j < notes.length && notes[j].type === "money") j++;
+    if (j - i >= 2) { for (let k = i; k < j; k++) notes[k]._grouped = true; groupEnd.add(j - 1); i = j; } else i = Math.max(j, i + 1);
+  }
+  el.innerHTML = '<p class="kicker">Coach</p><p class="greet">' + esc(coachGreeting()) + '</p><p class="greet-sub">' + esc(COACH_COPY.greetSub) + '</p>' +
+    (notes.length ? notes.map((n, i) => { const acts = (n.actions || []).filter(a => !(n._grouped && isMoneyOpen(a))); return '<div class="coach-note" data-note="' + esc(n.key) + '" data-type="' + n.type + '"><p>' + esc(n.text) + '</p>' +
+      (acts.length ? '<div class="row-actions">' + acts.map(a => '<button type="button" class="btn" data-note-act="' + esc(a.act) + '" data-note-id="' + esc(a.id) + '">' + esc(a.label) + '</button>').join("") + '</div>' : "") +
+      '<button type="button" class="note-x" data-note-x="' + esc(n.key) + '" aria-label="' + esc(COACH_COPY.dismissNote) + '" title="' + esc(COACH_COPY.dismissNote) + '">×</button></div>' +
+      (groupEnd.has(i) ? '<div class="row-actions coach-group-act"><button type="button" class="btn" data-note-act="screen" data-note-id="money">' + esc(COACH_COPY.openMoney) + '</button></div>' : ""); }).join("")
+      : '<div class="coach-note" data-note="empty"><p>' + esc(COACH_COPY.empty) + '</p></div>');
+  el.querySelectorAll("[data-note-x]").forEach(b => b.onclick = () => {
+    const k = b.dataset.noteX;
+    if (!data.coachDismissed || data.coachDismissed.date !== TODAY) data.coachDismissed = { date: TODAY, keys: [] };
+    data.coachDismissed.keys.push(k); save(); renderCoachNotes();
+  });
+  el.querySelectorAll("[data-note-act]").forEach(b => b.onclick = () => coachAction(b.dataset.noteAct, b.dataset.noteId));
+}
+function coachAction(act, id) {
+  if (act === "progress") return openProgressDialog(id);
+  if (act === "pause") { const g = data.goals.find(x => x.id === id); if (g) { g.paused = true; save(); renderDerived(); showToast("Paused. You can pick it up again in Goals."); } return; }
+  if (act === "newgoal") return openGoalDialog(null, id);
+  if (act === "screen") return openScreen(id);
+  if (act === "taskArchive") { data.coachArchivedTasks = (data.coachArchivedTasks || []).concat([id]); save(); renderCoachNotes(); return; }
+  if (act === "taskToday") {
+    const n = coachCandidates(TODAY).find(x => x.key === "task:" + id);
+    openTaskDialog(null, n && n.task ? n.task.area : null);
+    if (n && n.task) {
+      taskPresetChoice = "__custom";
+      document.getElementById("taskTitleWrap").hidden = false;
+      document.getElementById("taskTitle").value = n.task.title;
+      document.getElementById("taskHours").value = String(n.task.hours != null ? n.task.hours : 0.5);
+    }
+  }
+}
+// ---------- v28: one section per screen. Home = coach notes, time pie, tiles.
+const HOME_GLYPHS = new Set();
+fetch("icons/glyphs128/home/index.json?v=" + ICON_VER).then(r => r.ok ? r.json() : []).then(list => { (Array.isArray(list) ? list : []).forEach(x => HOME_GLYPHS.add(x)); if (data) renderHomeTiles(); }).catch(() => {});
+const HOME_TILES = [
+  { id: "paths", label: "Paths", icon: "icons/paths-section.jpg" },
+  { id: "goals", label: "Goals", home: "goals" },
+  { id: "week", label: "This week", home: "week" },
+  { id: "diary", label: "Diary", home: "diary" },
+  { id: "area:career", label: "Career", area: "career" },
+  { id: "area:personal", label: "Growth", area: "personal" },
+  { id: "area:social", label: "Social", area: "social" },
+  { id: "area:spiritual", label: "Spirit", area: "spiritual" },
+  { id: "area:time", label: "Hobbies", area: "time" },
+  // Pablo's coin (icons/glyphs/home/money.png) once it's in; until then the piggy-bank money glyph, not the ring.
+  { id: "money", label: "Money", home: "money", ifListed: true, glyph: "icons/glyphs128/money/savings.png" },
+  { id: "record", label: "Record", home: "record" },
+  { id: "settings", label: "Settings", icon: "icons/settings.jpg" }
+];
+const SCREEN_TITLES = { paths: "Paths", goals: "Goals", money: "Money", diary: "Diary", week: "This week", record: "Record" };
+function tileIcon(t) {
+  // Pablo's home glyphs; a plain letter tile only if a file is ever missing.
+  if (t.home && t.ifListed && !HOME_GLYPHS.has(t.home)) return '<img class="glyph" data-no-glyph src="' + esc(t.glyph) + '?v=' + ICON_VER + '" alt="" />';
+  if (t.home) return '<img class="glyph" data-no-glyph src="icons/glyphs128/home/' + t.home + '.png?v=' + ICON_VER + '" alt="" onerror="this.outerHTML=\'<span class=&quot;tile-fb&quot; aria-hidden=&quot;true&quot;>' + esc(t.label[0]) + '</span>\'" />';
+  const ar = t.area ? AREAS.find(a => a.id === t.area) : null, src = ar ? ar.img : (t.icon || t.fallback);
+  if (src) return '<img src="' + esc(iv(src)) + '" alt="' + esc((ar && ar.imgAlt) || "") + '" />';
+  return '<span class="tile-fb" aria-hidden="true">' + esc(t.label[0]) + '</span>';
+}
+function renderHomeTiles() {
+  const el = document.getElementById("homeTiles"); if (!el) return;
+  el.innerHTML = HOME_TILES.map(t => '<button type="button" class="home-tile" data-tile="' + esc(t.id) + '">' + tileIcon(t) + '<span>' + esc(t.label) + '</span></button>').join("");
+  el.querySelectorAll("[data-tile]").forEach(b => b.onclick = () => b.dataset.tile === "settings" ? openSettings() : openScreen(b.dataset.tile));
+}
+function renderGoalsPanel() {
+  const ul = document.getElementById("goalsList"); if (!ul) return;
+  const goals = data.goals.slice().sort((a, b) => orderedAreas().findIndex(x => x.id === a.area) - orderedAreas().findIndex(x => x.id === b.area));
+  ul.innerHTML = goals.length ? goals.map(gl => {
+    const a = AREAS.find(x => x.id === gl.area);
+    return '<li><div class="note-body"><div class="goal-row"><b>' + esc(gl.title) + '</b><span>' + goalPct(gl) + '%</span></div>' +
+      '<span class="hint" style="display:block">' + esc((a ? fastLabel(a.id) + " · " : "") + goalProgressText(gl) + (gl.paused ? " · Paused" : "")) + '</span>' +
+      '<div class="row-actions"><button type="button" class="btn" data-gp-add="' + esc(gl.id) + '">Add progress</button><button type="button" class="btn" data-gp-edit="' + esc(gl.id) + '">Edit</button>' +
+      (gl.paused ? '<button type="button" class="btn" data-gp-resume="' + esc(gl.id) + '">Pick it up again</button>' : "") + '</div></div></li>';
+  }).join("") : '<li><span class="empty">No goals yet. Add one.</span></li>';
+  ul.querySelectorAll("[data-gp-add]").forEach(b => b.onclick = () => openProgressDialog(b.dataset.gpAdd));
+  ul.querySelectorAll("[data-gp-edit]").forEach(b => b.onclick = () => openGoalDialog(b.dataset.gpEdit));
+  ul.querySelectorAll("[data-gp-resume]").forEach(b => b.onclick = () => { const g = data.goals.find(x => x.id === b.dataset.gpResume); if (g) { delete g.paused; save(); renderDerived(); } });
+}
+// Settings tile: the same Settings sheet the menu opens (themes, reminders, backup, lock...).
+function openSettings() { document.getElementById("btnOptions").click(); }
+document.getElementById("goalsAdd").onclick = () => openGoalDialog(null);
+document.getElementById("moneyAddHere").onclick = () => document.getElementById("btnAddMoney").click();
+function renderPieDay() {
+  const lab = document.getElementById("pieDayLabel"); if (!lab || !data) return;
+  if (timeView() === "week") { const s = startOfWeek(data.selected); lab.textContent = prettyDate(s) + "–" + prettyDate(shift(s, 6)); }
+  else lab.textContent = data.selected === TODAY ? "Today" : prettyDate(data.selected);
+  const step = timeView() === "week" ? 7 : 1;
+  document.getElementById("pieDayNext").disabled = shift(data.selected, step) > TODAY && data.selected >= TODAY;
+}
+document.getElementById("pieDayPrev").onclick = () => goToDay(shift(data.selected, timeView() === "week" ? -7 : -1));
+document.getElementById("pieDayNext").onclick = () => { const n = shift(data.selected, timeView() === "week" ? 7 : 1); goToDay(n > TODAY ? TODAY : n); };
+let currentScreen = "home";
+function applyScreen(name) {
+  if (!/^(home|paths|goals|money|diary|week|record|area:(career|personal|social|spiritual|time))$/.test(name)) name = "home";
+  currentScreen = name;
+  const kind = name.split(":")[0];
+  document.body.dataset.screen = kind;
+  document.querySelectorAll("#appRoot [data-scr]").forEach(el => {
+    const on = el.dataset.scr.split(/\s+/).includes(kind);
+    el.classList.toggle("screen-off", !on);
+  });
+  const split = document.querySelector("#appRoot .split"); if (split) { split.classList.toggle("screen-off", !(kind === "money" || kind === "record")); split.classList.add("one-col"); }
+  const areas = document.getElementById("areas");
+  if (kind === "area") {
+    const id = name.split(":")[1]; areas.dataset.only = id;
+    if (isCollapsed(id)) { data.collapsedAreas = data.collapsedAreas.filter(x => x !== id); save(); renderAreas(); }
+    data.lastTaskArea = id;
+  } else delete areas.dataset.only;
+  const bar = document.getElementById("screenBar");
+  bar.hidden = kind === "home";
+  document.getElementById("screenTitle").textContent = kind === "area" ? fastLabel(name.split(":")[1]) : (SCREEN_TITLES[kind] || "");
+  if (kind === "home") renderCoachNotes();
+  window.scrollTo(0, 0);
+}
+function openScreen(name) {
+  if (name === "home") { if (currentScreen !== "home") history.back(); return; }
+  try { if (history.state && history.state.hsScreen) history.replaceState({ hsScreen: name }, ""); else history.pushState({ hsScreen: name }, ""); } catch (e) {}
+  applyScreen(name);
+  const t = document.getElementById("screenTitle"); if (t) { t.setAttribute("tabindex", "-1"); t.focus({ preventScroll: true }); }
+}
+window.addEventListener("popstate", e => {
+  const st = e.state || history.state;
+  if (st && st.hsMenu) return; // the menu's own step
+  const want = st && st.hsScreen ? st.hsScreen : "home";
+  if (want !== currentScreen) applyScreen(want);
+});
+document.getElementById("screenBack").onclick = () => openScreen("home");
+// Map the menu's "Go to" rows onto screens.
+function menuScreenFor(g) {
+  if (g.area) return "area:" + g.area;
+  const id = g.el && g.el() && g.el().id;
+  return { timeCard: "home", checkin: "week", coach: "week", pathsPanel: "paths", diaryPanel: "diary", moneySection: "money", goalsPanel: "goals", recordSection: "record", weekNudges: "week" }[id] || "home";
+}
+
 function enterApp() {
   document.getElementById("vaultGate").hidden = true;
   document.getElementById("appRoot").hidden = false;
@@ -6625,6 +7004,9 @@ function enterApp() {
   remindersOnUnlock();
   syncDebtBills(); postDueRepeats(); repeatDayChecked = iso(new Date());
   renderCheckin();
+  renderHomeTiles();
+  try { history.replaceState(null, ""); } catch (e) {}
+  currentScreen = ""; applyScreen("home");
   renderDerived();
   if (!data.guideSeen) openGuide();
   else openFromHash();
@@ -6796,7 +7178,7 @@ function applyTheme(theme, opts) {
   document.querySelectorAll(".themes button").forEach(btn => btn.setAttribute("aria-pressed", btn.dataset.theme === spec.id ? "true" : "false"));
   document.querySelectorAll("[data-theme-pick]").forEach(btn => btn.setAttribute("aria-pressed", btn.dataset.themePick === spec.id ? "true" : "false"));
   const opt = document.getElementById("btnOptions");
-  if (opt) opt.textContent = "Options · " + spec.name;
+  if (opt) opt.textContent = "Settings · " + spec.name;
   if (!(opts && opts.noSave)) save();
 }
 // ---- Themes screen
@@ -6964,7 +7346,10 @@ const MENU_GO = [
   { label: "Hobbies", icon: "icons/hobbies.jpg", area: "time" },
   { label: "Paths", icon: "icons/paths-section.jpg", el: () => document.getElementById("pathsPanel") },
   { label: "Diary", icon: "icons/diary.jpg", el: () => document.getElementById("diaryPanel") },
-  { label: "Money", icon: "icons/money.jpg", el: () => document.getElementById("moneySection") }
+  { label: "Money", icon: "icons/money.jpg", el: () => document.getElementById("moneySection") },
+  { label: "Goals", icon: "icons/purpose.jpg", el: () => document.getElementById("goalsPanel") },
+  { label: "This week", icon: "icons/time-pie.jpg", el: () => document.getElementById("coach") },
+  { label: "Record", icon: "icons/shadow.jpg", el: () => document.getElementById("recordSection") }
 ];
 (function setupMenu() {
   const dlg = document.getElementById("menuDrawer");
@@ -7025,6 +7410,7 @@ const MENU_GO = [
   dlg.querySelectorAll("[data-menu-go]").forEach(b => b.onclick = () => {
     const g = MENU_GO[Number(b.dataset.menuGo)];
     closeMenuThen(() => {
+      if (!document.documentElement.classList.contains("hs-all")) { const sc = menuScreenFor(g); if (sc === "home") { if (currentScreen !== "home") openScreen("home"); setTimeout(() => window.scrollTo(0, 0), 50); } else openScreen(sc); return; }
       if (g.area && isCollapsed(g.area)) {
         data.collapsedAreas = data.collapsedAreas.filter(x => x !== g.area); save(); renderAreas();
       }

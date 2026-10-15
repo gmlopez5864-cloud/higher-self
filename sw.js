@@ -1,6 +1,6 @@
 /* Higher Self — offline shell for install / Add to Home Screen */
-const CACHE = "higher-self-v27";
-const ICON_VER = "27";
+const CACHE = "higher-self-v28";
+const ICON_VER = "28";
 // Plain URLs: shell + manifest/link icons. Versioned (?v=) URLs: every icon the page renders.
 const PRECACHE_PLAIN = [
   "./",
@@ -235,6 +235,10 @@ self.addEventListener("install", (event) => {
       // Money category glyphs Pablo has drawn so far (listed by make-glyphs128.sh); best effort so a missing file never blocks install.
       .then(() => fetch("./icons/glyphs128/money/index.json?v=" + ICON_VER, { cache: "reload" }).then((r) => r.json()).catch(() => []))
       .then((slugs) => Promise.all((Array.isArray(slugs) ? slugs : []).map((s) => cache.add(new Request("./icons/glyphs128/money/" + s + ".png?v=" + ICON_VER, { cache: "reload" })).catch(() => {}))))
+      // Home tile glyphs (goals, diary, week, record) once Pablo's are in; same best-effort rule.
+      .then(() => cache.add(new Request("./icons/glyphs128/home/index.json?v=" + ICON_VER, { cache: "reload" })).catch(() => {}))
+      .then(() => fetch("./icons/glyphs128/home/index.json?v=" + ICON_VER, { cache: "reload" }).then((r) => r.json()).catch(() => []))
+      .then((slugs) => Promise.all((Array.isArray(slugs) ? slugs : []).map((s) => cache.add(new Request("./icons/glyphs128/home/" + s + ".png?v=" + ICON_VER, { cache: "reload" })).catch(() => {}))))
     ).then(() => self.skipWaiting())
   );
 });
