@@ -2,6 +2,55 @@
  "note": "Built by /workspace/make-theme-art.py. Theme picture sets: icons/<folder>/<set>/<file>.",
  "art": {
   "icons/guide": {
+   "anime-knights": [
+    "guide-1.jpg",
+    "guide-2.jpg",
+    "guide-3.jpg",
+    "guide-4.jpg",
+    "guide-5.jpg"
+   ],
+   "anime-magical": [
+    "guide-1.jpg",
+    "guide-2.jpg",
+    "guide-3.jpg",
+    "guide-4.jpg",
+    "guide-5.jpg"
+   ],
+   "anime-mecha": [
+    "guide-1.jpg",
+    "guide-2.jpg",
+    "guide-3.jpg",
+    "guide-4.jpg",
+    "guide-5.jpg"
+   ],
+   "anime-modern": [
+    "guide-1.jpg",
+    "guide-2.jpg",
+    "guide-3.jpg",
+    "guide-4.jpg",
+    "guide-5.jpg"
+   ],
+   "anime-tournament": [
+    "guide-1.jpg",
+    "guide-2.jpg",
+    "guide-3.jpg",
+    "guide-4.jpg",
+    "guide-5.jpg"
+   ],
+   "cartoon-classic": [
+    "guide-1.jpg",
+    "guide-2.jpg",
+    "guide-3.jpg",
+    "guide-4.jpg",
+    "guide-5.jpg"
+   ],
+   "cartoon-saturday": [
+    "guide-1.jpg",
+    "guide-2.jpg",
+    "guide-3.jpg",
+    "guide-4.jpg",
+    "guide-5.jpg"
+   ],
    "dojo": [
     "guide-1.jpg",
     "guide-2.jpg",
