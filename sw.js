@@ -1,6 +1,6 @@
 /* Higher Self — offline shell for install / Add to Home Screen */
-const CACHE = "higher-self-v31";
-const ICON_VER = "31";
+const CACHE = "higher-self-v32";
+const ICON_VER = "32";
 // Plain URLs: shell + manifest/link icons. Versioned (?v=) URLs: every icon the page renders.
 const PRECACHE_PLAIN = [
   "./",
@@ -18,6 +18,7 @@ const PRECACHE_PLAIN = [
 // Used copies of logo-options: paths-section.jpg (1), area-career-v2.jpg (3), paths/wolf.jpg (4). career.jpg retired.
 const PRECACHE_ICONS = [
   "./icons/glyphs128/money/index.json",
+  "./icons/theme-art.json",
   "./icons/glyphs128/area-career-v2.png",
   "./icons/glyphs128/area-note.png",
   "./icons/glyphs128/diary.png",
@@ -239,6 +240,13 @@ self.addEventListener("install", (event) => {
       .then(() => cache.add(new Request("./icons/glyphs128/home/index.json?v=" + ICON_VER, { cache: "reload" })).catch(() => {}))
       .then(() => fetch("./icons/glyphs128/home/index.json?v=" + ICON_VER, { cache: "reload" }).then((r) => r.json()).catch(() => []))
       .then((slugs) => Promise.all((Array.isArray(slugs) ? slugs : []).map((s) => cache.add(new Request("./icons/glyphs128/home/" + s + ".png?v=" + ICON_VER, { cache: "reload" })).catch(() => {}))))
+      // v32 theme picture sets (icons/<folder>/<set>/<file>, listed in icons/theme-art.json by make-theme-art.py), e.g. the Dojo guide pictures.
+      .then(() => fetch("./icons/theme-art.json?v=" + ICON_VER, { cache: "reload" }).then((r) => r.json()).catch(() => ({})))
+      .then((j) => {
+        const art = (j && j.art) || {}, urls = [];
+        Object.keys(art).forEach((dir) => Object.keys(art[dir] || {}).forEach((set) => (art[dir][set] || []).forEach((f) => urls.push("./" + dir + "/" + set + "/" + f + "?v=" + ICON_VER))));
+        return Promise.all(urls.map((u) => cache.add(new Request(u, { cache: "reload" })).catch(() => {})));
+      })
     ).then(() => self.skipWaiting())
   );
 });

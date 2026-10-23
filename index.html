@@ -1053,14 +1053,14 @@
   <header class="top">
     <div class="brand-row">
       <div class="brand">
-        <h1 class="brand-mark"><button type="button" class="logo-btn" id="logoBtn" aria-label="Open menu" aria-haspopup="dialog" aria-expanded="false" aria-controls="menuDrawer"><img class="book app-mark" id="logoImg" src="icons/logo.jpg?v=31" alt="" /></button>Higher Self</h1>
+        <h1 class="brand-mark"><button type="button" class="logo-btn" id="logoBtn" aria-label="Open menu" aria-haspopup="dialog" aria-expanded="false" aria-controls="menuDrawer"><img class="book app-mark" id="logoImg" src="icons/logo.jpg?v=32" alt="" /></button>Higher Self</h1>
         <p id="todayLabel"></p>
       </div>
     </div>
     <div class="screen-bar" id="screenBar" hidden><button type="button" class="btn" id="screenBack" aria-label="Back to home">‹ Back</button><h2 id="screenTitle"></h2></div>
     <p class="home-greet" id="homeGreet" data-scr="home"></p>
     <section class="panel time-card" id="timeCard" data-scr="home" aria-labelledby="pieTitle">
-      <h2 id="pieTitle" class="title-book"><img class="book" src="icons/time-pie.jpg?v=31" alt="" />Where your time goes</h2>
+      <h2 id="pieTitle" class="title-book"><img class="book" src="icons/time-pie.jpg?v=32" alt="" />Where your time goes</h2>
       <div class="chip-row" id="timeViewToggle" role="radiogroup" aria-label="Day / Week">
         <button type="button" class="chip" data-tview="day" aria-pressed="true">Today</button>
         <button type="button" class="chip" data-tview="week" aria-pressed="false">This week</button>
@@ -1120,7 +1120,7 @@
 
   <section class="panel" id="replacementPanel" data-scr="record" aria-labelledby="replTitle">
     <h2 id="replTitle">Replacement list</h2>
-    <div class="book-slot"><img class="book" src="icons/shadow.jpg?v=31" alt="" /><span>When an urge hits</span></div>
+    <div class="book-slot"><img class="book" src="icons/shadow.jpg?v=32" alt="" /><span>When an urge hits</span></div>
     <p class="hint">Actions you picked ahead for when an urge hits.</p>
     <p class="hint">When a pull shows up, offer one from this list.</p>
     <ul class="entry-list" id="replList"></ul>
@@ -1135,8 +1135,8 @@
     <h2 id="diaryTitle">Diary</h2>
     <div class="book-slot" title="Diary and shadow icons">
       <span class="book-set">
-        <img class="book" src="icons/diary.jpg?v=31" alt="" />
-        <img class="book" src="icons/shadow.jpg?v=31" alt="" />
+        <img class="book" src="icons/diary.jpg?v=32" alt="" />
+        <img class="book" src="icons/shadow.jpg?v=32" alt="" />
       </span>
       <span>Diary</span>
     </div>
@@ -1174,7 +1174,7 @@
   </section>
 
   <section class="panel" id="pathsPanel" data-scr="paths" aria-labelledby="pathsTitle">
-    <h2 id="pathsTitle" class="title-book"><img class="book" src="icons/paths-section.jpg?v=31" alt="" />Your paths.</h2>
+    <h2 id="pathsTitle" class="title-book"><img class="book" src="icons/paths-section.jpg?v=32" alt="" />Your paths.</h2>
     <div class="row-actions"><button type="button" class="btn primary" id="pathAddBtn">Add a path</button><button type="button" class="btn" id="pathManageBtn">Manage paths</button></div>
     <p class="hint">Martial artist, writer, father, husband, whatever you're walking.</p>
     <div id="pathList"></div>
@@ -1192,7 +1192,7 @@
       <ul class="log-list record-list" id="logList"></ul>
     </section>
     <section class="side" id="moneySection" data-scr="money" aria-labelledby="moneyTitle">
-      <h2 id="moneyTitle" class="title-book"><img class="book" src="icons/money.jpg?v=31" alt="" />Money tracker</h2>
+      <h2 id="moneyTitle" class="title-book"><img class="book" src="icons/money.jpg?v=32" alt="" />Money tracker</h2>
       <div class="row-actions screen-only"><button type="button" class="btn primary" id="moneyAddHere">Add money</button></div>
       <div class="account-grid" id="accountGrid"></div>
       <ul class="acct-targets" id="accountTargets" hidden></ul>
@@ -1564,7 +1564,7 @@
     <button type="button" class="btn" id="menuClose">Close</button>
   </div>
   <button type="button" class="menu-row menu-settings" id="menuSettingsToggle" aria-expanded="false" aria-controls="menuSettings">
-    <img src="icons/settings.jpg?v=31" alt="" /><span><b>Settings</b><small>Themes, backup, reminders, guide, lock</small></span>
+    <img src="icons/settings.jpg?v=32" alt="" /><span><b>Settings</b><small>Themes, backup, reminders, guide, lock</small></span>
   </button>
   <div class="menu-group" id="menuSettings" hidden>
     <button type="button" class="menu-item" id="btnOptions">Settings · Dawn</button>
@@ -1649,7 +1649,7 @@
     <div class="row-actions"><button type="button" class="btn" id="optAddPull">Add pull</button><button type="button" class="btn" id="optManagePulls">Manage pulls</button></div>
   </div>
   <div class="subpanel" id="purposePanel" aria-labelledby="purposeTitle">
-    <h3 id="purposeTitle" class="title-book"><img class="book" src="icons/purpose.jpg?v=31" alt="" />Purpose (optional)</h3>
+    <h3 id="purposeTitle" class="title-book"><img class="book" src="icons/purpose.jpg?v=32" alt="" />Purpose (optional)</h3>
     <p class="hint">A note on how you're walking the path you already picked. Not a new choice, and not a finish.</p>
 
     <div class="subpanel">
@@ -2021,7 +2021,7 @@ const PATH_ICON_LABELS = {
 };
 const PATH_WRESTLING_ICON = "icons/paths/wrestling.jpg";
 // Icon cache-bust: same filenames were re-cut, so every rendered icon URL carries ?v=. Stored data keeps plain paths.
-const ICON_VER = "31";
+const ICON_VER = "32";
 const LOGO_SRC = "icons/logo.jpg"; // swap the app logo here (header, menu button, vault screens)
 function plainIcon(src) { return String(src || "").split("?")[0]; }
 function iv(src) {
@@ -2915,7 +2915,7 @@ function addCustomPull(label, steer, opposite, img) {
 }
 function sortedDesc(list) { return list.slice().sort((a, b) => a.date < b.date ? 1 : a.date > b.date ? -1 : 0); }
 function bookSlot(label) {
-  return '<span class="book-slot" title="Area notes"><img class="book" src="icons/area-note.jpg?v=31" alt="" /><span>' + esc(label) + '</span></span>';
+  return '<span class="book-slot" title="Area notes"><img class="book" src="icons/area-note.jpg?v=32" alt="" /><span>' + esc(label) + '</span></span>';
 }
 function pickReplacement() {
   if (!data.replacements.length) return null;
@@ -3140,7 +3140,7 @@ function renderCheckin() {
       '<p class="hint" id="sleepPreview"></p>';
   }
   const body =
-    '<div class="sleep-row"><p class="q-title title-book"><img class="book" src="icons/sleep.jpg?v=31" alt="" />How did last night go?</p>' + sleepHtml + '</div>' +
+    '<div class="sleep-row"><p class="q-title title-book"><img class="book" src="icons/sleep.jpg?v=32" alt="" />How did last night go?</p>' + sleepHtml + '</div>' +
     pathCheckinHtml(date);
   document.getElementById("checkinBody").innerHTML = body;
   if (editing && sleep.source === "times") { const b = document.getElementById("bed"), w = document.getElementById("wake"); if (b) b.value = sleep.bed || ""; if (w) w.value = sleep.wake || ""; }
@@ -6808,9 +6808,8 @@ function guideRender() {
   const img = document.getElementById("guideImg");
   img.hidden = true;
   img.onload = () => { img.hidden = false; };
-  img.onerror = () => { img.hidden = true; img.removeAttribute("src"); };
   const g = GUIDE_SCREENS[guideIdx];
-  img.src = "icons/guide/guide-" + g.img + ".jpg?v=" + ICON_VER;
+  setThemeArt(img, "icons/guide/guide-" + g.img + ".jpg", () => { img.hidden = true; });
   document.getElementById("guideText").innerHTML = '<b class="guide-title">' + esc(g.title) + '</b> ' + esc(g.text);
   document.getElementById("guideStep").textContent = "Step " + (guideIdx + 1) + " of " + GUIDE_SCREENS.length;
   document.querySelectorAll("#guideOverlay .guide-dots span").forEach((d, i) => d.classList.toggle("on", i === guideIdx));
@@ -7910,6 +7909,62 @@ function deriveThemeVars(p, see) {
     "--icon-tile": iconTileFor({ ...p, text })
   };
 }
+// ---- v32 theme art: pictures follow the active theme.
+// icons/<folder>/<file> -> icons/<folder>/<theme folder>/<file>, then icons/<folder>/<family>/<file>, then the default.
+// Theme folder = theme id without its "bold-" / "pic-" prefix (bold-dojo -> dojo). Only sets listed in
+// icons/theme-art.json (built by /workspace/make-theme-art.py) are tried, so no broken images; the service
+// worker precaches exactly those files from the same list.
+const THEME_ART_FAMILY = {
+  "neon-city": "graffiti", "retro-arcade": "graffiti", "stadium": "graffiti",
+  "forest-cabin": "oil", "desert-night": "oil", "deep-ocean": "oil",
+  "flowers": "watercolor", "cats": "watercolor", "dogs": "watercolor", "cherry-blossom": "watercolor"
+};
+let themeArtSets = {}; // { "icons/guide": { "dojo": ["guide-1.jpg", ...] } }
+function themeArtFolder(id) {
+  id = String(id || "");
+  if (/^custom/.test(id)) return "";
+  return id.replace(/^(bold|pic)-/, "");
+}
+function themeArtFamily(id) {
+  const f = themeArtFolder(id);
+  if (!f) return "";
+  if (THEME_ART_FAMILY[f]) return THEME_ART_FAMILY[f];
+  return THEMES.includes(f) ? "abstract" : "";
+}
+// Plain path (no ?v=) of the picture to show for this theme.
+function themeArt(path, themeId) {
+  const p = plainIcon(path);
+  const i = p.lastIndexOf("/");
+  if (i < 0) return p;
+  const dir = p.slice(0, i), file = p.slice(i + 1);
+  const sets = themeArtSets[dir];
+  if (!sets) return p;
+  const id = themeId !== undefined ? themeId : (data && data.theme);
+  for (const set of [themeArtFolder(id), themeArtFamily(id)]) {
+    if (set && Array.isArray(sets[set]) && sets[set].includes(file)) return dir + "/" + set + "/" + file;
+  }
+  return p;
+}
+// Point an <img> at the themed picture; remembers the default so a theme change or a failed load can swap it.
+function setThemeArt(img, path, onFail) {
+  const base = plainIcon(path);
+  img.dataset.art = base;
+  img.onerror = () => {
+    if (plainIcon(img.getAttribute("src") || "") !== base) { img.src = iv(base); return; } // themed file missing: default
+    img.removeAttribute("src"); if (onFail) onFail();
+  };
+  img.src = iv(themeArt(base));
+}
+function refreshThemeArt() {
+  document.querySelectorAll("img[data-art]").forEach(img => {
+    const want = iv(themeArt(img.dataset.art));
+    if (img.getAttribute("src") !== want) img.src = want;
+  });
+}
+fetch("icons/theme-art.json?v=" + ICON_VER).then(r => r.ok ? r.json() : {}).then(j => {
+  themeArtSets = (j && j.art && typeof j.art === "object") ? j.art : {};
+  refreshThemeArt();
+}).catch(() => { themeArtSets = {}; });
 function themeSpec(id) {
   if (THEMES.includes(id)) return { kind: "calm", id, name: id.charAt(0).toUpperCase() + id.slice(1) };
   const b = BOLD_THEMES.find(t => t.id === id); if (b) return { kind: "bold", id, name: b.name, p: b };
@@ -7952,6 +8007,7 @@ function applyTheme(theme, opts) {
   document.querySelectorAll("[data-theme-pick]").forEach(btn => btn.setAttribute("aria-pressed", btn.dataset.themePick === spec.id ? "true" : "false"));
   const opt = document.getElementById("btnOptions");
   if (opt) opt.textContent = "Settings · " + spec.name;
+  refreshThemeArt();
   if (!(opts && opts.noSave)) save();
 }
 // ---- Themes screen
