@@ -1061,14 +1061,14 @@
   <header class="top">
     <div class="brand-row">
       <div class="brand">
-        <h1 class="brand-mark"><button type="button" class="logo-btn" id="logoBtn" aria-label="Open menu" aria-haspopup="dialog" aria-expanded="false" aria-controls="menuDrawer"><img class="book app-mark" id="logoImg" src="icons/logo.jpg?v=34" alt="" /></button>Higher Self</h1>
+        <h1 class="brand-mark"><button type="button" class="logo-btn" id="logoBtn" aria-label="Open menu" aria-haspopup="dialog" aria-expanded="false" aria-controls="menuDrawer"><img class="book app-mark" id="logoImg" src="icons/logo.jpg?v=35" alt="" /></button>Higher Self</h1>
         <p id="todayLabel"></p>
       </div>
     </div>
     <div class="screen-bar" id="screenBar" hidden><button type="button" class="btn" id="screenBack" aria-label="Back to home">‹ Back</button><h2 id="screenTitle"></h2></div>
     <p class="home-greet" id="homeGreet" data-scr="home"></p>
     <section class="panel time-card" id="timeCard" data-scr="home" aria-labelledby="pieTitle">
-      <h2 id="pieTitle" class="title-book"><img class="book" src="icons/time-pie.jpg?v=34" alt="" />Where your time goes</h2>
+      <h2 id="pieTitle" class="title-book"><img class="book" src="icons/time-pie.jpg?v=35" alt="" />Where your time goes</h2>
       <div class="chip-row" id="timeViewToggle" role="radiogroup" aria-label="Day / Week">
         <button type="button" class="chip" data-tview="day" aria-pressed="true">Today</button>
         <button type="button" class="chip" data-tview="week" aria-pressed="false">This week</button>
@@ -1128,7 +1128,7 @@
 
   <section class="panel" id="replacementPanel" data-scr="record" aria-labelledby="replTitle">
     <h2 id="replTitle">Replacement list</h2>
-    <div class="book-slot"><img class="book" src="icons/shadow.jpg?v=34" alt="" /><span>When an urge hits</span></div>
+    <div class="book-slot"><img class="book" src="icons/shadow.jpg?v=35" alt="" /><span>When an urge hits</span></div>
     <p class="hint">Actions you picked ahead for when an urge hits.</p>
     <p class="hint">When a pull shows up, offer one from this list.</p>
     <ul class="entry-list" id="replList"></ul>
@@ -1143,8 +1143,8 @@
     <h2 id="diaryTitle">Diary</h2>
     <div class="book-slot" title="Diary and shadow icons">
       <span class="book-set">
-        <img class="book" src="icons/diary.jpg?v=34" alt="" />
-        <img class="book" src="icons/shadow.jpg?v=34" alt="" />
+        <img class="book" src="icons/diary.jpg?v=35" alt="" />
+        <img class="book" src="icons/shadow.jpg?v=35" alt="" />
       </span>
       <span>Diary</span>
     </div>
@@ -1182,7 +1182,7 @@
   </section>
 
   <section class="panel" id="pathsPanel" data-scr="paths" aria-labelledby="pathsTitle">
-    <h2 id="pathsTitle" class="title-book"><img class="book" src="icons/paths-section.jpg?v=34" alt="" />Your paths.</h2>
+    <h2 id="pathsTitle" class="title-book"><img class="book" src="icons/paths-section.jpg?v=35" alt="" />Your paths.</h2>
     <div class="row-actions"><button type="button" class="btn primary" id="pathAddBtn">Add a path</button><button type="button" class="btn" id="pathManageBtn">Manage paths</button></div>
     <p class="hint">Martial artist, writer, father, husband, whatever you're walking.</p>
     <div id="pathList"></div>
@@ -1200,7 +1200,7 @@
       <ul class="log-list record-list" id="logList"></ul>
     </section>
     <section class="side" id="moneySection" data-scr="money" aria-labelledby="moneyTitle">
-      <h2 id="moneyTitle" class="title-book"><img class="book" src="icons/money.jpg?v=34" alt="" />Money tracker</h2>
+      <h2 id="moneyTitle" class="title-book"><img class="book" src="icons/money.jpg?v=35" alt="" />Money tracker</h2>
       <div class="row-actions screen-only"><button type="button" class="btn primary" id="moneyAddHere">Add money</button></div>
       <div class="account-grid" id="accountGrid"></div>
       <ul class="acct-targets" id="accountTargets" hidden></ul>
@@ -1572,7 +1572,7 @@
     <button type="button" class="btn" id="menuClose">Close</button>
   </div>
   <button type="button" class="menu-row menu-settings" id="menuSettingsToggle" aria-expanded="false" aria-controls="menuSettings">
-    <img src="icons/settings.jpg?v=34" alt="" /><span><b>Settings</b><small>Themes, backup, reminders, guide, lock</small></span>
+    <img src="icons/settings.jpg?v=35" alt="" /><span><b>Settings</b><small>Themes, backup, reminders, guide, lock</small></span>
   </button>
   <div class="menu-group" id="menuSettings" hidden>
     <button type="button" class="menu-item" id="btnOptions">Settings · Dawn</button>
@@ -1657,7 +1657,7 @@
     <div class="row-actions"><button type="button" class="btn" id="optAddPull">Add pull</button><button type="button" class="btn" id="optManagePulls">Manage pulls</button></div>
   </div>
   <div class="subpanel" id="purposePanel" aria-labelledby="purposeTitle">
-    <h3 id="purposeTitle" class="title-book"><img class="book" src="icons/purpose.jpg?v=34" alt="" />Purpose (optional)</h3>
+    <h3 id="purposeTitle" class="title-book"><img class="book" src="icons/purpose.jpg?v=35" alt="" />Purpose (optional)</h3>
     <p class="hint">A note on how you're walking the path you already picked. Not a new choice, and not a finish.</p>
 
     <div class="subpanel">
@@ -2029,7 +2029,7 @@ const PATH_ICON_LABELS = {
 };
 const PATH_WRESTLING_ICON = "icons/paths/wrestling.jpg";
 // Icon cache-bust: same filenames were re-cut, so every rendered icon URL carries ?v=. Stored data keeps plain paths.
-const ICON_VER = "34";
+const ICON_VER = "35";
 const LOGO_SRC = "icons/logo.jpg"; // swap the app logo here (header, menu button, vault screens)
 function plainIcon(src) { return String(src || "").split("?")[0]; }
 function iv(src) {
@@ -2923,7 +2923,7 @@ function addCustomPull(label, steer, opposite, img) {
 }
 function sortedDesc(list) { return list.slice().sort((a, b) => a.date < b.date ? 1 : a.date > b.date ? -1 : 0); }
 function bookSlot(label) {
-  return '<span class="book-slot" title="Area notes"><img class="book" src="icons/area-note.jpg?v=34" alt="" /><span>' + esc(label) + '</span></span>';
+  return '<span class="book-slot" title="Area notes"><img class="book" src="icons/area-note.jpg?v=35" alt="" /><span>' + esc(label) + '</span></span>';
 }
 function pickReplacement() {
   if (!data.replacements.length) return null;
@@ -3148,7 +3148,7 @@ function renderCheckin() {
       '<p class="hint" id="sleepPreview"></p>';
   }
   const body =
-    '<div class="sleep-row"><p class="q-title title-book"><img class="book" src="icons/sleep.jpg?v=34" alt="" />How did last night go?</p>' + sleepHtml + '</div>' +
+    '<div class="sleep-row"><p class="q-title title-book"><img class="book" src="icons/sleep.jpg?v=35" alt="" />How did last night go?</p>' + sleepHtml + '</div>' +
     pathCheckinHtml(date);
   document.getElementById("checkinBody").innerHTML = body;
   if (editing && sleep.source === "times") { const b = document.getElementById("bed"), w = document.getElementById("wake"); if (b) b.value = sleep.bed || ""; if (w) w.value = sleep.wake || ""; }
@@ -7868,6 +7868,12 @@ const BOLD_THEMES = [
   ["koi", "Koi", "#0F1D33", "#1A2D4D", "#F28A3C", "#7FA7D6", "#EEF2F8"],
   ["paraguay", "Paraguay", "#F6E7DA", "#FFF6EE", "#B0386C", "#A4502A", "#3A2318"],
   ["usa", "Sonoran", "#2A1A14", "#3A2620", "#EE6A43", "#5FA59A", "#F7E9D3"],
+  ["mexico", "Papel Picado", "#FBF3E0", "#FFFDF7", "#1F4E9C", "#E0457B", "#22263A"],
+  ["morocco", "Medina Tiles", "#F2E6D3", "#FCF7EE", "#1E4C7A", "#3E7D5A", "#2E2418"],
+  ["ghana", "Kente", "#1E1408", "#2F2010", "#F0B43C", "#3C8A3E", "#F7EBD6"],
+  ["norway", "Aurora", "#0F1C26", "#1A2C3A", "#6FE3B0", "#C8402E", "#EEF4F7"],
+  ["greece", "Aegean", "#F4F7FA", "#FFFFFF", "#1C528D", "#C2457A", "#142338"],
+  ["india", "Rangoli", "#F8EEDC", "#FFFAF0", "#A8400F", "#2E8B7A", "#2F2216"],
   ["anime-mecha", "Mecha Hangar", "#16110F", "#261C17", "#E39A4C", "#7E8B5A", "#F3E6D6"],
   ["anime-modern", "Rooftop Dusk", "#24233F", "#312F55", "#F2A7BC", "#A890D0", "#F4EEF7"],
   ["anime-tournament", "Tournament Arc", "#1A1414", "#2A201F", "#EC6B3F", "#5B8BE0", "#F5E9DF"],
@@ -7875,6 +7881,10 @@ const BOLD_THEMES = [
   ["cartoon-saturday", "Saturday Morning", "#E6F4FF", "#FFFFFF", "#C8106E", "#6E9A00", "#1B1F3B"],
   ["anime-knights", "Armor Knights", "#0B1430", "#16224A", "#D9B45A", "#B8C2D6", "#EEF1F8"],
   ["anime-magical", "Magical Girl", "#FBEFF4", "#FFFFFF", "#B03A7A", "#7E6BB5", "#3A2440"],
+  ["small-dogs", "Small Dogs", "#F7EEE4", "#FFFBF6", "#A35A32", "#B47FA3", "#2E2018"],
+  ["big-dogs", "Big Dogs", "#1E150D", "#2E2216", "#D69A4E", "#7E9A68", "#F2E6D3"],
+  ["birds", "Birds", "#EFE6D2", "#FAF5E8", "#2E5266", "#A8332A", "#2A2418"],
+  ["fish", "Reef", "#E3F7FB", "#FFFFFF", "#0B6F99", "#D9502C", "#0E2A3D"],
   ["mat-room", "Mat Room", "#10233F", "#1B355C", "#F2C230", "", "#F5F7FA"],
   ["coffee-shop", "Coffee Shop", "#2A1E17", "#3B2A20", "#C58B5A", "", "#F5EBDD"],
   ["library", "Library", "#1E2A24", "#2C3B33", "#B8963E", "", "#EFE8D8"],
@@ -8039,11 +8049,11 @@ function applyTheme(theme, opts) {
 // Bold or picture themes not listed here land in "More" so nothing goes missing.
 const THEME_FAMILIES = [
   { id: "ink", name: "Ink", themes: ["bold-dojo", "bold-ink-light", "bold-ink-forest", "bold-koi"] },
-  { id: "pets", name: "Pets", themes: ["pic-cats", "pic-dogs"] },
+  { id: "pets", name: "Pets", themes: ["pic-cats", "pic-dogs", "bold-small-dogs", "bold-big-dogs", "bold-birds", "bold-fish"] },
   { id: "nature", name: "Nature", themes: ["bold-forest-cabin", "bold-desert-night", "bold-deep-ocean", "bold-volcano", "bold-thunderstorm", "bold-cherry-blossom", "pic-flowers", "bold-sunday-garden"] },
   { id: "places", name: "Places", themes: ["bold-neon-city", "bold-retro-arcade", "bold-stadium", "bold-mat-room", "bold-coffee-shop", "bold-library"] },
   { id: "anime", name: "Anime and cartoon", themes: ["bold-anime-mecha", "bold-anime-modern", "bold-anime-tournament", "bold-anime-knights", "bold-anime-magical", "bold-cartoon-classic", "bold-cartoon-saturday"] },
-  { id: "world", name: "World", themes: ["bold-paraguay", "bold-usa"] }
+  { id: "world", name: "World", themes: ["bold-paraguay", "bold-usa", "bold-mexico", "bold-morocco", "bold-ghana", "bold-norway", "bold-greece", "bold-india"] }
 ];
 function themeFamiliesResolved() {
   const all = BOLD_THEMES.concat(PICTURE_THEMES), byId = id => all.find(t => t.id === id);
