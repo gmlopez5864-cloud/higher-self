@@ -1092,14 +1092,14 @@
   <header class="top">
     <div class="brand-row">
       <div class="brand">
-        <h1 class="brand-mark"><button type="button" class="logo-btn" id="logoBtn" aria-label="Open menu" aria-haspopup="dialog" aria-expanded="false" aria-controls="menuDrawer"><img class="book app-mark" id="logoImg" src="icons/logo.jpg?v=37" alt="" /></button>Higher Self</h1>
+        <h1 class="brand-mark"><button type="button" class="logo-btn" id="logoBtn" aria-label="Open menu" aria-haspopup="dialog" aria-expanded="false" aria-controls="menuDrawer"><img class="book app-mark" id="logoImg" src="icons/logo.jpg?v=38" alt="" /></button>Higher Self</h1>
         <p id="todayLabel"></p>
       </div>
     </div>
     <div class="screen-bar" id="screenBar" hidden><button type="button" class="btn" id="screenBack" aria-label="Back to home">‹ Back</button><h2 id="screenTitle"></h2></div>
     <p class="home-greet" id="homeGreet" data-scr="home"></p>
     <section class="panel time-card" id="timeCard" data-scr="home" aria-labelledby="pieTitle">
-      <h2 id="pieTitle" class="title-book"><img class="book" src="icons/time-pie.jpg?v=37" alt="" />Where your time goes</h2>
+      <h2 id="pieTitle" class="title-book"><img class="book" src="icons/time-pie.jpg?v=38" alt="" />Where your time goes</h2>
       <div class="chip-row" id="timeViewToggle" role="radiogroup" aria-label="Day / Week">
         <button type="button" class="chip" data-tview="day" aria-pressed="true">Today</button>
         <button type="button" class="chip" data-tview="week" aria-pressed="false">This week</button>
@@ -1160,7 +1160,7 @@
 
   <section class="panel" id="replacementPanel" data-scr="record" aria-labelledby="replTitle">
     <h2 id="replTitle">Replacement list</h2>
-    <div class="book-slot"><img class="book" src="icons/shadow.jpg?v=37" alt="" /><span>When an urge hits</span></div>
+    <div class="book-slot"><img class="book" src="icons/shadow.jpg?v=38" alt="" /><span>When an urge hits</span></div>
     <p class="hint">Actions you picked ahead for when an urge hits.</p>
     <p class="hint">When a pull shows up, offer one from this list.</p>
     <ul class="entry-list" id="replList"></ul>
@@ -1175,8 +1175,8 @@
     <h2 id="diaryTitle">Diary</h2>
     <div class="book-slot" title="Diary and shadow icons">
       <span class="book-set">
-        <img class="book" src="icons/diary.jpg?v=37" alt="" />
-        <img class="book" src="icons/shadow.jpg?v=37" alt="" />
+        <img class="book" src="icons/diary.jpg?v=38" alt="" />
+        <img class="book" src="icons/shadow.jpg?v=38" alt="" />
       </span>
       <span>Diary</span>
     </div>
@@ -1214,7 +1214,7 @@
   </section>
 
   <section class="panel" id="pathsPanel" data-scr="paths" aria-labelledby="pathsTitle">
-    <h2 id="pathsTitle" class="title-book"><img class="book" src="icons/paths-section.jpg?v=37" alt="" />Your paths.</h2>
+    <h2 id="pathsTitle" class="title-book"><img class="book" src="icons/paths-section.jpg?v=38" alt="" />Your paths.</h2>
     <div class="row-actions"><button type="button" class="btn primary" id="pathAddBtn">Add a path</button><button type="button" class="btn" id="pathManageBtn">Manage paths</button></div>
     <p class="hint">Martial artist, writer, father, husband, whatever you're walking.</p>
     <div id="pathList"></div>
@@ -1232,7 +1232,7 @@
       <ul class="log-list record-list" id="logList"></ul>
     </section>
     <section class="side" id="moneySection" data-scr="money" aria-labelledby="moneyTitle">
-      <h2 id="moneyTitle" class="title-book"><img class="book" src="icons/money.jpg?v=37" alt="" />Money tracker</h2>
+      <h2 id="moneyTitle" class="title-book"><img class="book" src="icons/money.jpg?v=38" alt="" />Money tracker</h2>
       <div class="row-actions screen-only"><button type="button" class="btn primary" id="moneyAddHere">Add money</button></div>
       <div class="account-grid" id="accountGrid"></div>
       <ul class="acct-targets" id="accountTargets" hidden></ul>
@@ -1604,7 +1604,7 @@
     <button type="button" class="btn" id="menuClose">Close</button>
   </div>
   <button type="button" class="menu-row menu-settings" id="menuSettingsToggle" aria-expanded="false" aria-controls="menuSettings">
-    <img src="icons/settings.jpg?v=37" alt="" /><span><b>Settings</b><small>Themes, backup, reminders, guide, lock</small></span>
+    <img src="icons/settings.jpg?v=38" alt="" /><span><b>Settings</b><small>Themes, backup, reminders, guide, lock</small></span>
   </button>
   <div class="menu-group" id="menuSettings" hidden>
     <button type="button" class="menu-item" id="btnOptions">Settings · Dawn</button>
@@ -1709,7 +1709,7 @@
     <div class="row-actions"><button type="button" class="btn" id="optAddPull">Add pull</button><button type="button" class="btn" id="optManagePulls">Manage pulls</button></div>
   </div>
   <div class="subpanel" id="purposePanel" aria-labelledby="purposeTitle">
-    <h3 id="purposeTitle" class="title-book"><img class="book" src="icons/purpose.jpg?v=37" alt="" />Purpose (optional)</h3>
+    <h3 id="purposeTitle" class="title-book"><img class="book" src="icons/purpose.jpg?v=38" alt="" />Purpose (optional)</h3>
     <p class="hint">A note on how you're walking the path you already picked. Not a new choice, and not a finish.</p>
 
     <div class="subpanel">
@@ -2081,7 +2081,7 @@ const PATH_ICON_LABELS = {
 };
 const PATH_WRESTLING_ICON = "icons/paths/wrestling.jpg";
 // Icon cache-bust: same filenames were re-cut, so every rendered icon URL carries ?v=. Stored data keeps plain paths.
-const ICON_VER = "37";
+const ICON_VER = "38";
 const LOGO_SRC = "icons/logo.jpg"; // swap the app logo here (header, menu button, vault screens)
 function plainIcon(src) { return String(src || "").split("?")[0]; }
 function iv(src) {
@@ -3013,7 +3013,7 @@ function addCustomPull(label, steer, opposite, img) {
 }
 function sortedDesc(list) { return list.slice().sort((a, b) => a.date < b.date ? 1 : a.date > b.date ? -1 : 0); }
 function bookSlot(label) {
-  return '<span class="book-slot" title="Area notes"><img class="book" src="icons/area-note.jpg?v=37" alt="" /><span>' + esc(label) + '</span></span>';
+  return '<span class="book-slot" title="Area notes"><img class="book" src="icons/area-note.jpg?v=38" alt="" /><span>' + esc(label) + '</span></span>';
 }
 function pickReplacement() {
   if (!data.replacements.length) return null;
@@ -3238,7 +3238,7 @@ function renderCheckin() {
       '<p class="hint" id="sleepPreview"></p>';
   }
   const body =
-    '<div class="sleep-row"><p class="q-title title-book"><img class="book" src="icons/sleep.jpg?v=37" alt="" />How did last night go?</p>' + sleepHtml + '</div>' +
+    '<div class="sleep-row"><p class="q-title title-book"><img class="book" src="icons/sleep.jpg?v=38" alt="" />How did last night go?</p>' + sleepHtml + '</div>' +
     pathCheckinHtml(date);
   document.getElementById("checkinBody").innerHTML = body;
   if (editing && sleep.source === "times") { const b = document.getElementById("bed"), w = document.getElementById("wake"); if (b) b.value = sleep.bed || ""; if (w) w.value = sleep.wake || ""; }
