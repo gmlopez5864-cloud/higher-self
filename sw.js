@@ -1,6 +1,6 @@
 /* Higher Self — offline shell for install / Add to Home Screen */
-const CACHE = "higher-self-v35";
-const ICON_VER = "35";
+const CACHE = "higher-self-v36";
+const ICON_VER = "36";
 // Plain URLs: shell + manifest/link icons. Versioned (?v=) URLs: every icon the page renders.
 const PRECACHE_PLAIN = [
   "./",
@@ -14,7 +14,7 @@ const PRECACHE_PLAIN = [
   "./icons/logo-maskable-512.png",
   "./icons/notify/badge.png"
 ];
-// Not shipped: icons/glyphs/ (Pablo's 512px glyph sources; the app ships icons/glyphs128/ built by /workspace/make-glyphs128.sh), themes/picture-themes-sheet.jpg, icons/spirit-options/, icons/spirit-options-sheet.jpg (candidate spirit icons; icons/spirit.jpg is the chosen one), icons/logo-options/ (candidate logos), logo-options-sheet.jpg, app-mark.jpg and icon-*.png (old flower mark).
+// Not shipped: icons/glyphs/ and icons/glyphs-<style>/ (v36 icon style sources; the built icons/glyphs128-<style>/ ship and are fetched only for the active style, never precached) (Pablo's 512px glyph sources; the app ships icons/glyphs128/ built by /workspace/make-glyphs128.sh), themes/picture-themes-sheet.jpg, icons/spirit-options/, icons/spirit-options-sheet.jpg (candidate spirit icons; icons/spirit.jpg is the chosen one), icons/logo-options/ (candidate logos), logo-options-sheet.jpg, app-mark.jpg and icon-*.png (old flower mark).
 // Used copies of logo-options: paths-section.jpg (1), area-career-v2.jpg (3), paths/wolf.jpg (4). career.jpg retired.
 const PRECACHE_ICONS = [
   "./icons/glyphs128/money/index.json",

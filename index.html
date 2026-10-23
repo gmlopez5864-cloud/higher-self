@@ -1052,6 +1052,37 @@
     .money-pie-wrap { gap: 1.6rem; flex-wrap: nowrap; }
     .money-legend { flex: 1; max-width: 460px; }
   }
+  .check-row { display: flex; align-items: center; gap: 0.5rem; font-weight: 600; margin: 0.2rem 0; }
+  .check-row input { width: 1.2rem; height: 1.2rem; accent-color: var(--accent); }
+  /* v36 currency picker + coin tile with the chosen symbol */
+  #curList { width: 100%; margin-top: 0.35rem; font: inherit; background: var(--panel); color: var(--text); border: 1px solid var(--border); border-radius: 10px; padding: 0.2rem; }
+  #curList option { padding: 0.35rem 0.4rem; }
+  .coin-glyph { position: relative; display: inline-block; width: 56%; max-width: 96px; aspect-ratio: 1 / 1; flex: none; }
+  .home-tile .coin-glyph img { width: 100%; max-width: none; display: block; }
+  .coin-glyph.cat-ico { width: 22px; height: 22px; padding: 0; background: none; }
+  .coin-glyph.cat-ico img { width: 100%; height: 100%; border-radius: inherit; display: block; }
+  /* the symbol sits in the coin's clear circle; position and size are set by fitCoins() from the icon's geometry */
+  .coin-sym { position: absolute; left: 31.6%; top: 31.6%; width: 36.7%; height: 36.7%; display: flex; align-items: center; justify-content: center; color: #F6EBD9; font-weight: 800; line-height: 1; pointer-events: none; white-space: nowrap; overflow: visible; font-size: 1.6rem; }
+  .coin-sym b { font: inherit; display: inline-block; }
+  /* v36 Coach page */
+  .coach-page .cp-head { display: flex; gap: 0.75rem; align-items: center; margin-bottom: 0.4rem; }
+  .coach-page .cp-head img { width: 56px; height: 56px; border-radius: 22%; flex: none; }
+  .cp-portrait { width: 56px; height: 56px; border-radius: 22%; background: var(--icon-tile, var(--accent)); overflow: hidden; display: inline-flex; flex: none; }
+  .coach-page .cp-head .cp-portrait img { width: 100%; height: 100%; border-radius: 0; }
+  /* Pablo's Coach icon is wider than tall: scale it up so its width fills the tile like the other icons */
+  .cp-portrait.wide img { transform: scale(1.24); }
+  .coach-page .cp-sub { margin: 0.15rem 0 0; color: var(--muted); }
+  .cp-sec { border-top: 1px solid var(--border); padding-top: 0.6rem; margin-top: 0.8rem; }
+  .cp-sec > h3 { display: flex; align-items: center; gap: 0.45rem; margin: 0 0 0.2rem; font-size: 1.02rem; }
+  .cp-sec > h3 img { width: 28px; height: 28px; border-radius: 22%; }
+  .cp-item { padding: 0.5rem 0; border-bottom: 1px dashed var(--border); }
+  .cp-item:last-of-type { border-bottom: 0; }
+  .cp-item p { margin: 0; overflow-wrap: anywhere; }
+  .cp-item .cp-count { font-size: 0.85rem; color: var(--muted); margin-top: 0.15rem; }
+  .cp-item .row-actions { margin-top: 0.35rem; }
+  .cp-item ul.cp-tied { margin: 0.3rem 0 0; padding-left: 1.1rem; color: var(--muted); font-size: 0.92rem; }
+  .cp-empty { margin: 0.6rem 0; font-weight: 600; }
+  .cp-more { margin-top: 0.3rem; }
 </style>
 </head>
 <body>
@@ -1061,14 +1092,14 @@
   <header class="top">
     <div class="brand-row">
       <div class="brand">
-        <h1 class="brand-mark"><button type="button" class="logo-btn" id="logoBtn" aria-label="Open menu" aria-haspopup="dialog" aria-expanded="false" aria-controls="menuDrawer"><img class="book app-mark" id="logoImg" src="icons/logo.jpg?v=35" alt="" /></button>Higher Self</h1>
+        <h1 class="brand-mark"><button type="button" class="logo-btn" id="logoBtn" aria-label="Open menu" aria-haspopup="dialog" aria-expanded="false" aria-controls="menuDrawer"><img class="book app-mark" id="logoImg" src="icons/logo.jpg?v=36" alt="" /></button>Higher Self</h1>
         <p id="todayLabel"></p>
       </div>
     </div>
     <div class="screen-bar" id="screenBar" hidden><button type="button" class="btn" id="screenBack" aria-label="Back to home">‹ Back</button><h2 id="screenTitle"></h2></div>
     <p class="home-greet" id="homeGreet" data-scr="home"></p>
     <section class="panel time-card" id="timeCard" data-scr="home" aria-labelledby="pieTitle">
-      <h2 id="pieTitle" class="title-book"><img class="book" src="icons/time-pie.jpg?v=35" alt="" />Where your time goes</h2>
+      <h2 id="pieTitle" class="title-book"><img class="book" src="icons/time-pie.jpg?v=36" alt="" />Where your time goes</h2>
       <div class="chip-row" id="timeViewToggle" role="radiogroup" aria-label="Day / Week">
         <button type="button" class="chip" data-tview="day" aria-pressed="true">Today</button>
         <button type="button" class="chip" data-tview="week" aria-pressed="false">This week</button>
@@ -1081,6 +1112,7 @@
       <p class="hint" id="pieNote"></p>
     </section>
     <section class="coach coach-notes" id="coachNotes" data-scr="home" aria-live="polite"></section>
+    <section class="panel coach-page" id="coachPage" data-scr="coach" aria-labelledby="coachPageTitle"></section>
     <div class="stat-row" data-scr="">
       <div class="stats" aria-label="Today at a glance">
         <div class="stat"><span>Hours used</span><b id="hoursUsed">—</b></div>
@@ -1128,7 +1160,7 @@
 
   <section class="panel" id="replacementPanel" data-scr="record" aria-labelledby="replTitle">
     <h2 id="replTitle">Replacement list</h2>
-    <div class="book-slot"><img class="book" src="icons/shadow.jpg?v=35" alt="" /><span>When an urge hits</span></div>
+    <div class="book-slot"><img class="book" src="icons/shadow.jpg?v=36" alt="" /><span>When an urge hits</span></div>
     <p class="hint">Actions you picked ahead for when an urge hits.</p>
     <p class="hint">When a pull shows up, offer one from this list.</p>
     <ul class="entry-list" id="replList"></ul>
@@ -1143,8 +1175,8 @@
     <h2 id="diaryTitle">Diary</h2>
     <div class="book-slot" title="Diary and shadow icons">
       <span class="book-set">
-        <img class="book" src="icons/diary.jpg?v=35" alt="" />
-        <img class="book" src="icons/shadow.jpg?v=35" alt="" />
+        <img class="book" src="icons/diary.jpg?v=36" alt="" />
+        <img class="book" src="icons/shadow.jpg?v=36" alt="" />
       </span>
       <span>Diary</span>
     </div>
@@ -1182,7 +1214,7 @@
   </section>
 
   <section class="panel" id="pathsPanel" data-scr="paths" aria-labelledby="pathsTitle">
-    <h2 id="pathsTitle" class="title-book"><img class="book" src="icons/paths-section.jpg?v=35" alt="" />Your paths.</h2>
+    <h2 id="pathsTitle" class="title-book"><img class="book" src="icons/paths-section.jpg?v=36" alt="" />Your paths.</h2>
     <div class="row-actions"><button type="button" class="btn primary" id="pathAddBtn">Add a path</button><button type="button" class="btn" id="pathManageBtn">Manage paths</button></div>
     <p class="hint">Martial artist, writer, father, husband, whatever you're walking.</p>
     <div id="pathList"></div>
@@ -1200,7 +1232,7 @@
       <ul class="log-list record-list" id="logList"></ul>
     </section>
     <section class="side" id="moneySection" data-scr="money" aria-labelledby="moneyTitle">
-      <h2 id="moneyTitle" class="title-book"><img class="book" src="icons/money.jpg?v=35" alt="" />Money tracker</h2>
+      <h2 id="moneyTitle" class="title-book"><img class="book" src="icons/money.jpg?v=36" alt="" />Money tracker</h2>
       <div class="row-actions screen-only"><button type="button" class="btn primary" id="moneyAddHere">Add money</button></div>
       <div class="account-grid" id="accountGrid"></div>
       <ul class="acct-targets" id="accountTargets" hidden></ul>
@@ -1319,7 +1351,7 @@
     <label class="field">Target<input id="goalTarget" type="number" step="0.1" value="10" inputmode="decimal" /></label>
     <label class="field">Unit
       <select id="goalUnit">
-        <option value="$">$</option>
+        <option value="$" id="goalUnitMoney">$</option>
         <option value="lbs">lbs</option>
         <option value="kg">kg</option>
         <option value="hours">hours</option>
@@ -1482,7 +1514,7 @@
   <label class="field" id="debtFixedWrap">Monthly payment<input id="debtPayment" type="number" step="0.01" min="0" inputmode="decimal" /></label>
   <div id="debtMinWrap" hidden>
     <label class="field">Percent of balance<input id="debtPct" type="number" step="0.1" min="0" value="1" inputmode="decimal" /></label>
-    <p class="hint" style="margin:0.2rem 0 0">Plus that month's interest, with a $25 floor (or the remaining balance if less).</p>
+    <p class="hint" style="margin:0.2rem 0 0">Plus that month's interest, with a <span data-money-amt="25">$25</span> floor (or the remaining balance if less).</p>
   </div>
   <label class="field" style="margin-top:0.45rem">Extra each month<input id="debtExtra" type="number" step="1" min="0" inputmode="decimal" /></label>
   <label class="field" style="margin-top:0.45rem">Pays from
@@ -1572,7 +1604,7 @@
     <button type="button" class="btn" id="menuClose">Close</button>
   </div>
   <button type="button" class="menu-row menu-settings" id="menuSettingsToggle" aria-expanded="false" aria-controls="menuSettings">
-    <img src="icons/settings.jpg?v=35" alt="" /><span><b>Settings</b><small>Themes, backup, reminders, guide, lock</small></span>
+    <img src="icons/settings.jpg?v=36" alt="" /><span><b>Settings</b><small>Themes, backup, reminders, guide, lock</small></span>
   </button>
   <div class="menu-group" id="menuSettings" hidden>
     <button type="button" class="menu-item" id="btnOptions">Settings · Dawn</button>
@@ -1635,6 +1667,8 @@
     <label class="field color-field">Text<input type="color" id="ctText" /></label>
   </div>
   <label class="field" style="margin-top:0.45rem">Pictures<select id="ctArt"><option value="">Default</option></select></label>
+  <label class="field" style="margin-top:0.45rem">Icon style<select id="ctIcons"></select></label>
+  <p class="hint" style="margin:0.2rem 0 0">Pick who walks your path.</p>
   <div class="row-actions">
     <button type="button" class="btn" id="ctPhotoBtn">Use a photo</button>
     <button type="button" class="btn" id="ctPhotoRemove" hidden>Remove photo</button>
@@ -1652,12 +1686,30 @@
 <dialog id="optionsDialog" class="wide">
   <h3>Settings</h3>
   <div class="row-actions"><button type="button" class="btn" id="optThemes">Themes</button></div>
+  <div class="subpanel" id="iconStylePanel">
+    <h3 id="iconStyleTitle">Icon style</h3>
+    <p class="hint" id="iconStyleHint">Pick who walks your path.</p>
+    <p id="iconStyleNow"></p>
+    <label class="field" id="iconStyleWrap" hidden>Icon style<select id="iconStyleSel"></select></label>
+  </div>
+  <div class="subpanel" id="soundsPanel">
+    <h3>Sounds</h3>
+    <label class="check-row"><input type="checkbox" id="optSounds" /> <span>Sounds</span></label>
+    <p class="hint">Soft clicks when you tap.</p>
+  </div>
+  <div class="subpanel" id="currencyPanel">
+    <h3 id="curTitle">Currency</h3>
+    <p class="hint" id="curHint">Pick the money you use. Amounts will show in it everywhere. Amounts you already entered keep their numbers; nothing is converted.</p>
+    <label class="field">Search<input id="curSearch" type="search" placeholder="Search by name, symbol or code" autocomplete="off" aria-controls="curList" /></label>
+    <select id="curList" size="6" aria-labelledby="curTitle"></select>
+    <p class="hint" id="curNow"></p>
+  </div>
   <div class="subpanel" id="pullsOptions">
     <h3>Pulls</h3>
     <div class="row-actions"><button type="button" class="btn" id="optAddPull">Add pull</button><button type="button" class="btn" id="optManagePulls">Manage pulls</button></div>
   </div>
   <div class="subpanel" id="purposePanel" aria-labelledby="purposeTitle">
-    <h3 id="purposeTitle" class="title-book"><img class="book" src="icons/purpose.jpg?v=35" alt="" />Purpose (optional)</h3>
+    <h3 id="purposeTitle" class="title-book"><img class="book" src="icons/purpose.jpg?v=36" alt="" />Purpose (optional)</h3>
     <p class="hint">A note on how you're walking the path you already picked. Not a new choice, and not a finish.</p>
 
     <div class="subpanel">
@@ -2029,7 +2081,7 @@ const PATH_ICON_LABELS = {
 };
 const PATH_WRESTLING_ICON = "icons/paths/wrestling.jpg";
 // Icon cache-bust: same filenames were re-cut, so every rendered icon URL carries ?v=. Stored data keeps plain paths.
-const ICON_VER = "35";
+const ICON_VER = "36";
 const LOGO_SRC = "icons/logo.jpg"; // swap the app logo here (header, menu button, vault screens)
 function plainIcon(src) { return String(src || "").split("?")[0]; }
 function iv(src) {
@@ -2162,16 +2214,44 @@ function fmtHours(n) {
 function esc(s) {
   return String(s == null ? "" : s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 }
-function moneyFmt(n) {
-  const v = Math.round(Number(n) * 100) / 100;
-  const abs = Math.abs(v).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 2 });
-  return (v < 0 ? "−$" : (v > 0 ? "+$" : "$")) + abs;
+// v36 currency. Amounts stay plain numbers; only the display follows data.currency (USD by default, no conversion).
+// Symbol placement and grouping come from Intl.NumberFormat for the reader's locale; decimals from the currency (PYG, JPY: 0).
+const CURRENCIES = [
+  ["USD", "$", "US dollar"], ["PYG", "₲", "Paraguayan guaraní"], ["EUR", "€", "Euro"], ["MXN", "MX$", "Mexican peso"],
+  ["GBP", "£", "British pound"], ["JPY", "¥", "Japanese yen"], ["CAD", "CA$", "Canadian dollar"], ["BRL", "R$", "Brazilian real"],
+  ["ARS", "AR$", "Argentine peso"], ["INR", "₹", "Indian rupee"], ["AUD", "A$", "Australian dollar"], ["NZD", "NZ$", "New Zealand dollar"],
+  ["CHF", "CHF", "Swiss franc"], ["CNY", "CN¥", "Chinese yuan"], ["KRW", "₩", "South Korean won"], ["CLP", "CL$", "Chilean peso"],
+  ["COP", "COL$", "Colombian peso"], ["PEN", "S/", "Peruvian sol"], ["UYU", "$U", "Uruguayan peso"], ["BOB", "Bs", "Bolivian boliviano"],
+  ["PHP", "₱", "Philippine peso"], ["ZAR", "R", "South African rand"], ["NGN", "₦", "Nigerian naira"], ["GHS", "GH₵", "Ghanaian cedi"],
+  ["MAD", "DH", "Moroccan dirham"], ["NOK", "kr", "Norwegian krone"], ["SEK", "kr", "Swedish krona"], ["DKK", "kr.", "Danish krone"],
+  ["PLN", "zł", "Polish złoty"], ["TRY", "₺", "Turkish lira"], ["ILS", "₪", "Israeli new shekel"], ["VND", "₫", "Vietnamese đồng"],
+  ["IDR", "Rp", "Indonesian rupiah"], ["THB", "฿", "Thai baht"], ["SGD", "S$", "Singapore dollar"], ["HKD", "HK$", "Hong Kong dollar"],
+  ["AED", "AED", "UAE dirham"]
+];
+const CURRENCY_BY = Object.fromEntries(CURRENCIES.map(c => [c[0], { code: c[0], symbol: c[1], name: c[2] }]));
+function curCode() { const c = data && data.currency; return CURRENCY_BY[c] ? c : "USD"; }
+function curSymbol(code) { return (CURRENCY_BY[code || curCode()] || CURRENCY_BY.USD).symbol; }
+const _curDigits = {}, _curNF = {};
+function curDigits(code) {
+  code = code || curCode();
+  if (_curDigits[code] == null) { try { _curDigits[code] = new Intl.NumberFormat("en", { style: "currency", currency: code }).resolvedOptions().maximumFractionDigits; } catch (e) { _curDigits[code] = 2; } }
+  return _curDigits[code];
 }
-function moneyPlain(n) {
-  const v = Math.round(Number(n) * 100) / 100;
-  const abs = Math.abs(v).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 2 });
-  return (v < 0 ? "−$" : "$") + abs;
+function curRound(n, code) { const f = Math.pow(10, curDigits(code)), v = Number(n) || 0; return Math.sign(v) * Math.round(Math.abs(v) * f) / f; } // half away from zero: −7.5 → −8
+// A non-negative amount with the currency's symbol, e.g. "$1,234.5", "₲50.000" or "1.234,5 €" depending on locale.
+function curAbs(v, opts) {
+  const code = (opts && opts.code) || curCode(), max = opts && opts.whole ? 0 : curDigits(code), key = code + ":" + max;
+  let nf = _curNF[key];
+  if (!nf) {
+    const o = { style: "currency", currency: code, minimumFractionDigits: 0, maximumFractionDigits: max };
+    try { nf = new Intl.NumberFormat(undefined, Object.assign({ currencyDisplay: "narrowSymbol" }, o)); } catch (e) { nf = new Intl.NumberFormat(undefined, o); }
+    _curNF[key] = nf;
+  }
+  const sym = curSymbol(code);
+  return nf.formatToParts(Math.abs(Number(v) || 0)).map(p => p.type === "currency" ? sym : (p.type === "minusSign" || p.type === "plusSign") ? "" : p.value).join("").trim();
 }
+function moneyFmt(n, code) { const v = curRound(n, code); return (v < 0 ? "−" : (v > 0 ? "+" : "")) + curAbs(v, { code }); }
+function moneyPlain(n, code) { const v = curRound(n, code); return (v < 0 ? "−" : "") + curAbs(v, { code }); }
 function sleepHours(bed, wake) {
   if (!bed || !wake) return null;
   const [bh, bm] = bed.split(":").map(Number);
@@ -2406,8 +2486,16 @@ function migrateLegacy(raw) {
     notes: typeof t.notes === "string" ? t.notes : "",
     repeat: t.repeat === "daily" ? "daily" : "",
     pathLogId: typeof t.pathLogId === "string" ? t.pathLogId : "",
-    reminder: normalizeReminder(t.reminder)
+    reminder: normalizeReminder(t.reminder),
+    dropped: t.dropped === true // v36: dropped from the Coach page (your call, not missed)
   }));
+  // v36 Coach page state: Not today snoozes (today only), path "Not today" counters, and a history of Done / Dropped.
+  const cp = d.coachPage && typeof d.coachPage === "object" ? d.coachPage : {};
+  d.coachPage = {
+    snoozed: cp.snoozed && typeof cp.snoozed.date === "string" && Array.isArray(cp.snoozed.keys) ? { date: cp.snoozed.date, keys: cp.snoozed.keys.map(String) } : { date: "", keys: [] },
+    pathNotToday: cp.pathNotToday && typeof cp.pathNotToday === "object" ? cp.pathNotToday : {}
+  };
+  d.coachHistory = Array.isArray(d.coachHistory) ? d.coachHistory.filter(h => h && h.id) : [];
   if (!Array.isArray(d.goals)) d.goals = [];
   d.goals = d.goals.map(g => ({
     reminder: normalizeReminder(g.reminder),
@@ -2509,6 +2597,8 @@ function migrateLegacy(raw) {
   }
   if (!d.selected) d.selected = TODAY;
   if (!d.theme) d.theme = "dawn";
+  if (typeof d.sounds !== "boolean") d.sounds = false; // v36 UI sounds: off until turned on in Settings
+  if (!CURRENCY_BY[d.currency]) d.currency = "USD"; // v36: display currency (stored with the rest of the encrypted data)
   if (!Array.isArray(d.accounts)) d.accounts = defaultAccounts();
   d.accounts = d.accounts.map(a => ({
     id: a.id || uid("a"),
@@ -2923,7 +3013,7 @@ function addCustomPull(label, steer, opposite, img) {
 }
 function sortedDesc(list) { return list.slice().sort((a, b) => a.date < b.date ? 1 : a.date > b.date ? -1 : 0); }
 function bookSlot(label) {
-  return '<span class="book-slot" title="Area notes"><img class="book" src="icons/area-note.jpg?v=35" alt="" /><span>' + esc(label) + '</span></span>';
+  return '<span class="book-slot" title="Area notes"><img class="book" src="icons/area-note.jpg?v=36" alt="" /><span>' + esc(label) + '</span></span>';
 }
 function pickReplacement() {
   if (!data.replacements.length) return null;
@@ -2962,7 +3052,7 @@ function setAreaReevaluate(areaId, until) {
 function coachTodayLine(date) {
   const list = data.tasks.filter(t => t.date === date);
   if (!list.length) return "";
-  const left = orderedAreas().map(a => ({ a, n: list.filter(t => t.area === a.id && t.status !== "done").length })).filter(x => x.n > 0);
+  const left = orderedAreas().map(a => ({ a, n: list.filter(t => t.area === a.id && t.status !== "done" && !t.dropped).length })).filter(x => x.n > 0);
   if (!left.length) return "Today's list is done. Let it land.";
   const lead = date === TODAY ? "Today" : prettyDate(date);
   return lead + ": " + left.map((x, i) => x.n + (i === 0 ? " left in " : " in ") + areaShort(x.a)).join(", ") + ".";
@@ -3148,7 +3238,7 @@ function renderCheckin() {
       '<p class="hint" id="sleepPreview"></p>';
   }
   const body =
-    '<div class="sleep-row"><p class="q-title title-book"><img class="book" src="icons/sleep.jpg?v=35" alt="" />How did last night go?</p>' + sleepHtml + '</div>' +
+    '<div class="sleep-row"><p class="q-title title-book"><img class="book" src="icons/sleep.jpg?v=36" alt="" />How did last night go?</p>' + sleepHtml + '</div>' +
     pathCheckinHtml(date);
   document.getElementById("checkinBody").innerHTML = body;
   if (editing && sleep.source === "times") { const b = document.getElementById("bed"), w = document.getElementById("wake"); if (b) b.value = sleep.bed || ""; if (w) w.value = sleep.wake || ""; }
@@ -3201,7 +3291,7 @@ function maybeOfferReplacement(pull) {
 }
 
 const TASK_TAGS = { todo: "To do", doing: "Started", done: "Done" };
-function tasksLeft(areaId, date) { return data.tasks.filter(t => t.area === areaId && t.date === date && t.status !== "done").length; }
+function tasksLeft(areaId, date) { return data.tasks.filter(t => t.area === areaId && t.date === date && t.status !== "done" && !t.dropped).length; }
 function isCollapsed(areaId) { return Array.isArray(data.collapsedAreas) && data.collapsedAreas.includes(areaId); }
 function renderAreas() {
   const date = data.selected;
@@ -3232,7 +3322,7 @@ function renderAreas() {
         : st === "doing" ? '<button type="button" class="btn" data-cycle="' + t.id + '">Mark done</button>'
         : '<button type="button" class="tiny" data-cycle="' + t.id + '">Undo</button>';
       const fav = isFavTask(t.area, t.title);
-      return '<article class="card"><div class="top"><strong>' + esc(t.title) + '</strong><span class="status ' + esc(st) + '">' + TASK_TAGS[st] + '</span></div>' +
+      return '<article class="card"><div class="top"><strong>' + esc(t.title) + '</strong><span class="status ' + esc(st) + '">' + (t.dropped ? "Dropped" : TASK_TAGS[st]) + '</span></div>' +
         '<div class="meta">' + fmtHours(t.hours) + 'h' + (t.notes ? ' · ' + esc(t.notes) : '') + '</div>' +
         '<div class="row-actions" style="margin-top:0.4rem"><button type="button" class="btn" data-edit-task="' + t.id + '">Edit</button>' + next +
         '<button type="button" class="tiny fav-btn' + (fav ? " is-on" : "") + '" data-fav-task="' + t.id + '" aria-pressed="' + (fav ? "true" : "false") + '">' + (fav ? "⭐ Saved" : "⭐ Save as favorite") + '</button></div></article>';
@@ -3332,7 +3422,7 @@ function renderAreas() {
     btn.onclick = () => {
       const t = data.tasks.find(x => x.id === btn.dataset.cycle);
       if (!t) return;
-      t.status = t.status === "todo" ? "doing" : t.status === "doing" ? "done" : "doing";
+      t.status = t.status === "todo" ? "doing" : t.status === "doing" ? "done" : "doing"; t.dropped = false;
       save(); renderDerived();
     };
   });
@@ -3837,7 +3927,8 @@ function expenseCatName(id, label) {
 }
 function catIcon(id, name, color) {
   const st = color ? ' style="background:' + color + '"' : "";
-  if (MONEY_GLYPH_SET.has(id)) return '<img class="cat-ico glyph" src="icons/glyphs128/money/' + esc(id) + '.png?v=' + ICON_VER + '" alt=""' + st + ' />';
+  if (id === "paycheck" && glyphListed("money/paycheck-plain.png")) return coinHtml("money/paycheck-plain.png", "cat-ico").replace('class="glyph"', 'class="glyph"' + st); // v36: symbol-free paycheck, symbol drawn on top
+  if (MONEY_GLYPH_SET.has(id)) return '<img class="cat-ico glyph" src="' + gv("money/" + id + ".png") + '" alt=""' + st + ' />';
   return '<span class="cat-ico" aria-hidden="true"' + st + '>' + esc(String(name || "?").trim().charAt(0).toUpperCase()) + '</span>';
 }
 function expenseCatList() {
@@ -3952,7 +4043,7 @@ function yearsMonths(n) {
   const y = Math.floor(n / 12), m = n % 12;
   return (y ? y + (y === 1 ? " year" : " years") : "") + (y && m ? " " : "") + (m || !y ? m + (m === 1 ? " month" : " months") : "");
 }
-function moneyWhole(n) { return "$" + Math.round(Number(n)).toLocaleString(); }
+function moneyWhole(n) { const v = Math.round(Number(n) || 0); return (v < 0 ? "−" : "") + curAbs(v, { whole: true }); }
 function debtSuggestions(d) {
   const ladder = [25, 50, 100, 200, 500, 1000, 2000, 5000];
   let i = ladder.findIndex(x => x >= d.balance * 0.025); if (i < 0) i = ladder.length - 3; i = Math.min(i, ladder.length - 3);
@@ -4065,7 +4156,7 @@ function renderSavings() {
   const list = document.getElementById("savingsList");
   list.innerHTML = data.savings.map(v => {
     const p = savingsPlan(v.balance, v.rate, v.deposit, v.years);
-    const ico = MONEY_GLYPH_SET.has(v.kind) ? '<img class="cat-ico glyph" src="icons/glyphs128/money/' + v.kind + '.png?v=' + ICON_VER + '" alt="" style="margin-right:0.35rem;vertical-align:-5px" />' : "";
+    const ico = MONEY_GLYPH_SET.has(v.kind) ? '<img class="cat-ico glyph" src="' + gv("money/" + v.kind + ".png") + '" alt="" style="margin-right:0.35rem;vertical-align:-5px" />' : "";
     return '<button type="button" class="debt-card" data-sav="' + esc(v.id) + '"><div class="dn"><span>' + ico + esc(v.name) + '</span><span class="money-pos">' + moneyPlain(v.balance) + '</span></div><div class="ds">' + esc(SAVINGS_KINDS[v.kind] + " · " + v.rate + "% a year" + (v.deposit ? " · +" + moneyPlain(v.deposit) + "/month" : "")) + '</div><div class="ds">' + esc("In " + yearsWord(v.years) + ", about " + moneyWhole(p.value)) + '</div></button>';
   }).join("") || '<p class="empty" style="margin:0">No savings or investments added.</p>';
   list.querySelectorAll("[data-sav]").forEach(b => b.onclick = () => openSavingsDialog(b.dataset.sav));
@@ -4161,7 +4252,7 @@ function renderPayoffPlans() {
   const plans = { smallest: payoffPlan(live, "smallest", extra), highest: payoffPlan(live, "highest", extra) };
   const card = m => {
     const p = plans[m], M = PAYOFF_METHODS[m], on = data.payoffPlan === m;
-    const slug = MONEY_GLYPH_SET.has(PAYOFF_METHODS[m].icon) ? PAYOFF_METHODS[m].icon : ""; const icon = slug ? '<img class="cat-ico glyph" src="icons/glyphs128/money/' + slug + '.png?v=' + ICON_VER + '" alt="" />' : "";
+    const slug = MONEY_GLYPH_SET.has(PAYOFF_METHODS[m].icon) ? PAYOFF_METHODS[m].icon : ""; const icon = slug ? '<img class="cat-ico glyph" src="' + gv("money/" + slug + ".png") + '" alt="" />' : "";
     return '<div class="payoff-card" data-active="' + on + '" data-method="' + m + '"><h4>' + icon + esc(M.title) + '</h4><span class="sub">' + esc(M.sub) + '</span>' +
       (p.ok ? '<span class="pp-line">' + esc("Debt-free " + monthYearFromNow(p.months) + " · about " + moneyWhole(p.interest) + " in interest") + '</span><ol>' + p.order.map(o => '<li>' + esc(o.name) + '</li>').join("") + '</ol>'
             : '<span class="pp-line warn">' + esc("These payments don't cover the interest, so this plan never finishes.") + '</span>') +
@@ -4811,7 +4902,7 @@ function actualMonth(ym) {
   return { income: r2(income), spent: r2(spent) };
 }
 function firstMoneyMonth() { const d = data.money.map(m => m.date).filter(Boolean).sort()[0]; const cur = iso(new Date()).slice(0, 7); const f = d ? d.slice(0, 7) : cur; return f < ymAdd(cur, -1) ? f : ymAdd(cur, -1); }
-function flagImg() { return '<img src="icons/glyphs128/money/payoff-flag.png?v=' + ICON_VER + '" alt="" onerror="this.remove()" />'; }
+function flagImg() { return '<img src="' + gv("money/payoff-flag.png") + '" alt="" onerror="this.remove()" />'; }
 function renderMoneyMonth() {
   const nowYm = iso(new Date()).slice(0, 7);
   if (!moneyMonth) moneyMonth = nowYm;
@@ -4947,7 +5038,7 @@ function renderDerived() {
   renderStats(); renderCoach(); renderWeekNudges(); renderNotices(); renderStrip(); renderAreas();
   renderReplacements(); renderPurpose(); renderDiary(); renderPaths(); renderRoad();
   renderPie(); renderReturns(); renderLog(); renderMoney();
-  renderGoalsPanel(); renderPieDay(); if (currentScreen === "home") renderCoachNotes();
+  renderGoalsPanel(); renderPieDay(); if (currentScreen === "home") renderCoachNotes(); if (currentScreen === "coach") renderCoachPage();
 }
 function syncComposerDates() {
   diaryDay = data.selected;
@@ -5085,7 +5176,7 @@ let editingGoalId = null;
 function fillGoalPresets() {
   const row = document.getElementById("goalPresets");
   row.innerHTML = GOAL_PRESETS.map(p =>
-    '<button type="button" class="chip" data-gpreset="' + p.id + '" aria-pressed="' + (goalPresetChoice === p.id ? "true" : "false") + '">' + esc(p.title) + '</button>'
+    '<button type="button" class="chip" data-gpreset="' + p.id + '" aria-pressed="' + (goalPresetChoice === p.id ? "true" : "false") + '">' + esc(p.title.replace(" · $", " · " + curSymbol())) + '</button>'
   ).join("");
   row.querySelectorAll(".chip").forEach(btn => {
     btn.onclick = () => {
@@ -6521,7 +6612,7 @@ function progressRowText(gl, r) {
   const d = Number(r.delta) || 0;
   const sign = d < 0 ? "−" : "+";
   const abs = Math.abs(d);
-  const amt = unit === "$" ? sign + "$" + abs.toLocaleString(undefined, { maximumFractionDigits: 2 })
+  const amt = unit === "$" ? sign + curAbs(curRound(abs))
     : sign + numFmt(abs) + (unit && unit !== "times" ? " " + unitFor(abs, unit) : "");
   return shortDate(r.date) + " · " + amt + (r.note ? " · " + r.note : "");
 }
@@ -7200,7 +7291,8 @@ function unitFor(n, unit) {
 }
 // Copy with {placeholders}; afterwards "1 days" / "1 months" etc. read as singular.
 function fillCopy(s, vars) {
-  return String(s).replace(/\{(\w+)\}/g, (m, k) => vars[k] != null ? vars[k] : m)
+  return String(s).replace(/\$\{(\w+)\}/g, (m, k) => vars[k] == null ? m : (typeof vars[k] === "number" ? moneyPlain(vars[k]) : String(vars[k])))
+    .replace(/\{(\w+)\}/g, (m, k) => vars[k] != null ? vars[k] : m)
     .replace(/(^|[^\d.,$])1 (days|hours|minutes|weeks|months|years|times)\b/g, (m, pre, w) => pre + "1 " + w.slice(0, -1));
 }
 // An area is quiet while its reevaluate date (Time by area range) hasn't passed; career also while a heavy season runs.
@@ -7308,7 +7400,8 @@ Object.assign(COACH_COPY, {
 });
 const COACH_MAX = 3;
 const COACH_STALE_GOAL_DAYS = 7, COACH_PATH_DAYS = 7, COACH_TASK_DAYS = 14, COACH_BILL_DAYS = 3;
-function amt(n) { return moneyPlain(n).replace(/^\$/, ""); }
+// Money placeholders in coach copy are written ${amount}; fillCopy puts the whole formatted amount (symbol included) there.
+function amt(n) { return moneyPlain(n); }
 function coachDayWord(date) {
   const n = daysBetween(TODAY, date);
   if (n <= 0) return COACH_COPY.today;
@@ -7348,7 +7441,7 @@ function sleepTarget() {
 }
 function coachSleepHtml() {
   const d = data.days[TODAY], sl = d && d.sleep;
-  const img = '<img class="coach-sleep-ic" src="icons/glyphs128/home/sleep.png?v=' + ICON_VER + '" alt="" onerror="this.remove()" />';
+  const img = '<img class="coach-sleep-ic" src="' + gv("home/sleep.png") + '" alt="" onerror="this.remove()" />';
   if (!sl) {
     return '<div class="coach-sleep" data-note="sleep">' + img + '<div><p>' + esc(fillCopy(COACH_COPY.sleepAsk, { target: fmtHours(sleepTarget()) })) + '</p>' +
       '<div class="row-actions"><button type="button" class="btn primary" id="coachSleepYes">' + esc(COACH_COPY.sleepYes) + '</button><button type="button" class="btn" id="coachSleepEdit">' + esc(COACH_COPY.sleepEdit) + '</button></div></div></div>';
@@ -7388,9 +7481,9 @@ function coachCandidates(today) {
     const btn = [{ act: "progress", id: gl.id, label: COACH_COPY.goalAddProgress }];
     if (isSavingsTarget(gl) && (goalAccount(gl) || Number(gl.monthly) > 0) && !(!goalAccount(gl) && goalCurrent(gl) >= Number(gl.target) - 0.004)) {
       const nm = targetName(gl);
-      if (gl.reachedAt) { if (daysBetween(gl.reachedAt, today) <= 2) out.push({ key: "reached:" + gl.id, type: "goal", urgent: true, text: fillCopy(COACH_COPY.targetReached, { account: nm, target: moneyWhole(gl.target).slice(1) }) }); return; }
+      if (gl.reachedAt) { if (daysBetween(gl.reachedAt, today) <= 2) out.push({ key: "reached:" + gl.id, type: "goal", urgent: true, text: fillCopy(COACH_COPY.targetReached, { account: nm, target: moneyWhole(gl.target) }) }); return; }
       const stall = savingsStall(gl, today);
-      if (stall) { out.push({ key: "deposit:" + gl.id, type: "goal", stale: true, urgent: true, days: stall.days, text: fillCopy(COACH_COPY.depositStalled, { account: nm, month: stall.month, target: moneyWhole(gl.target).slice(1) }), actions: [{ act: "deposit", id: gl.id, label: COACH_COPY.addDeposit }, { act: "target", id: gl.id, label: COACH_COPY.changePlan }] }); return; }
+      if (stall) { out.push({ key: "deposit:" + gl.id, type: "goal", stale: true, urgent: true, days: stall.days, text: fillCopy(COACH_COPY.depositStalled, { account: nm, month: stall.month, target: moneyWhole(gl.target) }), actions: [{ act: "deposit", id: gl.id, label: COACH_COPY.addDeposit }, { act: "target", id: gl.id, label: COACH_COPY.changePlan }] }); return; }
       if (goalAccount(gl)) return; // the account moves it; no "add progress" nags
     }
     if (pct >= 100) { out.push({ key, type: "goal", text: fillCopy(COACH_COPY.goalDone, { goal: goalName(gl) }), actions: [{ act: "newgoal", id: gl.area, label: COACH_COPY.goalNext }] }); return; }
@@ -7534,13 +7627,15 @@ function renderCoachNotes() {
       (acts.length ? '<div class="row-actions">' + acts.map(a => '<button type="button" class="btn" data-note-act="' + esc(a.act) + '" data-note-id="' + esc(a.id) + '">' + esc(a.label) + '</button>').join("") + '</div>' : "") +
       '<button type="button" class="note-x" data-note-x="' + esc(n.key) + '" aria-label="' + esc(COACH_COPY.dismissNote) + '" title="' + esc(COACH_COPY.dismissNote) + '">×</button></div>' +
       (groupEnd.has(i) ? '<div class="row-actions coach-group-act"><button type="button" class="btn" data-note-act="screen" data-note-id="money">' + esc(COACH_COPY.openMoney) + '</button></div>' : ""); }).join("")
-      : '<div class="coach-note" data-note="empty"><p>' + esc(COACH_COPY.empty) + '</p></div>');
+      : '<div class="coach-note" data-note="empty"><p>' + esc(COACH_COPY.empty) + '</p></div>') +
+    '<div class="row-actions coach-open"><button type="button" class="btn" id="openCoachPage">' + esc(COACH_PAGE_COPY.open) + '</button></div>';
   el.querySelectorAll("[data-note-x]").forEach(b => b.onclick = () => {
     const k = b.dataset.noteX;
     if (!data.coachDismissed || data.coachDismissed.date !== TODAY) data.coachDismissed = { date: TODAY, keys: [] };
     data.coachDismissed.keys.push(k); save(); renderCoachNotes();
   });
   el.querySelectorAll("[data-note-act]").forEach(b => b.onclick = () => coachAction(b.dataset.noteAct, b.dataset.noteId));
+  const oc = document.getElementById("openCoachPage"); if (oc) oc.onclick = () => openScreen("coach");
   bindCoachSleep(el);
 }
 function coachAction(act, id) {
@@ -7563,6 +7658,105 @@ function coachAction(act, id) {
     }
   }
 }
+// ---------- v36 Coach page: everything waiting on you, longest-waiting first. Sections: Paths, Goals, Today, Undone.
+// Tasks are asked about on the next two days only, then move silently to Undone. Paths count "Not today".
+const COACH_PAGE_COPY = {
+  open: "Open Coach", title: "Coach", sub: "Everything waiting on you, longest-waiting first.",
+  paths: "Paths", goals: "Goals", today: "Today", undone: "Undone", undoneSub: "Tasks you never marked done. Tap any you did.",
+  pathQuiet: "You're walking as a {path}, but nothing's been logged in {n} days. What's one move today?",
+  pathFresh: "{path}: logged {when}.", pathNever: "{path}: nothing logged yet. What's one move today?",
+  pathCount: "Not today, {n} times.", pathCountOne: "Not today, 1 time.",
+  task1: "Did you {task} yesterday?", task2: "Last reminder: did you {task}?",
+  todayTask: "{task}", askedTwice: "Asked twice",
+  logIt: "Log it", notToday: "Not today", done: "Done", dropIt: "Drop it", update: "Update",
+  dropped: "Dropped. That was your call.", doneToast: "Marked done.",
+  empty: "Nothing waiting. Go live your day.", seeAll: "See all ({n})", showLess: "Show less",
+  noTied: "No tasks tied to this goal yet."
+};
+const COACH_TOP = 3, COACH_UNDONE_DAYS = 30;
+const coachPageOpen = new Set(); // sections showing all items
+function cpSnoozed(key) { const z = data.coachPage.snoozed; return z.date === TODAY && z.keys.includes(key); }
+function cpSnooze(key) { const z = data.coachPage; if (z.snoozed.date !== TODAY) z.snoozed = { date: TODAY, keys: [] }; if (!z.snoozed.keys.includes(key)) z.snoozed.keys.push(key); }
+// "Practice a skill" -> "practice a skill" inside a sentence (keeps names and acronyms like "Call Mom", "PT").
+function taskInLine(title) { const t = String(title || "").trim(); return /^[A-Z][a-z]/.test(t) ? t.charAt(0).toLowerCase() + t.slice(1) : t; }
+function pathQuietDays(p, today) {
+  const last = (data.pathLogs || []).filter(l => l.pathId === p.id && l.date <= today).map(l => l.date).sort().pop();
+  return last ? { days: daysBetween(last, today), last } : { days: p.created ? daysBetween(p.created, today) : null, last: "" };
+}
+function coachPageData(today) {
+  today = today || TODAY;
+  const paths = activePaths().map(p => { const q = pathQuietDays(p, today); const nt = data.coachPage.pathNotToday[p.id]; return { p, days: q.days, last: q.last, quiet: q.days != null && q.days >= COACH_PATH_DAYS, notToday: nt && nt.n ? nt.n : 0, key: "cpath:" + p.id }; })
+    .filter(x => !(x.quiet && cpSnoozed(x.key)))
+    .sort((a, b) => (b.days == null ? 1e6 : b.days) - (a.days == null ? 1e6 : a.days));
+  const open = data.tasks.filter(t => !t.dropped && t.status !== "done" && String(t.title || "").trim());
+  const ask = [], todays = [], undone = [];
+  open.forEach(t => {
+    if (t.date === today) { if (!cpSnoozed("ctask:" + t.id)) todays.push({ t, kind: "today", key: "ctask:" + t.id }); return; }
+    if (t.date > today) return;
+    const late = daysBetween(t.date, today);
+    if (late === 1 || late === 2) { if (!cpSnoozed("cask:" + t.id + ":" + late)) ask.push({ t, kind: late === 1 ? "ask1" : "ask2", late, key: "cask:" + t.id + ":" + late }); }
+    else if (late >= 3 && late <= COACH_UNDONE_DAYS) undone.push({ t, late, key: "cundone:" + t.id });
+  });
+  ask.sort((a, b) => b.late - a.late); undone.sort((a, b) => b.late - a.late);
+  const goals = (data.goals || []).filter(g => !g.paused && goalPct(g) < 100).map(gl => {
+    const last = goalLastMoved(gl) || gl.created || today;
+    const tied = data.tasks.filter(t => t.area === gl.area && !t.dropped && t.status !== "done" && t.date >= today && t.date <= shift(today, 7)).sort((a, b) => a.date < b.date ? -1 : 1);
+    return { gl, last, wait: daysBetween(last, today), tied };
+  }).sort((a, b) => b.wait - a.wait);
+  const waiting = paths.filter(x => x.quiet).length + ask.length + todays.length + undone.length;
+  return { paths, goals, today: ask.concat(todays), undone, waiting };
+}
+function cpWhen(days) { return days <= 0 ? "today" : days === 1 ? "yesterday" : days + " days ago"; }
+function cpBtns(list) { return '<div class="row-actions">' + list.map(([act, id, label, extra]) => '<button type="button" class="btn' + (act === "done" ? " primary" : "") + '" data-cp-act="' + act + '" data-cp-id="' + esc(id) + '"' + (act === "done" || act === "log" ? ' data-sound="done"' : "") + (extra || "") + '>' + esc(label) + '</button>').join("") + '</div>'; }
+function cpSection(id, title, icon, sub, items) {
+  if (!items.length) return "";
+  const all = coachPageOpen.has(id), shown = all ? items : items.slice(0, COACH_TOP);
+  return '<section class="cp-sec" data-cp-sec="' + id + '"><h3>' + (icon ? '<img class="glyph" data-no-glyph src="' + icon + '" alt="" />' : "") + esc(title) + '</h3>' + (sub ? '<p class="hint">' + esc(sub) + '</p>' : "") +
+    shown.join("") + (items.length > COACH_TOP ? '<div class="cp-more"><button type="button" class="tiny" data-cp-more="' + id + '" aria-expanded="' + all + '">' + esc(all ? COACH_PAGE_COPY.showLess : fillCopy(COACH_PAGE_COPY.seeAll, { n: items.length })) + '</button></div>' : "") + '</section>';
+}
+// Pablo's coach/undone glyphs when a set has them; otherwise existing icons.
+function glyphListed(rel) { const st = iconStyleFor(); return ((glyphStyleSets.classic || []).includes(rel)) || (st !== "classic" && (glyphStyleSets[st] || []).includes(rel)); }
+function cpIcon(cands, fallback) { const rel = cands.find(glyphListed) || fallback; return gv(rel); }
+function renderCoachPage() {
+  const el = document.getElementById("coachPage"); if (!el || !data) return;
+  const C = COACH_PAGE_COPY, D = coachPageData(TODAY);
+  const paths = D.paths.map(x => {
+    const name = x.p.name;
+    const line = x.quiet ? fillCopy(C.pathQuiet, { path: name, n: x.days }) : x.last ? fillCopy(C.pathFresh, { path: name, when: cpWhen(x.days) }) : fillCopy(C.pathNever, { path: name });
+    const cnt = x.notToday ? '<p class="cp-count">' + esc(x.notToday === 1 ? C.pathCountOne : fillCopy(C.pathCount, { n: x.notToday })) + '</p>' : "";
+    return '<div class="cp-item" data-cp-item="' + esc(x.key) + '"><p>' + esc(line) + '</p>' + cnt + cpBtns(x.quiet ? [["log", x.p.id, C.logIt], ["pathNot", x.p.id, C.notToday]] : [["log", x.p.id, C.logIt]]) + '</div>';
+  });
+  const goals = D.goals.map(g => '<div class="cp-item" data-cp-item="cgoal:' + esc(g.gl.id) + '"><p><strong>' + esc(g.gl.title) + '</strong></p>' +
+    '<div class="bar"><i style="width:' + goalPct(g.gl) + '%;background:var(--accent)"></i></div><p class="cp-count">' + esc(goalProgressText(g.gl)) + ' · ' + goalPct(g.gl) + '%</p>' +
+    (g.tied.length ? '<ul class="cp-tied">' + g.tied.slice(0, 3).map(t => '<li>' + esc(t.title) + (t.date === TODAY ? "" : " · " + esc(shortDate(t.date))) + '</li>').join("") + '</ul>' : '<p class="cp-count">' + esc(C.noTied) + '</p>') +
+    cpBtns([["goal", g.gl.id, C.update]]) + '</div>');
+  const today = D.today.map(x => {
+    const line = x.kind === "ask1" ? fillCopy(C.task1, { task: taskInLine(x.t.title) }) : x.kind === "ask2" ? fillCopy(C.task2, { task: taskInLine(x.t.title) }) : fillCopy(C.todayTask, { task: x.t.title });
+    return '<div class="cp-item" data-cp-item="' + esc(x.key) + '"><p>' + esc(line) + '</p>' + cpBtns([["done", x.t.id, C.done], ["snooze", x.key, C.notToday]]) + '</div>';
+  });
+  const undone = D.undone.map(x => '<div class="cp-item" data-cp-item="' + esc(x.key) + '"><p>' + esc(x.t.title) + ' · ' + esc(shortDate(x.t.date)) + '</p><p class="cp-count">' + esc(C.askedTwice) + '</p>' + cpBtns([["done", x.t.id, C.done], ["drop", x.t.id, C.dropIt]]) + '</div>');
+  const portrait = glyphListed("coach/portrait.png") ? '<span class="cp-portrait"><img data-no-glyph src="' + gv("coach/portrait.png") + '" alt="" /></span>'
+    : glyphListed("home/coach.png") ? '<span class="cp-portrait wide"><img data-no-glyph src="' + gv("home/coach.png") + '" alt="" /></span>'
+    : '<img class="glyph" data-no-glyph src="' + gv("home/checkin.png") + '" alt="" />';
+  el.innerHTML = '<div class="cp-head">' + portrait + '<div><h2 id="coachPageTitle" class="title-book" style="margin:0">' + esc(C.title) + '</h2><p class="cp-sub">' + esc(C.sub) + '</p></div></div>' +
+    (D.waiting ? "" : '<p class="cp-empty">' + esc(C.empty) + '</p>') +
+    cpSection("paths", C.paths, gv("paths-section.png"), "", paths) +
+    cpSection("goals", C.goals, gv("home/goals.png"), "", goals) +
+    cpSection("today", C.today, gv("home/checkin.png"), "", today) +
+    cpSection("undone", C.undone, cpIcon(["coach/undone.png"], "home/record.png"), C.undoneSub, undone);
+  el.querySelectorAll("[data-cp-more]").forEach(b => b.onclick = () => { const id = b.dataset.cpMore; if (coachPageOpen.has(id)) coachPageOpen.delete(id); else coachPageOpen.add(id); renderCoachPage(); });
+  el.querySelectorAll("[data-cp-act]").forEach(b => b.onclick = () => coachPageAct(b.dataset.cpAct, b.dataset.cpId));
+}
+function coachPageAct(act, id) {
+  const C = COACH_PAGE_COPY;
+  if (act === "log") return openPathLog(id);
+  if (act === "goal") return openGoalUpdate(id);
+  if (act === "pathNot") { const m = data.coachPage.pathNotToday, e = m[id] || { n: 0, date: "" }; if (e.date !== TODAY) { e.n++; e.date = TODAY; } m[id] = e; cpSnooze("cpath:" + id); save(); renderCoachPage(); return; }
+  if (act === "snooze") { cpSnooze(id); save(); renderCoachPage(); return; }
+  const t = data.tasks.find(x => x.id === id); if (!t) return;
+  if (act === "done") { t.status = "done"; t.dropped = false; data.coachHistory.push({ id: uid("h"), kind: "task", taskId: t.id, title: t.title, date: TODAY, taskDate: t.date, outcome: "done" }); save(); renderDerived(); renderCoachPage(); showToast(C.doneToast); return; }
+  if (act === "drop") { t.dropped = true; data.coachHistory.push({ id: uid("h"), kind: "task", taskId: t.id, title: t.title, date: TODAY, taskDate: t.date, outcome: "dropped" }); save(); renderDerived(); renderCoachPage(); showToast(C.dropped); return; }
+}
 // ---------- v28: one section per screen. Home = coach notes, time pie, tiles.
 const HOME_GLYPHS = new Set();
 fetch("icons/glyphs128/home/index.json?v=" + ICON_VER).then(r => r.ok ? r.json() : []).then(list => { (Array.isArray(list) ? list : []).forEach(x => HOME_GLYPHS.add(x)); if (data) renderHomeTiles(); }).catch(() => {});
@@ -7581,11 +7775,13 @@ const HOME_TILES = [
   { id: "record", label: "Record", home: "record" },
   { id: "settings", label: "Settings", icon: "icons/settings.jpg" }
 ];
-const SCREEN_TITLES = { paths: "Paths", goals: "Goals", money: "Money", diary: "Diary", week: "Check-in", record: "Record" };
+const SCREEN_TITLES = { coach: "Coach", paths: "Paths", goals: "Goals", money: "Money", diary: "Diary", week: "Check-in", record: "Record" };
 function tileIcon(t) {
   // Pablo's home glyphs; a plain letter tile only if a file is ever missing.
-  if (t.home && t.ifListed && !HOME_GLYPHS.has(t.home)) return '<img class="glyph" data-no-glyph src="' + esc(t.glyph) + '?v=' + ICON_VER + '" alt="" />';
-  if (t.home) return '<img class="glyph" data-no-glyph src="icons/glyphs128/home/' + t.home + '.png?v=' + ICON_VER + '" alt="" onerror="this.outerHTML=\'<span class=&quot;tile-fb&quot; aria-hidden=&quot;true&quot;>' + esc(t.label[0]) + '</span>\'" />';
+  // v36: Pablo's blank coin with the chosen currency symbol on it; otherwise his money coin, then the piggy bank.
+  if (t.id === "money" && (HOME_GLYPHS.has("money-plain") || glyphListed("home/money-plain.png"))) return coinHtml("home/money-plain.png");
+  if (t.home && t.ifListed && !HOME_GLYPHS.has(t.home)) return '<img class="glyph" data-no-glyph src="' + esc(gv(t.glyph.replace(/^icons\/glyphs128\//, ""))) + '" alt="" />';
+  if (t.home) return '<img class="glyph" data-no-glyph src="' + gv("home/" + t.home + ".png") + '" alt="" onerror="this.outerHTML=\'<span class=&quot;tile-fb&quot; aria-hidden=&quot;true&quot;>' + esc(t.label[0]) + '</span>\'" />';
   const ar = t.area ? AREAS.find(a => a.id === t.area) : null, src = ar ? ar.img : (t.icon || t.fallback);
   if (src) return '<img src="' + esc(iv(src)) + '" alt="' + esc((ar && ar.imgAlt) || "") + '" />';
   return '<span class="tile-fb" aria-hidden="true">' + esc(t.label[0]) + '</span>';
@@ -7593,6 +7789,7 @@ function tileIcon(t) {
 function renderHomeTiles() {
   const el = document.getElementById("homeTiles"); if (!el) return;
   el.innerHTML = HOME_TILES.map(t => '<button type="button" class="home-tile" data-tile="' + esc(t.id) + '">' + tileIcon(t) + '<span>' + esc(t.label) + '</span></button>').join("");
+  fitCoins(el);
   el.querySelectorAll("[data-tile]").forEach(b => b.onclick = () => b.dataset.tile === "settings" ? openSettings() : openScreen(b.dataset.tile));
 }
 function isSavingsTarget(gl) { return goalUnit(gl) === "$" && (gl.direction || "up") === "up" && Number(gl.target) > 0; }
@@ -7628,7 +7825,7 @@ document.getElementById("pieDayPrev").onclick = () => goToDay(shift(data.selecte
 document.getElementById("pieDayNext").onclick = () => { const n = shift(data.selected, timeView() === "week" ? 7 : 1); goToDay(n > TODAY ? TODAY : n); };
 let currentScreen = "home";
 function applyScreen(name) {
-  if (!/^(home|paths|goals|money|diary|week|record|area:(career|personal|social|spiritual|time))$/.test(name)) name = "home";
+  if (!/^(home|coach|paths|goals|money|diary|week|record|area:(career|personal|social|spiritual|time))$/.test(name)) name = "home";
   currentScreen = name;
   const kind = name.split(":")[0];
   document.body.dataset.screen = kind;
@@ -7647,6 +7844,7 @@ function applyScreen(name) {
   bar.hidden = kind === "home";
   document.getElementById("screenTitle").textContent = kind === "area" ? fastLabel(name.split(":")[1]) : (SCREEN_TITLES[kind] || "");
   if (kind === "home") renderCoachNotes();
+  if (kind === "coach") renderCoachPage();
   window.scrollTo(0, 0);
 }
 function openScreen(name) {
@@ -7988,6 +8186,72 @@ function setThemeArt(img, path, onFail) {
   };
   img.src = iv(themeArt(base));
 }
+// ---- v36 icon styles: icons/glyphs128-<style>/<same path as icons/glyphs128/>, built by /workspace/make-glyphs128.sh from
+// Pablo's icons/glyphs-<style>/ sources. Each file falls back on its own to icons/glyphs128/ (not listed, or failed to load).
+// Only the active style's files are ever requested. theme-art.json "glyphs" lists which files each style has.
+const ICON_STYLES = [["classic", "Classic"], ["ink", "Ink"], ["dog", "Dog"], ["cat", "Cat"], ["bird", "Bird"], ["fish", "Fish"], ["man", "Man"], ["woman", "Woman"]];
+const THEME_ICON_STYLE = { "dojo": "ink", "ink-light": "ink", "ink-forest": "ink", "koi": "ink", "small-dogs": "dog", "big-dogs": "dog", "dogs": "dog", "cats": "cat", "birds": "bird", "fish": "fish" };
+let glyphStyleSets = {}; // { ink: ["home/goals.png", "settings.png", ...] }
+const GLYPH_FAILED = new Set();
+function iconStyleName(st) { const x = ICON_STYLES.find(s => s[0] === st); return x ? x[1] : "Classic"; }
+function iconStyleFor(themeId) {
+  const id = String(themeId !== undefined ? themeId : (data && data.theme) || "");
+  if (/^custom/.test(id)) {
+    const t = data && Array.isArray(data.customThemes) ? data.customThemes.find(x => x.id === id) : null;
+    return t && ICON_STYLES.some(s => s[0] === t.icons) ? t.icons : "classic";
+  }
+  return THEME_ICON_STYLE[id.replace(/^(bold|pic)-/, "")] || "classic";
+}
+// Plain path of a glyph (rel = path under icons/glyphs128/, e.g. "home/goals.png") for the active icon style.
+function glyphSrc(rel, themeId) {
+  const st = iconStyleFor(themeId), p = "icons/glyphs128-" + st + "/" + rel;
+  if (st !== "classic" && Array.isArray(glyphStyleSets[st]) && glyphStyleSets[st].includes(rel) && !GLYPH_FAILED.has(p)) return p;
+  return "icons/glyphs128/" + rel;
+}
+function gv(rel) { return glyphSrc(rel) + "?v=" + ICON_VER; }
+// Any <img> pointing at a glyph follows the icon style (catches glyphs drawn from HTML strings too).
+function styleGlyph(img) {
+  if (!img || img.tagName !== "IMG") return;
+  const src = img.getAttribute("src") || "", m = src.match(/^icons\/glyphs128(?:-[a-z]+)?\/([^?#]+\.png)(\?[^#]*)?$/);
+  if (!m) return;
+  const want = glyphSrc(m[1]) + (m[2] || "");
+  if (want !== src) img.setAttribute("src", want);
+}
+function refreshGlyphs() { document.querySelectorAll("img").forEach(styleGlyph); fitCoins(); }
+// ---- v36 blank coins with the currency symbol drawn in their clear circle (Pablo's measurements on the 512px canvas).
+// Unknown style or icon: the classic circle. paycheck-plain has no measurements yet, so it uses the coin's.
+const COIN_GEOM = {
+  "home/money-plain.png": { classic: { cx: 256, cy: 256, d: 188 }, ink: { cx: 256, cy: 253, d: 146 } },
+  "money/paycheck-plain.png": { classic: { cx: 256, cy: 256, d: 188 }, ink: { cx: 256, cy: 253, d: 146 } }
+};
+function coinHtml(rel, cls) {
+  const sym = curSymbol();
+  return '<span class="coin-glyph' + (cls ? " " + cls : "") + '" data-coin="' + esc(rel) + '"><img class="glyph" data-no-glyph src="' + gv(rel) + '" alt="" onload="fitCoins(this.parentNode)" /><span class="coin-sym" aria-hidden="true"><b>' + esc(sym) + '</b></span></span>';
+}
+let _coinRO = null;
+function fitCoin(box) {
+  const img = box.querySelector("img"), sym = box.querySelector(".coin-sym"), b = sym && sym.querySelector("b"); if (!img || !b) return;
+  const W = box.clientWidth; if (!W) return;
+  const rel = box.dataset.coin, m = (img.getAttribute("src") || "").match(/icons\/glyphs128-([a-z]+)\//), st = m ? m[1] : "classic";
+  const g = (COIN_GEOM[rel] || COIN_GEOM["home/money-plain.png"]), geo = g[st] || g.classic, k = W / 512, d = geo.d * k;
+  Object.assign(sym.style, { left: (geo.cx * k - d / 2) + "px", top: (geo.cy * k - d / 2) + "px", width: d + "px", height: d + "px" });
+  const fs = d * 0.62; b.style.fontSize = fs + "px";
+  const w = b.getBoundingClientRect().width, max = d * 0.78; // multi-character symbols (R$, CHF) shrink to fit
+  if (w > max) b.style.fontSize = (fs * max / w) + "px";
+}
+function fitCoins(root) {
+  const boxes = root && root.classList && root.classList.contains("coin-glyph") ? [root] : [...(root || document).querySelectorAll(".coin-glyph")];
+  if (!_coinRO && window.ResizeObserver) _coinRO = new ResizeObserver(es => es.forEach(e => fitCoin(e.target)));
+  boxes.forEach(bx => { if (_coinRO && !bx.dataset.ro) { bx.dataset.ro = "1"; _coinRO.observe(bx); } fitCoin(bx); });
+}
+// A styled file that fails falls back to the classic file before the img's own onerror runs.
+window.addEventListener("error", e => {
+  const img = e.target; if (!img || img.tagName !== "IMG") return;
+  const src = img.getAttribute("src") || "", m = src.match(/^icons\/glyphs128-[a-z]+\/([^?#]+)(\?[^#]*)?$/);
+  if (!m) return;
+  GLYPH_FAILED.add(src.split("?")[0]); e.stopImmediatePropagation();
+  img.setAttribute("src", "icons/glyphs128/" + m[1] + (m[2] || ""));
+}, true);
 function refreshThemeArt() {
   document.querySelectorAll("img[data-art]").forEach(img => {
     const want = iv(themeArt(img.dataset.art));
@@ -7996,7 +8260,9 @@ function refreshThemeArt() {
 }
 fetch("icons/theme-art.json?v=" + ICON_VER).then(r => r.ok ? r.json() : {}).then(j => {
   themeArtSets = (j && j.art && typeof j.art === "object") ? j.art : {};
-  refreshThemeArt();
+  glyphStyleSets = (j && j.glyphs && typeof j.glyphs === "object") ? j.glyphs : {};
+  refreshThemeArt(); refreshGlyphs(); renderIconStyle();
+  if (data) { try { renderHomeTiles(); renderMoney(); if (currentScreen === "coach") renderCoachPage(); } catch (e) {} }
   const td = document.getElementById("themesDialog"); if (td && td.open && data) { renderThemesScreen(); }
 }).catch(() => { themeArtSets = {}; });
 function themeSpec(id) {
@@ -8041,7 +8307,8 @@ function applyTheme(theme, opts) {
   document.querySelectorAll("[data-theme-pick]").forEach(btn => btn.setAttribute("aria-pressed", btn.dataset.themePick === spec.id ? "true" : "false"));
   const opt = document.getElementById("btnOptions");
   if (opt) opt.textContent = "Settings · " + spec.name;
-  refreshThemeArt();
+  refreshThemeArt(); refreshGlyphs(); renderIconStyle();
+  if (data && typeof renderHomeTiles === "function") { try { renderHomeTiles(); if (currentScreen === "coach") renderCoachPage(); } catch (e) {} }
   if (!(opts && opts.noSave)) save();
 }
 // ---- Themes screen
@@ -8123,6 +8390,95 @@ function fillCustomArt(cur) {
   sel.innerHTML = '<option value="">Default</option>' + opts.map(o => '<option value="' + esc(o.id) + '">' + esc(o.name) + '</option>').join("");
   sel.value = cur || "";
 }
+function fillCustomIcons(cur) {
+  const sel = document.getElementById("ctIcons"); if (!sel) return;
+  sel.innerHTML = ICON_STYLES.map(([v, n]) => '<option value="' + v + '">' + esc(n) + '</option>').join("");
+  sel.value = ICON_STYLES.some(s => s[0] === cur) ? cur : "classic";
+}
+// Settings → Icon style: ready-made themes show their own style; a custom theme can pick one here or in its editor.
+function renderIconStyle() {
+  const now = document.getElementById("iconStyleNow"); if (!now || !data) return;
+  const custom = /^custom/.test(String(data.theme || "")), st = iconStyleFor();
+  document.getElementById("iconStyleHint").hidden = !custom;
+  document.getElementById("iconStyleWrap").hidden = !custom;
+  now.className = custom ? "hint" : "";
+  now.innerHTML = custom ? "" : '<b>' + esc(iconStyleName(st)) + '</b><span class="hint" style="display:block">Matches this theme. Change it in a custom theme.</span>';
+  if (custom) { const sel = document.getElementById("iconStyleSel"); sel.innerHTML = ICON_STYLES.map(([v, n]) => '<option value="' + v + '">' + esc(n) + '</option>').join(""); sel.value = st; }
+}
+// ---- v36 UI sounds: made with Web Audio (no files), very low volume, off by default. Never plays when Settings → Sounds is off.
+let _audioCtx = null;
+window.__hsSounds = 0; // test hook: how many sounds actually played
+function soundsOn() { return !!(data && data.sounds === true); }
+// Tap sound follows the theme family: ink themes a soft wood-block, neon/arcade themes a light blip, everything else a gentle click.
+const SOUND_BLIP_THEMES = ["neon-city", "retro-arcade", "stadium"];
+function soundFamily(themeId) {
+  const f = String(themeId !== undefined ? themeId : (data && data.theme) || "").replace(/^(bold|pic)-/, "");
+  if (iconStyleFor(themeId) === "ink") return "wood";
+  if (SOUND_BLIP_THEMES.includes(f)) return "blip";
+  return "click";
+}
+function playSound(kind) {
+  if (!soundsOn()) return;
+  try {
+    const AC = window.AudioContext || window.webkitAudioContext; if (!AC) return;
+    if (!_audioCtx) _audioCtx = new AC();
+    const ctx = _audioCtx; if (ctx.state === "suspended") ctx.resume();
+    const t = ctx.currentTime, out = ctx.createGain();
+    out.connect(ctx.destination);
+    if (kind === "done") { // warm two-note tone, C5 + E5, soft attack, ~0.25s
+      out.gain.setValueAtTime(0.0001, t); out.gain.exponentialRampToValueAtTime(0.05, t + 0.02); out.gain.exponentialRampToValueAtTime(0.0001, t + 0.28);
+      [523.25, 659.25].forEach((f, i) => { const o = ctx.createOscillator(); o.type = "sine"; o.frequency.value = f; o.connect(out); o.start(t + i * 0.05); o.stop(t + 0.3); });
+    } else if (soundFamily() === "wood") { // soft wood-block: short band-passed noise burst with a low knock
+      const n = Math.floor(ctx.sampleRate * 0.05), buf = ctx.createBuffer(1, n, ctx.sampleRate), ch = buf.getChannelData(0);
+      for (let i = 0; i < n; i++) ch[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / n, 4);
+      const src = ctx.createBufferSource(), bp = ctx.createBiquadFilter(); bp.type = "bandpass"; bp.frequency.value = 900; bp.Q.value = 6;
+      src.buffer = buf; src.connect(bp); bp.connect(out);
+      out.gain.setValueAtTime(0.05, t); out.gain.exponentialRampToValueAtTime(0.0001, t + 0.06);
+      const o = ctx.createOscillator(); o.type = "sine"; o.frequency.setValueAtTime(620, t); o.frequency.exponentialRampToValueAtTime(420, t + 0.05); o.connect(out); o.start(t); o.stop(t + 0.06);
+      src.start(t);
+    } else if (soundFamily() === "blip") { // light square blip
+      out.gain.setValueAtTime(0.0001, t); out.gain.exponentialRampToValueAtTime(0.018, t + 0.004); out.gain.exponentialRampToValueAtTime(0.0001, t + 0.07);
+      const o = ctx.createOscillator(); o.type = "square"; o.frequency.setValueAtTime(880, t); o.frequency.setValueAtTime(1320, t + 0.03); o.connect(out); o.start(t); o.stop(t + 0.075);
+    } else { // gentle click
+      out.gain.setValueAtTime(0.0001, t); out.gain.exponentialRampToValueAtTime(0.03, t + 0.003); out.gain.exponentialRampToValueAtTime(0.0001, t + 0.04);
+      const o = ctx.createOscillator(); o.type = "triangle"; o.frequency.setValueAtTime(1400, t); o.frequency.exponentialRampToValueAtTime(700, t + 0.04); o.connect(out); o.start(t); o.stop(t + 0.05);
+    }
+    window.__hsSounds++;
+  } catch (e) {}
+}
+// Saves and check-ins get the warm tone; other buttons and chips a click.
+function soundKindFor(el) {
+  if (el.closest("#checkin") || el.matches(".btn.primary, [data-sound='done']")) return "done";
+  return "click";
+}
+document.addEventListener("click", e => {
+  const el = e.target && e.target.closest && e.target.closest("button, [role='radio'], [role='checkbox'], input[type='checkbox']");
+  if (!el || el.disabled || el.id === "optSounds") return;
+  playSound(soundKindFor(el));
+}, true);
+// Settings → Currency: searchable list, "₲ Paraguayan guaraní".
+function curFold(x) { return String(x).normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase(); }
+function renderCurrencyList() {
+  const list = document.getElementById("curList"); if (!list || !data) return;
+  const q = curFold(document.getElementById("curSearch").value.trim()), cur = curCode();
+  const hits = CURRENCIES.filter(([code, sym, name]) => !q || curFold(code + " " + sym + " " + name).includes(q));
+  list.innerHTML = hits.map(([code, sym, name]) => '<option value="' + code + '"' + (code === cur ? " selected" : "") + '>' + esc(sym + " " + name) + '</option>').join("") || '<option disabled>No match</option>';
+  const c = CURRENCY_BY[cur];
+  document.getElementById("curNow").textContent = "Now: " + c.symbol + " " + c.name + " (" + c.code + ") · e.g. " + moneyPlain(1234.5);
+}
+const MONEY_INPUTS = ["moneyAmt", "debtBalance", "debtPayment", "savBalance", "tgtAmount", "tgtMonthly", "accountBalance"];
+function applyCurrencyUi() {
+  const o = document.getElementById("goalUnitMoney"); if (o) o.textContent = curSymbol();
+  document.querySelectorAll("[data-money-amt]").forEach(el => { el.textContent = moneyPlain(Number(el.dataset.moneyAmt)); });
+  const step = curDigits() > 0 ? "0.01" : "1";
+  MONEY_INPUTS.forEach(id => { const el = document.getElementById(id); if (el) el.step = step; });
+}
+function setCurrency(code) {
+  if (!CURRENCY_BY[code] || !data) return;
+  data.currency = code; save();
+  applyCurrencyUi(); renderCurrencyList();
+  ["renderMoney", "renderGoalsPanel", "renderAreas", "renderCoachNotes", "renderHomeTiles", "fillGoalPresets"].forEach(f => { try { if (typeof window[f] === "function") window[f](); } catch (e) {} });
+}
 function fillStartFrom() {
   const opt = (v, n) => '<option value="' + esc(v) + '">' + esc(n) + '</option>';
   document.getElementById("ctStartFrom").innerHTML = '<option value="">Choose a theme…</option>' +
@@ -8140,6 +8496,7 @@ function startCustomFrom(id) {
   } else c = { bg: spec.p.bg, card: spec.p.card, accent: spec.p.accent, text: spec.p.text, photo: spec.img || "", veil: !!spec.veil };
   Object.assign(customDraft, c);
   { const set = themeArt("icons/guide/guide-1.jpg", spec.id).split("/").slice(-2, -1)[0]; fillCustomArt(set && set !== "guide" ? set : ""); }
+  fillCustomIcons(iconStyleFor(spec.id));
   const nm = document.getElementById("ctName"); nm.value = spec.name + " copy"; nm.dataset.auto = "1";
   syncCustomInputs(); photoAvg = null; updatePhotoUi(); previewCustom();
   if (customDraft.photo) photoAverage(customDraft.photo).then(a => { photoAvg = a; checkPhotoContrast(); });
@@ -8159,6 +8516,7 @@ function loadCustomEditor(id) {
   document.getElementById("ctSave").textContent = t ? "Save changes" : "Save theme";
   fillStartFrom();
   fillCustomArt(t && typeof t.art === "string" ? t.art : "");
+  fillCustomIcons(t ? iconStyleFor(t.id) : "classic");
   syncCustomInputs();
   photoAvg = null; updatePhotoUi();
   if (customDraft.photo) photoAverage(customDraft.photo).then(a => { photoAvg = a; checkPhotoContrast(); });
@@ -8209,7 +8567,7 @@ function shrinkPhoto(file) {
   document.getElementById("ctVeilNo").onclick = () => { document.getElementById("ctContrast").hidden = true; };
   document.getElementById("ctSave").onclick = () => {
     const name = document.getElementById("ctName").value.trim().slice(0, 40) || "My theme";
-    const vals = { name, bg: customDraft.bg, card: customDraft.card, accent: customDraft.accent, text: customDraft.text, photo: customDraft.photo || "", veil: !!customDraft.veil, art: document.getElementById("ctArt").value || "" };
+    const vals = { name, bg: customDraft.bg, card: customDraft.card, accent: customDraft.accent, text: customDraft.text, photo: customDraft.photo || "", veil: !!customDraft.veil, art: document.getElementById("ctArt").value || "", icons: document.getElementById("ctIcons").value || "classic" };
     let id = editingCustomThemeId;
     if (id && data.customThemes.some(t => t.id === id)) Object.assign(data.customThemes.find(t => t.id === id), vals);
     else { id = uid("custom-"); data.customThemes.push(Object.assign({ id }, vals)); }
@@ -8220,25 +8578,34 @@ function shrinkPhoto(file) {
   document.getElementById("ctStartFrom").onchange = e => { if (!e.target.value) return; editingCustomThemeId = null; document.getElementById("ctEditing").textContent = "New theme"; document.getElementById("ctSave").textContent = "Save theme"; startCustomFrom(e.target.value); e.target.value = ""; document.getElementById("ctStartWrap").hidden = true; document.getElementById("ctStartBtn").setAttribute("aria-expanded", "false"); };
   document.getElementById("ctName").oninput = e => { e.target.dataset.auto = ""; };
   if (typeof GLYPHS !== "undefined") setupGlyphs();
+  document.getElementById("curSearch").oninput = renderCurrencyList;
+  document.getElementById("optSounds").onchange = e => { data.sounds = e.target.checked; save(); if (data.sounds) playSound("click"); };
+  document.getElementById("curList").onchange = e => setCurrency(e.target.value);
+  document.getElementById("iconStyleSel").onchange = e => {
+    const t = data.customThemes.find(x => x.id === data.theme); if (!t) return;
+    t.icons = e.target.value; save(); refreshGlyphs(); renderHomeTiles(); renderIconStyle();
+  };
+  document.getElementById("btnOptions").addEventListener("click", () => { document.getElementById("curSearch").value = ""; renderCurrencyList(); renderIconStyle(); document.getElementById("optSounds").checked = soundsOn(); });
 })();
 // ---- Icon tiles: cream glyph on a theme-colored tile. Falls back to the original art if no glyph exists.
 function glyphFor(src) {
   const m = String(src || "").match(/(?:^|\/)icons\/([^?#]+)\.jpg(?:\?|#|$)/);
   if (!m || /^(guide|glyphs|glyphs128)\//.test(m[1]) || !GLYPHS.has(m[1])) return null;
-  return "icons/glyphs128/" + m[1] + ".png?v=" + ICON_VER;
+  return gv(m[1] + ".png");
 }
 function glyphify(img) {
   if (!img || img.tagName !== "IMG" || img.dataset.noGlyph != null || img.closest("#vaultGate .brand-mark, .brand-mark, .picture-theme")) return;
   const g = glyphFor(img.getAttribute("src"));
   if (!g) return;
   img.setAttribute("src", g); img.classList.add("glyph");
-  img.onerror = () => { img.onerror = null; img.classList.remove("glyph"); img.setAttribute("src", img.getAttribute("src").replace("icons/glyphs128/", "icons/").replace(/\.png(\?|$)/, ".jpg$1")); img.dataset.noGlyph = ""; };
+  img.onerror = () => { img.onerror = null; img.classList.remove("glyph"); img.setAttribute("src", img.getAttribute("src").replace(/icons\/glyphs128(-[a-z]+)?\//, "icons/").replace(/\.png(\?|$)/, ".jpg$1")); img.dataset.noGlyph = ""; };
 }
 function setupGlyphs() {
   document.querySelectorAll("img").forEach(glyphify);
+  document.querySelectorAll("img").forEach(styleGlyph);
   new MutationObserver(list => list.forEach(m => {
-    if (m.type === "attributes") glyphify(m.target);
-    else m.addedNodes.forEach(n => { if (n.nodeType !== 1) return; if (n.tagName === "IMG") glyphify(n); else n.querySelectorAll && n.querySelectorAll("img").forEach(glyphify); });
+    if (m.type === "attributes") { glyphify(m.target); styleGlyph(m.target); }
+    else m.addedNodes.forEach(n => { if (n.nodeType !== 1) return; if (n.tagName === "IMG") { glyphify(n); styleGlyph(n); } else if (n.querySelectorAll) n.querySelectorAll("img").forEach(x => { glyphify(x); styleGlyph(x); }); });
   })).observe(document.body, { subtree: true, childList: true, attributes: true, attributeFilter: ["src"] });
 }
 
