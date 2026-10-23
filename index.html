@@ -984,6 +984,33 @@
   .dup-list li { margin: 0.2rem 0; overflow-wrap: anywhere; }
   .coach-notes .greet { margin: 0; font-size: 1.15rem; font-weight: 700; }
   .coach-notes .greet-sub { margin: 0.1rem 0 0.5rem; color: var(--muted); font-size: 0.9rem; }
+  .month-nav { display: flex; align-items: center; gap: 0.5rem; }
+  .month-nav h3 { margin: 0; flex: 1; text-align: center; font-size: 1.05rem; }
+  .month-nav .day-arrow { width: 2.6rem; height: 2.6rem; border-radius: 50%; border: 1px solid var(--border); background: var(--card); color: var(--text); font-size: 1.3rem; cursor: pointer; }
+  .month-nav .day-arrow:disabled { opacity: 0.35; cursor: default; }
+  .proj-tag { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; border: 1px dashed var(--muted); color: var(--muted); border-radius: 999px; padding: 0.15rem 0.5rem; }
+  .month-note { text-align: center; margin: 0.3rem 0 0; }
+  #monthNow { display: block; margin: 0.25rem auto 0; }
+  .month-totals { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.4rem; margin: 0.6rem 0 0.3rem; text-align: center; }
+  .month-totals div { border: 1px solid var(--border); border-radius: 0.7rem; padding: 0.4rem 0.2rem; }
+  .month-totals.projected div { border-style: dashed; }
+  .month-totals small { display: block; color: var(--muted); font-size: 0.75rem; }
+  .month-totals b { font-variant-numeric: tabular-nums; font-size: 0.98rem; overflow-wrap: anywhere; }
+  .month-status { margin: 0.35rem 0; font-weight: 600; }
+  .month-status.short { color: var(--danger, #b3412f); }
+  .month-line { margin: 0.2rem 0; font-size: 0.88rem; color: var(--muted); }
+  .month-flag { display: flex; gap: 0.5rem; align-items: center; margin: 0.35rem 0; font-size: 0.95rem; }
+  .month-flag img { width: 1.8rem; height: 1.8rem; flex: none; }
+  .pace-list { list-style: none; padding: 0; margin: 0.3rem 0 0; font-size: 0.88rem; }
+  .pace-list li { margin: 0.15rem 0; }
+  .money-list li.proj .act-row, .money-list li.proj > .act-row { border: 1px dashed var(--border); border-radius: 0.6rem; opacity: 0.72; margin: 0.2rem 0; }
+  .act-sub { list-style: none; font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); margin: 0.6rem 0 0.1rem; }
+  .money-pie-wrap.projected svg path, .money-pie-wrap.projected svg circle[data-slice] { fill-opacity: 0.55; stroke: var(--muted); stroke-dasharray: 2 2; stroke-width: 0.6; }
+  .acct-targets { list-style: none; padding: 0; margin: 0.3rem 0 0.4rem; }
+  .acct-targets li { display: flex; gap: 0.5rem; align-items: center; justify-content: space-between; border: 1px solid var(--border); border-radius: 0.7rem; padding: 0.45rem 0.6rem; margin: 0.3rem 0; font-size: 0.9rem; }
+  .acct-targets li p { margin: 0; overflow-wrap: anywhere; }
+  #accountTarget { margin-top: 0.4rem; }
+  .goal-plan { display: block; margin-top: 0.15rem; font-size: 0.86rem; }
   .coach-sleep { display: flex; gap: 0.6rem; align-items: flex-start; padding: 0.5rem 0 0.6rem; border-top: 1px solid var(--border); }
   .coach-sleep p { margin: 0; font-size: 1rem; }
   .coach-sleep .row-actions { margin-top: 0.4rem; }
@@ -1014,14 +1041,14 @@
   <header class="top">
     <div class="brand-row">
       <div class="brand">
-        <h1 class="brand-mark"><button type="button" class="logo-btn" id="logoBtn" aria-label="Open menu" aria-haspopup="dialog" aria-expanded="false" aria-controls="menuDrawer"><img class="book app-mark" id="logoImg" src="icons/logo.jpg?v=29" alt="" /></button>Higher Self</h1>
+        <h1 class="brand-mark"><button type="button" class="logo-btn" id="logoBtn" aria-label="Open menu" aria-haspopup="dialog" aria-expanded="false" aria-controls="menuDrawer"><img class="book app-mark" id="logoImg" src="icons/logo.jpg?v=30" alt="" /></button>Higher Self</h1>
         <p id="todayLabel"></p>
       </div>
     </div>
     <div class="screen-bar" id="screenBar" hidden><button type="button" class="btn" id="screenBack" aria-label="Back to home">‹ Back</button><h2 id="screenTitle"></h2></div>
     <p class="home-greet" id="homeGreet" data-scr="home"></p>
     <section class="panel time-card" id="timeCard" data-scr="home" aria-labelledby="pieTitle">
-      <h2 id="pieTitle" class="title-book"><img class="book" src="icons/time-pie.jpg?v=29" alt="" />Where your time goes</h2>
+      <h2 id="pieTitle" class="title-book"><img class="book" src="icons/time-pie.jpg?v=30" alt="" />Where your time goes</h2>
       <div class="chip-row" id="timeViewToggle" role="radiogroup" aria-label="Day / Week">
         <button type="button" class="chip" data-tview="day" aria-pressed="true">Today</button>
         <button type="button" class="chip" data-tview="week" aria-pressed="false">This week</button>
@@ -1081,7 +1108,7 @@
 
   <section class="panel" id="replacementPanel" data-scr="record" aria-labelledby="replTitle">
     <h2 id="replTitle">Replacement list</h2>
-    <div class="book-slot"><img class="book" src="icons/shadow.jpg?v=29" alt="" /><span>When an urge hits</span></div>
+    <div class="book-slot"><img class="book" src="icons/shadow.jpg?v=30" alt="" /><span>When an urge hits</span></div>
     <p class="hint">Actions you picked ahead for when an urge hits.</p>
     <p class="hint">When a pull shows up, offer one from this list.</p>
     <ul class="entry-list" id="replList"></ul>
@@ -1096,8 +1123,8 @@
     <h2 id="diaryTitle">Diary</h2>
     <div class="book-slot" title="Diary and shadow icons">
       <span class="book-set">
-        <img class="book" src="icons/diary.jpg?v=29" alt="" />
-        <img class="book" src="icons/shadow.jpg?v=29" alt="" />
+        <img class="book" src="icons/diary.jpg?v=30" alt="" />
+        <img class="book" src="icons/shadow.jpg?v=30" alt="" />
       </span>
       <span>Diary</span>
     </div>
@@ -1135,7 +1162,7 @@
   </section>
 
   <section class="panel" id="pathsPanel" data-scr="paths" aria-labelledby="pathsTitle">
-    <h2 id="pathsTitle" class="title-book"><img class="book" src="icons/paths-section.jpg?v=29" alt="" />Your paths.</h2>
+    <h2 id="pathsTitle" class="title-book"><img class="book" src="icons/paths-section.jpg?v=30" alt="" />Your paths.</h2>
     <div class="row-actions"><button type="button" class="btn primary" id="pathAddBtn">Add a path</button><button type="button" class="btn" id="pathManageBtn">Manage paths</button></div>
     <p class="hint">Martial artist, writer, father, husband, whatever you're walking.</p>
     <div id="pathList"></div>
@@ -1153,21 +1180,33 @@
       <ul class="log-list record-list" id="logList"></ul>
     </section>
     <section class="side" id="moneySection" data-scr="money" aria-labelledby="moneyTitle">
-      <h2 id="moneyTitle" class="title-book"><img class="book" src="icons/money.jpg?v=29" alt="" />Money tracker</h2>
+      <h2 id="moneyTitle" class="title-book"><img class="book" src="icons/money.jpg?v=30" alt="" />Money tracker</h2>
       <div class="row-actions screen-only"><button type="button" class="btn primary" id="moneyAddHere">Add money</button></div>
       <div class="account-grid" id="accountGrid"></div>
+      <ul class="acct-targets" id="accountTargets" hidden></ul>
       <p class="week-sum" id="weekSum"></p>
+      <div class="subpanel month-panel" id="monthPanel">
+        <div class="month-nav">
+          <button type="button" class="day-arrow" id="monthPrev" aria-label="Previous month">‹</button>
+          <h3 id="monthTitle" aria-live="polite"></h3>
+          <span class="proj-tag" id="monthTag" hidden>Projected</span>
+          <button type="button" class="day-arrow" id="monthNext" aria-label="Next month">›</button>
+        </div>
+        <p class="hint month-note" id="monthNote" hidden>Nothing here has happened yet.</p>
+        <button type="button" class="link-btn" id="monthNow" hidden>This month</button>
+        <div id="monthTotals"></div>
+      </div>
       <div class="subpanel" id="moneyPiePanel">
         <h3 id="moneyPieTitle">Where your money goes</h3>
         <div class="chip-row" id="moneyPieToggle" role="radiogroup" aria-labelledby="moneyPieTitle">
-          <button type="button" class="chip" role="radio" data-mrange="month" aria-pressed="true" aria-checked="true">This month</button>
-          <button type="button" class="chip" role="radio" data-mrange="year" aria-pressed="false" aria-checked="false">This year</button>
+          <button type="button" class="chip" role="radio" data-mrange="month" aria-pressed="true" aria-checked="true">Month</button>
+          <button type="button" class="chip" role="radio" data-mrange="year" aria-pressed="false" aria-checked="false">Year</button>
         </div>
         <div class="money-pie-wrap" id="moneyPie"></div>
       </div>
       <div class="subpanel" id="activityPanel">
-        <h3>Recent activity</h3>
-        <p class="hint" style="margin:0 0 0.3rem">Tap an entry to change it.</p>
+        <h3 id="activityTitle">This month</h3>
+        <p class="hint" id="activityHint" style="margin:0 0 0.3rem">Tap an entry to change it.</p>
         <ul class="money-list" id="moneyList"></ul>
         <button type="button" class="tiny" id="moneyListMore" hidden style="font-size:0.85rem;padding:0.4rem 0.2rem">Show all</button>
       </div>
@@ -1347,8 +1386,11 @@
     <button type="button" class="chip" data-mtype="income" aria-pressed="true">Income</button>
     <button type="button" class="chip" data-mtype="expense" aria-pressed="false">Expense</button>
   </div>
-  <label class="field">Account
+  <label class="field"><span id="moneyAccountLabel">Account</span>
     <select id="moneyAccount"></select>
+  </label>
+  <label class="field" id="moneyFromWrap" style="margin-top:0.45rem" hidden>From
+    <select id="moneyFrom"></select>
   </label>
   <p class="money-planned" id="moneyPlanned" hidden></p>
   <label class="field" style="margin-top:0.45rem"><span id="moneyAmtLabel">Amount</span><input id="moneyAmt" type="number" step="0.01" min="0" inputmode="decimal" /></label>
@@ -1389,6 +1431,7 @@
       <option value="never">Never</option>
       <option value="week">Every week</option>
       <option value="2weeks">Every 2 weeks</option>
+      <option value="semimonth">Twice a month (1st and 15th)</option>
       <option value="month">Every month</option>
       <option value="year">Every year</option>
     </select>
@@ -1397,6 +1440,7 @@
     <select id="moneyRepeatDay"></select>
   </label>
   <label class="field" id="moneyRepeatStartWrap" style="margin-top:0.45rem" hidden>Starting<input id="moneyRepeatStart" type="date" /></label>
+  <label class="field" id="moneyRepeatEndWrap" style="margin-top:0.45rem" hidden>Ends (optional)<input id="moneyRepeatEnd" type="date" /></label>
   <button type="button" class="link-btn add-another" id="moneyAddAnother" hidden>Add another payment</button>
   <p class="hint">Money is a tracker, not a sixth area.</p>
   <div class="actions">
@@ -1461,6 +1505,18 @@
     <button type="button" class="btn primary" id="savSave">Save</button>
   </div>
 </dialog>
+<dialog id="targetDialog" aria-labelledby="targetTitle">
+  <h3 id="targetTitle">Set a target</h3>
+  <label class="field">Target amount<input id="tgtAmount" type="number" step="0.01" min="0" inputmode="decimal" /></label>
+  <label class="field" style="margin-top:0.45rem">Each month<input id="tgtMonthly" type="number" step="0.01" min="0" inputmode="decimal" placeholder="0" /></label>
+  <label class="field" style="margin-top:0.45rem">Interest rate (APY %, optional)<input id="tgtApy" type="number" step="0.01" min="0" inputmode="decimal" placeholder="0" /></label>
+  <p class="hint" id="tgtPreview"></p>
+  <div class="actions">
+    <button type="button" class="btn" id="tgtRemove" hidden>Remove target</button>
+    <button type="button" class="btn" id="tgtCancel">Cancel</button>
+    <button type="button" class="btn primary" id="tgtSave">Save</button>
+  </div>
+</dialog>
 <dialog id="accountDialog">
   <h3 id="accountDialogTitle">Add account</h3>
   <div class="chip-row" id="accountPresets">
@@ -1473,6 +1529,7 @@
   <label class="field" id="accountCustomWrap" hidden>Name<input id="accountName" type="text" maxlength="40" /></label>
   <label class="field" id="accountBalanceWrap" style="margin-top:0.45rem">Balance<input id="accountBalance" type="number" step="0.01" value="0" /></label>
   <p class="hint" id="accountBalanceHint">Opening balance. Transactions add or subtract from here.</p>
+  <button type="button" class="btn" id="accountTarget" hidden>Set a target</button>
   <div class="actions">
     <button type="button" class="btn" id="accountCancel">Cancel</button>
     <button type="button" class="btn primary" id="accountSave">Save</button>
@@ -1496,7 +1553,7 @@
     <button type="button" class="btn" id="menuClose">Close</button>
   </div>
   <button type="button" class="menu-row menu-settings" id="menuSettingsToggle" aria-expanded="false" aria-controls="menuSettings">
-    <img src="icons/settings.jpg?v=29" alt="" /><span><b>Settings</b><small>Themes, backup, reminders, guide, lock</small></span>
+    <img src="icons/settings.jpg?v=30" alt="" /><span><b>Settings</b><small>Themes, backup, reminders, guide, lock</small></span>
   </button>
   <div class="menu-group" id="menuSettings" hidden>
     <button type="button" class="menu-item" id="btnOptions">Settings · Dawn</button>
@@ -1581,7 +1638,7 @@
     <div class="row-actions"><button type="button" class="btn" id="optAddPull">Add pull</button><button type="button" class="btn" id="optManagePulls">Manage pulls</button></div>
   </div>
   <div class="subpanel" id="purposePanel" aria-labelledby="purposeTitle">
-    <h3 id="purposeTitle" class="title-book"><img class="book" src="icons/purpose.jpg?v=29" alt="" />Purpose (optional)</h3>
+    <h3 id="purposeTitle" class="title-book"><img class="book" src="icons/purpose.jpg?v=30" alt="" />Purpose (optional)</h3>
     <p class="hint">A note on how you're walking the path you already picked. Not a new choice, and not a finish.</p>
 
     <div class="subpanel">
@@ -1953,7 +2010,7 @@ const PATH_ICON_LABELS = {
 };
 const PATH_WRESTLING_ICON = "icons/paths/wrestling.jpg";
 // Icon cache-bust: same filenames were re-cut, so every rendered icon URL carries ?v=. Stored data keeps plain paths.
-const ICON_VER = "29";
+const ICON_VER = "30";
 const LOGO_SRC = "icons/logo.jpg"; // swap the app logo here (header, menu button, vault screens)
 function plainIcon(src) { return String(src || "").split("?")[0]; }
 function iv(src) {
@@ -2039,7 +2096,7 @@ function defaultPayFrom(accounts) {
   const a = list.find(x => /checking/i.test(x.name || "")) || list[0];
   return a ? a.id : "";
 }
-const REPEAT_FREQS = { week: "Every week", "2weeks": "Every 2 weeks", month: "Every month", year: "Every year" };
+const REPEAT_FREQS = { week: "Every week", "2weeks": "Every 2 weeks", semimonth: "Twice a month", month: "Every month", year: "Every year" };
 const SAVINGS_KINDS = { savings: "Savings", cd: "CD", investment: "Investment" };
 const SAVINGS_YEARS = [5, 10, 20, 30];
 const EXPENSE_LEGACY = { bill: "Bills", date: "Date/dinner", project: "Project", transfer: "Transfer" };
@@ -2347,6 +2404,9 @@ function migrateLegacy(raw) {
     touched: /^\d{4}-\d{2}-\d{2}$/.test(String(g.touched || "")) ? g.touched : "",
     paused: !!g.paused,
     deadline: /^\d{4}-\d{2}-\d{2}$/.test(String(g.deadline || "")) ? g.deadline : "",
+    monthly: Math.max(0, Number(g.monthly) || 0), apy: Math.max(0, Number(g.apy) || 0),
+    monthlyDay: Math.min(28, Math.max(1, Number(g.monthlyDay) || 1)),
+    reachedAt: /^\d{4}-\d{2}-\d{2}$/.test(String(g.reachedAt || "")) ? g.reachedAt : "",
     progress: Array.isArray(g.progress) ? g.progress.filter(x => x && typeof x.date === "string").map(x => ({
       id: x.id || uid("gp"), date: x.date, delta: Number(x.delta) || 0, total: x.total != null ? Number(x.total) : null,
       note: String(x.note || ""), moneyId: typeof x.moneyId === "string" ? x.moneyId : ""
@@ -2466,7 +2526,8 @@ function migrateLegacy(raw) {
     id: String(r.id), freq: r.freq, start: r.start, day: r.day === "last" ? "last" : Math.min(31, Math.max(1, Number(r.day) || Number(r.start.slice(8)))),
     type: r.type === "income" ? "income" : "expense", amount: Math.max(0, Number(r.amount) || 0), accountId: String(r.accountId || ""),
     category: String(r.category || "other"), label: String(r.label || ""), goalId: String(r.goalId || ""), debtId: String(r.debtId || ""), applyDebt: r.applyDebt !== false,
-    lastPosted: typeof r.lastPosted === "string" ? r.lastPosted : "", active: r.active !== false, debtAuto: r.debtAuto === true
+    lastPosted: typeof r.lastPosted === "string" ? r.lastPosted : "", active: r.active !== false, debtAuto: r.debtAuto === true,
+    end: /^\d{4}-\d{2}-\d{2}$/.test(String(r.end || "")) ? r.end : ""
   })) : [];
   d.payoffPlan = d.payoffPlan === "smallest" || d.payoffPlan === "highest" ? d.payoffPlan : "";
   d.areaOrder = normalizeAreaOrder(d.areaOrder);
@@ -2843,7 +2904,7 @@ function addCustomPull(label, steer, opposite, img) {
 }
 function sortedDesc(list) { return list.slice().sort((a, b) => a.date < b.date ? 1 : a.date > b.date ? -1 : 0); }
 function bookSlot(label) {
-  return '<span class="book-slot" title="Area notes"><img class="book" src="icons/area-note.jpg?v=29" alt="" /><span>' + esc(label) + '</span></span>';
+  return '<span class="book-slot" title="Area notes"><img class="book" src="icons/area-note.jpg?v=30" alt="" /><span>' + esc(label) + '</span></span>';
 }
 function pickReplacement() {
   if (!data.replacements.length) return null;
@@ -3068,7 +3129,7 @@ function renderCheckin() {
       '<p class="hint" id="sleepPreview"></p>';
   }
   const body =
-    '<div class="sleep-row"><p class="q-title title-book"><img class="book" src="icons/sleep.jpg?v=29" alt="" />How did last night go?</p>' + sleepHtml + '</div>' +
+    '<div class="sleep-row"><p class="q-title title-book"><img class="book" src="icons/sleep.jpg?v=30" alt="" />How did last night go?</p>' + sleepHtml + '</div>' +
     pathCheckinHtml(date);
   document.getElementById("checkinBody").innerHTML = body;
   if (editing && sleep.source === "times") { const b = document.getElementById("bed"), w = document.getElementById("wake"); if (b) b.value = sleep.bed || ""; if (w) w.value = sleep.wake || ""; }
@@ -3739,6 +3800,7 @@ function renderMoney() {
   grid.querySelectorAll("[data-edit-account]").forEach(btn => {
     btn.onclick = () => openAccountDialog(btn.dataset.editAccount);
   });
+  renderAccountTargets(); renderMoneyMonth();
   renderMoneyPie(); renderDebts(); renderSavings(); renderDebtBillBanner();
   const w = weekMoneySummary();
   document.getElementById("weekSum").innerHTML = esc("This week (" + prettyDate(w.sun) + "–" + prettyDate(w.end) + "): ") +
@@ -3805,7 +3867,7 @@ document.getElementById("moneyCatNew").onkeydown = e => { if (e.key === "Enter")
 
 // Money pie: expenses by category for the selected day's month or year (transfers are moves, not spending).
 function moneyPieData(range) {
-  const sel = data.selected, from = range === "year" ? sel.slice(0, 4) + "-01-01" : sel.slice(0, 7) + "-01", to = range === "year" ? sel.slice(0, 4) + "-12-31" : sel.slice(0, 7) + "-31";
+  const sel = range === "year" ? (moneyMonth || data.selected.slice(0, 7)) + "-01" : (moneyMonth || data.selected.slice(0, 7)) + "-01", from = range === "year" ? sel.slice(0, 4) + "-01-01" : sel.slice(0, 7) + "-01", to = range === "year" ? sel.slice(0, 4) + "-12-31" : sel.slice(0, 7) + "-31";
   const sums = {};
   data.money.forEach(m => {
     if (m.type !== "expense" || m.category === "transfer" || m.date < from || m.date > to) return;
@@ -3818,10 +3880,19 @@ function renderMoneyPie() {
   const range = data.moneyPieRange || "month";
   document.querySelectorAll("#moneyPieToggle .chip").forEach(b => { const on = b.dataset.mrange === range; b.setAttribute("aria-pressed", on); b.setAttribute("aria-checked", on); });
   const box = document.getElementById("moneyPie");
-  const { rows, total } = moneyPieData(range);
-  const coming = comingUpThisMonth();
+  const ym = moneyMonth || iso(new Date()).slice(0, 7), nowYm = iso(new Date()).slice(0, 7);
+  const future = range === "month" && ym > nowYm;
+  let { rows, total } = future ? { rows: [], total: 0 } : moneyPieData(range);
+  if (future) { // projected spending by category (nothing has happened yet)
+    const pm = projectedMonth(ym), sums = {};
+    (pm ? pm.rows : []).forEach(x => { if (x.type !== "expense") return; const id = x.category || "other"; sums[id] = (sums[id] || 0) + x.amount; });
+    rows = Object.keys(sums).filter(k => sums[k] > 0).map(id => ({ id, name: id === "savings" ? "Savings" : expenseCatName(id, ""), amt: Math.round(sums[id] * 100) / 100 })).sort((a, b) => b.amt - a.amt);
+    total = rows.reduce((t, r) => t + r.amt, 0);
+  }
+  box.classList.toggle("projected", future);
+  const coming = range === "month" ? (ym === nowYm ? (projectedMonth(ym) || { spent: 0 }).spent : 0) : comingUpThisMonth();
   const whole = total + coming;
-  if (!whole) { box.innerHTML = '<p class="empty" style="margin:0">No spending ' + (range === "year" ? "this year" : "this month") + ' yet. Add an expense to see where it goes.</p>'; return; }
+  if (!whole) { box.innerHTML = '<p class="empty" style="margin:0">' + (future ? "Nothing planned for " + ymLabel(ym) + ".<br>Add a bill or paycheck to see it here." : ym < nowYm && range === "month" ? "No spending in " + ymLabel(ym) + "." : 'No spending ' + (range === "year" ? "this year" : "this month") + ' yet. Add an expense to see where it goes.') + '</p>'; return; }
   const slices = rows.map((r, i) => ({ amt: r.amt, fill: MONEY_PIE_COLORS[i % MONEY_PIE_COLORS.length], op: 1 }));
   if (coming) slices.push({ amt: coming, fill: "var(--muted)", op: 0.3, coming: true });
   let a0 = -Math.PI / 2, paths = "";
@@ -3833,7 +3904,7 @@ function renderMoneyPie() {
     a0 = a1;
   });
   const label = "Spending " + (range === "year" ? "this year" : "this month") + ", " + moneyPlain(total) + (rows.length ? ": " + rows.map(r => r.name + " " + Math.round(r.amt / whole * 100) + "%").join(", ") : "") + (coming ? ". Coming up this month: " + moneyPlain(coming) : "");
-  box.innerHTML = '<svg viewBox="0 0 100 100" role="img" aria-label="' + esc(label) + '">' + paths + '<circle cx="50" cy="50" r="27" fill="var(--card, #fff)"/><text x="50" y="47" text-anchor="middle" font-size="8" fill="var(--muted)">Spent</text><text x="50" y="58" text-anchor="middle" font-size="10" font-weight="700" fill="var(--text)">' + esc(moneyPlain(Math.round(total))) + '</text></svg>' +
+  box.innerHTML = '<svg viewBox="0 0 100 100" role="img" aria-label="' + esc(label) + '">' + paths + '<circle cx="50" cy="50" r="27" fill="var(--card, #fff)"/><text x="50" y="47" text-anchor="middle" font-size="8" fill="var(--muted)">' + (future ? "Planned" : "Spent") + '</text><text x="50" y="58" text-anchor="middle" font-size="10" font-weight="700" fill="var(--text)">' + esc(moneyPlain(Math.round(total))) + '</text></svg>' +
     '<ul class="money-legend">' + rows.map((r, i) => '<li>' + catIcon(r.id, r.name, MONEY_PIE_COLORS[i % MONEY_PIE_COLORS.length]) + '<span class="nm">' + esc(r.name) + '</span><span class="am">' + moneyPlain(r.amt) + ' · ' + Math.round(r.amt / whole * 100) + '%</span></li>').join("") +
     (coming ? '<li class="coming" id="pieComingUp"><span class="cat-ico" aria-hidden="true" style="background:var(--muted)">…</span><span class="nm">Coming up</span><span class="am">' + moneyPlain(coming) + '</span></li>' : "") + '</ul>';
 }
@@ -4103,17 +4174,26 @@ function ordinal(n) { const s = ["th", "st", "nd", "rd"], v = n % 100; return n 
 function lastDayOf(y, m) { return new Date(y, m + 1, 0).getDate(); } // m is 0-based
 function repeatTag(r) {
   if (r.freq === "week") return "Repeats every week";
-  if (r.freq === "2weeks") return "Repeats every 2 weeks";
+  if (r.freq === "2weeks") return "Repeats every 2 weeks" + (r.end ? " until " + prettyDate(r.end) : "");
+  if (r.freq === "semimonth") return "Repeats on the 1st and 15th" + (r.end ? " until " + prettyDate(r.end) : "");
   if (r.freq === "month") return "Repeats monthly on the " + (r.day === "last" ? "last day" : ordinal(Number(r.day)));
   const d = parseISO(r.start); return "Repeats every year on " + d.toLocaleDateString(undefined, { month: "long", day: "numeric" });
 }
 // All occurrence dates of a rule in (after, upto]. Months clamp: the 29th–31st land on the last day of shorter months.
 function repeatOccurrences(r, after, upto) {
-  const out = []; if (!r || !r.start || upto < r.start) return out;
+  const out = []; if (!r || !r.start) return out;
+  if (r.end && r.end < upto) upto = r.end; // a repeat with an end date stops there
+  if (upto < r.start) return out;
   const push = d => { if (d >= r.start && d <= upto && (!after || d > after)) out.push(d); };
   if (r.freq === "week" || r.freq === "2weeks") {
     const step = r.freq === "week" ? 7 : 14; let d = r.start, n = 0;
     while (d <= upto && n++ < 2000) { push(d); d = shift(d, step); }
+  } else if (r.freq === "semimonth") { // the 1st and the 15th of each month
+    const s0 = parseISO(r.start); let y = s0.getFullYear(), m = s0.getMonth(), n = 0;
+    while (n++ < 2400) {
+      const a = iso(new Date(y, m, 1)), b = iso(new Date(y, m, 15)); if (a > upto) break; push(a); push(b);
+      m++; if (m > 11) { m = 0; y++; }
+    }
   } else if (r.freq === "month") {
     const s0 = parseISO(r.start); let y = s0.getFullYear(), m = s0.getMonth(), n = 0;
     while (n++ < 1200) {
@@ -4182,8 +4262,17 @@ function moneyRowLabel(m) {
 let activityShowAll = false;
 function renderActivity() {
   const list = document.getElementById("moneyList"), more = document.getElementById("moneyListMore");
-  if (!data.money.length) { list.innerHTML = '<li><span class="empty">Nothing entered.</span></li>'; more.hidden = true; return; }
-  const rows = data.money.slice().sort((a, b) => a.date < b.date ? 1 : a.date > b.date ? -1 : 0);
+  const ym = moneyMonth || iso(new Date()).slice(0, 7), nowYm = iso(new Date()).slice(0, 7);
+  const pm = ym >= nowYm ? projectedMonth(ym) : null;
+  const projHtml = pm && pm.rows.length ? (ym === nowYm ? '<li class="act-sub">Coming up</li>' : "") + pm.rows.map(projRowHtml).join("") : "";
+  document.getElementById("activityTitle").textContent = ym === nowYm ? "This month" : ymLabel(ym);
+  document.getElementById("activityHint").textContent = ym > nowYm ? "Projected from your repeating bills, paychecks and plans. Tap any row to change it." : "Tap an entry to change it.";
+  const rows = data.money.filter(m => m.date.slice(0, 7) === ym).sort((a, b) => a.date < b.date ? 1 : a.date > b.date ? -1 : 0);
+  if (!rows.length) {
+    list.innerHTML = (ym <= nowYm ? '<li><span class="empty">' + (ym === nowYm ? "Nothing entered yet this month." : "Nothing entered in " + esc(ymLabel(ym)) + ".") + '</span></li>' : "") + projHtml;
+    if (!list.innerHTML) list.innerHTML = '<li><span class="empty">Nothing planned for ' + esc(ymLabel(ym)) + '.<br>Add a bill or paycheck to see it here.</span></li>';
+    more.hidden = true; bindProjRows(list); return;
+  }
   const shown = activityShowAll ? rows : rows.slice(0, 12);
   list.innerHTML = shown.map(m => {
     const acc = data.accounts.find(a => a.id === m.accountId);
@@ -4195,15 +4284,30 @@ function renderActivity() {
     return '<li class="act"><button type="button" class="act-row" data-money="' + esc(m.id) + '" aria-label="Edit ' + esc(moneyRowLabel(m) + " " + amtTxt + tail) + '"><span class="act-main">' + esc(moneyRowLabel(m) + " · ") +
       '<span class="act-amt ' + (amt < 0 ? "money-neg" : "money-pos") + '">' + esc(amtTxt) + '</span>' + esc(tail) +
       (rp && rp.active ? '<span class="act-tag">' + esc(repeatTag(rp)) + '</span>' : "") + '</span></button></li>';
-  }).join("");
+  }).join("") + projHtml;
   more.hidden = rows.length <= 12; more.textContent = activityShowAll ? "Show less" : "Show all";
   list.querySelectorAll("[data-money]").forEach(b => b.onclick = () => openMoneyDialog(b.dataset.money));
+  bindProjRows(list);
+}
+function projRowHtml(x) {
+  const name = x.kind === "save" ? x.label + " savings" : x.kind === "debt" ? x.label + " payment" : moneyRowLabel(x);
+  const amt = x.type === "income" ? x.amount : -x.amount, acc = data.accounts.find(a => a.id === x.accountId);
+  const tail = " · " + (acc ? acc.name : x.kind === "save" ? "set aside" : x.self ? "you log it" : "?") + " · " + prettyDate(x.date);
+  const tag = x.kind === "debt" && x.interest ? "incl. " + moneyPlain(x.interest) + " interest" : x.kind === "save" ? "toward your target" : "";
+  const target = x.kind === "save" ? 'data-proj-goal="' + esc(x.goalId) + '"' : x.kind === "debt" ? 'data-proj-debt="' + esc(x.debtId) + '"' : 'data-proj-rep="' + esc(x.repeatId) + '"';
+  return '<li class="act proj"><button type="button" class="act-row" ' + target + ' aria-label="' + esc("Projected: " + name + " " + moneyFmt(amt) + tail) + '"><span class="act-main">' + esc(name + " · ") +
+    '<span class="act-amt ' + (amt < 0 ? "money-neg" : "money-pos") + '">' + esc(moneyFmt(amt)) + '</span>' + esc(tail) + '<span class="act-tag">' + esc("Projected" + (tag ? " · " + tag : "")) + '</span></span></button></li>';
+}
+function bindProjRows(list) {
+  list.querySelectorAll("[data-proj-rep]").forEach(b => b.onclick = () => openRepeatEditor(b.dataset.projRep));
+  list.querySelectorAll("[data-proj-debt]").forEach(b => b.onclick = () => openDebtDialog(b.dataset.projDebt));
+  list.querySelectorAll("[data-proj-goal]").forEach(b => b.onclick = () => openTargetDialog({ goalId: b.dataset.projGoal }));
 }
 document.getElementById("moneyListMore").onclick = () => { activityShowAll = !activityShowAll; renderActivity(); };
 function renderRepeats() {
   const panel = document.getElementById("repeatsPanel"), list = document.getElementById("repeatList");
   const live = data.repeats.filter(r => r.active);
-  panel.hidden = !live.length;
+  panel.hidden = !live.length || (!!moneyMonth && moneyMonth !== iso(new Date()).slice(0, 7)); // the rule list belongs to this month
   const today = iso(new Date());
   list.innerHTML = live.map(r => ({ r, next: nextOccurrence(r, shift(today, 1)) })).sort((a, b) => a.next < b.next ? -1 : 1).map(({ r, next }) => {
     const acc = data.accounts.find(a => a.id === r.accountId);
@@ -4249,6 +4353,7 @@ function syncRepeatUI() {
   const f = document.getElementById("moneyRepeat").value;
   document.getElementById("moneyRepeatDayWrap").hidden = f !== "month";
   document.getElementById("moneyRepeatStartWrap").hidden = f !== "2weeks";
+  document.getElementById("moneyRepeatEndWrap").hidden = f === "never";
 }
 document.getElementById("moneyRepeat").onchange = () => {
   const date = document.getElementById("moneyDate").value || data.selected;
@@ -4269,6 +4374,7 @@ function openMoneyDialog(id, opts) {
   const r = opts.repeatId ? data.repeats.find(x => x.id === opts.repeatId) : (m && m.repeatId ? data.repeats.find(x => x.id === m.repeatId) : null);
   const src = m || (opts.repeatId ? r : null);
   editingMoneyId = m ? m.id : null; editingRepeatId = opts.repeatId || null; moneyExtraPayment = !!opts.extra;
+  moneyDepositMode = false; document.getElementById("moneyFromWrap").hidden = true; document.getElementById("moneyAccountLabel").textContent = "Account";
   moneyType = src ? src.type : (opts.debtId ? "expense" : "income");
   fillMoneyAccounts(); fillMoneyGoals(); fillRepeatDays();
   const $ = x => document.getElementById(x);
@@ -4295,6 +4401,7 @@ function openMoneyDialog(id, opts) {
   $("moneyRepeatDay").value = rr && rr.freq === "month" ? String(rr.day) : String(Number($("moneyDate").value.slice(8)));
   delete $("moneyRepeatDay").dataset.touched; if (rr) $("moneyRepeatDay").dataset.touched = "1";
   $("moneyRepeatStart").value = rr ? rr.start : $("moneyDate").value;
+  $("moneyRepeatEnd").value = rr && rr.end ? rr.end : "";
   $("moneyRepeatWrap").hidden = !!(m && !rr && m.repeatId); // a detached old occurrence can't restart a rule
   $("moneyDelete").hidden = !(m || opts.repeatId);
   $("moneyDelete").textContent = opts.repeatId ? "Stop repeating" : "Delete";
@@ -4320,7 +4427,7 @@ function openDebtPayment(debtId, extra) {
   openMoneyDialog(null, { debtId, extra: !!extra });
 }
 function openRepeatEditor(repeatId) { openMoneyDialog(null, { repeatId }); }
-let moneyExtraPayment = false;
+let moneyExtraPayment = false, moneyDepositMode = false;
 // The amount a repeat planned for this occurrence (stamped when it posted; older entries use the rule's amount).
 function plannedFor(m) {
   if (!m || !m.repeatId) return null;
@@ -4353,7 +4460,7 @@ function readMoneyForm() {
   if (moneyType === "expense" && DEBT_CATS.includes(category) && !$("moneyDebtWrap").hidden) { debtId = $("moneyDebt").value || ""; applyDebt = $("moneyDebtApply").checked; }
   const date = $("moneyDate").value || data.selected;
   const freq = $("moneyRepeat").value;
-  const rep = REPEAT_FREQS[freq] ? { freq, day: freq === "month" ? ($("moneyRepeatDay").value === "last" ? "last" : Number($("moneyRepeatDay").value)) : Number(date.slice(8)), start: freq === "2weeks" ? ($("moneyRepeatStart").value || date) : date } : null;
+  const rep = REPEAT_FREQS[freq] ? { freq, day: freq === "month" ? ($("moneyRepeatDay").value === "last" ? "last" : Number($("moneyRepeatDay").value)) : Number(date.slice(8)), start: freq === "2weeks" ? ($("moneyRepeatStart").value || date) : date, end: $("moneyRepeatEnd").value || "" } : null;
   return { type: moneyType, amount: Math.round(amount * 100) / 100, accountId, category, label: debtId ? ((data.debts.find(x => x.id === debtId) || {}).name || label) : label, goalId, debtId, applyDebt, date, rep };
 }
 // A new repeat never back-fills before the entry that started it: occurrences up to that date (or yesterday) count as done.
@@ -4377,6 +4484,7 @@ async function saveMoneyDialog() {
         r.freq = f.rep.freq; r.day = f.rep.day; r.start = from;
         if (!r.lastPosted || r.lastPosted < today) r.lastPosted = today;
       }
+      if (f.rep) r.end = f.rep.end || "";
       if (!f.rep) r.active = false;
     }
     editingRepeatId = null; save(); dlg.close(); postDueRepeats(); renderDerived(); return;
@@ -4391,17 +4499,20 @@ async function saveMoneyDialog() {
     revertEntryEffects(m);
     Object.assign(m, templateFields(f), { date: f.date });
     applyEntryEffects(m);
+    const pair = m.pairId ? data.money.find(x => x.id === m.pairId) : null; // a deposit and its "To …" entry stay in step
+    if (pair) { pair.amount = m.amount; pair.date = m.date; }
     if (r && scope === "future" && r.debtAuto) {
       const d = data.debts.find(x => x.id === r.debtId);
       if (d) { if (d.mode === "fixed") d.payment = f.amount; d.payFrom = f.accountId; }
       r.accountId = f.accountId; r.category = f.category;
     } else if (r && scope === "future") {
       Object.assign(r, templateFields(f));
+      if (f.rep) r.end = f.rep.end || "";
       if (f.rep) { const changed = f.rep.freq !== r.freq || String(f.rep.day) !== String(r.day); if (changed) { r.freq = f.rep.freq; r.day = f.rep.day; r.start = f.rep.freq === "2weeks" ? f.rep.start : f.date; m.occ = f.date; if (!r.lastPosted || r.lastPosted < f.date) r.lastPosted = f.date; } }
       else r.active = false;
     } else if (!r && f.rep) { // turn a one-off into a repeating one, starting from this entry
       // Repeats from here on; earlier dates never back-fill (you may have entered those by hand already).
-      const nr = Object.assign({ id: uid("r"), active: true }, templateFields(f), { freq: f.rep.freq, day: f.rep.day, start: f.rep.start, lastPosted: noBackfillFrom(f.date) });
+      const nr = Object.assign({ id: uid("r"), active: true }, templateFields(f), { freq: f.rep.freq, day: f.rep.day, start: f.rep.start, end: f.rep.end || "", lastPosted: noBackfillFrom(f.date) });
       data.repeats.push(nr);
       if (repeatOccurrences(nr, "", f.date).includes(f.date)) { m.repeatId = nr.id; m.occ = f.date; m.planned = f.amount; }
     }
@@ -4410,7 +4521,7 @@ async function saveMoneyDialog() {
     return;
   }
   // new entry. If it looks like one already there, ask before adding a second one.
-  if (!moneyExtraPayment) {
+  if (!moneyExtraPayment && !moneyDepositMode) {
     const like = findLookalike(f);
     if (like) {
       const c = await askChoice("This looks like " + moneyRowLabel(like) + " on " + prettyDate(like.date) + ". Update that one or add a new entry?", "Update it", "Add new", "a");
@@ -4420,7 +4531,7 @@ async function saveMoneyDialog() {
         Object.assign(like, templateFields(f), { date: f.date });
         applyEntryEffects(like);
         if (f.rep && !like.repeatId) {
-          const nr = Object.assign({ id: uid("r"), active: true }, templateFields(f), { freq: f.rep.freq, day: f.rep.day, start: f.rep.start, lastPosted: noBackfillFrom(f.date) });
+          const nr = Object.assign({ id: uid("r"), active: true }, templateFields(f), { freq: f.rep.freq, day: f.rep.day, start: f.rep.start, end: f.rep.end || "", lastPosted: noBackfillFrom(f.date) });
           data.repeats.push(nr);
           if (repeatOccurrences(nr, "", f.date).includes(f.date)) { like.repeatId = nr.id; like.occ = f.date; like.planned = f.amount; }
         }
@@ -4431,13 +4542,19 @@ async function saveMoneyDialog() {
   const entry = Object.assign({ id: uid("m") }, templateFields(f), { date: f.date });
   if (moneyExtraPayment) entry.extraPayment = true;
   if (f.rep) {
-    const r = Object.assign({ id: uid("r"), active: true }, templateFields(f), { freq: f.rep.freq, day: f.rep.day, start: f.rep.start, lastPosted: noBackfillFrom(f.date) });
+    const r = Object.assign({ id: uid("r"), active: true }, templateFields(f), { freq: f.rep.freq, day: f.rep.day, start: f.rep.start, end: f.rep.end || "", lastPosted: noBackfillFrom(f.date) });
     data.repeats.push(r);
     // If this date is on the schedule, this entry is that occurrence (so catch-up never doubles it).
     if (repeatOccurrences(r, "", f.date).includes(f.date)) { entry.repeatId = r.id; entry.occ = f.date; entry.planned = f.amount; }
   }
   applyEntryEffects(entry); data.money.push(entry);
-  moneyExtraPayment = false;
+  const fromId = moneyDepositMode ? document.getElementById("moneyFrom").value : "";
+  if (fromId && fromId !== entry.accountId) {
+    const to = data.accounts.find(a => a.id === entry.accountId);
+    const out = { id: uid("m"), type: "expense", amount: entry.amount, accountId: fromId, category: "transfer", label: "To " + (to ? to.name : "savings"), date: entry.date, goalId: "", pairId: entry.id };
+    entry.pairId = out.id; data.money.push(out);
+  }
+  moneyExtraPayment = false; moneyDepositMode = false;
   save(); dlg.close(); postDueRepeats(); renderDerived();
 }
 async function deleteMoneyEntry() {
@@ -4454,7 +4571,7 @@ async function deleteMoneyEntry() {
     if (c === "b") r.active = false;
   } else if (!(await askDelete("Delete " + moneyRowLabel(m) + " (" + moneyFmt(signedAmount(m)) + ")? This can't be undone.", "Delete"))) return;
   revertEntryEffects(m);
-  data.money = data.money.filter(x => x.id !== m.id); // its occurrence date stays "posted", so it never comes back
+  data.money = data.money.filter(x => x.id !== m.id && !(m.pairId && x.id === m.pairId)); // its occurrence date stays "posted", so it never comes back; a deposit takes its "To …" entry with it
   editingMoneyId = null; save(); dlg.close(); renderDerived();
 }
 
@@ -4462,7 +4579,7 @@ async function deleteMoneyEntry() {
 function debtBillAmount(d) {
   if (!d || !(d.balance > 0)) return 0;
   const int = d.balance * (Number(d.apr) || 0) / 1200;
-  const due = d.mode === "minimum" ? Math.max(25, d.balance * (Number(d.pct) || 0) / 100 + int) : (Number(d.payment) || 0);
+  const due = (d.mode === "minimum" ? Math.max(25, d.balance * (Number(d.pct) || 0) / 100 + int) : (Number(d.payment) || 0)) + Math.max(0, Number(d.extra) || 0); // v30: the plan's extra is part of the bill
   return Math.round(Math.min(due, d.balance + int) * 100) / 100;
 }
 function debtBillCategory(d) { return /car|auto|vehicle|truck/i.test(d.name || "") ? "car-payment" : "debt-payment"; }
@@ -4527,6 +4644,285 @@ function comingUpThisMonth() {
   });
   return Math.round(sum * 100) / 100;
 }
+// ---------- v30: months on Money. Past = what happened; this month = actual + coming up; future = projected (never saved).
+let moneyMonth = "";
+const r2 = n => Math.round(Number(n) * 100) / 100;
+function ymAdd(ym, k) { let y = Number(ym.slice(0, 4)), m = Number(ym.slice(5, 7)) - 1 + k; y += Math.floor(m / 12); m = ((m % 12) + 12) % 12; return y + "-" + String(m + 1).padStart(2, "0"); }
+function ymDiff(a, b) { return (Number(b.slice(0, 4)) - Number(a.slice(0, 4))) * 12 + Number(b.slice(5, 7)) - Number(a.slice(5, 7)); }
+function ymLabel(ym) { return new Date(Number(ym.slice(0, 4)), Number(ym.slice(5, 7)) - 1, 1).toLocaleDateString(undefined, { month: "long", year: "numeric" }); }
+function ymMonthName(ym) { return new Date(Number(ym.slice(0, 4)), Number(ym.slice(5, 7)) - 1, 1).toLocaleDateString(undefined, { month: "long" }); }
+function ymEnd(ym) { return ym + "-" + String(lastDayOf(Number(ym.slice(0, 4)), Number(ym.slice(5, 7)) - 1)).padStart(2, "0"); }
+function dayInMonth(ym, day) { const last = Number(ymEnd(ym).slice(8)); const d = day === "last" ? last : Math.min(Number(day) || 1, last); return ym + "-" + String(d).padStart(2, "0"); }
+const PROJ_MONTHS = 121; // this month + 10 years
+// Same test postDueRepeats uses: has this occurrence (or, for monthly, this month) already posted?
+function repeatPostedFor(r, occ) {
+  return data.money.some(m => m.repeatId === r.id && (m.occ === occ || (r.freq === "month" && sameMonth(m.occ || m.date, occ)))) ||
+    (r.freq === "month" && !!r.lastPosted && sameMonth(r.lastPosted, occ)) || (!!r.lastPosted && occ <= r.lastPosted);
+}
+// How each debt gets paid in the projection (exactly one source, so nothing counts twice).
+function debtPaySource(d) {
+  const auto = data.repeats.find(r => r.active && r.debtAuto && r.debtId === d.id);
+  if (auto) return { kind: "auto", r: auto };
+  const man = data.repeats.filter(r => r.active && !r.debtAuto && r.debtId === d.id && r.applyDebt !== false && r.type === "expense");
+  if (man.length) return { kind: "manual", rs: man };
+  if (d.mode === "minimum" || Number(d.payment) > 0) return { kind: "self" };
+  return null;
+}
+function savingsTargets() { return data.goals.filter(g => goalUnit(g) === "$" && (g.direction || "up") === "up" && Number(g.target) > 0 && !g.paused); }
+function accountTargetGoal(accountId) { return data.goals.find(g => g.accountId === accountId && goalUnit(g) === "$" && (g.direction || "up") === "up") || null; }
+function targetName(g) { const acc = goalAccount(g); return acc ? acc.name : g.title; }
+// Money put toward a target this month: deposits into its account, or entries / progress for the goal.
+function goalDepositsIn(g, ym) {
+  const acc = goalAccount(g);
+  let t = data.money.filter(m => m.date.slice(0, 7) === ym && ((acc && m.accountId === acc.id && m.type === "income") || (m.goalId === g.id))).reduce((s, m) => s + Number(m.amount), 0);
+  if (!acc) t += (g.progress || []).filter(p => p.date.slice(0, 7) === ym && p.delta > 0 && !p.moneyId).reduce((s, p) => s + p.delta, 0);
+  return r2(t);
+}
+function lastGoalDeposit(g) {
+  const acc = goalAccount(g);
+  const d1 = data.money.filter(m => (acc && m.accountId === acc.id && m.type === "income") || m.goalId === g.id).map(m => m.date);
+  const d2 = acc ? [] : (g.progress || []).filter(p => p.delta > 0).map(p => p.date);
+  return d1.concat(d2).filter(d => d <= iso(new Date())).sort().pop() || "";
+}
+let projMemo = { key: "", v: null };
+function projectMoney() {
+  const today = iso(new Date());
+  const key = today + JSON.stringify([data.money.map(m => [m.id, m.amount, m.date, m.accountId, m.type]), data.repeats, data.debts, data.accounts, data.goals.map(g => [g.id, g.target, g.monthly, g.apy, g.monthlyDay, g.paused, g.current, g.accountId, g.unit, g.direction, (g.progress || []).length])]);
+  if (projMemo.key === key) return projMemo.v;
+  const cur = today.slice(0, 7);
+  const debtBal = {}, debtSrc = {}, payoffAt = {}, growing = {};
+  data.debts.forEach(d => { debtBal[d.id] = Math.max(0, Number(d.balance) || 0); debtSrc[d.id] = debtPaySource(d); });
+  const manualDebtRepeat = new Set(); Object.values(debtSrc).forEach(x => { if (x && x.kind === "manual") x.rs.forEach(r => manualDebtRepeat.add(r.id)); });
+  const goals = savingsTargets(), gBal = {}, gDone = {}, reachAt = {};
+  goals.forEach(g => { gBal[g.id] = r2(goalCurrent(g)); gDone[g.id] = gBal[g.id] >= Number(g.target) - 0.004; });
+  const savIds = savingsAccountIds();
+  let pool = r2(data.accounts.filter(a => !savIds.has(a.id)).reduce((t, a) => t + accountBal(a.id), 0));
+  const accSav = {}; data.accounts.filter(a => savIds.has(a.id)).forEach(a => { accSav[a.id] = r2(accountBal(a.id)); });
+  const months = [];
+  for (let k = 0; k < PROJ_MONTHS; k++) {
+    const ym = ymAdd(cur, k), end = ymEnd(ym), after = k === 0 ? today : shift(ym + "-01", -1);
+    const rows = [], payoffs = [], reached = [];
+    // a) every active repeat (paychecks, bills, budgets, subscriptions); debts are handled below
+    data.repeats.forEach(r => {
+      if (!r.active || r.debtAuto || manualDebtRepeat.has(r.id)) return;
+      repeatOccurrences(r, after, end).forEach(occ => {
+        if (k === 0 && repeatPostedFor(r, occ)) return;
+        rows.push({ date: occ, type: r.type, amount: r2(Number(r.amount) || 0), category: r.category, label: r.label, accountId: r.accountId, goalId: r.goalId, repeatId: r.id, kind: "repeat" });
+      });
+    });
+    // b) debts: interest (APR / 12) on the balance, then the payment (+ extra), capped at what's owed; stops once paid off
+    data.debts.forEach(d => {
+      const src = debtSrc[d.id]; if (!src || !(debtBal[d.id] > 0.004)) return;
+      const dates = [];
+      if (src.kind === "manual") src.rs.forEach(r => repeatOccurrences(r, after, end).forEach(o => { if (!(k === 0 && repeatPostedFor(r, o))) dates.push({ date: o, r }); }));
+      else {
+        if (k === 0 && debtPaidInMonth(d.id, today)) return; // this month's payment is already in
+        let dt = dayInMonth(ym, d.dueDay);
+        if (src.kind === "auto") { const occ = repeatOccurrences(src.r, after, end); if (!occ.length) return; dt = occ[0]; }
+        else if (k === 0 && dt <= today) dt = today; // you log it yourself and it's still unpaid
+        dates.push({ date: dt });
+      }
+      if (!dates.length) return;
+      dates.sort((a, b) => a.date < b.date ? -1 : a.date > b.date ? 1 : 0);
+      const apr = Number(d.apr) || 0, before = debtBal[d.id];
+      const int = r2(before * apr / 1200); let bal = r2(before + int);
+      dates.forEach((x, i) => {
+        if (bal <= 0.004) return;
+        let pay = x.r ? Number(x.r.amount) || 0 : (d.mode === "minimum" ? Math.max(25, before * (Number(d.pct) || 0) / 100 + int) : Number(d.payment) || 0);
+        if (i === 0 && !x.r) pay += Math.max(0, Number(d.extra) || 0);
+        pay = r2(Math.min(pay, bal)); if (!(pay > 0)) return;
+        bal = r2(bal - pay);
+        rows.push({ date: x.date, type: "expense", amount: pay, category: x.r ? x.r.category : debtBillCategory(d), label: d.name, accountId: x.r ? x.r.accountId : d.payFrom, debtId: d.id, repeatId: x.r ? x.r.id : (src.r ? src.r.id : ""), kind: "debt", interest: i === 0 ? int : 0, self: src.kind === "self" });
+        if (bal <= 0.004) { bal = 0; payoffs.push({ debtId: d.id, name: d.name, last: pay, date: x.date }); payoffAt[d.id] = ym; }
+      });
+      if (bal >= before - 0.004 && bal > 0) growing[d.id] = true;
+      debtBal[d.id] = bal;
+    });
+    // c) savings targets: the monthly amount (counts as going out), anything else scheduled into it, and APY interest
+    goals.forEach(g => {
+      if (gDone[g.id]) return;
+      const acc = goalAccount(g), monthly = Number(g.monthly) || 0;
+      let add = 0;
+      if (monthly > 0) {
+        const want = k === 0 ? r2(monthly - goalDepositsIn(g, ym)) : monthly;
+        if (want > 0.004) {
+          let dt = dayInMonth(ym, g.monthlyDay || 1); if (k === 0 && dt <= today) dt = today;
+          rows.push({ date: dt, type: "expense", amount: r2(want), category: "savings", label: targetName(g), goalId: g.id, accountId: "", kind: "save" });
+          add += want;
+        }
+      }
+      rows.forEach(x => {
+        if (x.kind === "save") return;
+        if (acc && x.accountId === acc.id) add += x.type === "income" ? x.amount : -x.amount;
+        else if (x.goalId === g.id) add += x.amount;
+      });
+      let b = gBal[g.id] + add;
+      const apy = Number(g.apy) || 0;
+      if (apy > 0 && b > 0) b += b * (Math.pow(1 + apy / 100, 1 / 12) - 1);
+      gBal[g.id] = r2(b);
+      if (gBal[g.id] >= Number(g.target) - 0.004) { gDone[g.id] = true; reachAt[g.id] = ym; reached.push({ goalId: g.id, name: targetName(g), target: Number(g.target), account: !!acc }); }
+    });
+    rows.sort((a, b) => a.date < b.date ? -1 : a.date > b.date ? 1 : 0);
+    // spending money only: rows on savings accounts stay out; contributions (kind "save") count as going out
+    const spendRow = x => !savIds.has(x.accountId);
+    const income = r2(rows.filter(x => x.type === "income" && spendRow(x)).reduce((t, x) => t + x.amount, 0));
+    const spent = r2(rows.filter(x => x.type === "expense" && spendRow(x)).reduce((t, x) => t + x.amount, 0));
+    const start = pool, left = r2(start + income - spent); pool = left;
+    // what's in savings by the end of the month
+    rows.forEach(x => {
+      if (savIds.has(x.accountId)) accSav[x.accountId] = r2(accSav[x.accountId] + (x.type === "income" ? x.amount : -x.amount));
+      if (x.kind === "save") { const g = data.goals.find(q => q.id === x.goalId); if (g && savIds.has(g.accountId)) accSav[g.accountId] = r2(accSav[g.accountId] + x.amount); }
+    });
+    Object.keys(accSav).forEach(id => { const g = accountTargetGoal(id), apy = g ? Number(g.apy) || 0 : 0; if (apy > 0 && accSav[id] > 0) accSav[id] = r2(accSav[id] * Math.pow(1 + apy / 100, 1 / 12)); });
+    const savings = r2(Object.values(accSav).reduce((t, v) => t + v, 0));
+    months.push({ ym, rows, income, spent, start, left, payoffs, reached, savings });
+  }
+  const v = { months, payoffAt, growing, reachAt, debtSrc };
+  projMemo = { key, v };
+  return v;
+}
+// Savings accounts (a target on it, or named / typed as savings) stay out of "left over"; shown as "In savings".
+function isSavingsAccount(a) { return !!a && (a.type === "savings" || /saving/i.test(a.name || "") || !!accountTargetGoal(a.id)); }
+function savingsAccountIds() { return new Set(data.accounts.filter(isSavingsAccount).map(a => a.id)); }
+function mainSpendingAccount() { return data.accounts.find(a => !isSavingsAccount(a) && /check/i.test(a.name || "")) || data.accounts.find(a => !isSavingsAccount(a)) || data.accounts[0]; }
+function projectedMonth(ym) { const p = projectMoney(); return p.months.find(m => m.ym === ym) || null; }
+function actualMonth(ym) {
+  let income = 0, spent = 0; const sv = savingsAccountIds();
+  data.money.forEach(m => { if (m.date.slice(0, 7) !== ym || sv.has(m.accountId)) return; if (m.type === "income") income += Number(m.amount); else spent += Number(m.amount); });
+  return { income: r2(income), spent: r2(spent) };
+}
+function firstMoneyMonth() { const d = data.money.map(m => m.date).filter(Boolean).sort()[0]; const cur = iso(new Date()).slice(0, 7); const f = d ? d.slice(0, 7) : cur; return f < ymAdd(cur, -1) ? f : ymAdd(cur, -1); }
+function flagImg() { return '<img src="icons/glyphs128/money/payoff-flag.png?v=' + ICON_VER + '" alt="" onerror="this.remove()" />'; }
+function renderMoneyMonth() {
+  const nowYm = iso(new Date()).slice(0, 7);
+  if (!moneyMonth) moneyMonth = nowYm;
+  const ym = moneyMonth, future = ym > nowYm, past = ym < nowYm;
+  const $ = x => document.getElementById(x);
+  $("monthTitle").textContent = ymLabel(ym);
+  $("monthTag").hidden = !future; $("monthNote").hidden = !future;
+  $("monthNow").hidden = ym === nowYm;
+  $("monthPrev").disabled = ym <= firstMoneyMonth();
+  $("monthNext").disabled = ymDiff(nowYm, ym) >= PROJ_MONTHS - 1;
+  const box = $("monthTotals");
+  const tot = (inc, sp, lf, lfLabel, proj) => '<div class="month-totals' + (proj ? " projected" : "") + '"><div><small>Income</small><b class="money-pos" id="mtIncome">' + esc(moneyPlain(inc)) + '</b></div><div><small>Spent</small><b class="money-neg" id="mtSpent">' + esc(moneyPlain(sp)) + '</b></div><div><small>' + esc(lfLabel) + '</small><b class="' + (lf < 0 ? "money-neg" : "money-pos") + '" id="mtLeft">' + esc(moneyPlain(lf)) + '</b></div></div>';
+  if (past) {
+    const a = actualMonth(ym);
+    box.innerHTML = tot(a.income, a.spent, r2(a.income - a.spent), "End of month", false);
+    return;
+  }
+  const P = projectMoney(), pm = P.months.find(m => m.ym === ym);
+  let h = "";
+  if (ym === nowYm) {
+    const a = actualMonth(ym);
+    h += tot(r2(a.income + pm.income), r2(a.spent + pm.spent), pm.left, "End of month", false);
+    h += '<p class="month-line" id="monthStart">In your accounts now: ' + esc(moneyPlain(pm.start)) + (pm.rows.length ? " · coming up: " + esc(moneyPlain(pm.income)) + " in, " + esc(moneyPlain(pm.spent)) + " out" : "") + '</p>';
+    const sv = savingsAccountIds(); if (sv.size) h += '<p class="month-line" id="monthSavings">In savings: ' + esc(moneyPlain(r2(data.accounts.filter(x => sv.has(x.id)).reduce((t, x) => t + accountBal(x.id), 0)))) + '</p>';
+  } else {
+    h += tot(pm.income, pm.spent, pm.left, "Expected at end of month", true);
+    h += '<p class="month-line" id="monthCarry">Carried from ' + esc(ymMonthName(ymAdd(ym, -1))) + ': ' + esc(moneyPlain(pm.start)) + '</p>';
+    if (savingsAccountIds().size) h += '<p class="month-line" id="monthSavings">In savings: ' + esc(moneyPlain(pm.savings)) + '</p>';
+  }
+  h += pm.left >= 0 ? '<p class="month-status ok" id="monthStatus">On track. Left over ' + esc(moneyPlain(pm.left)) + '.</p>'
+    : '<p class="month-status short" id="monthStatus">Short by ' + esc(moneyPlain(-pm.left)) + ' this month. Worth a look at the plan?</p>';
+  pm.payoffs.forEach(x => { h += '<p class="month-flag" data-flag="debt">' + flagImg() + '<span>' + esc(x.name + " paid off in " + ymLabel(ym) + " · last payment " + moneyPlain(x.last)) + '</span></p>'; });
+  pm.reached.forEach(x => { h += '<p class="month-flag" data-flag="save">' + flagImg() + '<span>' + esc(x.account ? x.name + " hits " + moneyWhole(x.target) + " this month." : x.name + " reaches " + moneyWhole(x.target) + " this month.") + '</span></p>'; });
+  if (ym === nowYm) { // where things are heading
+    const lines = [];
+    data.debts.filter(d => d.balance > 0).forEach(d => {
+      const at = P.payoffAt[d.id];
+      if (!P.debtSrc[d.id]) lines.push('<li>' + esc(d.name + ": No monthly payment set yet, so it isn't in the plan. Add one to see when it's paid off.") + '</li>');
+      else if (at) lines.push('<li><button type="button" class="link-btn" data-goto-month="' + at + '">' + esc(d.name + ": paid off in " + ymLabel(at)) + '</button></li>');
+      else lines.push('<li>' + esc(d.name + (P.growing[d.id] ? ": This payment doesn't cover the interest, so the balance keeps growing. It takes more than " + moneyPlain(r2(d.balance * (Number(d.apr) || 0) / 1200)) + " a month to bring it down." : ": not paid off in the next 10 years at this pace.")) + '</li>');
+    });
+    savingsTargets().forEach(g => {
+      if (goalCurrent(g) >= Number(g.target) - 0.004) return;
+      const at = P.reachAt[g.id];
+      if (at) lines.push('<li><button type="button" class="link-btn" data-goto-month="' + at + '">' + esc(targetName(g) + ": " + moneyWhole(g.target) + " around " + ymLabel(at)) + '</button></li>');
+    });
+    if (lines.length) h += '<p class="month-line" style="margin-top:0.5rem"><b>At this pace</b></p><ul class="pace-list" id="paceList">' + lines.join("") + '</ul>';
+  }
+  box.innerHTML = h;
+  box.querySelectorAll("[data-goto-month]").forEach(b => b.onclick = () => goMoneyMonth(b.dataset.gotoMonth));
+}
+function goMoneyMonth(ym) {
+  const nowYm = iso(new Date()).slice(0, 7);
+  if (ym < firstMoneyMonth()) ym = firstMoneyMonth();
+  if (ymDiff(nowYm, ym) > PROJ_MONTHS - 1) ym = ymAdd(nowYm, PROJ_MONTHS - 1);
+  moneyMonth = ym; activityShowAll = false; renderMoney();
+}
+document.getElementById("monthPrev").onclick = () => goMoneyMonth(ymAdd(moneyMonth || iso(new Date()).slice(0, 7), -1));
+document.getElementById("monthNext").onclick = () => goMoneyMonth(ymAdd(moneyMonth || iso(new Date()).slice(0, 7), 1));
+document.getElementById("monthNow").onclick = () => goMoneyMonth(iso(new Date()).slice(0, 7));
+// ---------- v30: savings targets (an account-linked $ goal: target, each month, optional APY)
+function targetPlanText(g, forGoal) {
+  const bal = goalCurrent(g), tgt = Number(g.target) || 0, monthly = Number(g.monthly) || 0;
+  if (bal >= tgt - 0.004) return forGoal ? "Target reached." : moneyPlain(bal) + " of " + moneyWhole(tgt) + ". Target reached.";
+  const head = forGoal ? "" : moneyPlain(bal) + " of " + moneyWhole(tgt) + ". ";
+  if (!(monthly > 0)) return head + "Add a monthly amount to see when you'll get there.";
+  const at = projectMoney().reachAt[g.id];
+  if (!at) return head + "At " + moneyWhole(monthly) + " a month, it's more than 10 years away.";
+  return forGoal ? "At " + moneyWhole(monthly) + " a month, you'll reach " + moneyWhole(tgt) + " around " + ymLabel(at) + "."
+    : head + "At " + moneyWhole(monthly) + " a month, you'll get there around " + ymLabel(at) + ".";
+}
+function renderAccountTargets() {
+  const ul = document.getElementById("accountTargets");
+  const list = data.accounts.map(a => ({ a, g: accountTargetGoal(a.id) })).filter(x => x.g && Number(x.g.target) > 0);
+  ul.hidden = !list.length;
+  ul.innerHTML = list.map(({ a, g }) => '<li data-acct-target="' + esc(a.id) + '"><p><b>' + esc(a.name) + '</b> · ' + esc(targetPlanText(g)) + '</p><button type="button" class="tiny" data-tgt-acc="' + esc(a.id) + '">Change plan</button></li>').join("");
+  ul.querySelectorAll("[data-tgt-acc]").forEach(b => b.onclick = () => openTargetDialog({ accountId: b.dataset.tgtAcc }));
+  markTargetsReached();
+}
+// The first time a real balance reaches its target, the Coach says so (once).
+function markTargetsReached() {
+  let ch = false;
+  savingsTargets().forEach(g => { if (!g.reachedAt && goalCurrent(g) >= Number(g.target) - 0.004 && goalAccount(g)) { g.reachedAt = TODAY; ch = true; } });
+  if (ch) save();
+}
+let targetCtx = null;
+function openTargetDialog(ctx) {
+  targetCtx = ctx;
+  const g = ctx.goalId ? data.goals.find(x => x.id === ctx.goalId) : accountTargetGoal(ctx.accountId);
+  const acc = ctx.accountId ? data.accounts.find(a => a.id === ctx.accountId) : (g ? goalAccount(g) : null);
+  targetCtx.goalId = g ? g.id : ""; targetCtx.accountId = acc ? acc.id : "";
+  const $ = x => document.getElementById(x);
+  $("targetTitle").textContent = (g ? "Change plan" : "Set a target") + (acc ? " · " + acc.name : g ? " · " + g.title : "");
+  $("tgtAmount").value = g ? g.target : ""; $("tgtMonthly").value = g && g.monthly ? g.monthly : ""; $("tgtApy").value = g && g.apy ? g.apy : "";
+  $("tgtRemove").hidden = !(g && acc);
+  syncTargetPreview();
+  const ad = $("accountDialog"); if (ad.open) ad.close();
+  openSheet($("targetDialog"), $("tgtAmount"));
+}
+function syncTargetPreview() {
+  const t = Number(document.getElementById("tgtAmount").value) || 0, mo = Number(document.getElementById("tgtMonthly").value) || 0;
+  const el = document.getElementById("tgtPreview");
+  el.textContent = t > 0 && !(mo > 0) ? "Add a monthly amount to see when you'll get there." : t > 0 ? "The monthly amount counts as money going out in each month's plan." : "";
+}
+["tgtAmount", "tgtMonthly", "tgtApy"].forEach(id => document.getElementById(id).addEventListener("input", syncTargetPreview));
+document.getElementById("tgtCancel").onclick = () => document.getElementById("targetDialog").close();
+document.getElementById("tgtSave").onclick = () => {
+  const $ = x => document.getElementById(x);
+  const target = r2(Number($("tgtAmount").value) || 0); if (!(target > 0)) { $("tgtAmount").focus(); return; }
+  const monthly = r2(Math.max(0, Number($("tgtMonthly").value) || 0)), apy = Math.max(0, Number($("tgtApy").value) || 0);
+  let g = targetCtx.goalId ? data.goals.find(x => x.id === targetCtx.goalId) : null;
+  const acc = targetCtx.accountId ? data.accounts.find(a => a.id === targetCtx.accountId) : null;
+  if (!g) {
+    g = { id: uid("g"), area: "personal", title: acc ? acc.name : "Savings", start: acc ? r2(accountBal(acc.id)) : 0, current: 0, target, unit: "$", unitCustom: "", direction: "up", incomeCounts: false,
+      accountId: acc ? acc.id : "", linkStart: acc ? r2(accountBal(acc.id)) : null, created: TODAY, touched: "", paused: false, deadline: "", progress: [], monthly, apy, monthlyDay: Math.min(28, Number(TODAY.slice(8))), reachedAt: "" };
+    data.goals.push(g);
+  } else {
+    if (Number(g.target) !== target) g.reachedAt = "";
+    if (!(Number(g.monthly) > 0) && monthly > 0) g.monthlyDay = Math.min(28, Number(TODAY.slice(8)));
+    Object.assign(g, { target, monthly, apy, touched: TODAY });
+  }
+  save(); $("targetDialog").close(); renderDerived();
+};
+document.getElementById("tgtRemove").onclick = async () => {
+  const g = data.goals.find(x => x.id === targetCtx.goalId); if (!g) return;
+  if (!(await askDelete("Remove the " + moneyWhole(g.target) + " target for " + targetName(g) + "? The account and its money stay.", "Remove"))) return;
+  data.goals = data.goals.filter(x => x.id !== g.id); save(); document.getElementById("targetDialog").close(); renderDerived();
+};
+document.getElementById("targetDialog").addEventListener("click", e => { if (e.target.id === "targetDialog") e.target.close(); });
+document.getElementById("accountTarget").onclick = () => { if (editingAccountId) openTargetDialog({ accountId: editingAccountId }); };
 function renderDerived() {
   syncPreCleanupItem();
   renderStats(); renderCoach(); renderWeekNudges(); renderNotices(); renderStrip(); renderAreas();
@@ -4863,7 +5259,10 @@ function openAccountDialog(accountId) {
     document.getElementById("accountBalance").value = String(accountBal(a.id));
     balHint.textContent = "Set the balance you see. Opening balance adjusts so transactions still add up.";
     accountPick = "__custom";
+    document.getElementById("accountTarget").hidden = false;
+    document.getElementById("accountTarget").textContent = accountTargetGoal(a.id) ? "Change target" : "Set a target";
   } else {
+    document.getElementById("accountTarget").hidden = true;
     title.textContent = "Add account";
     presets.hidden = false;
     accountPick = "Checking";
@@ -6139,6 +6538,28 @@ function openProgressDialog(goalId) {
   document.getElementById("progressDialog").showModal();
   document.getElementById("progressAmount").focus();
 }
+// A money entry going into the target's account (or toward the goal), preset with the monthly amount.
+function openDepositFor(goalId) {
+  const g = data.goals.find(x => x.id === goalId); if (!g) return;
+  const acc = goalAccount(g);
+  if (!acc) return openProgressDialog(g.id); // a goal tracked on its own: add the amount there
+  openMoneyDialog(null);
+  const $ = x => document.getElementById(x);
+  moneyType = "income"; syncMoneyTypeUI();
+  $("moneyDialogTitle").textContent = "Add deposit";
+  $("moneySource").value = "other"; if (typeof syncMoneyOther === "function") syncMoneyOther();
+  $("moneyOther").value = "Deposit";
+  $("moneyAccount").value = acc.id;
+  // From: his main spending account (a paired "To {account}" entry moves the money out of it)
+  moneyDepositMode = true;
+  $("moneyAccountLabel").textContent = "Into";
+  const from = mainSpendingAccount();
+  $("moneyFrom").innerHTML = data.accounts.filter(a => a.id !== acc.id).map(a => '<option value="' + esc(a.id) + '">' + esc(a.name) + '</option>').join("") + '<option value="">Not from an account</option>';
+  $("moneyFrom").value = from && from.id !== acc.id ? from.id : "";
+  $("moneyFromWrap").hidden = false;
+  $("moneyAmt").value = Number(g.monthly) > 0 ? String(g.monthly) : "";
+  $("moneyDate").value = TODAY;
+}
 function openGoalUpdate(goalId) {
   const gl = data.goals.find(g => g.id === goalId); if (!gl) return;
   if (data.selected !== TODAY) { data.selected = TODAY; save(); syncComposerDates(); }
@@ -6831,6 +7252,10 @@ Object.assign(COACH_COPY, {
   goalClose: "{goal} is almost there, {left} to go.",
   goalStale: "{goal} hasn't moved in {days} days. Where is it now?",
   goalUpdate: "Update",
+  depositStalled: "No deposit to {account} since {month}. Still aiming for ${target}?",
+  addDeposit: "Add deposit",
+  changePlan: "Change plan",
+  targetReached: "{account} reached ${target}. You set it, you kept at it.",
   sleepAsk: "Did you get your {target} hours of sleep?",
   sleepYes: "Yes",
   sleepEdit: "Edit",
@@ -6883,6 +7308,18 @@ function goalLeftText(gl) {
 }
 // Every note that applies today. type: goal | area | while | money. urgent notes go first.
 // Last day a goal moved: newest progress, an edit, or when it was made.
+// A monthly deposit was expected and 7+ days have passed with nothing going in since. Only once a plan exists.
+function savingsStall(gl, today) {
+  const monthly = Number(gl.monthly) || 0; if (!(monthly > 0)) return null;
+  const ym = today.slice(0, 7);
+  let due = dayInMonth(ym, gl.monthlyDay || 1); if (due > today) due = dayInMonth(ymAdd(ym, -1), gl.monthlyDay || 1);
+  const since = [gl.created || "", gl.touched || ""].sort().pop();
+  if (!since || due <= since) return null; // the plan started after the last due day
+  const last = lastGoalDeposit(gl);
+  if (last && last >= shift(due, -3)) return null; // paid around the due day (a few days early counts)
+  const days = daysBetween(due, today); if (days < 7) return null;
+  return { days, month: ymMonthName((last || since).slice(0, 7)) };
+}
 function goalLastMoved(gl) {
   return [(gl.progress || []).map(p => p.date).filter(Boolean).sort().pop() || "", gl.touched || "", gl.created || ""].sort().pop() || "";
 }
@@ -6930,6 +7367,13 @@ function coachCandidates(today) {
   (data.goals || []).filter(g => !g.paused).forEach(gl => {
     const pct = goalPct(gl), key = "goal:" + gl.id;
     const btn = [{ act: "progress", id: gl.id, label: COACH_COPY.goalAddProgress }];
+    if (isSavingsTarget(gl) && (goalAccount(gl) || Number(gl.monthly) > 0) && !(!goalAccount(gl) && goalCurrent(gl) >= Number(gl.target) - 0.004)) {
+      const nm = targetName(gl);
+      if (gl.reachedAt) { if (daysBetween(gl.reachedAt, today) <= 2) out.push({ key: "reached:" + gl.id, type: "goal", urgent: true, text: fillCopy(COACH_COPY.targetReached, { account: nm, target: moneyWhole(gl.target).slice(1) }) }); return; }
+      const stall = savingsStall(gl, today);
+      if (stall) { out.push({ key: "deposit:" + gl.id, type: "goal", stale: true, urgent: true, days: stall.days, text: fillCopy(COACH_COPY.depositStalled, { account: nm, month: stall.month, target: moneyWhole(gl.target).slice(1) }), actions: [{ act: "deposit", id: gl.id, label: COACH_COPY.addDeposit }, { act: "target", id: gl.id, label: COACH_COPY.changePlan }] }); return; }
+      if (goalAccount(gl)) return; // the account moves it; no "add progress" nags
+    }
     if (pct >= 100) { out.push({ key, type: "goal", text: fillCopy(COACH_COPY.goalDone, { goal: goalName(gl) }), actions: [{ act: "newgoal", id: gl.area, label: COACH_COPY.goalNext }] }); return; }
     const due = gl.deadline || gl.dueDate || gl.due || "";
     if (/^\d{4}-\d{2}-\d{2}$/.test(due)) { const d = daysBetween(today, due); if (d >= 0 && d <= 14) { out.push({ key, type: "goal", urgent: d <= 3, text: fillCopy(COACH_COPY.goalDeadline, { goal: goalName(gl), days: d }), actions: btn }); return; } }
@@ -7083,6 +7527,8 @@ function renderCoachNotes() {
 function coachAction(act, id) {
   if (act === "progress") return openProgressDialog(id);
   if (act === "update") return openGoalUpdate(id);
+  if (act === "target") return openTargetDialog({ goalId: id });
+  if (act === "deposit") return openDepositFor(id);
   if (act === "pause") { const g = data.goals.find(x => x.id === id); if (g) { g.paused = true; save(); renderDerived(); showToast("Paused. You can pick it up again in Goals."); } return; }
   if (act === "newgoal") return openGoalDialog(null, id);
   if (act === "screen") return openScreen(id);
@@ -7130,6 +7576,7 @@ function renderHomeTiles() {
   el.innerHTML = HOME_TILES.map(t => '<button type="button" class="home-tile" data-tile="' + esc(t.id) + '">' + tileIcon(t) + '<span>' + esc(t.label) + '</span></button>').join("");
   el.querySelectorAll("[data-tile]").forEach(b => b.onclick = () => b.dataset.tile === "settings" ? openSettings() : openScreen(b.dataset.tile));
 }
+function isSavingsTarget(gl) { return goalUnit(gl) === "$" && (gl.direction || "up") === "up" && Number(gl.target) > 0; }
 function renderGoalsPanel() {
   const ul = document.getElementById("goalsList"); if (!ul) return;
   const goals = data.goals.slice().sort((a, b) => orderedAreas().findIndex(x => x.id === a.area) - orderedAreas().findIndex(x => x.id === b.area));
@@ -7137,11 +7584,14 @@ function renderGoalsPanel() {
     const a = AREAS.find(x => x.id === gl.area);
     return '<li><div class="note-body"><div class="goal-row"><b>' + esc(gl.title) + '</b><span>' + goalPct(gl) + '%</span></div>' +
       '<span class="hint" style="display:block">' + esc((a ? fastLabel(a.id) + " · " : "") + goalProgressText(gl) + (gl.paused ? " · Paused" : "")) + '</span>' +
+      (isSavingsTarget(gl) ? '<span class="goal-plan" data-goal-plan="' + esc(gl.id) + '">' + esc(targetPlanText(gl, true)) + '</span>' : "") +
       '<div class="row-actions"><button type="button" class="btn" data-gp-add="' + esc(gl.id) + '">Add progress</button><button type="button" class="btn" data-gp-edit="' + esc(gl.id) + '">Edit</button>' +
+      (isSavingsTarget(gl) ? '<button type="button" class="btn" data-gp-plan="' + esc(gl.id) + '">' + (Number(gl.monthly) > 0 ? "Change plan" : "Set a monthly amount") + '</button>' : "") +
       (gl.paused ? '<button type="button" class="btn" data-gp-resume="' + esc(gl.id) + '">Pick it up again</button>' : "") + '</div></div></li>';
   }).join("") : '<li><span class="empty">No goals yet. Add one.</span></li>';
   ul.querySelectorAll("[data-gp-add]").forEach(b => b.onclick = () => openProgressDialog(b.dataset.gpAdd));
   ul.querySelectorAll("[data-gp-edit]").forEach(b => b.onclick = () => openGoalDialog(b.dataset.gpEdit));
+  ul.querySelectorAll("[data-gp-plan]").forEach(b => b.onclick = () => openTargetDialog({ goalId: b.dataset.gpPlan }));
   ul.querySelectorAll("[data-gp-resume]").forEach(b => b.onclick = () => { const g = data.goals.find(x => x.id === b.dataset.gpResume); if (g) { delete g.paused; save(); renderDerived(); } });
 }
 // Settings tile: the same Settings sheet the menu opens (themes, reminders, backup, lock...).
