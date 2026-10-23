@@ -884,6 +884,7 @@
   .guide-card img[hidden]{display:none}
   .guide-text{font-size:1.15rem;line-height:1.5;margin:0}
   .guide-text:focus{outline:none}
+  .guide-title{display:block;font-family:Georgia,serif;font-size:1.4rem;margin-bottom:0.3rem}
   .guide-sub{font-size:0.8rem;color:var(--muted);margin:-0.5rem 0 0}
   .guide-sub[hidden]{display:none}
   .guide-dots{display:flex;gap:0.4rem;justify-content:center}
@@ -1032,6 +1033,17 @@
   .home-tile img, .home-tile .tile-fb { width: 56%; max-width: 96px; aspect-ratio: 1 / 1; height: auto; border-radius: 22%; }
   .home-tile .tile-fb { display: flex; align-items: center; justify-content: center; background: var(--icon-tile, var(--accent)); color: #F6EBD9; font-size: 2rem; }
   .goal-row { display: flex; justify-content: space-between; gap: 0.5rem; flex-wrap: wrap; }
+  /* v31 desktop: one centred reading column instead of 1120px-wide rows; bigger pies; 4 tiles a row.
+     Only at 900px and up, so the phone layout is untouched. */
+  @media (min-width: 900px) {
+    .wrap { max-width: 880px; }
+    svg.pie { width: 240px; height: 240px; }
+    .pie-layout { gap: 1.6rem; flex-wrap: nowrap; }
+    .home-tiles { grid-template-columns: repeat(4, 1fr); gap: 0.9rem; }
+    .money-pie-wrap svg { width: 180px; height: 180px; }
+    .money-pie-wrap { gap: 1.6rem; flex-wrap: nowrap; }
+    .money-legend { flex: 1; max-width: 460px; }
+  }
 </style>
 </head>
 <body>
@@ -1041,14 +1053,14 @@
   <header class="top">
     <div class="brand-row">
       <div class="brand">
-        <h1 class="brand-mark"><button type="button" class="logo-btn" id="logoBtn" aria-label="Open menu" aria-haspopup="dialog" aria-expanded="false" aria-controls="menuDrawer"><img class="book app-mark" id="logoImg" src="icons/logo.jpg?v=30" alt="" /></button>Higher Self</h1>
+        <h1 class="brand-mark"><button type="button" class="logo-btn" id="logoBtn" aria-label="Open menu" aria-haspopup="dialog" aria-expanded="false" aria-controls="menuDrawer"><img class="book app-mark" id="logoImg" src="icons/logo.jpg?v=31" alt="" /></button>Higher Self</h1>
         <p id="todayLabel"></p>
       </div>
     </div>
     <div class="screen-bar" id="screenBar" hidden><button type="button" class="btn" id="screenBack" aria-label="Back to home">‹ Back</button><h2 id="screenTitle"></h2></div>
     <p class="home-greet" id="homeGreet" data-scr="home"></p>
     <section class="panel time-card" id="timeCard" data-scr="home" aria-labelledby="pieTitle">
-      <h2 id="pieTitle" class="title-book"><img class="book" src="icons/time-pie.jpg?v=30" alt="" />Where your time goes</h2>
+      <h2 id="pieTitle" class="title-book"><img class="book" src="icons/time-pie.jpg?v=31" alt="" />Where your time goes</h2>
       <div class="chip-row" id="timeViewToggle" role="radiogroup" aria-label="Day / Week">
         <button type="button" class="chip" data-tview="day" aria-pressed="true">Today</button>
         <button type="button" class="chip" data-tview="week" aria-pressed="false">This week</button>
@@ -1108,7 +1120,7 @@
 
   <section class="panel" id="replacementPanel" data-scr="record" aria-labelledby="replTitle">
     <h2 id="replTitle">Replacement list</h2>
-    <div class="book-slot"><img class="book" src="icons/shadow.jpg?v=30" alt="" /><span>When an urge hits</span></div>
+    <div class="book-slot"><img class="book" src="icons/shadow.jpg?v=31" alt="" /><span>When an urge hits</span></div>
     <p class="hint">Actions you picked ahead for when an urge hits.</p>
     <p class="hint">When a pull shows up, offer one from this list.</p>
     <ul class="entry-list" id="replList"></ul>
@@ -1123,8 +1135,8 @@
     <h2 id="diaryTitle">Diary</h2>
     <div class="book-slot" title="Diary and shadow icons">
       <span class="book-set">
-        <img class="book" src="icons/diary.jpg?v=30" alt="" />
-        <img class="book" src="icons/shadow.jpg?v=30" alt="" />
+        <img class="book" src="icons/diary.jpg?v=31" alt="" />
+        <img class="book" src="icons/shadow.jpg?v=31" alt="" />
       </span>
       <span>Diary</span>
     </div>
@@ -1162,7 +1174,7 @@
   </section>
 
   <section class="panel" id="pathsPanel" data-scr="paths" aria-labelledby="pathsTitle">
-    <h2 id="pathsTitle" class="title-book"><img class="book" src="icons/paths-section.jpg?v=30" alt="" />Your paths.</h2>
+    <h2 id="pathsTitle" class="title-book"><img class="book" src="icons/paths-section.jpg?v=31" alt="" />Your paths.</h2>
     <div class="row-actions"><button type="button" class="btn primary" id="pathAddBtn">Add a path</button><button type="button" class="btn" id="pathManageBtn">Manage paths</button></div>
     <p class="hint">Martial artist, writer, father, husband, whatever you're walking.</p>
     <div id="pathList"></div>
@@ -1180,7 +1192,7 @@
       <ul class="log-list record-list" id="logList"></ul>
     </section>
     <section class="side" id="moneySection" data-scr="money" aria-labelledby="moneyTitle">
-      <h2 id="moneyTitle" class="title-book"><img class="book" src="icons/money.jpg?v=30" alt="" />Money tracker</h2>
+      <h2 id="moneyTitle" class="title-book"><img class="book" src="icons/money.jpg?v=31" alt="" />Money tracker</h2>
       <div class="row-actions screen-only"><button type="button" class="btn primary" id="moneyAddHere">Add money</button></div>
       <div class="account-grid" id="accountGrid"></div>
       <ul class="acct-targets" id="accountTargets" hidden></ul>
@@ -1540,7 +1552,6 @@
   <div class="guide-card">
     <img id="guideImg" alt="" hidden />
     <p id="guideText" class="guide-text" tabindex="-1" aria-live="polite"></p>
-    <p id="guideSub" class="guide-sub" hidden>See Threefold Training</p>
     <div class="guide-dots" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
     <p class="hint" id="guideStep" style="margin:0"></p>
     <div><button type="button" class="btn primary" id="guideNext">Next</button></div>
@@ -1553,7 +1564,7 @@
     <button type="button" class="btn" id="menuClose">Close</button>
   </div>
   <button type="button" class="menu-row menu-settings" id="menuSettingsToggle" aria-expanded="false" aria-controls="menuSettings">
-    <img src="icons/settings.jpg?v=30" alt="" /><span><b>Settings</b><small>Themes, backup, reminders, guide, lock</small></span>
+    <img src="icons/settings.jpg?v=31" alt="" /><span><b>Settings</b><small>Themes, backup, reminders, guide, lock</small></span>
   </button>
   <div class="menu-group" id="menuSettings" hidden>
     <button type="button" class="menu-item" id="btnOptions">Settings · Dawn</button>
@@ -1638,7 +1649,7 @@
     <div class="row-actions"><button type="button" class="btn" id="optAddPull">Add pull</button><button type="button" class="btn" id="optManagePulls">Manage pulls</button></div>
   </div>
   <div class="subpanel" id="purposePanel" aria-labelledby="purposeTitle">
-    <h3 id="purposeTitle" class="title-book"><img class="book" src="icons/purpose.jpg?v=30" alt="" />Purpose (optional)</h3>
+    <h3 id="purposeTitle" class="title-book"><img class="book" src="icons/purpose.jpg?v=31" alt="" />Purpose (optional)</h3>
     <p class="hint">A note on how you're walking the path you already picked. Not a new choice, and not a finish.</p>
 
     <div class="subpanel">
@@ -2010,7 +2021,7 @@ const PATH_ICON_LABELS = {
 };
 const PATH_WRESTLING_ICON = "icons/paths/wrestling.jpg";
 // Icon cache-bust: same filenames were re-cut, so every rendered icon URL carries ?v=. Stored data keeps plain paths.
-const ICON_VER = "30";
+const ICON_VER = "31";
 const LOGO_SRC = "icons/logo.jpg"; // swap the app logo here (header, menu button, vault screens)
 function plainIcon(src) { return String(src || "").split("?")[0]; }
 function iv(src) {
@@ -2904,7 +2915,7 @@ function addCustomPull(label, steer, opposite, img) {
 }
 function sortedDesc(list) { return list.slice().sort((a, b) => a.date < b.date ? 1 : a.date > b.date ? -1 : 0); }
 function bookSlot(label) {
-  return '<span class="book-slot" title="Area notes"><img class="book" src="icons/area-note.jpg?v=30" alt="" /><span>' + esc(label) + '</span></span>';
+  return '<span class="book-slot" title="Area notes"><img class="book" src="icons/area-note.jpg?v=31" alt="" /><span>' + esc(label) + '</span></span>';
 }
 function pickReplacement() {
   if (!data.replacements.length) return null;
@@ -3129,7 +3140,7 @@ function renderCheckin() {
       '<p class="hint" id="sleepPreview"></p>';
   }
   const body =
-    '<div class="sleep-row"><p class="q-title title-book"><img class="book" src="icons/sleep.jpg?v=30" alt="" />How did last night go?</p>' + sleepHtml + '</div>' +
+    '<div class="sleep-row"><p class="q-title title-book"><img class="book" src="icons/sleep.jpg?v=31" alt="" />How did last night go?</p>' + sleepHtml + '</div>' +
     pathCheckinHtml(date);
   document.getElementById("checkinBody").innerHTML = body;
   if (editing && sleep.source === "times") { const b = document.getElementById("bed"), w = document.getElementById("wake"); if (b) b.value = sleep.bed || ""; if (w) w.value = sleep.wake || ""; }
@@ -6784,12 +6795,13 @@ function showStartScreen(notice) {
   showVault("add");
 }
 
+// v31 first-run guide. img = which of Pablo's guide pictures fits each screen best (see report for redraws).
 const GUIDE_SCREENS = [
-  "Paths. The roles you walk: father, wrestler, writer. Log a moment on any of them.",
-  "Aim higher. Before you log, ask what the better version of you on this path would do.",
-  "Steer. Name what pulled at you and what you turned it toward.",
-  "Clean spirit. Ask yourself privately whether you're happy with why you chose it. Only you can see the answer.",
-  "A day, not your worth. Log the good and the bad straight. Tomorrow is a fresh aim."
+  { title: "Your time.", text: "You get 24 hours a day. The pie shows where they go across your five areas.", img: 1 },
+  { title: "Your money.", text: "Add your pay and your bills. Scroll ahead to see the month a card hits zero or a savings goal lands.", img: 4 },
+  { title: "Your paths.", text: "Paths are the roles you're walking, like father, writer or martial artist. Your time and money are how you get there.", img: 5 },
+  { title: "Your goals.", text: "Set a goal, give it a number, and update it as you go.", img: 3 },
+  { title: "Your Coach.", text: "Every morning the Coach asks about your sleep and points out what needs a look. Start here.", img: 2 }
 ];
 let guideIdx = 0, guideReturnFocus = null;
 function guideRender() {
@@ -6797,13 +6809,13 @@ function guideRender() {
   img.hidden = true;
   img.onload = () => { img.hidden = false; };
   img.onerror = () => { img.hidden = true; img.removeAttribute("src"); };
-  img.src = "icons/guide/guide-" + (guideIdx + 1) + ".jpg?v=" + ICON_VER;
-  document.getElementById("guideText").textContent = GUIDE_SCREENS[guideIdx];
-  document.getElementById("guideSub").hidden = !(guideIdx >= 1 && guideIdx <= 3);
+  const g = GUIDE_SCREENS[guideIdx];
+  img.src = "icons/guide/guide-" + g.img + ".jpg?v=" + ICON_VER;
+  document.getElementById("guideText").innerHTML = '<b class="guide-title">' + esc(g.title) + '</b> ' + esc(g.text);
   document.getElementById("guideStep").textContent = "Step " + (guideIdx + 1) + " of " + GUIDE_SCREENS.length;
   document.querySelectorAll("#guideOverlay .guide-dots span").forEach((d, i) => d.classList.toggle("on", i === guideIdx));
   const last = guideIdx === GUIDE_SCREENS.length - 1;
-  document.getElementById("guideNext").textContent = last ? "Start my first path" : "Next";
+  document.getElementById("guideNext").textContent = last ? "Let's start" : "Next";
   document.getElementById("guideSkip").hidden = last;
   document.getElementById("guideText").focus();
 }
@@ -6820,7 +6832,7 @@ function closeGuide(startPath) {
   document.getElementById("guideOverlay").hidden = true;
   document.getElementById("appRoot").removeAttribute("aria-hidden");
   if (data && !data.guideSeen) { data.guideSeen = true; save(); }
-  if (startPath) { try { openPathsManage(); } catch (e) { console.error(e); } }
+  if (startPath) { try { openScreen("home"); window.scrollTo(0, 0); } catch (e) { console.error(e); } } // "Let's start" lands on the Coach home
   else if (guideReturnFocus && guideReturnFocus.focus && document.contains(guideReturnFocus)) guideReturnFocus.focus();
 }
 document.getElementById("guideNext").onclick = () => {
