@@ -946,6 +946,14 @@
   .sw-chip i { flex: 1; height: 100%; border-radius: 5px; background: var(--sw-card); border-left: 4px solid var(--sw-text); }
   .sw-chip b { width: 12px; height: 60%; border-radius: 4px; background: linear-gradient(var(--sw-accent), var(--sw-accent2)); }
   .sw-name { font-size: 0.8rem; }
+  .sw-art { position: relative; display: block; height: 2.4rem; border-radius: 8px; overflow: hidden; background: var(--sw-bg); }
+  .sw-art img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .sw-dots { position: absolute; right: 4px; bottom: 4px; display: flex; gap: 3px; padding: 2px 3px; border-radius: 6px; background: var(--sw-card); }
+  .sw-dots i, .sw-dots b { width: 8px; height: 8px; border-radius: 50%; display: block; }
+  .sw-dots i { background: var(--sw-text); } .sw-dots b { background: var(--sw-accent); }
+  .theme-swatch.has-art .sw-art, .sw-art.pic { height: 3.4rem; }
+  .sw-art.pic img { object-position: center top; } /* picture themes keep their art along the top edge */
+  .pill-art { width: 1.2rem; height: 1.2rem; border-radius: 50%; object-fit: cover; vertical-align: middle; margin-right: 0.3rem; }
   .picture-themes { display: grid; gap: 0.45rem; }
   .picture-theme { display: flex; gap: 0.6rem; align-items: center; padding: 0.4rem; border: 1px solid var(--border); border-radius: 12px; background: var(--field); color: var(--text); font: inherit; text-align: left; cursor: pointer; }
   .picture-theme img { width: 3.2rem; height: 5.4rem; object-fit: cover; border-radius: 8px; flex: 0 0 auto; }
@@ -1053,14 +1061,14 @@
   <header class="top">
     <div class="brand-row">
       <div class="brand">
-        <h1 class="brand-mark"><button type="button" class="logo-btn" id="logoBtn" aria-label="Open menu" aria-haspopup="dialog" aria-expanded="false" aria-controls="menuDrawer"><img class="book app-mark" id="logoImg" src="icons/logo.jpg?v=32" alt="" /></button>Higher Self</h1>
+        <h1 class="brand-mark"><button type="button" class="logo-btn" id="logoBtn" aria-label="Open menu" aria-haspopup="dialog" aria-expanded="false" aria-controls="menuDrawer"><img class="book app-mark" id="logoImg" src="icons/logo.jpg?v=33" alt="" /></button>Higher Self</h1>
         <p id="todayLabel"></p>
       </div>
     </div>
     <div class="screen-bar" id="screenBar" hidden><button type="button" class="btn" id="screenBack" aria-label="Back to home">‹ Back</button><h2 id="screenTitle"></h2></div>
     <p class="home-greet" id="homeGreet" data-scr="home"></p>
     <section class="panel time-card" id="timeCard" data-scr="home" aria-labelledby="pieTitle">
-      <h2 id="pieTitle" class="title-book"><img class="book" src="icons/time-pie.jpg?v=32" alt="" />Where your time goes</h2>
+      <h2 id="pieTitle" class="title-book"><img class="book" src="icons/time-pie.jpg?v=33" alt="" />Where your time goes</h2>
       <div class="chip-row" id="timeViewToggle" role="radiogroup" aria-label="Day / Week">
         <button type="button" class="chip" data-tview="day" aria-pressed="true">Today</button>
         <button type="button" class="chip" data-tview="week" aria-pressed="false">This week</button>
@@ -1120,7 +1128,7 @@
 
   <section class="panel" id="replacementPanel" data-scr="record" aria-labelledby="replTitle">
     <h2 id="replTitle">Replacement list</h2>
-    <div class="book-slot"><img class="book" src="icons/shadow.jpg?v=32" alt="" /><span>When an urge hits</span></div>
+    <div class="book-slot"><img class="book" src="icons/shadow.jpg?v=33" alt="" /><span>When an urge hits</span></div>
     <p class="hint">Actions you picked ahead for when an urge hits.</p>
     <p class="hint">When a pull shows up, offer one from this list.</p>
     <ul class="entry-list" id="replList"></ul>
@@ -1135,8 +1143,8 @@
     <h2 id="diaryTitle">Diary</h2>
     <div class="book-slot" title="Diary and shadow icons">
       <span class="book-set">
-        <img class="book" src="icons/diary.jpg?v=32" alt="" />
-        <img class="book" src="icons/shadow.jpg?v=32" alt="" />
+        <img class="book" src="icons/diary.jpg?v=33" alt="" />
+        <img class="book" src="icons/shadow.jpg?v=33" alt="" />
       </span>
       <span>Diary</span>
     </div>
@@ -1174,7 +1182,7 @@
   </section>
 
   <section class="panel" id="pathsPanel" data-scr="paths" aria-labelledby="pathsTitle">
-    <h2 id="pathsTitle" class="title-book"><img class="book" src="icons/paths-section.jpg?v=32" alt="" />Your paths.</h2>
+    <h2 id="pathsTitle" class="title-book"><img class="book" src="icons/paths-section.jpg?v=33" alt="" />Your paths.</h2>
     <div class="row-actions"><button type="button" class="btn primary" id="pathAddBtn">Add a path</button><button type="button" class="btn" id="pathManageBtn">Manage paths</button></div>
     <p class="hint">Martial artist, writer, father, husband, whatever you're walking.</p>
     <div id="pathList"></div>
@@ -1192,7 +1200,7 @@
       <ul class="log-list record-list" id="logList"></ul>
     </section>
     <section class="side" id="moneySection" data-scr="money" aria-labelledby="moneyTitle">
-      <h2 id="moneyTitle" class="title-book"><img class="book" src="icons/money.jpg?v=32" alt="" />Money tracker</h2>
+      <h2 id="moneyTitle" class="title-book"><img class="book" src="icons/money.jpg?v=33" alt="" />Money tracker</h2>
       <div class="row-actions screen-only"><button type="button" class="btn primary" id="moneyAddHere">Add money</button></div>
       <div class="account-grid" id="accountGrid"></div>
       <ul class="acct-targets" id="accountTargets" hidden></ul>
@@ -1564,7 +1572,7 @@
     <button type="button" class="btn" id="menuClose">Close</button>
   </div>
   <button type="button" class="menu-row menu-settings" id="menuSettingsToggle" aria-expanded="false" aria-controls="menuSettings">
-    <img src="icons/settings.jpg?v=32" alt="" /><span><b>Settings</b><small>Themes, backup, reminders, guide, lock</small></span>
+    <img src="icons/settings.jpg?v=33" alt="" /><span><b>Settings</b><small>Themes, backup, reminders, guide, lock</small></span>
   </button>
   <div class="menu-group" id="menuSettings" hidden>
     <button type="button" class="menu-item" id="btnOptions">Settings · Dawn</button>
@@ -1588,7 +1596,9 @@
 <dialog id="themesDialog" class="wide" aria-labelledby="themesTitle">
   <h3 id="themesTitle">Themes</h3>
   <p class="hint">Make it feel like yours.</p>
-  <h4 class="theme-group">Calm</h4>
+  <div id="themeFamilies"></div>
+  <section class="theme-family" id="plainFamily" data-family="plain">
+  <h4 class="theme-group">Plain</h4>
   <div class="themes" role="radiogroup" aria-label="Theme">
     <button type="button" role="radio" data-theme="dawn" aria-pressed="true">Dawn</button>
     <button type="button" role="radio" data-theme="dusk" aria-pressed="false">Dusk</button>
@@ -1608,11 +1618,8 @@
     <button type="button" role="radio" data-theme="metal" aria-pressed="false">Metal</button>
   </div>
   <p class="theme-note" style="text-align:left">Dawn is daytime. Dusk is for night and sleep. Grove is quieter. Area colors stay the same in every theme.</p>
-  <h4 class="theme-group">Bold</h4>
-  <div class="theme-swatches" id="boldThemes" role="group" aria-label="Bold themes"></div>
-  <h4 class="theme-group">Picture</h4>
-  <p class="hint">Pick art you love. Your cards stay easy to read on top.</p>
-  <div class="picture-themes" id="pictureThemes" role="group" aria-label="Picture themes"></div>
+
+  </section>
   <h4 class="theme-group">Custom</h4>
   <div class="custom-tiles" id="customThemes" role="group" aria-label="Your custom themes"></div>
   <div class="row-actions"><button type="button" class="btn" id="ctNew">New theme</button><button type="button" class="btn" id="ctStartBtn" aria-expanded="false" aria-controls="ctStartWrap">Start from…</button></div>
@@ -1627,6 +1634,7 @@
     <label class="field color-field">Accent<input type="color" id="ctAccent" /></label>
     <label class="field color-field">Text<input type="color" id="ctText" /></label>
   </div>
+  <label class="field" style="margin-top:0.45rem">Pictures<select id="ctArt"><option value="">Default</option></select></label>
   <div class="row-actions">
     <button type="button" class="btn" id="ctPhotoBtn">Use a photo</button>
     <button type="button" class="btn" id="ctPhotoRemove" hidden>Remove photo</button>
@@ -1649,7 +1657,7 @@
     <div class="row-actions"><button type="button" class="btn" id="optAddPull">Add pull</button><button type="button" class="btn" id="optManagePulls">Manage pulls</button></div>
   </div>
   <div class="subpanel" id="purposePanel" aria-labelledby="purposeTitle">
-    <h3 id="purposeTitle" class="title-book"><img class="book" src="icons/purpose.jpg?v=32" alt="" />Purpose (optional)</h3>
+    <h3 id="purposeTitle" class="title-book"><img class="book" src="icons/purpose.jpg?v=33" alt="" />Purpose (optional)</h3>
     <p class="hint">A note on how you're walking the path you already picked. Not a new choice, and not a finish.</p>
 
     <div class="subpanel">
@@ -2021,7 +2029,7 @@ const PATH_ICON_LABELS = {
 };
 const PATH_WRESTLING_ICON = "icons/paths/wrestling.jpg";
 // Icon cache-bust: same filenames were re-cut, so every rendered icon URL carries ?v=. Stored data keeps plain paths.
-const ICON_VER = "32";
+const ICON_VER = "33";
 const LOGO_SRC = "icons/logo.jpg"; // swap the app logo here (header, menu button, vault screens)
 function plainIcon(src) { return String(src || "").split("?")[0]; }
 function iv(src) {
@@ -2915,7 +2923,7 @@ function addCustomPull(label, steer, opposite, img) {
 }
 function sortedDesc(list) { return list.slice().sort((a, b) => a.date < b.date ? 1 : a.date > b.date ? -1 : 0); }
 function bookSlot(label) {
-  return '<span class="book-slot" title="Area notes"><img class="book" src="icons/area-note.jpg?v=32" alt="" /><span>' + esc(label) + '</span></span>';
+  return '<span class="book-slot" title="Area notes"><img class="book" src="icons/area-note.jpg?v=33" alt="" /><span>' + esc(label) + '</span></span>';
 }
 function pickReplacement() {
   if (!data.replacements.length) return null;
@@ -3140,7 +3148,7 @@ function renderCheckin() {
       '<p class="hint" id="sleepPreview"></p>';
   }
   const body =
-    '<div class="sleep-row"><p class="q-title title-book"><img class="book" src="icons/sleep.jpg?v=32" alt="" />How did last night go?</p>' + sleepHtml + '</div>' +
+    '<div class="sleep-row"><p class="q-title title-book"><img class="book" src="icons/sleep.jpg?v=33" alt="" />How did last night go?</p>' + sleepHtml + '</div>' +
     pathCheckinHtml(date);
   document.getElementById("checkinBody").innerHTML = body;
   if (editing && sleep.source === "times") { const b = document.getElementById("bed"), w = document.getElementById("wake"); if (b) b.value = sleep.bed || ""; if (w) w.value = sleep.wake || ""; }
@@ -7855,6 +7863,11 @@ const BOLD_THEMES = [
   ["cherry-blossom", "Cherry Blossom", "#FFF4F6", "#FFE3EA", "#E0577A", "", "#3A2230"],
   ["volcano", "Volcano", "#1A0E0B", "#2E1712", "#FF5A1F", "", "#FFE7D6"],
   ["dojo", "Dojo", "#1C1A17", "#2A2622", "#C8102E", "", "#F4EDE1"],
+  ["ink-light", "Ink Light", "#F3EBDE", "#FBF6EC", "#B3261E", "", "#1C1A17"],
+  ["ink-forest", "Ink Forest", "#12261A", "#1C3826", "#A8CF8E", "#6F9A5B", "#E6EFDF"],
+  ["koi", "Koi", "#0F1D33", "#1A2D4D", "#F28A3C", "#7FA7D6", "#EEF2F8"],
+  ["paraguay", "Paraguay", "#F6E7DA", "#FFF6EE", "#B0386C", "#A4502A", "#3A2318"],
+  ["usa", "Sonoran", "#2A1A14", "#3A2620", "#EE6A43", "#5FA59A", "#F7E9D3"],
   ["mat-room", "Mat Room", "#10233F", "#1B355C", "#F2C230", "", "#F5F7FA"],
   ["coffee-shop", "Coffee Shop", "#2A1E17", "#3B2A20", "#C58B5A", "", "#F5EBDD"],
   ["library", "Library", "#1E2A24", "#2C3B33", "#B8963E", "", "#EFE8D8"],
@@ -7922,12 +7935,15 @@ const THEME_ART_FAMILY = {
 let themeArtSets = {}; // { "icons/guide": { "dojo": ["guide-1.jpg", ...] } }
 function themeArtFolder(id) {
   id = String(id || "");
-  if (/^custom/.test(id)) return "";
+  if (/^custom/.test(id)) { // custom themes use the art set they picked (or none = default pictures)
+    const t = data && Array.isArray(data.customThemes) ? data.customThemes.find(x => x.id === id) : null;
+    return t && typeof t.art === "string" ? t.art : "";
+  }
   return id.replace(/^(bold|pic)-/, "");
 }
 function themeArtFamily(id) {
   const f = themeArtFolder(id);
-  if (!f) return "";
+  if (!f || /^custom/.test(String(id || ""))) return "";
   if (THEME_ART_FAMILY[f]) return THEME_ART_FAMILY[f];
   return THEMES.includes(f) ? "abstract" : "";
 }
@@ -7964,6 +7980,7 @@ function refreshThemeArt() {
 fetch("icons/theme-art.json?v=" + ICON_VER).then(r => r.ok ? r.json() : {}).then(j => {
   themeArtSets = (j && j.art && typeof j.art === "object") ? j.art : {};
   refreshThemeArt();
+  const td = document.getElementById("themesDialog"); if (td && td.open && data) { renderThemesScreen(); }
 }).catch(() => { themeArtSets = {}; });
 function themeSpec(id) {
   if (THEMES.includes(id)) return { kind: "calm", id, name: id.charAt(0).toUpperCase() + id.slice(1) };
@@ -8011,11 +8028,50 @@ function applyTheme(theme, opts) {
   if (!(opts && opts.noSave)) save();
 }
 // ---- Themes screen
+// v33 picker families. Theme ids in display order; empty families stay hidden until they get themes.
+// Bold or picture themes not listed here land in "More" so nothing goes missing.
+const THEME_FAMILIES = [
+  { id: "ink", name: "Ink", themes: ["bold-dojo", "bold-ink-light", "bold-ink-forest", "bold-koi"] },
+  { id: "pets", name: "Pets", themes: ["pic-cats", "pic-dogs"] },
+  { id: "nature", name: "Nature", themes: ["bold-forest-cabin", "bold-desert-night", "bold-deep-ocean", "bold-volcano", "bold-thunderstorm", "bold-cherry-blossom", "pic-flowers", "bold-sunday-garden"] },
+  { id: "places", name: "Places", themes: ["bold-neon-city", "bold-retro-arcade", "bold-stadium", "bold-mat-room", "bold-coffee-shop", "bold-library"] },
+  { id: "anime", name: "Anime and cartoon", themes: [] },
+  { id: "world", name: "World", themes: ["bold-paraguay", "bold-usa"] }
+];
+function themeFamiliesResolved() {
+  const all = BOLD_THEMES.concat(PICTURE_THEMES), byId = id => all.find(t => t.id === id);
+  const listed = new Set();
+  const fams = THEME_FAMILIES.map(f => ({ id: f.id, name: f.name, themes: f.themes.map(byId).filter(Boolean).filter(t => (listed.add(t.id), true)) }));
+  const rest = all.filter(t => !listed.has(t.id));
+  if (rest.length) fams.push({ id: "more", name: "More", themes: rest });
+  return fams.filter(f => f.themes.length);
+}
+// Plain path of a theme's guide-1 picture when it has its own (or its family's) set; "" otherwise.
+function themeThumb(id) {
+  const def = "icons/guide/guide-1.jpg", p = themeArt(def, id);
+  return p !== def ? p : "";
+}
+function themeTileHtml(t) {
+  const thumb = themeThumb(t.id);
+  const style = 'style="--sw-bg:' + t.bg + ';--sw-card:' + t.card + ';--sw-accent:' + t.accent + ';--sw-accent2:' + (t.accent2 || t.accent) + ';--sw-text:' + t.text + '"';
+  const title = t.desc ? ' title="' + esc(t.desc) + '" aria-description="' + esc(t.desc) + '"' : "";
+  let face;
+  if (thumb) face = '<span class="sw-art"><img src="' + esc(iv(thumb)) + '" alt="" loading="lazy" data-no-glyph onerror="this.parentNode.classList.add(\'sw-art-missing\');this.remove()" /><span class="sw-dots" aria-hidden="true"><i></i><b></b></span></span>';
+  else if (t.img) face = '<span class="sw-art pic"><img src="' + esc(iv(t.img)) + '" alt="" loading="lazy" data-no-glyph /></span>';
+  else face = '<span class="sw-chip" aria-hidden="true"><i></i><b></b></span>';
+  return '<button type="button" class="theme-swatch' + (thumb ? " has-art" : "") + '" data-theme-pick="' + esc(t.id) + '" aria-pressed="false" ' + style + title + '>' + face + '<span class="sw-name">' + esc(t.name) + '</span></button>';
+}
 function renderThemesScreen() {
-  const swatch = t => '<button type="button" class="theme-swatch" data-theme-pick="' + t.id + '" aria-pressed="false" style="--sw-bg:' + t.bg + ';--sw-card:' + t.card + ';--sw-accent:' + t.accent + ';--sw-accent2:' + (t.accent2 || t.accent) + ';--sw-text:' + t.text + '"><span class="sw-chip" aria-hidden="true"><i></i><b></b></span><span class="sw-name">' + esc(t.name) + '</span></button>';
-  document.getElementById("boldThemes").innerHTML = BOLD_THEMES.map(swatch).join("");
-  document.getElementById("pictureThemes").innerHTML = PICTURE_THEMES.map(t => '<button type="button" class="picture-theme" data-theme-pick="' + t.id + '" aria-pressed="false"><img src="' + esc(iv(t.img)) + '" alt="" loading="lazy" /><span><b>' + esc(t.name) + '</b><small>' + esc(t.desc) + '</small></span></button>').join("");
-  document.querySelectorAll("#boldThemes [data-theme-pick], #pictureThemes [data-theme-pick]").forEach(b => b.onclick = () => applyTheme(b.dataset.themePick));
+  document.getElementById("themeFamilies").innerHTML = themeFamiliesResolved().map(f =>
+    '<section class="theme-family" data-family="' + f.id + '"><h4 class="theme-group">' + esc(f.name) + '</h4>' +
+    '<div class="theme-swatches" role="group" aria-label="' + esc(f.name) + ' themes">' + f.themes.map(themeTileHtml).join("") + '</div></section>').join("");
+  document.querySelectorAll("#themeFamilies [data-theme-pick]").forEach(b => b.onclick = () => applyTheme(b.dataset.themePick));
+  // Plain themes keep their pills; one with its own picture set gets a small round thumbnail.
+  document.querySelectorAll("#plainFamily .themes button").forEach(btn => {
+    const old = btn.querySelector(".pill-art"); if (old) old.remove();
+    const th = themeThumb(btn.dataset.theme);
+    if (th) btn.insertAdjacentHTML("afterbegin", '<img class="pill-art" src="' + esc(iv(th)) + '" alt="" data-no-glyph onerror="this.remove()" />');
+  });
   renderCustomTiles();
   loadCustomEditor(null);
   applyTheme(data.theme, { noSave: true });
@@ -8036,12 +8092,25 @@ function renderCustomTiles() {
     renderCustomTiles(); showToast("Theme deleted.");
   });
 }
+// Art sets a custom theme can borrow: every set that exists in theme-art.json, named after its theme.
+function artSetOptions() {
+  const names = new Set();
+  Object.values(themeArtSets || {}).forEach(sets => Object.keys(sets || {}).forEach(n => names.add(n)));
+  const label = n => { const t = BOLD_THEMES.concat(PICTURE_THEMES).find(x => themeArtFolder(x.id) === n); return t ? t.name : (THEMES.includes(n) ? n.charAt(0).toUpperCase() + n.slice(1) : n.charAt(0).toUpperCase() + n.slice(1)); };
+  return Array.from(names).map(n => ({ id: n, name: label(n) })).sort((a, b) => a.name.localeCompare(b.name));
+}
+function fillCustomArt(cur) {
+  const sel = document.getElementById("ctArt"); if (!sel) return;
+  const opts = artSetOptions();
+  if (cur && !opts.some(o => o.id === cur)) opts.push({ id: cur, name: cur.charAt(0).toUpperCase() + cur.slice(1) + " (not found)" });
+  sel.innerHTML = '<option value="">Default</option>' + opts.map(o => '<option value="' + esc(o.id) + '">' + esc(o.name) + '</option>').join("");
+  sel.value = cur || "";
+}
 function fillStartFrom() {
   const opt = (v, n) => '<option value="' + esc(v) + '">' + esc(n) + '</option>';
   document.getElementById("ctStartFrom").innerHTML = '<option value="">Choose a theme…</option>' +
-    '<optgroup label="Calm">' + THEMES.map(t => opt(t, t.charAt(0).toUpperCase() + t.slice(1))).join("") + '</optgroup>' +
-    '<optgroup label="Bold">' + BOLD_THEMES.map(t => opt(t.id, t.name)).join("") + '</optgroup>' +
-    '<optgroup label="Picture">' + PICTURE_THEMES.map(t => opt(t.id, t.name)).join("") + '</optgroup>' +
+    '<optgroup label="Plain">' + THEMES.map(t => opt(t, t.charAt(0).toUpperCase() + t.slice(1))).join("") + '</optgroup>' +
+    themeFamiliesResolved().map(f => '<optgroup label="' + esc(f.name) + '">' + f.themes.map(t => opt(t.id, t.name)).join("") + '</optgroup>').join("") +
     (data.customThemes.length ? '<optgroup label="Custom">' + data.customThemes.map(t => opt(t.id, t.name)).join("") + '</optgroup>' : "");
 }
 // Copy any theme's colors (and picture) into the editor so it can be tweaked and saved under a new name.
@@ -8053,6 +8122,7 @@ function startCustomFrom(id) {
     c = { bg: g("--bg"), card: g("--panel"), accent: g("--accent"), text: g("--text"), photo: "", veil: false };
   } else c = { bg: spec.p.bg, card: spec.p.card, accent: spec.p.accent, text: spec.p.text, photo: spec.img || "", veil: !!spec.veil };
   Object.assign(customDraft, c);
+  { const set = themeArt("icons/guide/guide-1.jpg", spec.id).split("/").slice(-2, -1)[0]; fillCustomArt(set && set !== "guide" ? set : ""); }
   const nm = document.getElementById("ctName"); nm.value = spec.name + " copy"; nm.dataset.auto = "1";
   syncCustomInputs(); photoAvg = null; updatePhotoUi(); previewCustom();
   if (customDraft.photo) photoAverage(customDraft.photo).then(a => { photoAvg = a; checkPhotoContrast(); });
@@ -8071,6 +8141,7 @@ function loadCustomEditor(id) {
   document.getElementById("ctEditing").textContent = t ? "Editing " + t.name : "New theme";
   document.getElementById("ctSave").textContent = t ? "Save changes" : "Save theme";
   fillStartFrom();
+  fillCustomArt(t && typeof t.art === "string" ? t.art : "");
   syncCustomInputs();
   photoAvg = null; updatePhotoUi();
   if (customDraft.photo) photoAverage(customDraft.photo).then(a => { photoAvg = a; checkPhotoContrast(); });
@@ -8121,7 +8192,7 @@ function shrinkPhoto(file) {
   document.getElementById("ctVeilNo").onclick = () => { document.getElementById("ctContrast").hidden = true; };
   document.getElementById("ctSave").onclick = () => {
     const name = document.getElementById("ctName").value.trim().slice(0, 40) || "My theme";
-    const vals = { name, bg: customDraft.bg, card: customDraft.card, accent: customDraft.accent, text: customDraft.text, photo: customDraft.photo || "", veil: !!customDraft.veil };
+    const vals = { name, bg: customDraft.bg, card: customDraft.card, accent: customDraft.accent, text: customDraft.text, photo: customDraft.photo || "", veil: !!customDraft.veil, art: document.getElementById("ctArt").value || "" };
     let id = editingCustomThemeId;
     if (id && data.customThemes.some(t => t.id === id)) Object.assign(data.customThemes.find(t => t.id === id), vals);
     else { id = uid("custom-"); data.customThemes.push(Object.assign({ id }, vals)); }
