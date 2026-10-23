@@ -969,8 +969,28 @@
   html:not(.hs-all) body[data-screen="money"] .screen-only { display: flex; }
   .screen-bar { display: flex; align-items: center; gap: 0.6rem; margin: 0.4rem 0 0.6rem; }
   .screen-bar h2 { margin: 0; font-size: 1.2rem; min-width: 0; overflow-wrap: anywhere; }
+  .home-greet { margin: 0.2rem 0 0.55rem; font-size: 0.95rem; line-height: 1.35; }
+  .home-greet .greet { font-weight: 700; }
+  .home-greet .greet-sub { color: var(--muted); }
+  .coach-notes { padding-top: 0.6rem; padding-bottom: 0.4rem; }
+  .coach-notes .coach-note p { font-size: 0.95rem; }
+  .visually-hidden { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .money-planned { margin: 0.45rem 0 0; font-size: 0.9rem; color: var(--muted); }
+  .money-planned b { color: var(--text); }
+  .add-another { margin-top: 0.4rem; font-size: 0.9rem; }
+  .rep-posted { display: block; margin-top: 0.15rem; font-size: 0.8rem; }
+  .toast .toast-act { margin-left: 0.7rem; background: transparent; border: 0; color: inherit; font: inherit; text-decoration: underline; cursor: pointer; padding: 0; }
+  .dup-list { margin: 0.4rem 0 0.6rem; padding-left: 1.1rem; max-height: 40vh; overflow: auto; }
+  .dup-list li { margin: 0.2rem 0; overflow-wrap: anywhere; }
   .coach-notes .greet { margin: 0; font-size: 1.15rem; font-weight: 700; }
   .coach-notes .greet-sub { margin: 0.1rem 0 0.5rem; color: var(--muted); font-size: 0.9rem; }
+  .coach-sleep { display: flex; gap: 0.6rem; align-items: flex-start; padding: 0.5rem 0 0.6rem; border-top: 1px solid var(--border); }
+  .coach-sleep p { margin: 0; font-size: 1rem; }
+  .coach-sleep .row-actions { margin-top: 0.4rem; }
+  .coach-sleep-ic { width: 2.1rem; height: 2.1rem; flex: none; border-radius: 0.6rem; background: var(--sleep-bg, #1E2A5A); padding: 0.2rem; }
+  .coach-sleep.done p.sleep-logged { color: var(--muted); font-size: 0.92rem; }
+  .coach-sleep .sleep-short { margin-top: 0.25rem; font-size: 0.92rem; }
+  .coach-sleep .first-move { margin-top: 0.3rem; font-size: 0.95rem; padding: 0.2rem 0; }
   .coach-note { position: relative; padding: 0.55rem 2.2rem 0.55rem 0; border-top: 1px solid var(--border); }
   .coach-note p { margin: 0; font-size: 1rem; overflow-wrap: anywhere; }
   .coach-note .row-actions { margin-top: 0.4rem; }
@@ -994,11 +1014,25 @@
   <header class="top">
     <div class="brand-row">
       <div class="brand">
-        <h1 class="brand-mark"><button type="button" class="logo-btn" id="logoBtn" aria-label="Open menu" aria-haspopup="dialog" aria-expanded="false" aria-controls="menuDrawer"><img class="book app-mark" id="logoImg" src="icons/logo.jpg?v=28" alt="" /></button>Higher Self</h1>
+        <h1 class="brand-mark"><button type="button" class="logo-btn" id="logoBtn" aria-label="Open menu" aria-haspopup="dialog" aria-expanded="false" aria-controls="menuDrawer"><img class="book app-mark" id="logoImg" src="icons/logo.jpg?v=29" alt="" /></button>Higher Self</h1>
         <p id="todayLabel"></p>
       </div>
     </div>
     <div class="screen-bar" id="screenBar" hidden><button type="button" class="btn" id="screenBack" aria-label="Back to home">‹ Back</button><h2 id="screenTitle"></h2></div>
+    <p class="home-greet" id="homeGreet" data-scr="home"></p>
+    <section class="panel time-card" id="timeCard" data-scr="home" aria-labelledby="pieTitle">
+      <h2 id="pieTitle" class="title-book"><img class="book" src="icons/time-pie.jpg?v=29" alt="" />Where your time goes</h2>
+      <div class="chip-row" id="timeViewToggle" role="radiogroup" aria-label="Day / Week">
+        <button type="button" class="chip" data-tview="day" aria-pressed="true">Today</button>
+        <button type="button" class="chip" data-tview="week" aria-pressed="false">This week</button>
+      </div>
+      <div class="pie-day" id="pieDayNav"><button type="button" class="btn" id="pieDayPrev" aria-label="Previous day">‹</button><span id="pieDayLabel" aria-live="polite"></span><button type="button" class="btn" id="pieDayNext" aria-label="Next day">›</button></div>
+      <div class="pie-layout">
+        <svg class="pie" id="pie" viewBox="0 0 200 200" role="img" aria-label="Pie chart of time by area"></svg><span class="visually-hidden" id="pieCentre" aria-live="polite"></span>
+        <ul class="legend" id="legend"></ul>
+      </div>
+      <p class="hint" id="pieNote"></p>
+    </section>
     <section class="coach coach-notes" id="coachNotes" data-scr="home" aria-live="polite"></section>
     <div class="stat-row" data-scr="">
       <div class="stats" aria-label="Today at a glance">
@@ -1012,19 +1046,6 @@
         <button type="button" class="btn" id="btnAddMoney">Add money</button>
       </div>
     </div>
-    <section class="panel time-card" id="timeCard" data-scr="home" aria-labelledby="pieTitle">
-      <h2 id="pieTitle" class="title-book"><img class="book" src="icons/time-pie.jpg?v=28" alt="" />Where your time goes</h2>
-      <div class="chip-row" id="timeViewToggle" role="radiogroup" aria-label="Day / Week">
-        <button type="button" class="chip" data-tview="day" aria-pressed="true">Today</button>
-        <button type="button" class="chip" data-tview="week" aria-pressed="false">This week</button>
-      </div>
-      <div class="pie-day" id="pieDayNav"><button type="button" class="btn" id="pieDayPrev" aria-label="Previous day">‹</button><span id="pieDayLabel" aria-live="polite"></span><button type="button" class="btn" id="pieDayNext" aria-label="Next day">›</button></div>
-      <div class="pie-layout">
-        <svg class="pie" id="pie" viewBox="0 0 200 200" role="img" aria-label="Pie chart of time by area"></svg>
-        <ul class="legend" id="legend"></ul>
-      </div>
-      <p class="hint" id="pieNote"></p>
-    </section>
     <div id="noticeArea" data-scr="home"></div>
     <section class="coach" id="coach" data-scr="week" aria-live="polite"></section>
     <section class="coach week-card" id="weekNudges" data-scr="week" aria-live="polite" hidden></section>
@@ -1060,7 +1081,7 @@
 
   <section class="panel" id="replacementPanel" data-scr="record" aria-labelledby="replTitle">
     <h2 id="replTitle">Replacement list</h2>
-    <div class="book-slot"><img class="book" src="icons/shadow.jpg?v=28" alt="" /><span>When an urge hits</span></div>
+    <div class="book-slot"><img class="book" src="icons/shadow.jpg?v=29" alt="" /><span>When an urge hits</span></div>
     <p class="hint">Actions you picked ahead for when an urge hits.</p>
     <p class="hint">When a pull shows up, offer one from this list.</p>
     <ul class="entry-list" id="replList"></ul>
@@ -1075,8 +1096,8 @@
     <h2 id="diaryTitle">Diary</h2>
     <div class="book-slot" title="Diary and shadow icons">
       <span class="book-set">
-        <img class="book" src="icons/diary.jpg?v=28" alt="" />
-        <img class="book" src="icons/shadow.jpg?v=28" alt="" />
+        <img class="book" src="icons/diary.jpg?v=29" alt="" />
+        <img class="book" src="icons/shadow.jpg?v=29" alt="" />
       </span>
       <span>Diary</span>
     </div>
@@ -1114,7 +1135,7 @@
   </section>
 
   <section class="panel" id="pathsPanel" data-scr="paths" aria-labelledby="pathsTitle">
-    <h2 id="pathsTitle" class="title-book"><img class="book" src="icons/paths-section.jpg?v=28" alt="" />Your paths.</h2>
+    <h2 id="pathsTitle" class="title-book"><img class="book" src="icons/paths-section.jpg?v=29" alt="" />Your paths.</h2>
     <div class="row-actions"><button type="button" class="btn primary" id="pathAddBtn">Add a path</button><button type="button" class="btn" id="pathManageBtn">Manage paths</button></div>
     <p class="hint">Martial artist, writer, father, husband, whatever you're walking.</p>
     <div id="pathList"></div>
@@ -1132,7 +1153,7 @@
       <ul class="log-list record-list" id="logList"></ul>
     </section>
     <section class="side" id="moneySection" data-scr="money" aria-labelledby="moneyTitle">
-      <h2 id="moneyTitle" class="title-book"><img class="book" src="icons/money.jpg?v=28" alt="" />Money tracker</h2>
+      <h2 id="moneyTitle" class="title-book"><img class="book" src="icons/money.jpg?v=29" alt="" />Money tracker</h2>
       <div class="row-actions screen-only"><button type="button" class="btn primary" id="moneyAddHere">Add money</button></div>
       <div class="account-grid" id="accountGrid"></div>
       <p class="week-sum" id="weekSum"></p>
@@ -1146,6 +1167,7 @@
       </div>
       <div class="subpanel" id="activityPanel">
         <h3>Recent activity</h3>
+        <p class="hint" style="margin:0 0 0.3rem">Tap an entry to change it.</p>
         <ul class="money-list" id="moneyList"></ul>
         <button type="button" class="tiny" id="moneyListMore" hidden style="font-size:0.85rem;padding:0.4rem 0.2rem">Show all</button>
       </div>
@@ -1328,7 +1350,8 @@
   <label class="field">Account
     <select id="moneyAccount"></select>
   </label>
-  <label class="field" style="margin-top:0.45rem">Amount<input id="moneyAmt" type="number" step="0.01" min="0" inputmode="decimal" /></label>
+  <p class="money-planned" id="moneyPlanned" hidden></p>
+  <label class="field" style="margin-top:0.45rem"><span id="moneyAmtLabel">Amount</span><input id="moneyAmt" type="number" step="0.01" min="0" inputmode="decimal" /></label>
   <label class="field" style="margin-top:0.45rem">Date<input id="moneyDate" type="date" /></label>
   <label class="field" id="moneySourceWrap" style="margin-top:0.45rem">Where it came from
     <select id="moneySource">
@@ -1374,6 +1397,7 @@
     <select id="moneyRepeatDay"></select>
   </label>
   <label class="field" id="moneyRepeatStartWrap" style="margin-top:0.45rem" hidden>Starting<input id="moneyRepeatStart" type="date" /></label>
+  <button type="button" class="link-btn add-another" id="moneyAddAnother" hidden>Add another payment</button>
   <p class="hint">Money is a tracker, not a sixth area.</p>
   <div class="actions">
     <button type="button" class="btn danger" id="moneyDelete" hidden>Delete</button>
@@ -1472,7 +1496,7 @@
     <button type="button" class="btn" id="menuClose">Close</button>
   </div>
   <button type="button" class="menu-row menu-settings" id="menuSettingsToggle" aria-expanded="false" aria-controls="menuSettings">
-    <img src="icons/settings.jpg?v=28" alt="" /><span><b>Settings</b><small>Themes, backup, reminders, guide, lock</small></span>
+    <img src="icons/settings.jpg?v=29" alt="" /><span><b>Settings</b><small>Themes, backup, reminders, guide, lock</small></span>
   </button>
   <div class="menu-group" id="menuSettings" hidden>
     <button type="button" class="menu-item" id="btnOptions">Settings · Dawn</button>
@@ -1481,6 +1505,7 @@
     <button type="button" class="menu-item" id="menuGuide">Show the guide</button>
     <button type="button" class="menu-item" id="btnBackup">Back up the encrypted file</button>
     <button type="button" class="menu-item" id="btnRestore">Restore from a backup</button>
+    <button type="button" class="menu-item" id="btnPreCleanup" hidden>Restore data from before the cleanup</button>
     <button type="button" class="menu-item" id="btnLock">Lock</button>
     <button type="button" class="menu-item menu-danger" id="btnRemoveProfile">Remove this profile</button>
   </div>
@@ -1556,7 +1581,7 @@
     <div class="row-actions"><button type="button" class="btn" id="optAddPull">Add pull</button><button type="button" class="btn" id="optManagePulls">Manage pulls</button></div>
   </div>
   <div class="subpanel" id="purposePanel" aria-labelledby="purposeTitle">
-    <h3 id="purposeTitle" class="title-book"><img class="book" src="icons/purpose.jpg?v=28" alt="" />Purpose (optional)</h3>
+    <h3 id="purposeTitle" class="title-book"><img class="book" src="icons/purpose.jpg?v=29" alt="" />Purpose (optional)</h3>
     <p class="hint">A note on how you're walking the path you already picked. Not a new choice, and not a finish.</p>
 
     <div class="subpanel">
@@ -1677,6 +1702,15 @@
   </div>
 </dialog>
 
+<dialog id="dupDialog" class="wide" aria-labelledby="dupTitle">
+  <h3 id="dupTitle"></h3>
+  <p class="hint" style="margin:0">These were added twice by the repeat. Merging keeps the first one and fixes your balances.</p>
+  <ul class="dup-list" id="dupList"></ul>
+  <div class="actions">
+    <button type="button" class="btn" id="dupKeep">Keep all</button>
+    <button type="button" class="btn primary" id="dupMerge">Merge them</button>
+  </div>
+</dialog>
 <dialog id="choiceDialog" aria-labelledby="choiceMsg">
   <p class="q-title" id="choiceMsg"></p>
   <div class="actions" style="flex-wrap:wrap">
@@ -1919,7 +1953,7 @@ const PATH_ICON_LABELS = {
 };
 const PATH_WRESTLING_ICON = "icons/paths/wrestling.jpg";
 // Icon cache-bust: same filenames were re-cut, so every rendered icon URL carries ?v=. Stored data keeps plain paths.
-const ICON_VER = "28";
+const ICON_VER = "29";
 const LOGO_SRC = "icons/logo.jpg"; // swap the app logo here (header, menu button, vault screens)
 function plainIcon(src) { return String(src || "").split("?")[0]; }
 function iv(src) {
@@ -2309,6 +2343,10 @@ function migrateLegacy(raw) {
     incomeCounts: !!g.incomeCounts,
     accountId: typeof g.accountId === "string" ? g.accountId : "",
     linkStart: g.linkStart != null && !Number.isNaN(Number(g.linkStart)) ? Number(g.linkStart) : null,
+    created: /^\d{4}-\d{2}-\d{2}$/.test(String(g.created || "")) ? g.created : TODAY,
+    touched: /^\d{4}-\d{2}-\d{2}$/.test(String(g.touched || "")) ? g.touched : "",
+    paused: !!g.paused,
+    deadline: /^\d{4}-\d{2}-\d{2}$/.test(String(g.deadline || "")) ? g.deadline : "",
     progress: Array.isArray(g.progress) ? g.progress.filter(x => x && typeof x.date === "string").map(x => ({
       id: x.id || uid("gp"), date: x.date, delta: Number(x.delta) || 0, total: x.total != null ? Number(x.total) : null,
       note: String(x.note || ""), moneyId: typeof x.moneyId === "string" ? x.moneyId : ""
@@ -2805,7 +2843,7 @@ function addCustomPull(label, steer, opposite, img) {
 }
 function sortedDesc(list) { return list.slice().sort((a, b) => a.date < b.date ? 1 : a.date > b.date ? -1 : 0); }
 function bookSlot(label) {
-  return '<span class="book-slot" title="Area notes"><img class="book" src="icons/area-note.jpg?v=28" alt="" /><span>' + esc(label) + '</span></span>';
+  return '<span class="book-slot" title="Area notes"><img class="book" src="icons/area-note.jpg?v=29" alt="" /><span>' + esc(label) + '</span></span>';
 }
 function pickReplacement() {
   if (!data.replacements.length) return null;
@@ -3011,26 +3049,29 @@ document.getElementById("dayToday").onclick = () => goToDay(TODAY);
 document.getElementById("dayPickBtn").onclick = () => { const i = document.getElementById("dayPickInput"); i.max = TODAY; i.value = data.selected; document.getElementById("dayPickDialog").showModal(); i.focus(); };
 document.getElementById("dayPickCancel").onclick = () => document.getElementById("dayPickDialog").close();
 document.getElementById("dayPickGo").onclick = () => { const v = document.getElementById("dayPickInput").value; document.getElementById("dayPickDialog").close(); if (v) goToDay(v > TODAY ? TODAY : v); };
+let sleepEditDate = ""; // the day whose logged sleep is being changed in the check-in
 function renderCheckin() {
   const date = data.selected;
   const d = day(date);
   const sleep = d.sleep;
   let sleepHtml = "";
-  if (sleep) {
-    const how = sleep.source === "confirm" ? "Confirmed 8h" : esc(sleep.bed) + " → " + esc(sleep.wake);
+  const editing = sleep && sleepEditDate === date;
+  if (sleep && !editing) {
+    const how = sleep.source === "confirm" ? "Confirmed " + fmtHours(sleep.hours) + "h" : esc(sleep.bed) + " → " + esc(sleep.wake);
     sleepHtml = '<p class="sleep-read">' + fmtHours(sleep.hours) + 'h</p><p class="hint">' + how + ' · <button type="button" class="btn" id="sleepEdit">Change</button></p>';
     if (sleep.hours < SLEEP_SHORT) sleepHtml += '<p class="short-note">Sleep was short. This check-in comes before tasks.</p>';
   } else {
     sleepHtml =
-      '<div class="row-actions"><button type="button" class="btn primary" id="confirm8">Confirm 8h</button></div>' +
+      '<div class="row-actions"><button type="button" class="btn primary" id="confirm8">Confirm ' + fmtHours(sleepTarget()) + 'h</button>' + (editing ? '<button type="button" class="btn" id="sleepKeep">Keep ' + fmtHours(sleep.hours) + 'h</button>' : "") + '</div>' +
       '<p class="hint">Or bedtime and wake.</p>' +
       '<div class="time-row"><label class="field">Bedtime<input id="bed" type="time" /></label><label class="field">Wake<input id="wake" type="time" /></label><button type="button" class="btn" id="saveSleep">Save sleep</button></div>' +
       '<p class="hint" id="sleepPreview"></p>';
   }
   const body =
-    '<div class="sleep-row"><p class="q-title title-book"><img class="book" src="icons/sleep.jpg?v=28" alt="" />How did last night go?</p>' + sleepHtml + '</div>' +
+    '<div class="sleep-row"><p class="q-title title-book"><img class="book" src="icons/sleep.jpg?v=29" alt="" />How did last night go?</p>' + sleepHtml + '</div>' +
     pathCheckinHtml(date);
   document.getElementById("checkinBody").innerHTML = body;
+  if (editing && sleep.source === "times") { const b = document.getElementById("bed"), w = document.getElementById("wake"); if (b) b.value = sleep.bed || ""; if (w) w.value = sleep.wake || ""; }
   bindCheckin();
   bindPathCheckin(date);
 }
@@ -3042,8 +3083,8 @@ function bindCheckin() {
   const date = data.selected;
   const confirm = document.getElementById("confirm8");
   if (confirm) confirm.onclick = () => {
-    if (!capGuard([date], () => document.getElementById("confirm8"), () => { d.sleep = { hours: 8, source: "confirm", acked: true }; })) return;
-    save(); renderCheckin(); renderDerived();
+    if (!capGuard([date], () => document.getElementById("confirm8"), () => { d.sleep = { hours: sleepTarget(), source: "confirm", acked: true }; })) return;
+    sleepEditDate = ""; save(); renderCheckin(); renderDerived();
   };
   const saveSleep = document.getElementById("saveSleep");
   if (saveSleep) {
@@ -3062,11 +3103,13 @@ function bindCheckin() {
       const hrs = sleepHours(bed, wake);
       if (hrs == null) return;
       if (!capGuard([date], () => document.getElementById("bed"), () => { d.sleep = { hours: hrs, source: "times", bed, wake, acked: true }; })) return;
-      save(); renderCheckin(); renderDerived();
+      sleepEditDate = ""; save(); renderCheckin(); renderDerived();
     };
   }
   const edit = document.getElementById("sleepEdit");
-  if (edit) edit.onclick = () => { d.sleep = null; save(); renderCheckin(); renderDerived(); };
+  if (edit) edit.onclick = () => { sleepEditDate = date; renderCheckin(); };
+  const keep = document.getElementById("sleepKeep");
+  if (keep) keep.onclick = () => { sleepEditDate = ""; renderCheckin(); };
 }
 function maybeOfferReplacement(pull) {
   const box = document.getElementById("replOffer");
@@ -3533,7 +3576,7 @@ function renderPie() {
   const wkLine = wkTotal ? " Last 7 days: " + areas.map(a => {
     const mn = pieLimit(a.id, "Thin");
     const mx = pieLimit(a.id, "Heavy");
-    const range = (mn != null || mx != null) ? " (aim " + (mn != null ? fmtHours(mn) : "—") + "–" + (mx != null ? fmtHours(mx) : "—") + ")" : "";
+    const range = (mn != null && mx != null) ? " (aim " + fmtHours(mn) + "–" + fmtHours(mx) + ")" : mn != null ? " (aim " + fmtHours(mn) + "+)" : mx != null ? " (aim up to " + fmtHours(mx) + ")" : "";
     return areaShort(a) + " " + fmtHours(wk[a.id]) + "h" + range;
   }).join(", ") + ". No equal-time rule. Yours, not equal." : "";
   note.textContent = "Open time is hours with nothing logged. Some rest, some room." + wkLine;
@@ -3555,7 +3598,16 @@ function renderPie() {
     const x2 = cx + r * Math.cos(a1 - 0.0001), y2 = cy + r * Math.sin(a1 - 0.0001);
     return '<path d="M ' + cx + ' ' + cy + ' L ' + x1.toFixed(2) + ' ' + y1.toFixed(2) + ' A ' + r + ' ' + r + ' 0 ' + large + ' 1 ' + x2.toFixed(2) + ' ' + y2.toFixed(2) + ' Z" fill="' + sl.color + '"></path>';
   });
-  svg.innerHTML = defs + paths.join("") + '<circle cx="100" cy="100" r="42" fill="var(--panel)"/>';
+  // v29: hours left in the centre ("{h}h left today" / "Logged {x}h").
+  const used = isWeek ? days.reduce((t, d) => t + dayUsed(d).used, 0) : dayUsed(date).used;
+  const leftH = Math.max(0, (isWeek ? 24 * 7 : 24) - used);
+  const big = fmtHours(Math.round(leftH * 10) / 10) + "h";
+  const sub1 = isWeek ? "left this week" : (date === TODAY ? "left today" : "open");
+  const centre = '<text class="pie-c-big" x="100" y="98" text-anchor="middle" font-size="22" font-weight="700" fill="var(--text)">' + esc(big) + '</text>' +
+    '<text class="pie-c-sub" x="100" y="114" text-anchor="middle" font-size="10" fill="var(--text)">' + esc(sub1) + '</text>' +
+    '<text class="pie-c-logged" x="100" y="128" text-anchor="middle" font-size="9" fill="var(--muted)">' + esc("Logged " + fmtHours(Math.round(used * 10) / 10) + "h") + '</text>';
+  svg.innerHTML = defs + paths.join("") + '<circle cx="100" cy="100" r="46" fill="var(--panel)"/>' + centre;
+  const pc = document.getElementById("pieCentre"); if (pc) pc.textContent = big + " " + sub1 + ". Logged " + fmtHours(Math.round(used * 10) / 10) + "h.";
   svg.setAttribute("aria-label", (isWeek ? "Whole week. " : "Whole day. ") + slices.map(s => s.name + " " + fmtHours(s.hours) + " " + pluralWord(s.hours, "hour")).join(", "));
   legend.innerHTML = areas.map(a => '<li><span class="swatch" style="background:' + a.color + '"></span><span>' + esc(a.name) + '</span><span>' + fmtHours(hours[a.id]) + 'h</span></li>').join("") +
     '<li><span class="swatch" style="background:' + SLEEP_COLOR + '"></span><span>Sleep</span><span>' + fmtHours(sleepH) + 'h</span></li>' +
@@ -3842,7 +3894,7 @@ function renderDebts() {
     const p = debtPlan(d.balance, d.apr, d.mode, d.payment, d.pct, d.extra);
     const line = !(d.balance > 0) ? "Paid off" : (p.ok ? "About " + yearsMonths(p.months) + " to go · about " + moneyWhole(p.interest) + " in interest" : "Payment doesn't cover the interest");
     return '<div class="debt-item"><button type="button" class="debt-card" data-debt="' + esc(d.id) + '"><div class="dn"><span>' + esc(d.name) + '</span><span class="money-neg">' + moneyPlain(d.balance) + '</span></div><div class="ds">' + esc(d.apr + "% APR · " + (d.mode === "minimum" ? "card minimum " + d.pct + "% + interest" : moneyPlain(d.payment) + "/month") + (d.extra > 0 ? " + " + moneyPlain(d.extra) + " extra" : "") + (d.payFrom && data.accounts.some(x => x.id === d.payFrom) ? " · due the " + (d.dueDay === "last" ? "last day" : ordinal(Number(d.dueDay))) : "")) + '</div><div class="ds' + (p.ok || !(d.balance > 0) ? "" : " money-neg") + '">' + esc(line) + '</div></button>' +
-      (d.balance > 0 ? '<button type="button" class="btn debt-log" data-debt-log="' + esc(d.id) + '">Log payment</button>' : "") + '</div>';
+      (d.balance > 0 ? '<button type="button" class="btn debt-log" data-debt-log="' + esc(d.id) + '">' + (debtPaymentsThisMonth(d.id).length ? "Edit this month's payment" : "Log payment") + '</button>' : "") + '</div>';
   }).join("") || '<p class="empty" style="margin:0">No debts added.</p>';
   renderPayoffPlans();
   list.querySelectorAll("[data-debt]").forEach(b => b.onclick = () => openDebtDialog(b.dataset.debt));
@@ -4094,8 +4146,8 @@ function revertEntryEffects(m) {
   if (m.goalApplied) { const gl = data.goals.find(g => g.id === m.goalId); if (gl) gl.current = Math.round(((Number(gl.current) || 0) - Number(m.goalApplied)) * 100) / 100; m.goalApplied = 0; }
 }
 function entryFromRepeat(r, occ) {
-  if (r.debtAuto) { const d = data.debts.find(x => x.id === r.debtId); const amt = d ? debtBillAmount(d) : 0; if (!(amt > 0)) return null; return { id: uid("m"), type: "expense", amount: amt, accountId: r.accountId, category: r.category, label: d.name, date: occ, goalId: "", debtId: d.id, applyDebt: true, repeatId: r.id, occ }; }
-  return { id: uid("m"), type: r.type, amount: r.amount, accountId: r.accountId, category: r.category, label: r.label, date: occ, goalId: r.goalId, debtId: r.debtId, applyDebt: r.applyDebt, repeatId: r.id, occ };
+  if (r.debtAuto) { const d = data.debts.find(x => x.id === r.debtId); const amt = d ? debtBillAmount(d) : 0; if (!(amt > 0)) return null; return { id: uid("m"), type: "expense", amount: amt, planned: amt, accountId: r.accountId, category: r.category, label: d.name, date: occ, goalId: "", debtId: d.id, applyDebt: true, repeatId: r.id, occ }; }
+  return { id: uid("m"), type: r.type, amount: r.amount, planned: r.amount, accountId: r.accountId, category: r.category, label: r.label, date: occ, goalId: r.goalId, debtId: r.debtId, applyDebt: r.applyDebt, repeatId: r.id, occ };
 }
 // Post every due occurrence up to today (real date). Safe to call any time: an occurrence posts once, ever.
 function postDueRepeats() {
@@ -4104,9 +4156,13 @@ function postDueRepeats() {
   data.repeats.forEach(r => {
     if (!r.active) return;
     repeatOccurrences(r, r.lastPosted, today).forEach(occ => {
-      const dup = data.money.some(m => m.repeatId === r.id && m.occ === occ) || (r.debtAuto && debtPaidInMonth(r.debtId, occ));
+      // Once per occurrence, ever. A monthly rule also posts at most once a month, so moving its day
+      // (here or on the debt) can't post a second one into a month that already had one.
+      const dup = data.money.some(m => m.repeatId === r.id && (m.occ === occ || (r.freq === "month" && sameMonth(m.occ || m.date, occ)))) ||
+        (r.freq === "month" && r.lastPosted && sameMonth(r.lastPosted, occ)) ||
+        (r.debtAuto && debtPaidInMonth(r.debtId, occ));
       if (!dup) { const m = entryFromRepeat(r, occ); if (m) { applyEntryEffects(m); data.money.push(m); n++; } }
-      r.lastPosted = occ;
+      if (!r.lastPosted || occ > r.lastPosted) r.lastPosted = occ;
     });
   });
   if (n) save();
@@ -4134,8 +4190,10 @@ function renderActivity() {
     const goal = m.goalId ? data.goals.find(g => g.id === m.goalId) : null;
     const amt = signedAmount(m), rp = m.repeatId ? data.repeats.find(r => r.id === m.repeatId) : null;
     const tail = " · " + (acc ? acc.name : "?") + " · " + prettyDate(m.date) + (goal ? " · toward " + goal.title : "");
-    return '<li class="act"><button type="button" class="act-row" data-money="' + esc(m.id) + '" aria-label="Edit ' + esc(moneyRowLabel(m) + " " + moneyFmt(amt) + tail) + '"><span class="act-main">' + esc(moneyRowLabel(m) + " · ") +
-      '<span class="act-amt ' + (amt < 0 ? "money-neg" : "money-pos") + '">' + esc(moneyFmt(amt)) + '</span>' + esc(tail) +
+    const pl = plannedFor(m), edited = pl != null && Math.abs(pl - Number(m.amount)) > 0.004;
+    const amtTxt = edited ? "Planned " + moneyPlain(pl) + " · " + (m.type === "income" ? "Got " : "Spent ") + moneyPlain(m.amount) : moneyFmt(amt);
+    return '<li class="act"><button type="button" class="act-row" data-money="' + esc(m.id) + '" aria-label="Edit ' + esc(moneyRowLabel(m) + " " + amtTxt + tail) + '"><span class="act-main">' + esc(moneyRowLabel(m) + " · ") +
+      '<span class="act-amt ' + (amt < 0 ? "money-neg" : "money-pos") + '">' + esc(amtTxt) + '</span>' + esc(tail) +
       (rp && rp.active ? '<span class="act-tag">' + esc(repeatTag(rp)) + '</span>' : "") + '</span></button></li>';
   }).join("");
   more.hidden = rows.length <= 12; more.textContent = activityShowAll ? "Show less" : "Show all";
@@ -4151,9 +4209,12 @@ function renderRepeats() {
     const acc = data.accounts.find(a => a.id === r.accountId);
     const name = moneyRowLabel(r);
     const amt = r.debtAuto ? -debtBillAmount(data.debts.find(x => x.id === r.debtId) || {}) : (r.type === "income" ? r.amount : -r.amount);
-    return '<li><div class="rep-row"><span>' + esc(name + " · " + moneyFmt(amt) + " · " + (acc ? acc.name : "?")) + '<span class="act-tag">' + esc(repeatTag(r) + (next ? " · next " + prettyDate(next) : "")) + '</span></span>' +
+    const posted = data.money.filter(m => m.repeatId === r.id && sameMonth(m.date, today)).sort((a, b) => a.date < b.date ? 1 : -1)[0];
+    const postedBtn = posted ? '<button type="button" class="link-btn rep-posted" data-money="' + esc(posted.id) + '">' + esc("Posted " + prettyDate(posted.date) + " · " + moneyPlain(posted.amount) + " · Edit") + '</button>' : "";
+    return '<li><div class="rep-row"><span>' + esc(name + " · " + moneyFmt(amt) + " · " + (acc ? acc.name : "?")) + '<span class="act-tag">' + esc(repeatTag(r) + (next ? " · next " + prettyDate(next) : "")) + '</span>' + postedBtn + '</span>' +
       '<span class="rep-acts"><button type="button" class="tiny" data-rep-edit="' + esc(r.id) + '" aria-label="Edit ' + esc(name) + '">Edit</button><button type="button" class="tiny" data-rep-stop="' + esc(r.id) + '" aria-label="Stop ' + esc(name) + ' repeating">Stop</button></span></div></li>';
   }).join("");
+  list.querySelectorAll(".rep-posted[data-money]").forEach(b => b.onclick = () => openMoneyDialog(b.dataset.money));
   list.querySelectorAll("[data-rep-edit]").forEach(b => b.onclick = () => { const r = data.repeats.find(x => x.id === b.dataset.repEdit); if (r && r.debtAuto) openDebtDialog(r.debtId); else openRepeatEditor(b.dataset.repEdit); });
   list.querySelectorAll("[data-rep-stop]").forEach(b => b.onclick = async () => {
     const r = data.repeats.find(x => x.id === b.dataset.repStop); if (!r) return;
@@ -4163,17 +4224,20 @@ function renderRepeats() {
     save(); renderDerived();
   });
 }
-function askChoice(msg, a, b) {
+function askChoice(msg, a, b, primary) {
   return new Promise(resolve => {
     const dlg = document.getElementById("choiceDialog");
     document.getElementById("choiceMsg").textContent = msg;
     document.getElementById("choiceA").textContent = a; document.getElementById("choiceB").textContent = b;
+    const pa = primary === "a";
+    document.getElementById("choiceA").className = "btn" + (pa ? " primary" : "");
+    document.getElementById("choiceB").className = "btn" + (pa ? "" : " primary");
     let done = false; const finish = v => { if (done) return; done = true; if (dlg.open) dlg.close(); resolve(v); };
     document.getElementById("choiceA").onclick = () => finish("a");
     document.getElementById("choiceB").onclick = () => finish("b");
     document.getElementById("choiceCancel").onclick = () => finish(null);
     dlg.onclose = () => finish(null);
-    dlg.showModal(); document.getElementById("choiceCancel").focus();
+    dlg.showModal(); document.getElementById(primary === "a" ? "choiceA" : primary === "b" ? "choiceB" : "choiceCancel").focus();
   });
 }
 function fillRepeatDays() {
@@ -4204,11 +4268,18 @@ function openMoneyDialog(id, opts) {
   const m = id ? data.money.find(x => x.id === id) : null;
   const r = opts.repeatId ? data.repeats.find(x => x.id === opts.repeatId) : (m && m.repeatId ? data.repeats.find(x => x.id === m.repeatId) : null);
   const src = m || (opts.repeatId ? r : null);
-  editingMoneyId = m ? m.id : null; editingRepeatId = opts.repeatId || null;
+  editingMoneyId = m ? m.id : null; editingRepeatId = opts.repeatId || null; moneyExtraPayment = !!opts.extra;
   moneyType = src ? src.type : (opts.debtId ? "expense" : "income");
   fillMoneyAccounts(); fillMoneyGoals(); fillRepeatDays();
   const $ = x => document.getElementById(x);
-  $("moneyDialogTitle").textContent = opts.repeatId ? "Edit repeating" : m ? "Edit entry" : opts.debtId ? "Log payment" : "Add money";
+  $("moneyDialogTitle").textContent = opts.repeatId ? "Edit repeating" : m ? (m.debtId ? "Edit payment" : "Edit entry") : opts.extra ? "Add another payment" : opts.debtId ? "Log payment" : "Add money";
+  // Editing one posted occurrence of a repeat: show what was planned; the field is what actually happened.
+  const plannedAmt = m && m.repeatId ? plannedFor(m) : null;
+  $("moneyPlanned").hidden = plannedAmt == null;
+  $("moneyPlanned").innerHTML = plannedAmt == null ? "" : 'Planned <b>' + esc(moneyPlain(plannedAmt)) + '</b>';
+  $("moneyAmtLabel").textContent = plannedAmt == null ? "Amount" : "Actual";
+  $("moneyAddAnother").hidden = !(m && m.debtId);
+  $("moneyAddAnother").dataset.debt = m && m.debtId ? m.debtId : "";
   $("moneyAmt").value = src ? src.amount : "";
   $("moneyOther").value = src ? src.label || "" : "";
   $("moneySource").value = src && src.type === "income" ? src.category : "paycheck";
@@ -4236,8 +4307,38 @@ function openMoneyDialog(id, opts) {
   if (opts.debtId || (src && src.debtId)) { const sel = $("moneyDebt"); sel.value = opts.debtId || src.debtId; }
   openSheet($("moneyDialog"), $("moneyAmt"));
 }
-function openDebtPayment(debtId) { openMoneyDialog(null, { debtId }); }
+// This month's payments for a debt (hand-logged or posted by the monthly bill), oldest first.
+function debtPaymentsThisMonth(debtId) {
+  const t = iso(new Date());
+  return data.money.filter(m => m.type === "expense" && m.debtId === debtId && sameMonth(m.date, t)).sort((a, b) => a.date < b.date ? -1 : a.date > b.date ? 1 : 0);
+}
+// Log payment opens this month's payment when one exists (no second entry by accident).
+// "Add another payment" is the deliberate way to add an extra one.
+function openDebtPayment(debtId, extra) {
+  const cur = extra ? [] : debtPaymentsThisMonth(debtId);
+  if (cur.length) return openMoneyDialog(cur[0].id, { fromDebt: debtId });
+  openMoneyDialog(null, { debtId, extra: !!extra });
+}
 function openRepeatEditor(repeatId) { openMoneyDialog(null, { repeatId }); }
+let moneyExtraPayment = false;
+// The amount a repeat planned for this occurrence (stamped when it posted; older entries use the rule's amount).
+function plannedFor(m) {
+  if (!m || !m.repeatId) return null;
+  if (typeof m.planned === "number") return m.planned;
+  const r = data.repeats.find(x => x.id === m.repeatId);
+  if (!r || r.debtAuto) return null;
+  return Number(r.amount) || 0;
+}
+document.getElementById("moneyAddAnother").onclick = () => {
+  const id = document.getElementById("moneyAddAnother").dataset.debt; if (!id) return;
+  editingMoneyId = null; document.getElementById("moneyDialog").close();
+  setTimeout(() => openDebtPayment(id, true), 0);
+};
+// A new entry that looks like one already there (same day, same kind, same category or debt, same account).
+function findLookalike(f) {
+  return data.money.find(m => m.type === f.type && m.date === f.date && m.accountId === f.accountId &&
+    (f.debtId ? m.debtId === f.debtId : (!m.debtId && m.category === f.category))) || null;
+}
 function readMoneyForm() {
   const $ = x => document.getElementById(x);
   const amount = Number($("moneyAmt").value);
@@ -4255,6 +4356,8 @@ function readMoneyForm() {
   const rep = REPEAT_FREQS[freq] ? { freq, day: freq === "month" ? ($("moneyRepeatDay").value === "last" ? "last" : Number($("moneyRepeatDay").value)) : Number(date.slice(8)), start: freq === "2weeks" ? ($("moneyRepeatStart").value || date) : date } : null;
   return { type: moneyType, amount: Math.round(amount * 100) / 100, accountId, category, label: debtId ? ((data.debts.find(x => x.id === debtId) || {}).name || label) : label, goalId, debtId, applyDebt, date, rep };
 }
+// A new repeat never back-fills before the entry that started it: occurrences up to that date (or yesterday) count as done.
+function noBackfillFrom(date) { const y = shift(iso(new Date()), -1); return date > y ? date : y; }
 function templateFields(f) { return { type: f.type, amount: f.amount, accountId: f.accountId, category: f.category, label: f.label, goalId: f.goalId, debtId: f.debtId, applyDebt: f.applyDebt }; }
 async function saveMoneyDialog() {
   const f = readMoneyForm(); if (!f) return;
@@ -4263,11 +4366,16 @@ async function saveMoneyDialog() {
     const r = data.repeats.find(x => x.id === editingRepeatId);
     if (r) {
       Object.assign(r, templateFields(f));
-      if (f.rep && (f.rep.freq !== r.freq || String(f.rep.day) !== String(r.day) || f.rep.start !== r.start)) {
-        // New schedule from the chosen date (never before tomorrow); what already posted stays.
-        const tomorrow = shift(iso(new Date()), 1);
-        const from = f.rep.freq === "2weeks" ? f.rep.start : f.date;
-        r.freq = f.rep.freq; r.day = f.rep.day; r.start = from < tomorrow && f.rep.freq !== "2weeks" ? tomorrow : from;
+      // Only a real schedule change counts (the date box shows the next occurrence, so it isn't one by itself).
+      const sched = f.rep && (f.rep.freq !== r.freq || String(f.rep.day) !== String(r.day) || (f.rep.freq === "2weeks" && f.rep.start !== r.start));
+      if (sched) {
+        // New schedule from the chosen date, never before tomorrow; nothing in the past posts again.
+        const today = iso(new Date()), tomorrow = shift(today, 1);
+        let from = f.rep.freq === "2weeks" ? f.rep.start : f.date;
+        if (f.rep.freq === "2weeks") { let n = 0; while (from < tomorrow && n++ < 1000) from = shift(from, 14); }
+        else if (from < tomorrow) from = tomorrow;
+        r.freq = f.rep.freq; r.day = f.rep.day; r.start = from;
+        if (!r.lastPosted || r.lastPosted < today) r.lastPosted = today;
       }
       if (!f.rep) r.active = false;
     }
@@ -4277,7 +4385,9 @@ async function saveMoneyDialog() {
     const m = data.money.find(x => x.id === editingMoneyId); if (!m) return;
     const r = m.repeatId ? data.repeats.find(x => x.id === m.repeatId && x.active) : null;
     let scope = "one";
-    if (r) { const c = await askChoice("Change just this one, or this and all future ones?", "Just this one", "All future"); if (!c) return; scope = c === "b" ? "future" : "one"; }
+    if (r) { const c = await askChoice("Change just this one, or this and all future ones?", "Just this one", "All future", "a"); if (!c) return; scope = c === "b" ? "future" : "one"; }
+    const planned = plannedFor(m);
+    if (m.repeatId && typeof m.planned !== "number" && planned != null) m.planned = planned;
     revertEntryEffects(m);
     Object.assign(m, templateFields(f), { date: f.date });
     applyEntryEffects(m);
@@ -4287,24 +4397,47 @@ async function saveMoneyDialog() {
       r.accountId = f.accountId; r.category = f.category;
     } else if (r && scope === "future") {
       Object.assign(r, templateFields(f));
-      if (f.rep) { const changed = f.rep.freq !== r.freq || String(f.rep.day) !== String(r.day); if (changed) { r.freq = f.rep.freq; r.day = f.rep.day; r.start = f.rep.freq === "2weeks" ? f.rep.start : f.date; r.lastPosted = m.occ = f.date; } }
+      if (f.rep) { const changed = f.rep.freq !== r.freq || String(f.rep.day) !== String(r.day); if (changed) { r.freq = f.rep.freq; r.day = f.rep.day; r.start = f.rep.freq === "2weeks" ? f.rep.start : f.date; m.occ = f.date; if (!r.lastPosted || r.lastPosted < f.date) r.lastPosted = f.date; } }
       else r.active = false;
     } else if (!r && f.rep) { // turn a one-off into a repeating one, starting from this entry
-      const nr = Object.assign({ id: uid("r"), active: true }, templateFields(f), { freq: f.rep.freq, day: f.rep.day, start: f.rep.start, lastPosted: "" });
+      // Repeats from here on; earlier dates never back-fill (you may have entered those by hand already).
+      const nr = Object.assign({ id: uid("r"), active: true }, templateFields(f), { freq: f.rep.freq, day: f.rep.day, start: f.rep.start, lastPosted: noBackfillFrom(f.date) });
       data.repeats.push(nr);
-      if (repeatOccurrences(nr, "", f.date).includes(f.date)) { m.repeatId = nr.id; m.occ = f.date; }
+      if (repeatOccurrences(nr, "", f.date).includes(f.date)) { m.repeatId = nr.id; m.occ = f.date; m.planned = f.amount; }
     }
-    editingMoneyId = null; save(); dlg.close(); postDueRepeats(); renderDerived(); return;
+    editingMoneyId = null; save(); dlg.close(); postDueRepeats(); renderDerived();
+    if (r && scope === "one" && planned != null && f.amount !== planned) showToast("Edited. The repeat stays at " + moneyPlain(r.debtAuto ? planned : (Number(r.amount) || planned)) + ".");
+    return;
   }
-  // new entry
+  // new entry. If it looks like one already there, ask before adding a second one.
+  if (!moneyExtraPayment) {
+    const like = findLookalike(f);
+    if (like) {
+      const c = await askChoice("This looks like " + moneyRowLabel(like) + " on " + prettyDate(like.date) + ". Update that one or add a new entry?", "Update it", "Add new", "a");
+      if (!c) return;
+      if (c === "a") {
+        revertEntryEffects(like);
+        Object.assign(like, templateFields(f), { date: f.date });
+        applyEntryEffects(like);
+        if (f.rep && !like.repeatId) {
+          const nr = Object.assign({ id: uid("r"), active: true }, templateFields(f), { freq: f.rep.freq, day: f.rep.day, start: f.rep.start, lastPosted: noBackfillFrom(f.date) });
+          data.repeats.push(nr);
+          if (repeatOccurrences(nr, "", f.date).includes(f.date)) { like.repeatId = nr.id; like.occ = f.date; like.planned = f.amount; }
+        }
+        save(); dlg.close(); postDueRepeats(); renderDerived(); return;
+      }
+    }
+  }
   const entry = Object.assign({ id: uid("m") }, templateFields(f), { date: f.date });
+  if (moneyExtraPayment) entry.extraPayment = true;
   if (f.rep) {
-    const r = Object.assign({ id: uid("r"), active: true }, templateFields(f), { freq: f.rep.freq, day: f.rep.day, start: f.rep.start, lastPosted: "" });
+    const r = Object.assign({ id: uid("r"), active: true }, templateFields(f), { freq: f.rep.freq, day: f.rep.day, start: f.rep.start, lastPosted: noBackfillFrom(f.date) });
     data.repeats.push(r);
     // If this date is on the schedule, this entry is that occurrence (so catch-up never doubles it).
-    if (repeatOccurrences(r, "", f.date).includes(f.date)) { entry.repeatId = r.id; entry.occ = f.date; }
+    if (repeatOccurrences(r, "", f.date).includes(f.date)) { entry.repeatId = r.id; entry.occ = f.date; entry.planned = f.amount; }
   }
   applyEntryEffects(entry); data.money.push(entry);
+  moneyExtraPayment = false;
   save(); dlg.close(); postDueRepeats(); renderDerived();
 }
 async function deleteMoneyEntry() {
@@ -4349,6 +4482,9 @@ function syncDebtBills() {
       r = { id: uid("r"), freq: "month", start: monthStart, day: d.dueDay, type: "expense", amount: 0, accountId: d.payFrom, category: debtBillCategory(d), label: d.name, goalId: "", debtId: d.id, applyDebt: true, lastPosted: "", active: true, debtAuto: true };
       data.repeats.push(r); d.billRepeatId = r.id;
     }
+    if (!r.active) { // coming back on (stopped, paid off, or a hand-made repeat was stopped): only this month onward
+      const prevEnd = shift(monthStart, -1); if (!r.lastPosted || r.lastPosted < prevEnd) r.lastPosted = prevEnd;
+    }
     r.active = true; r.day = d.dueDay; r.accountId = d.payFrom; r.label = d.name; r.category = r.category === "car-payment" || r.category === "debt-payment" ? r.category : debtBillCategory(d);
   });
 }
@@ -4392,6 +4528,7 @@ function comingUpThisMonth() {
   return Math.round(sum * 100) / 100;
 }
 function renderDerived() {
+  syncPreCleanupItem();
   renderStats(); renderCoach(); renderWeekNudges(); renderNotices(); renderStrip(); renderAreas();
   renderReplacements(); renderPurpose(); renderDiary(); renderPaths(); renderRoad();
   renderPie(); renderReturns(); renderLog(); renderMoney();
@@ -4844,13 +4981,14 @@ document.getElementById("goalSave").onclick = () => {
     if (goalAccount(gl) && !accountId) gl.current = Math.round(accountBal(gl.accountId) * 100) / 100;
     if (accountId && accountId !== gl.accountId) gl.linkStart = Math.round(accountBal(accountId) * 100) / 100;
     if (!accountId) gl.linkStart = null;
-    Object.assign(gl, { area, title, start, target, unit, unitCustom, direction, incomeCounts, accountId });
+    Object.assign(gl, { area, title, start, target, unit, unitCustom, direction, incomeCounts, accountId, touched: TODAY });
     savedGoal = gl;
   } else {
     data.goals.push(savedGoal = {
       id: uid("g"), area, title, start, current: start, target,
       unit, unitCustom, direction, incomeCounts, accountId,
       linkStart: accountId ? Math.round(accountBal(accountId) * 100) / 100 : null,
+      created: TODAY, touched: "",
       progress: []
     });
   }
@@ -5435,12 +5573,16 @@ function loggedToast(l) {
   const parts = [p ? p.name : "", l.minutes ? fmtMinutes(l.minutes) : "", l.area ? fastLabel(l.area) : ""].filter(Boolean);
   return PATH_STEP_COPY.toast + (parts.length ? " " + parts.join(" · ") : "");
 }
-function showToast(msg) {
+function showToast(msg, action) {
   const t = document.getElementById("toast");
   if (!t) return;
   t.textContent = msg; t.hidden = false;
+  if (action) {
+    const b = document.createElement("button"); b.type = "button"; b.className = "toast-act"; b.textContent = action.label;
+    b.onclick = () => { t.hidden = true; action.fn(); }; t.appendChild(b);
+  }
   clearTimeout(showToast._t);
-  showToast._t = setTimeout(() => { t.hidden = true; }, 1600);
+  showToast._t = setTimeout(() => { t.hidden = true; }, action ? 8000 : 1600);
 }
 const ICON_ALTS = { "icons/spirit.jpg": "Rising light" };
 function chipIcon(src) { return src ? '<img class="chip-icon" src="' + esc(iv(src)) + '" alt="' + esc(ICON_ALTS[src] || "") + '" />' : ""; }
@@ -5996,6 +6138,16 @@ function openProgressDialog(goalId) {
   document.getElementById("progressAccount").innerHTML = '<option value="">None</option>' + data.accounts.map(a => '<option value="' + esc(a.id) + '">' + esc(a.name) + '</option>').join("");
   document.getElementById("progressDialog").showModal();
   document.getElementById("progressAmount").focus();
+}
+function openGoalUpdate(goalId) {
+  const gl = data.goals.find(g => g.id === goalId); if (!gl) return;
+  if (data.selected !== TODAY) { data.selected = TODAY; save(); syncComposerDates(); }
+  openProgressDialog(goalId);
+  if (goalUnit(gl) !== "$") {
+    progressMode = "total"; syncProgressMode();
+    const inp = document.getElementById("progressAmount");
+    inp.value = String(Math.round(goalCurrent(gl) * 100) / 100); inp.select();
+  }
 }
 document.querySelectorAll("#progressMode [data-pmode]").forEach(btn => {
   btn.onclick = () => { progressMode = btn.dataset.pmode; syncProgressMode(); };
@@ -6677,7 +6829,14 @@ Object.assign(COACH_COPY, {
   greetSub: "Here's where things stand.",
   goalProgress: "{goal} is at {percent}%. One step today?",
   goalClose: "{goal} is almost there, {left} to go.",
-  goalStale: "{goal}: no progress in {days} days. Still want it?",
+  goalStale: "{goal} hasn't moved in {days} days. Where is it now?",
+  goalUpdate: "Update",
+  sleepAsk: "Did you get your {target} hours of sleep?",
+  sleepYes: "Yes",
+  sleepEdit: "Edit",
+  sleepLogged: "Logged {hours}h of sleep.",
+  sleepShort: "Short night. Go easy today, and protect tonight's sleep.",
+  firstMove: "What's your first move today?",
   goalDeadline: "{goal} is due in {days} days.",
   goalDone: "{goal} is done. Set the next one?",
   goalAddProgress: "Add progress",
@@ -6704,7 +6863,7 @@ Object.assign(COACH_COPY, {
   today: "today", tomorrow: "tomorrow", onDay: "on {weekday}"
 });
 const COACH_MAX = 3;
-const COACH_STALE_GOAL_DAYS = 14, COACH_PATH_DAYS = 7, COACH_TASK_DAYS = 14, COACH_BILL_DAYS = 3;
+const COACH_STALE_GOAL_DAYS = 7, COACH_PATH_DAYS = 7, COACH_TASK_DAYS = 14, COACH_BILL_DAYS = 3;
 function amt(n) { return moneyPlain(n).replace(/^\$/, ""); }
 function coachDayWord(date) {
   const n = daysBetween(TODAY, date);
@@ -6723,6 +6882,46 @@ function goalLeftText(gl) {
   return unit === "$" ? moneyPlain(left) : numFmt(left) + (unit && unit !== "times" ? " " + unitFor(left, unit) : unit === "times" ? " more" : "");
 }
 // Every note that applies today. type: goal | area | while | money. urgent notes go first.
+// Last day a goal moved: newest progress, an edit, or when it was made.
+function goalLastMoved(gl) {
+  return [(gl.progress || []).map(p => p.date).filter(Boolean).sort().pop() || "", gl.touched || "", gl.created || ""].sort().pop() || "";
+}
+function sleepTarget() {
+  const t = Number(data && data.sleepTarget);
+  return t >= 3 && t <= 14 ? t : 8;
+}
+function coachSleepHtml() {
+  const d = data.days[TODAY], sl = d && d.sleep;
+  const img = '<img class="coach-sleep-ic" src="icons/glyphs128/home/sleep.png?v=' + ICON_VER + '" alt="" onerror="this.remove()" />';
+  if (!sl) {
+    return '<div class="coach-sleep" data-note="sleep">' + img + '<div><p>' + esc(fillCopy(COACH_COPY.sleepAsk, { target: fmtHours(sleepTarget()) })) + '</p>' +
+      '<div class="row-actions"><button type="button" class="btn primary" id="coachSleepYes">' + esc(COACH_COPY.sleepYes) + '</button><button type="button" class="btn" id="coachSleepEdit">' + esc(COACH_COPY.sleepEdit) + '</button></div></div></div>';
+  }
+  const h = Number(sl.hours) || 0;
+  const other = data.tasks.some(t => t.date === TODAY) || (data.pathLogs || []).some(l => l.date === TODAY);
+  return '<div class="coach-sleep done" data-note="sleep-done">' + img + '<div><p class="sleep-logged">' + esc(fillCopy(COACH_COPY.sleepLogged, { hours: fmtHours(h) })) + ' · <button type="button" class="link-btn" id="coachSleepEdit">' + esc(COACH_COPY.sleepEdit) + '</button></p>' +
+    (h < 6 ? '<p class="sleep-short">' + esc(COACH_COPY.sleepShort) + '</p>' : "") +
+    (other ? "" : '<button type="button" class="link-btn first-move" id="coachFirstMove">' + esc(COACH_COPY.firstMove) + '</button>') + '</div></div>';
+}
+function bindCoachSleep(el) {
+  const yes = el.querySelector("#coachSleepYes");
+  if (yes) yes.onclick = () => {
+    const d = day(TODAY), h = sleepTarget();
+    if (!capGuard([TODAY], () => yes, () => { d.sleep = { hours: h, source: "confirm", acked: true }; })) return;
+    save(); renderCheckin(); renderDerived(); renderCoachNotes();
+  };
+  const ed = el.querySelector("#coachSleepEdit");
+  if (ed) ed.onclick = () => openSleepEditor();
+  const fm = el.querySelector("#coachFirstMove");
+  if (fm) fm.onclick = () => openScreen("paths");
+}
+// Edit from the coach card: the Check-in screen's bedtime / wake editor for today, without clearing what's logged.
+function openSleepEditor() {
+  if (data.selected !== TODAY) { data.selected = TODAY; save(); syncComposerDates(); }
+  sleepEditDate = TODAY;
+  openScreen("week"); renderCheckin(); renderDerived();
+  setTimeout(() => { const c = document.getElementById("checkin"); if (c) c.scrollIntoView({ block: "start" }); const b = document.getElementById("bed"); if (b) b.focus({ preventScroll: true }); }, 60);
+}
 function coachCandidates(today) {
   today = today || TODAY;
   const out = [];
@@ -6734,9 +6933,10 @@ function coachCandidates(today) {
     if (pct >= 100) { out.push({ key, type: "goal", text: fillCopy(COACH_COPY.goalDone, { goal: goalName(gl) }), actions: [{ act: "newgoal", id: gl.area, label: COACH_COPY.goalNext }] }); return; }
     const due = gl.deadline || gl.dueDate || gl.due || "";
     if (/^\d{4}-\d{2}-\d{2}$/.test(due)) { const d = daysBetween(today, due); if (d >= 0 && d <= 14) { out.push({ key, type: "goal", urgent: d <= 3, text: fillCopy(COACH_COPY.goalDeadline, { goal: goalName(gl), days: d }), actions: btn }); return; } }
-    const last = (gl.progress || []).map(p => p.date).filter(Boolean).sort().pop();
-    if (last && daysBetween(last, today) >= COACH_STALE_GOAL_DAYS) {
-      out.push({ key, type: "goal", text: fillCopy(COACH_COPY.goalStale, { goal: goalName(gl), days: daysBetween(last, today) }), actions: btn.concat([{ act: "pause", id: gl.id, label: COACH_COPY.goalPause }]) }); return;
+    const last = goalLastMoved(gl);
+    if (!goalAccount(gl) && last && daysBetween(last, today) >= COACH_STALE_GOAL_DAYS) {
+      // Stale goals come first (after the sleep question) and count toward the 3 notes.
+      out.push({ key, type: "goal", stale: true, urgent: true, days: daysBetween(last, today), text: fillCopy(COACH_COPY.goalStale, { goal: goalName(gl), days: daysBetween(last, today) }), actions: [{ act: "update", id: gl.id, label: COACH_COPY.goalUpdate }] }); return;
     }
     if (pct >= 80) out.push({ key, type: "goal", text: fillCopy(COACH_COPY.goalClose, { goal: goalName(gl), left: goalLeftText(gl) }), actions: btn });
     else out.push({ key, type: "goal", text: fillCopy(COACH_COPY.goalProgress, { goal: goalName(gl), percent: pct }), actions: btn });
@@ -6837,7 +7037,7 @@ function coachPick(today) {
   if (log && log.date === today) {
     const kept = log.keys.map(k => byKey.get(k)).filter(Boolean);
     const urgentNew = live.filter(n => n.urgent && !log.keys.includes(n.key));
-    if (!urgentNew.length && (kept.length || !live.length)) return kept.slice(0, COACH_MAX);
+    if (!urgentNew.length && (kept.length || !live.length)) return kept.slice(0, COACH_MAX).sort((a, b) => (b.stale ? 1 : 0) - (a.stale ? 1 : 0));
   }
   const seen = data.coachSeen || {};
   const order = live.slice().sort((a, b) => (b.urgent ? 1 : 0) - (a.urgent ? 1 : 0) || String(seen[a.key] || "").localeCompare(String(seen[b.key] || "")) || (b.days || 0) - (a.days || 0));
@@ -6847,6 +7047,7 @@ function coachPick(today) {
   data.coachSeen = Object.assign({}, seen); pick.forEach(n => { data.coachSeen[n.key] = today; });
   // keep the seen map small
   const ks = Object.keys(data.coachSeen); if (ks.length > 300) ks.sort((a, b) => data.coachSeen[a].localeCompare(data.coachSeen[b])).slice(0, ks.length - 300).forEach(k => delete data.coachSeen[k]);
+  pick.sort((a, b) => (b.stale ? 1 : 0) - (a.stale ? 1 : 0));
   data.coachToday = { date: today, keys: pick.map(n => n.key) };
   try { save(); } catch (e) {}
   return pick;
@@ -6863,7 +7064,9 @@ function renderCoachNotes() {
     let j = i; while (j < notes.length && notes[j].type === "money") j++;
     if (j - i >= 2) { for (let k = i; k < j; k++) notes[k]._grouped = true; groupEnd.add(j - 1); i = j; } else i = Math.max(j, i + 1);
   }
-  el.innerHTML = '<p class="kicker">Coach</p><p class="greet">' + esc(coachGreeting()) + '</p><p class="greet-sub">' + esc(COACH_COPY.greetSub) + '</p>' +
+  const hg = document.getElementById("homeGreet");
+  if (hg) hg.innerHTML = '<span class="greet">' + esc(coachGreeting()) + '</span> <span class="greet-sub">' + esc(COACH_COPY.greetSub) + '</span>';
+  el.innerHTML = '<p class="kicker">Coach</p>' + coachSleepHtml() +
     (notes.length ? notes.map((n, i) => { const acts = (n.actions || []).filter(a => !(n._grouped && isMoneyOpen(a))); return '<div class="coach-note" data-note="' + esc(n.key) + '" data-type="' + n.type + '"><p>' + esc(n.text) + '</p>' +
       (acts.length ? '<div class="row-actions">' + acts.map(a => '<button type="button" class="btn" data-note-act="' + esc(a.act) + '" data-note-id="' + esc(a.id) + '">' + esc(a.label) + '</button>').join("") + '</div>' : "") +
       '<button type="button" class="note-x" data-note-x="' + esc(n.key) + '" aria-label="' + esc(COACH_COPY.dismissNote) + '" title="' + esc(COACH_COPY.dismissNote) + '">×</button></div>' +
@@ -6875,9 +7078,11 @@ function renderCoachNotes() {
     data.coachDismissed.keys.push(k); save(); renderCoachNotes();
   });
   el.querySelectorAll("[data-note-act]").forEach(b => b.onclick = () => coachAction(b.dataset.noteAct, b.dataset.noteId));
+  bindCoachSleep(el);
 }
 function coachAction(act, id) {
   if (act === "progress") return openProgressDialog(id);
+  if (act === "update") return openGoalUpdate(id);
   if (act === "pause") { const g = data.goals.find(x => x.id === id); if (g) { g.paused = true; save(); renderDerived(); showToast("Paused. You can pick it up again in Goals."); } return; }
   if (act === "newgoal") return openGoalDialog(null, id);
   if (act === "screen") return openScreen(id);
@@ -6899,7 +7104,7 @@ fetch("icons/glyphs128/home/index.json?v=" + ICON_VER).then(r => r.ok ? r.json()
 const HOME_TILES = [
   { id: "paths", label: "Paths", icon: "icons/paths-section.jpg" },
   { id: "goals", label: "Goals", home: "goals" },
-  { id: "week", label: "This week", home: "week" },
+  { id: "week", label: "Check-in", home: "checkin" },
   { id: "diary", label: "Diary", home: "diary" },
   { id: "area:career", label: "Career", area: "career" },
   { id: "area:personal", label: "Growth", area: "personal" },
@@ -6911,7 +7116,7 @@ const HOME_TILES = [
   { id: "record", label: "Record", home: "record" },
   { id: "settings", label: "Settings", icon: "icons/settings.jpg" }
 ];
-const SCREEN_TITLES = { paths: "Paths", goals: "Goals", money: "Money", diary: "Diary", week: "This week", record: "Record" };
+const SCREEN_TITLES = { paths: "Paths", goals: "Goals", money: "Money", diary: "Diary", week: "Check-in", record: "Record" };
 function tileIcon(t) {
   // Pablo's home glyphs; a plain letter tile only if a file is ever missing.
   if (t.home && t.ifListed && !HOME_GLYPHS.has(t.home)) return '<img class="glyph" data-no-glyph src="' + esc(t.glyph) + '?v=' + ICON_VER + '" alt="" />';
@@ -6995,6 +7200,85 @@ function menuScreenFor(g) {
   return { timeCard: "home", checkin: "week", coach: "week", pathsPanel: "paths", diaryPanel: "diary", moneySection: "money", goalsPanel: "goals", recordSection: "record", weekNudges: "week" }[id] || "home";
 }
 
+// ---------- v29: repeat duplicates from older versions. Found on unlock, shown for review, merged only if you say so.
+// Flagged: two entries for the same repeat occurrence (repeatId + occ), or two payments for one debt in a month where one
+// is the auto bill and the amounts match. Hand-entered look-alikes (two grocery runs on one day) are never flagged.
+function findRepeatDuplicates() {
+  const reviewed = new Set(data.dupReviewed || []);
+  const out = [], seen = new Map();
+  data.money.forEach(m => {
+    if (!m.repeatId || !m.occ) return;
+    const k = m.repeatId + "|" + m.occ;
+    if (seen.has(k)) { if (!reviewed.has(m.id)) out.push({ m, keep: seen.get(k) }); } else seen.set(k, m);
+  });
+  const autoRule = id => { const r = data.repeats.find(x => x.id === id); return !!(r && r.debtAuto); };
+  const flagged = new Set(out.map(x => x.m.id));
+  const byDebtMonth = {};
+  data.money.forEach(m => { if (m.type === "expense" && m.debtId && !m.extraPayment) (byDebtMonth[m.debtId + "|" + m.date.slice(0, 7)] = byDebtMonth[m.debtId + "|" + m.date.slice(0, 7)] || []).push(m); });
+  Object.values(byDebtMonth).forEach(list => {
+    if (list.length < 2) return;
+    const auto = list.find(m => m.repeatId && autoRule(m.repeatId)); if (!auto) return;
+    list.forEach(m => {
+      if (m === auto || flagged.has(m.id) || reviewed.has(m.id)) return;
+      if (Math.abs(Number(m.amount) - Number(auto.amount)) > 0.004) return; // a different amount is a real payment
+      const keep = data.money.indexOf(auto) < data.money.indexOf(m) ? auto : m, drop = keep === auto ? m : auto;
+      if (flagged.has(drop.id) || reviewed.has(drop.id)) return;
+      out.push({ m: drop, keep }); flagged.add(drop.id);
+    });
+  });
+  return out;
+}
+let dupUndo = null;
+function mergeRepeatDuplicates(list) {
+  const snap = JSON.parse(JSON.stringify(Object.assign({}, data, { preCleanupBackup: undefined })));
+  data.preCleanupBackup = { at: new Date().toISOString(), data: snap };
+  const drop = new Set(list.map(x => x.m.id));
+  data.money.forEach(m => { if (drop.has(m.id)) revertEntryEffects(m); });
+  data.money = data.money.filter(m => !drop.has(m.id));
+  dupUndo = snap;
+  save(); renderDerived();
+  showToast("Merged. A backup from before is saved in Settings.", { label: "Undo", fn: undoDuplicateMerge });
+}
+function undoDuplicateMerge() {
+  if (!dupUndo) return;
+  const keepBackup = data.preCleanupBackup;
+  data = migrateLegacy(JSON.parse(JSON.stringify(dupUndo)));
+  data.preCleanupBackup = keepBackup;
+  data.dupReviewed = (data.dupReviewed || []).concat(findRepeatDuplicates().map(x => x.m.id)); // don't ask again right away
+  dupUndo = null; save(); renderDerived(); showToast("Undone. Everything is back.");
+}
+function syncPreCleanupItem() {
+  const b = document.getElementById("btnPreCleanup");
+  if (b) b.hidden = !(data && data.preCleanupBackup && data.preCleanupBackup.data);
+}
+async function restorePreCleanup() {
+  const bk = data.preCleanupBackup; if (!bk || !bk.data) return;
+  const when = new Date(bk.at);
+  const label = isNaN(when) ? "before the cleanup" : when.toLocaleDateString(undefined, { month: "long", day: "numeric", year: "numeric" });
+  const keepBtn = document.getElementById("confirmKeep"), keepTxt = keepBtn.textContent;
+  keepBtn.textContent = "Keep current";
+  const yes = await askDelete("Go back to your data from " + label + "? Anything you've added since then will be lost.", "Restore");
+  keepBtn.textContent = keepTxt;
+  if (!yes) return;
+  data = migrateLegacy(JSON.parse(JSON.stringify(bk.data)));
+  data.preCleanupBackup = bk;
+  data.dupReviewed = (data.dupReviewed || []).concat(findRepeatDuplicates().map(x => x.m.id)); // you chose these; don't ask again
+  dupUndo = null; save(); renderDerived(); showToast("Restored to " + label + ".");
+}
+function reviewRepeatDuplicates() {
+  const list = findRepeatDuplicates();
+  if (!list.length) return false;
+  const dlg = document.getElementById("dupDialog");
+  document.getElementById("dupTitle").textContent = "We found " + list.length + " " + (list.length === 1 ? "entry that looks like a duplicate." : "entries that look like duplicates.") + " Check them before we merge?";
+  document.getElementById("dupList").innerHTML = list.map(({ m }) => {
+    const acc = data.accounts.find(a => a.id === m.accountId);
+    return '<li data-dup="' + esc(m.id) + '">' + esc(moneyRowLabel(m) + " · " + prettyDate(m.date) + " · " + moneyPlain(m.amount) + " · " + (acc ? acc.name : "?")) + '</li>';
+  }).join("");
+  document.getElementById("dupMerge").onclick = () => { dlg.close(); mergeRepeatDuplicates(list); };
+  document.getElementById("dupKeep").onclick = () => { data.dupReviewed = (data.dupReviewed || []).concat(list.map(x => x.m.id)); save(); dlg.close(); };
+  openSheet(dlg, document.getElementById("dupMerge"));
+  return true;
+}
 function enterApp() {
   document.getElementById("vaultGate").hidden = true;
   document.getElementById("appRoot").hidden = false;
@@ -7009,7 +7293,7 @@ function enterApp() {
   currentScreen = ""; applyScreen("home");
   renderDerived();
   if (!data.guideSeen) openGuide();
-  else openFromHash();
+  else if (!reviewRepeatDuplicates()) openFromHash();
 }
 function lockApp() {
   // Close any open form so nothing private stays on screen over the lock.
@@ -7022,16 +7306,42 @@ function lockApp() {
   resetThemeVisuals(); // the picker never shows someone's theme or photo
   showStartScreen();
 }
+function backupFileName() {
+  const who = currentProfile ? currentProfile.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") : "";
+  return "higher-self-backup-" + (who ? who + "-" : "") + TODAY + ".hsbak";
+}
+function isNativeCapacitor() {
+  try { return !!(window.Capacitor && Capacitor.isNativePlatform && Capacitor.isNativePlatform()); } catch (e) { return false; }
+}
 async function downloadBackup() {
   if (!sessionPass || !data) return;
   const envelope = await encryptPayload(data, sessionPass);
   envelope.exportedAt = new Date().toISOString();
   envelope.note = "Higher Self encrypted backup. We can't read this file without your passphrase.";
-  const blob = new Blob([JSON.stringify(envelope, null, 2)], { type: "application/json" });
+  const text = JSON.stringify(envelope, null, 2);
+  const name = backupFileName();
+  // Capacitor APK: write .hsbak to cache, then open the system share sheet (Files / Drive / etc.).
+  // Browser / PWA: <a download> (blob downloads don't work in Android WebView).
+  if (isNativeCapacitor()) {
+    try {
+      const FS = Capacitor.Plugins.Filesystem;
+      const Share = Capacitor.Plugins.Share;
+      if (!FS || !Share) throw new Error("Filesystem/Share plugin missing");
+      await FS.writeFile({ path: name, data: text, directory: "CACHE", encoding: "utf8" });
+      const { uri } = await FS.getUri({ path: name, directory: "CACHE" });
+      // File only (no text) so Android offers Save to Files / Drive, not a text share.
+      await Share.share({ title: "Higher Self backup", files: [uri], dialogTitle: "Save backup" });
+      if (typeof showToast === "function") showToast("Pick where to save the backup.");
+    } catch (e) {
+      console.warn("Native backup share failed", e);
+      alert("Couldn't open the share sheet. Try again, or use the website to download a backup.");
+    }
+    return;
+  }
+  const blob = new Blob([text], { type: "application/json" });
   const a = document.createElement("a");
   a.href = URL.createObjectURL(blob);
-  const who = currentProfile ? currentProfile.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") : "";
-  a.download = "higher-self-backup-" + (who ? who + "-" : "") + TODAY + ".hsbak";
+  a.download = name;
   a.click();
   setTimeout(() => URL.revokeObjectURL(a.href), 2000);
 }
@@ -7059,6 +7369,7 @@ async function importBackupFile(file) {
   }
 }
 document.getElementById("btnBackup").onclick = downloadBackup;
+document.getElementById("btnPreCleanup").onclick = () => restorePreCleanup();
 document.getElementById("btnRestore").onclick = () => document.getElementById("restoreFile").click();
 document.getElementById("btnLock").onclick = lockApp;
 document.getElementById("btnRemoveProfile").onclick = async () => {
@@ -7348,7 +7659,6 @@ const MENU_GO = [
   { label: "Diary", icon: "icons/diary.jpg", el: () => document.getElementById("diaryPanel") },
   { label: "Money", icon: "icons/money.jpg", el: () => document.getElementById("moneySection") },
   { label: "Goals", icon: "icons/purpose.jpg", el: () => document.getElementById("goalsPanel") },
-  { label: "This week", icon: "icons/time-pie.jpg", el: () => document.getElementById("coach") },
   { label: "Record", icon: "icons/shadow.jpg", el: () => document.getElementById("recordSection") }
 ];
 (function setupMenu() {
