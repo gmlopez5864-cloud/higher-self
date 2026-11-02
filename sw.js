@@ -1,6 +1,8 @@
 /* Higher Self — offline shell for install / Add to Home Screen */
-const CACHE = "higher-self-v38";
-const ICON_VER = "38";
+const CACHE = "higher-self-v39";
+const ICON_VER = "39";
+// v39: theme picture sets. Only the default set is precached; the page caches another set when that theme is picked.
+const DEFAULT_ART_SETS = ["abstract"];
 // Plain URLs: shell + manifest/link icons. Versioned (?v=) URLs: every icon the page renders.
 const PRECACHE_PLAIN = [
   "./",
@@ -240,11 +242,12 @@ self.addEventListener("install", (event) => {
       .then(() => cache.add(new Request("./icons/glyphs128/home/index.json?v=" + ICON_VER, { cache: "reload" })).catch(() => {}))
       .then(() => fetch("./icons/glyphs128/home/index.json?v=" + ICON_VER, { cache: "reload" }).then((r) => r.json()).catch(() => []))
       .then((slugs) => Promise.all((Array.isArray(slugs) ? slugs : []).map((s) => cache.add(new Request("./icons/glyphs128/home/" + s + ".png?v=" + ICON_VER, { cache: "reload" })).catch(() => {}))))
-      // v32 theme picture sets (icons/<folder>/<set>/<file>, listed in icons/theme-art.json by make-theme-art.py), e.g. the Dojo guide pictures.
+      // v32 theme picture sets (icons/<folder>/<set>/<file>, listed in icons/theme-art.json by make-theme-art.py).
+      // v39: only DEFAULT_ART_SETS here; the rest are cached by the page when a theme is picked (and on first view).
       .then(() => fetch("./icons/theme-art.json?v=" + ICON_VER, { cache: "reload" }).then((r) => r.json()).catch(() => ({})))
       .then((j) => {
         const art = (j && j.art) || {}, urls = [];
-        Object.keys(art).forEach((dir) => Object.keys(art[dir] || {}).forEach((set) => (art[dir][set] || []).forEach((f) => urls.push("./" + dir + "/" + set + "/" + f + "?v=" + ICON_VER))));
+        Object.keys(art).forEach((dir) => Object.keys(art[dir] || {}).filter((set) => DEFAULT_ART_SETS.includes(set)).forEach((set) => (art[dir][set] || []).forEach((f) => urls.push("./" + dir + "/" + set + "/" + f + "?v=" + ICON_VER))));
         return Promise.all(urls.map((u) => cache.add(new Request(u, { cache: "reload" })).catch(() => {})));
       })
     ).then(() => self.skipWaiting())
