@@ -1913,6 +1913,7 @@
     <label class="field">Start<input id="planStart" type="time" /></label>
     <label class="field">End<input id="planEnd" type="time" /></label>
   </div>
+  <p class="hint" id="planTimesHint" aria-live="polite" style="margin:0.25rem 0 0"></p>
   <label class="field" id="planHoursWrap" style="margin-top:0.45rem" hidden>Hours<input id="planHours" type="number" min="0.25" max="24" step="0.25" inputmode="decimal" /></label>
   <label class="field" id="planRepeatWrap" style="margin-top:0.45rem">Repeat<select id="planRepeat"><option value="0">Never</option><option value="1">Every week</option><option value="2">Every 2 weeks</option><option value="3">Every 3 weeks</option><option value="4">Every 4 weeks</option></select></label>
   <label class="field" id="planDateLabel" style="margin-top:0.45rem">Date<input id="planDate" type="date" /></label>
@@ -2191,7 +2192,7 @@ const PATH_ICON_LABELS = {
 const PATH_WRESTLING_ICON = "icons/paths/wrestling.jpg";
 // Icon cache-bust: same filenames were re-cut, so every rendered icon URL carries ?v=. Stored data keeps plain paths.
 const ICON_VER = "39";
-const APP_VERSION = "39"; // shown in Settings as "Version 39"; bump with sw.js CACHE
+const APP_VERSION = "40"; // shown in Settings as "Version 40"; bump with sw.js CACHE
 const REPORT_EMAIL = "gmlopez5864@gmail.com";
 const LOGO_SRC = "icons/logo.jpg"; // swap the app logo here (header, menu button, vault screens)
 function plainIcon(src) { return String(src || "").split("?")[0]; }
@@ -2364,13 +2365,27 @@ function curAbs(v, opts) {
 function moneyFmt(n, code) { const v = curRound(n, code); return (v < 0 ? "−" : (v > 0 ? "+" : "")) + curAbs(v, { code }); }
 function moneyPlain(n, code) { const v = curRound(n, code); return (v < 0 ? "−" : "") + curAbs(v, { code }); }
 function sleepHours(bed, wake) {
-  if (!bed || !wake) return null;
-  const [bh, bm] = bed.split(":").map(Number);
-  const [wh, wm] = wake.split(":").map(Number);
-  if ([bh, bm, wh, wm].some(x => Number.isNaN(x))) return null;
-  let mins = (wh * 60 + wm) - (bh * 60 + bm);
-  if (mins <= 0) mins += 24 * 60;
-  return Math.round((mins / 60) * 10) / 10;
+  const sp = spanMins(bed, wake); if (!sp) return null;
+  return Math.round((sp.mins / 60) * 10) / 10;
+}
+// v40: one rule for a start/end pair. End at or before start means it ends the next day (+24h).
+// Returns { mins, over } or null when a time is missing.
+function spanMins(start, end) {
+  const re = /^([01]\d|2[0-3]):([0-5]\d)$/;
+  if (!re.test(String(start || "")) || !re.test(String(end || ""))) return null;
+  const [sh, sm] = start.split(":").map(Number), [eh, em] = end.split(":").map(Number);
+  let mins = (eh * 60 + em) - (sh * 60 + sm);
+  const over = mins <= 0;
+  if (over) mins += 24 * 60;
+  return { mins, over };
+}
+// Live line under start/end fields: "9h" or "Ends tomorrow at 7:00 AM · 9h". sameMsg: shown when start = end (rejected there).
+function spanHintText(start, end, opts) {
+  opts = opts || {};
+  const sp = spanMins(start, end); if (!sp) return "";
+  if (sp.mins === 24 * 60 && opts.sameMsg) return opts.sameMsg;
+  const h = fmtHours(sp.mins / 60) + "h";
+  return sp.over ? (opts.nextWord || "Ends tomorrow at") + " " + fmtClock(end) + " · " + h : h;
 }
 function prettyDate(s) {
   const d = parseISO(s);
@@ -3377,7 +3392,7 @@ function renderCheckin() {
       '<div class="row-actions"><button type="button" class="btn primary" id="confirm8">Confirm ' + fmtHours(sleepTarget()) + 'h</button>' + (editing ? '<button type="button" class="btn" id="sleepKeep">Keep ' + fmtHours(sleep.hours) + 'h</button>' : "") + '</div>' +
       '<p class="hint">Or bedtime and wake.</p>' +
       '<div class="time-row"><label class="field">Bedtime<input id="bed" type="time" /></label><label class="field">Wake<input id="wake" type="time" /></label><button type="button" class="btn" id="saveSleep">Save sleep</button></div>' +
-      '<p class="hint" id="sleepPreview"></p>';
+      '<p class="hint" id="sleepPreview" aria-live="polite"></p>';
   }
   const body =
     '<div class="sleep-row"><p class="q-title title-book"><img class="book" src="icons/sleep.jpg?v=39" alt="" />How did last night go?</p>' + sleepHtml + '</div>' +
@@ -3404,7 +3419,7 @@ function bindCheckin() {
       const hrs = sleepHours(document.getElementById("bed").value, document.getElementById("wake").value);
       const el = document.getElementById("sleepPreview");
       if (!el) return;
-      el.textContent = hrs == null ? "" : (hrs + "h" + (hrs < SLEEP_SHORT ? " · short night." : ""));
+      el.textContent = hrs == null ? "" : (spanHintText(document.getElementById("bed").value, document.getElementById("wake").value, { nextWord: "Ends next day at" }) + (hrs < SLEEP_SHORT ? " · short night." : ""));
     };
     document.getElementById("bed").addEventListener("input", preview);
     document.getElementById("wake").addEventListener("input", preview);
@@ -8929,7 +8944,8 @@ const PLAN_COPY = {
   shareTitle: "What your calendar shows", show: "Show details", busy: "Busy only", shareNote: "Busy only shows the time as busy, with no name.",
   always: "Always put '{event}' here",
   firstLog: "Log your first block of time",
-  overlap: "'{a}' and '{b}' overlap. Which one got the hour?"
+  overlap: "'{a}' and '{b}' overlap. Which one got the hour?",
+  sameTimes: "Start and end are the same. Pick an end time."
 };
 const SLEEP_AREA = "sleep";
 const PLAN_INTERVAL_WORD = { 1: "week", 2: "2 weeks", 3: "3 weeks", 4: "4 weeks" };
@@ -8993,7 +9009,11 @@ function occsTouching(date, opts) {
 // Planned (not yet confirmed) hours on a day, by area id (plus "sleep").
 function plannedHoursFor(date) {
   const map = { career: 0, personal: 0, social: 0, spiritual: 0, time: 0, sleep: 0 };
-  occsTouching(date).forEach(o => { if (o.done) return; occSegments(o).forEach(sg => { if (sg.date === date && map[o.area] != null) map[o.area] += sg.hours; }); });
+  // v40: a day whose sleep was logged by hand (bed/wake or "Confirm 8h") already holds that day's sleep, so planned
+  // sleep on it would count the same night twice (9h logged + 9h planned = 18h). Only plan-confirmed sleep adds up.
+  const sl = data.days && data.days[date] && data.days[date].sleep;
+  const handSleep = !!(sl && sl.source !== "plan");
+  occsTouching(date).forEach(o => { if (o.done) return; if (o.area === SLEEP_AREA && handSleep) return; occSegments(o).forEach(sg => { if (sg.date === date && map[o.area] != null) map[o.area] += sg.hours; }); });
   return map;
 }
 function pendingOccs(date) { return occsTouching(date).filter(o => !o.done); }
@@ -9037,6 +9057,9 @@ function confirmOcc(o) {
     if (o.area === SLEEP_AREA) {
       const d = day(sg.date);
       if (d.sleep && d.sleep.source !== "plan") return; // sleep already logged by hand: keep it
+      // v40: the evening piece of an overnight sleep (22:00-24:00) alone is not a night's sleep. If nothing from the night
+      // before is on that day, don't log "2h" as the day's sleep (it showed as a short night); the morning piece still counts.
+      if (sg.date === o.date && hmMin(o.end) > 0 && hmMin(o.end) <= hmMin(o.start) && !d.sleep && !occsTouching(sg.date).some(x => x.area === SLEEP_AREA && x.date < sg.date)) return;
       const prev = d.sleep && d.sleep.source === "plan" ? Number(d.sleep.hours) || 0 : 0;
       d.sleep = { hours: Math.round((prev + mins / 60) * 100) / 100, source: "plan" };
       return;
@@ -9191,11 +9214,18 @@ function syncPlanForm() {
   $("planRepeatWrap").hidden = mode !== "plan";
   $("planDaysWrap").hidden = mode !== "plan" || rep === 0;
   $("planUntilWrap").hidden = mode !== "plan" || rep === 0;
+  syncPlanTimesHint();
   $("planDateLabel").firstChild.textContent = mode === "plan" && rep > 0 ? "Starting" : "Date";
   $("planUntil").disabled = !$("planUntilOn").checked;
   $("planUntilDateText").textContent = fillCopy(PLAN_COPY.untilDate, { date: $("planUntil").value ? prettyDate($("planUntil").value) : "a date" });
   $("planDays").innerHTML = DAY_SHORT.map((d, i) => '<button type="button" class="chip" data-plan-day="' + i + '" aria-pressed="' + (planDaysPick.includes(i) ? "true" : "false") + '" aria-label="' + DAY_NAMES[i] + '">' + d + '</button>').join("");
   document.querySelectorAll("[data-plan-day]").forEach(b => b.onclick = () => { const i = Number(b.dataset.planDay); planDaysPick = planDaysPick.includes(i) ? planDaysPick.filter(x => x !== i) : planDaysPick.concat([i]).sort(); syncPlanForm(); });
+}
+function syncPlanTimesHint() {
+  const el = document.getElementById("planTimesHint"); if (!el) return;
+  const mode = planEdit ? planEdit.mode : "plan";
+  el.hidden = mode === "log";
+  el.textContent = spanHintText(document.getElementById("planStart").value, document.getElementById("planEnd").value, { sameMsg: PLAN_COPY.sameTimes });
 }
 function planFormErr(msg, el) { const m = document.getElementById("planErr"); m.textContent = msg; m.hidden = false; if (el) el.focus(); }
 function readPlanForm() {
@@ -9469,6 +9499,7 @@ async function importIcsFile(file) {
 document.getElementById("planArea").onchange = syncPlanForm;
 document.getElementById("planPath").onchange = syncPlanForm;
 document.getElementById("planRepeat").onchange = syncPlanForm;
+["planStart", "planEnd"].forEach(id => ["input", "change"].forEach(ev => document.getElementById(id).addEventListener(ev, () => { document.getElementById("planErr").hidden = true; syncPlanTimesHint(); })));
 ["planUntilOn", "planUntilOff"].forEach(id => document.getElementById(id).onchange = syncPlanForm);
 document.getElementById("planUntil").oninput = () => { document.getElementById("planUntilOn").checked = true; document.getElementById("planUntilOff").checked = false; syncPlanForm(); };
 document.getElementById("planDate").onchange = () => { if (!planDaysPick.length || (Number(document.getElementById("planRepeat").value) || 0) === 0) planDaysPick = [parseISO(document.getElementById("planDate").value).getDay()]; syncPlanForm(); };
