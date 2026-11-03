@@ -934,6 +934,78 @@
   .profile-icons button[aria-checked="true"] { border-color: var(--accent); }
   .profile-icons img { width: 40px; height: 40px; border-radius: 22%; object-fit: cover; }
   .menu-item.menu-danger { color: var(--warn); }
+  /* v43: Your road (feed) */
+  html:not(.can-say) .say-btn { display: none !important; }
+  .say-btn { display: inline-flex; align-items: center; gap: 0.25rem; text-decoration: underline; text-underline-offset: 2px; }
+  .say-btn img.say-ico { width: 20px; height: 20px; border-radius: 22%; flex: 0 0 20px; }
+  .rf-h-ico { width: 22px; height: 22px; border-radius: 22%; vertical-align: middle; margin-right: 0.35rem; }
+  .say-btn.saying { color: var(--accent-text, var(--accent)); font-weight: 700; }
+  .diary-say { display: block; }
+  .feed-panel .hint { margin-bottom: 0.6rem; }
+  .rf-chips, .rf-subs { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+  .rf-subs { margin-top: 0.45rem; }
+  .rf-subs .chip { font-size: 0.76rem; padding: 0.25rem 0.6rem; }
+  .rf-list { list-style: none; margin: 0.4rem 0 0; padding: 0; }
+  .rf-day h3 { margin: 1rem 0 0.4rem; font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); font-weight: 700; }
+  .rf-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 0.65rem 0.7rem; margin: 0 0 0.6rem; box-shadow: var(--shadow); color: var(--text); }
+  .rf-main { display: flex; gap: 0.65rem; align-items: flex-start; cursor: pointer; border-radius: 10px; }
+  .rf-main:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .rf-pic { width: 56px; height: 56px; flex: 0 0 56px; border-radius: 12px; object-fit: cover; background: var(--field); display: block; }
+  .rf-pic.is-photo { width: 76px; height: 76px; flex-basis: 76px; }
+  .rf-body { min-width: 0; flex: 1 1 auto; }
+  .rf-meta { margin: 0; display: flex; flex-wrap: wrap; gap: 0.15rem 0.5rem; align-items: baseline; font-size: 0.78rem; color: var(--muted); }
+  .rf-path { font-weight: 700; color: var(--text); font-size: 0.86rem; }
+  .rf-text { margin: 0.25rem 0 0; white-space: pre-wrap; overflow-wrap: anywhere; font-size: 0.95rem; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 6; -webkit-box-orient: vertical; overflow: hidden; }
+  .rf-quiet { color: var(--muted); font-style: italic; }
+  .rf-tags { margin: 0.25rem 0 0; font-size: 0.78rem; color: var(--muted); }
+  .rf-acts, .nfn-acts { display: flex; flex-wrap: wrap; gap: 0.2rem 0.6rem; margin-top: 0.15rem; }
+  .rf-thumbs { display: flex; gap: 0.35rem; margin: 0.45rem 0 0 calc(76px + 0.65rem); overflow-x: auto; }
+  .rf-thumb { width: 64px; height: 64px; border-radius: 10px; object-fit: cover; background: var(--field); flex: 0 0 64px; }
+  .rf-voice { display: flex; flex-wrap: wrap; align-items: center; gap: 0.3rem 0.55rem; margin-top: 0.5rem; padding: 0.45rem 0.55rem; border-radius: 12px; background: var(--field); border: 1px solid var(--line); }
+  .rf-play { display: inline-flex; align-items: center; gap: 0.35rem; min-height: 40px; }
+  .rf-play[aria-pressed="true"] { background: var(--accent); color: var(--onBtn); border-color: transparent; }
+  .rf-play-ico { font-size: 0.8rem; width: 1em; text-align: center; }
+  .rf-voice-k { font-size: 0.8rem; color: var(--muted); }
+  .rf-transcript { flex-basis: 100%; margin: 0.1rem 0 0; font-size: 0.88rem; white-space: pre-wrap; }
+  .rf-voice .rf-acts { flex-basis: 100%; margin: 0; }
+  .rf-otd { margin: 0.7rem 0 0.2rem; }
+  .rf-otd-h { margin: 0 0 0.35rem; font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); font-weight: 700; }
+  .rf-otd-card { display: flex; gap: 0.65rem; align-items: center; width: 100%; text-align: left; font: inherit; color: var(--text); cursor: pointer; margin-bottom: 0.45rem;
+    padding: 0.6rem 0.7rem; border-radius: 14px; border: 1px solid var(--accent); background: var(--card); background: color-mix(in srgb, var(--accent) 10%, var(--card)); }
+  .rf-otd-body { display: flex; flex-direction: column; gap: 0.12rem; min-width: 0; }
+  .rf-otd-k { font-size: 0.78rem; font-weight: 700; color: var(--accent-text, var(--text)); }
+  .rf-otd-t { font-size: 0.92rem; overflow-wrap: anywhere; }
+  .rf-otd-p { font-size: 0.76rem; color: var(--muted); }
+  .rf-none { margin: 1rem 0; color: var(--muted); text-align: center; }
+  .rf-empty { text-align: center; padding: 1rem 0.5rem 0.5rem; }
+  .rf-empty-art { display: flex; justify-content: center; margin-bottom: 0.4rem; }
+  .rf-empty-art img { width: 100%; max-width: 400px; height: auto; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 16px; }
+  .rf-empty-t { font-size: 1.05rem; font-weight: 700; margin: 0.3rem 0; }
+  .rf-empty .row-actions { justify-content: center; }
+  .rf-start { margin: 1.1rem 0 0.4rem; text-align: center; color: var(--muted); font-style: italic; }
+  .rf-more { margin: 0.3rem auto 0; }
+  /* Notes from now: oldest first, each later one a step further in (three steps at most) and a little warmer. */
+  .nfn-list { margin-top: 0.45rem; }
+  .nfn { --nfn-mix: 12%; --nfn-warm: 0%; display: flex; gap: 0.45rem; align-items: flex-start; margin: 0.35rem 0 0 0.7rem; padding: 0.45rem 0.6rem; border-radius: 12px;
+    background: var(--field); border-left: 3px solid var(--accent);
+    background: color-mix(in srgb, color-mix(in srgb, var(--accent), #E0823C var(--nfn-warm)) var(--nfn-mix), var(--card));
+    border-left-color: color-mix(in srgb, var(--accent), #E0823C var(--nfn-warm)); }
+  .nfn-1 { --nfn-mix: 16%; --nfn-warm: 18%; margin-left: 1.3rem; }
+  .nfn-2 { --nfn-mix: 20%; --nfn-warm: 34%; margin-left: 1.9rem; }
+  .nfn-ico { flex: 0 0 auto; width: 28px; height: 28px; border-radius: 22%; object-fit: contain; }
+  .nfn-body { min-width: 0; flex: 1 1 auto; }
+  .nfn-from { margin: 0; font-size: 0.76rem; font-weight: 700; color: var(--muted); }
+  .nfn-text { margin: 0.1rem 0 0; white-space: pre-wrap; overflow-wrap: anywhere; font-size: 0.9rem; font-style: italic; color: var(--text); }
+  .nfn-add { margin: 0.35rem 0 0; display: inline-block; text-decoration: underline; text-underline-offset: 2px; }
+  .nfn-compose { margin: 0.4rem 0 0 0.7rem; }
+  .nfn-compose textarea { width: 100%; }
+  .rf-entry-head { display: flex; gap: 0.6rem; align-items: center; margin-bottom: 0.5rem; }
+  .rf-entry-head h3 { margin: 0; }
+  .rf-full-text { white-space: pre-wrap; overflow-wrap: anywhere; font-size: 1rem; line-height: 1.45; margin: 0.4rem 0 0.2rem; }
+  .rf-entry .diary-photo { max-width: 100%; }
+  /* On a picture background: frost the panel so cards and date lines stay readable. */
+  html.has-bg .feed-panel { -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
+  html.has-bg .rf-card, html.has-bg .rf-otd-card { -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
   #themeBg { position: fixed; inset: 0; z-index: -1; background-size: cover; background-position: center; display: none; pointer-events: none; }
   #themeBg::after { content: ""; position: absolute; inset: 0; background: var(--veil, transparent); }
   html.has-bg { background: var(--bg); }
@@ -1167,14 +1239,14 @@
   <header class="top">
     <div class="brand-row">
       <div class="brand">
-        <h1 class="brand-mark"><button type="button" class="logo-btn" id="logoBtn" aria-label="Open menu" aria-haspopup="dialog" aria-expanded="false" aria-controls="menuDrawer"><img class="book app-mark" id="logoImg" src="icons/logo.jpg?v=42" alt="" /></button>Higher Self</h1>
+        <h1 class="brand-mark"><button type="button" class="logo-btn" id="logoBtn" aria-label="Open menu" aria-haspopup="dialog" aria-expanded="false" aria-controls="menuDrawer"><img class="book app-mark" id="logoImg" src="icons/logo.jpg?v=43" alt="" /></button>Higher Self</h1>
         <p id="todayLabel"></p>
       </div>
     </div>
     <div class="screen-bar" id="screenBar" hidden><button type="button" class="btn" id="screenBack" aria-label="Back to home">‹ Back</button><h2 id="screenTitle"></h2></div>
     <p class="home-greet" id="homeGreet" data-scr="home"></p>
     <section class="panel time-card" id="timeCard" data-scr="home" aria-labelledby="pieTitle">
-      <h2 id="pieTitle" class="title-book"><img class="book" src="icons/time-pie.jpg?v=42" alt="" />Where your time goes</h2>
+      <h2 id="pieTitle" class="title-book"><img class="book" src="icons/time-pie.jpg?v=43" alt="" />Where your time goes</h2>
       <div class="chip-row" id="timeViewToggle" role="radiogroup" aria-label="Day / Week">
         <button type="button" class="chip" data-tview="day" aria-pressed="true">Today</button>
         <button type="button" class="chip" data-tview="week" aria-pressed="false">This week</button>
@@ -1234,7 +1306,7 @@
 
   <section class="panel" id="replacementPanel" data-scr="record" aria-labelledby="replTitle">
     <h2 id="replTitle">Replacement list</h2>
-    <div class="book-slot"><img class="book" src="icons/shadow.jpg?v=42" alt="" /><span>When a pull hits</span></div>
+    <div class="book-slot"><img class="book" src="icons/shadow.jpg?v=43" alt="" /><span>When a pull hits</span></div>
     <p class="hint">Moves you picked ahead for when a pull hits.</p>
     <p class="hint">When a pull shows up, offer one from this list.</p>
     <ul class="entry-list" id="replList"></ul>
@@ -1249,8 +1321,8 @@
     <h2 id="diaryTitle">Diary</h2>
     <div class="book-slot" title="Diary and shadow icons">
       <span class="book-set">
-        <img class="book" src="icons/diary.jpg?v=42" alt="" />
-        <img class="book" src="icons/shadow.jpg?v=42" alt="" />
+        <img class="book" src="icons/diary.jpg?v=43" alt="" />
+        <img class="book" src="icons/shadow.jpg?v=43" alt="" />
       </span>
       <span>Diary</span>
     </div>
@@ -1297,10 +1369,30 @@
   </section>
 
   <section class="panel" id="pathsPanel" data-scr="paths" aria-labelledby="pathsTitle">
-    <h2 id="pathsTitle" class="title-book"><img class="book" src="icons/paths-section.jpg?v=42" alt="" />Your paths</h2>
+    <h2 id="pathsTitle" class="title-book"><img class="book" src="icons/paths-section.jpg?v=43" alt="" />Your paths</h2>
     <div class="row-actions"><button type="button" class="btn primary" id="pathAddBtn">Add path</button><button type="button" class="btn" id="pathManageBtn">Manage paths</button></div>
     <p class="hint">Martial artist, writer, father, husband, whatever you're walking.</p>
     <div id="pathList"></div>
+  </section>
+
+  <section class="panel feed-panel" id="feedPanel" data-scr="feed" aria-labelledby="feedTitle">
+    <h2 id="feedTitle" class="title-book"><img class="book glyph" data-gv="feed/feed.png" alt="" />Your road</h2>
+    <p class="hint">What you wrote and walked, newest first.</p>
+    <div id="feedFilters">
+      <div class="chip-row rf-chips" id="feedChips" role="group" aria-label="Show"></div>
+      <div class="chip-row rf-subs" id="feedSub" role="group" aria-label="Which entries"></div>
+    </div>
+    <div id="feedOtd"></div>
+    <ul class="rf-list" id="feedList"></ul>
+    <p class="rf-none" id="feedNone" hidden>Nothing on this path yet.</p>
+    <div class="rf-empty" id="feedEmpty" hidden>
+      <div class="rf-empty-art" id="feedEmptyArt" data-art-slot="feed-empty"></div>
+      <p class="rf-empty-t">Your road starts with your first entry.</p>
+      <p class="hint">Write in the Diary or log a moment on a path, and it shows up here.</p>
+      <div class="row-actions"><button type="button" class="btn primary" id="feedEmptyGo">Open the Diary</button></div>
+    </div>
+    <div class="row-actions"><button type="button" class="btn rf-more" id="feedMore" hidden>Show older</button></div>
+    <p class="rf-start" id="feedStart" hidden></p>
   </section>
 
   <section class="panel" id="goalsPanel" data-scr="goals" aria-labelledby="goalsTitle"><h2 id="goalsTitle" class="title-book">Goals</h2><div class="row-actions"><button type="button" class="btn primary" id="goalsAdd">Add goal</button></div><ul class="entry-list" id="goalsList"></ul></section>
@@ -1311,6 +1403,7 @@
       <h2 id="logTitle">The Record</h2>
       <p class="hint">Did you notice the pull and steer it? That's the record.</p>
       <p class="hint">The day, not your worth.</p>
+      <div class="row-actions"><button type="button" class="btn" id="recordRoad">See your road</button></div>
       <label class="field record-filter"><select id="recordFilter" aria-label="Filter the record by pull"><option value="">All pulls</option></select></label>
       <div class="tally" id="recordTally"></div>
       <ul class="log-list record-list" id="logList"></ul>
@@ -1321,7 +1414,7 @@
       </div>
     </section>
     <section class="side" id="moneySection" data-scr="money" aria-labelledby="moneyTitle">
-      <h2 id="moneyTitle" class="title-book"><img class="book" src="icons/money.jpg?v=42" alt="" />Money tracker</h2>
+      <h2 id="moneyTitle" class="title-book"><img class="book" src="icons/money.jpg?v=43" alt="" />Money tracker</h2>
       <div class="row-actions screen-only"><button type="button" class="btn primary" id="moneyAddHere">Add money</button></div>
       <div class="account-grid" id="accountGrid"></div>
       <ul class="acct-targets" id="accountTargets" hidden></ul>
@@ -1703,7 +1796,7 @@
     <button type="button" class="btn" id="menuClose">Close</button>
   </div>
   <button type="button" class="menu-row menu-settings" id="menuSettingsToggle" aria-expanded="false" aria-controls="menuSettings">
-    <img src="icons/settings.jpg?v=42" alt="" /><span><b>Settings</b><small>Themes, backup, reminders, guide, lock</small></span>
+    <img src="icons/settings.jpg?v=43" alt="" /><span><b>Settings</b><small>Themes, backup, reminders, guide, lock</small></span>
   </button>
   <div class="menu-group" id="menuSettings" hidden>
     <button type="button" class="menu-item" id="btnOptions">All settings</button>
@@ -1816,7 +1909,7 @@
     <div class="row-actions"><button type="button" class="btn" id="optAddPull">Add pull</button><button type="button" class="btn" id="optManagePulls">Manage pulls</button></div>
   </div>
   <div class="subpanel" id="purposePanel" aria-labelledby="purposeTitle">
-    <h3 id="purposeTitle" class="title-book"><img class="book" src="icons/purpose.jpg?v=42" alt="" />Purpose (optional)</h3>
+    <h3 id="purposeTitle" class="title-book"><img class="book" src="icons/purpose.jpg?v=43" alt="" />Purpose (optional)</h3>
     <p class="hint">A note on how you're walking the path you already picked. Not a new choice, and not a finish.</p>
 
     <div class="subpanel">
@@ -1915,6 +2008,11 @@
   <div class="actions"><button type="button" class="btn primary" id="pmClose">Done</button></div>
 </dialog>
 
+<dialog id="feedEntryDialog" class="wide rf-entry" aria-labelledby="feedEntryTitle">
+  <div id="feedEntryBody"></div>
+  <div class="actions"><button type="button" class="btn" id="feedEntryDiary">Open this day in the Diary</button><button type="button" class="btn" id="feedEntryEdit">Edit</button><button type="button" class="btn primary" id="feedEntryClose">Close</button></div>
+</dialog>
+
 <dialog id="pathLogDialog" class="wide">
   <h3 id="pathLogTitle" class="title-book"></h3>
   <div id="plFields"></div>
@@ -1985,7 +2083,7 @@
 <dialog id="planDialog" class="wide" aria-labelledby="planDialogTitle">
   <h3 id="planDialogTitle">Add a planned block</h3>
   <label class="field">Area<select id="planArea"></select></label>
-  <p class="hint">Pick one. Where did your attention actually go?</p>
+  <p class="hint" id="planPickHint">Pick one. Where will your attention go?</p>
   <label class="field" id="planPathWrap">Path<select id="planPath"></select></label>
   <label class="field" id="planNewPathWrap" hidden>New path<input id="planNewPath" type="text" maxlength="60" placeholder="Work, father, writer…" /></label>
   <label class="field" style="margin-top:0.45rem">What (optional)<input id="planTitle" type="text" maxlength="120" placeholder="Work, sleep, practice…" /></label>
@@ -2328,8 +2426,8 @@ const PATH_ICON_LABELS = {
 };
 const PATH_WRESTLING_ICON = "icons/paths/wrestling.jpg";
 // Icon cache-bust: same filenames were re-cut, so every rendered icon URL carries ?v=. Stored data keeps plain paths.
-const ICON_VER = "42";
-const APP_VERSION = "42"; // shown in Settings as "Version 40"; bump with sw.js CACHE
+const ICON_VER = "43";
+const APP_VERSION = "43"; // shown in Settings as "Version 40"; bump with sw.js CACHE
 const REPORT_EMAIL = "gmlopez5864@gmail.com";
 const LOGO_SRC = "icons/logo.jpg"; // swap the app logo here (header, menu button, vault screens)
 function plainIcon(src) { return String(src || "").split("?")[0]; }
@@ -2409,9 +2507,7 @@ const ADDICTION_STEER_PROMPT = "What will you do instead? Pick it before the urg
 // Addiction has no fixed steer: you name what you'll do instead ("Freedom" is only the placeholder). Its chips use
 // Pablo's steer-freedom icon.
 const ADDICTION_STEER_IMG = "icons/steer-freedom.jpg", ADDICTION_STEER_PLACEHOLDER = "Freedom";
-// PENDING Guillermo's yes: Addiction's opposite. Set to null to drop it, or change the label here (one line).
-const ADDICTION_OPPOSITE = { label: "Clarity", img: "icons/opp-clarity.jpg" };
-if (ADDICTION_OPPOSITE) PULL_OPPOSITES.addiction = ADDICTION_OPPOSITE;
+// v43 (Guillermo): Addiction has no preset opposite and no preset steer. The person names the steer (or leaves it).
 const ADDICTION_QUOTES = ["This is not only quitting. Quitting leaves a hole, and holes pull the old habit back in.", "Make the list. Not when the urge arrives. Before it."];
 const PAIR_COPY = {
   add: "+ Add your own", pickPull: "Pick a shadow", pickSteer: "Pick a steer",
@@ -2632,6 +2728,7 @@ function blankDay() {
 }
 const PICK_MAX = 5;
 const PICK_ONE = "Pick one. Where did your attention actually go?"; // locked: shown on every area picker
+const PICK_ONE_PLAN = "Pick one. Where will your attention go?"; // v43: planned (future) blocks; logging what happened keeps PICK_ONE
 const NOT_WORTH = "The day, not your worth."; // locked: next to every Good / Neutral / Bad
 // Path-log step copy. Swap wording here only (final copy may come from Oni or Ñandutí).
 // The "real reason" question. One string, used by the check-in and every path's Clean spirit step.
@@ -2917,6 +3014,14 @@ function migrateLegacy(raw) {
     journal: String(l.journal || ""), source: l.source === "checkin" ? "checkin" : l.source === "plan" ? "plan" : "log",
     planKey: typeof l.planKey === "string" ? l.planKey : ""
   })) : [];
+  // v43: "Note from now". Separate records under an entry (ref "d:<diary id>" or "pl:<path log id>"); the entry itself
+  // is never touched. Notes whose entry is gone are dropped.
+  {
+    const dIds = new Set(d.diary.map(e => e.id)), lIds = new Set(d.pathLogs.map(l => l.id));
+    d.lookBacks = (Array.isArray(d.lookBacks) ? d.lookBacks : []).filter(n => n && typeof n.ref === "string" && typeof n.text === "string" && n.text.trim() && !isNaN(new Date(n.at)))
+      .filter(n => { const m = /^(d|pl):(.+)$/.exec(n.ref); return m && (m[1] === "d" ? dIds : lIds).has(m[2]); })
+      .map(n => Object.assign({ id: typeof n.id === "string" && n.id ? n.id : uid("nb"), ref: n.ref, text: n.text.slice(0, 1000), at: String(n.at) }, n.editedAt ? { editedAt: String(n.editedAt) } : {}));
+  }
   d.lastTaskArea = (typeof d.lastTaskArea === "string" && AREAS.some(a => a.id === d.lastTaskArea)) ? d.lastTaskArea : null;
   if (!d.purpose || Array.isArray(d.purpose) || typeof d.purpose !== "object") {
     d.purpose = blankPurpose();
@@ -3361,7 +3466,7 @@ function addCustomPull(label, steer, opposite, img) {
 }
 function sortedDesc(list) { return list.slice().sort((a, b) => a.date < b.date ? 1 : a.date > b.date ? -1 : 0); }
 function bookSlot(label) {
-  return '<span class="book-slot" title="Area notes"><img class="book" src="icons/area-note.jpg?v=42" alt="" /><span>' + esc(label) + '</span></span>';
+  return '<span class="book-slot" title="Area notes"><img class="book" src="icons/area-note.jpg?v=43" alt="" /><span>' + esc(label) + '</span></span>';
 }
 function pickReplacement() {
   if (!data.replacements.length) return null;
@@ -3600,7 +3705,7 @@ function renderCheckin() {
       '<p class="hint" id="sleepPreview" aria-live="polite"></p>';
   }
   const body =
-    '<div class="sleep-row"><p class="q-title title-book"><img class="book" src="icons/sleep.jpg?v=42" alt="" />How did last night go?</p>' + sleepHtml + '</div>' +
+    '<div class="sleep-row"><p class="q-title title-book"><img class="book" src="icons/sleep.jpg?v=43" alt="" />How did last night go?</p>' + sleepHtml + '</div>' +
     pathCheckinHtml(date);
   document.getElementById("checkinBody").innerHTML = body;
   if (editing && sleep.source === "times") { const b = document.getElementById("bed"), w = document.getElementById("wake"); if (b) b.value = sleep.bed || ""; if (w) w.value = sleep.wake || ""; }
@@ -5471,7 +5576,7 @@ function renderDerived() {
   try { renderMonthBox(); } catch (e) { console.error(e); }
   syncPreCleanupItem();
   renderStats(); renderCoach(); renderWeekNudges(); renderNotices(); renderStrip(); renderAreas();
-  renderReplacements(); renderPurpose(); renderDiary(); renderPaths(); renderRoad();
+  renderReplacements(); renderPurpose(); renderDiary(); renderPaths(); renderRoad(); renderFeed(true);
   renderPie(); renderReturns(); renderLog(); renderMoney();
   renderGoalsPanel(); renderPieDay(); if (currentScreen === "home") renderCoachNotes(); if (currentScreen === "coach") renderCoachPage();
 }
@@ -6072,7 +6177,7 @@ async function sweepMedia() {
 function removeDiaryEntry(id) {
   const e = data.diary.find(n => n.id === id);
   if (e && e.media) deleteMedia(e.media.map(m => m.id));
-  data.diary = data.diary.filter(n => n.id !== id); save(); renderBackupSize();
+  data.diary = data.diary.filter(n => n.id !== id); dropLookBacks("d:" + id); save(); renderBackupSize();
 }
 async function exportMedia() {
   const out = {};
@@ -6088,6 +6193,7 @@ async function restoreMedia(media) {
   return n;
 }
 function mediaOnLock() {
+  try { sayStop(); feedStopAudio(); const fl = document.getElementById("feedList"); if (fl) fl.innerHTML = ""; const fo = document.getElementById("feedOtd"); if (fo) fo.innerHTML = ""; } catch (e) {}
   if (diaryRec) { diaryRec.discard = true; try { diaryRec.mr.stop(); } catch (e) {} }
   if (dMedia.length) { const ids = dMedia.map(m => m.id); dMedia = []; deleteMedia(ids); }
   mediaUrls.forEach(u => URL.revokeObjectURL(u)); mediaUrls.clear(); mediaKeys.clear();
@@ -6193,7 +6299,7 @@ function diaryMediaHtml(entryId, media) {
     const text = String(m.text || "").trim();
     return '<div class="diary-voice" data-voice="' + esc(m.id) + '"><span class="voice-k">' + esc(MEDIA_COPY.voice + " · " + fmtSecs(m.secs || 0)) + '</span>' +
       '<audio controls preload="none" data-media-src="' + esc(m.id) + '"></audio>' +
-      (text ? '<p class="transcript">' + esc(text) + '</p><p class="hint transcript-note">' + esc(MEDIA_COPY.transcribed) + '</p>'
+      (text ? '<p class="transcript">' + esc(text) + '</p><p class="hint transcript-note">' + esc(MEDIA_COPY.transcribed) + '</p>' + sayBtn(text)
         : (speechOk ? '<button type="button" class="btn to-text" data-to-text="' + esc(entryId + "|" + m.id) + '">' + esc(MEDIA_COPY.toText) + '</button>' : "")) + '</div>';
   }).join("") + '</div>';
 }
@@ -6246,6 +6352,7 @@ async function transcribeVoice(entryId, mediaId, btn) {
     if (!text) throw new Error("empty");
     m.text = text.slice(0, 4000); m.textAt = new Date().toISOString(); m.textHow = "on-device";
     save(); renderDiary(); if (document.getElementById("diaryFull").open) renderDiaryFullList();
+    if (document.getElementById("feedEntryDialog").open) renderFeedEntry(); renderFeed(true);
   } catch (err) {
     console.warn("transcribe", err);
     if (btn) { btn.disabled = false; btn.textContent = MEDIA_COPY.toText; }
@@ -6436,7 +6543,9 @@ function feedItemHtml(it) {
   const hasMedia = it.media && it.media.length;
   const text = it.text ? esc(it.text) : (it.kind === "note" && !hasMedia ? "(no text)" : "");
   const media = hasMedia ? diaryMediaHtml(it.id, it.media) : "";
-  return '<li data-feed-kind="' + it.kind + '"><div class="note-body">' + tagLine + '<span class="feed-text">' + text + '</span>' + media + reason + offer + '</div>' +
+  const say = it.text && (it.kind === "note" || it.kind === "path") ? '<span class="diary-say">' + sayBtn(it.text) + '</span>' : "";
+  const back = it.kind === "note" ? lookBacksHtml("d:" + it.id, "", false) : it.kind === "path" ? lookBacksHtml("pl:" + it.id, "", false) : "";
+  return '<li data-feed-kind="' + it.kind + '"><div class="note-body">' + tagLine + '<span class="feed-text">' + text + '</span>' + say + media + reason + offer + back + '</div>' +
     (it.kind === "note" ? '<button type="button" class="tiny" data-del-diary="' + esc(it.id) + '">Remove</button>' : "") + '</li>';
 }
 function syncDiaryFilterUI() {
@@ -6521,6 +6630,418 @@ document.getElementById("dfEarlier").onclick = () => { diaryDay = shift(diaryDay
 document.getElementById("dfLater").onclick = () => { diaryDay = shift(diaryDay || data.selected, 1); renderDiaryFull(); renderDiary(); };
 document.getElementById("dfClose").onclick = () => { document.getElementById("diaryFull").close(); renderDiary(); };
 document.getElementById("diaryFull").addEventListener("close", () => { if (data) renderDiary(); });
+
+// ---------- v43: Read aloud. The phone's own voices only: in the APK the local HSSay plugin (Android TextToSpeech,
+// offline voices only; Android's WebView has no speechSynthesis); in a browser, speechSynthesis with a voice marked
+// localService (network voices are never used). When neither is there, the buttons stay hidden.
+const SAY_COPY = { read: "Read aloud", stop: "Stop", fail: "Couldn't read this aloud on this phone." };
+let sayOk = false, sayChecked = false, sayNow = null, sayN = 0;
+function sayPlugin() { return isNativeCapacitor() && window.Capacitor && Capacitor.Plugins && Capacitor.Plugins.HSSay; }
+function sayLocalVoice() {
+  const s = window.speechSynthesis; if (!s || !window.SpeechSynthesisUtterance || !s.getVoices) return null;
+  const want = String(navigator.language || "en-US").toLowerCase(), base = want.split("-")[0];
+  const vs = (s.getVoices() || []).filter(v => v && v.localService === true);
+  const norm = l => String(l || "").toLowerCase().replace("_", "-");
+  return vs.find(v => norm(v.lang) === want) || vs.find(v => norm(v.lang).split("-")[0] === base) || null;
+}
+function sayPaint() { document.documentElement.classList.toggle("can-say", !!sayOk); }
+async function sayCheck() {
+  if (sayChecked) return sayOk; sayChecked = true;
+  const P = sayPlugin();
+  if (P) {
+    try { sayOk = !!(P.available && (await P.available({ lang: navigator.language || "" })).available === true); } catch (e) { sayOk = false; }
+    if (sayOk && P.addListener) { try { P.addListener("sayDone", ev => { if (sayNow && ev && ev.id === sayNow.uid) sayEnded(); }); } catch (e) {} }
+  } else if (window.speechSynthesis && window.SpeechSynthesisUtterance) {
+    sayOk = !!sayLocalVoice();
+    if (!sayOk) {
+      await new Promise(res => { const t = setTimeout(res, 2000); try { speechSynthesis.addEventListener("voiceschanged", () => { clearTimeout(t); res(); }, { once: true }); } catch (e) { clearTimeout(t); res(); } });
+      sayOk = !!sayLocalVoice();
+    }
+  }
+  sayPaint();
+  return sayOk;
+}
+function sayBtn(text) {
+  const t = String(text || "").trim(); if (!t) return "";
+  return '<button type="button" class="tiny say-btn" data-say-text="' + esc(t.slice(0, 8000)) + '" aria-pressed="false"><img class="glyph say-ico" src="' + gv(FEED_ART.say) + '" alt="" /><span class="say-t">' + esc(SAY_COPY.read) + '</span></button>';
+}
+function sayLabel(btn, on) {
+  const t = btn.querySelector(".say-t"), i = btn.querySelector(".say-ico");
+  if (t) t.textContent = on ? SAY_COPY.stop : SAY_COPY.read; else btn.textContent = on ? SAY_COPY.stop : SAY_COPY.read;
+  if (i) i.setAttribute("src", gv(on ? FEED_ART.sayStop : FEED_ART.say));
+  btn.setAttribute("aria-pressed", on ? "true" : "false"); btn.classList.toggle("saying", on);
+}
+function sayEnded() {
+  const n = sayNow; sayNow = null;
+  if (n && n.btn) sayLabel(n.btn, false);
+}
+function sayStop() {
+  if (!sayNow) return;
+  const P = sayPlugin();
+  try { if (P) P.stop(); else if (window.speechSynthesis) speechSynthesis.cancel(); } catch (e) {}
+  sayEnded();
+}
+function sayToggle(btn) {
+  if (sayNow && sayNow.btn === btn) { sayStop(); return; }
+  sayStop();
+  if (!sayOk) return;
+  const text = btn.dataset.sayText || "", uid2 = "say" + (++sayN);
+  sayNow = { btn, uid: uid2 };
+  sayLabel(btn, true);
+  const failed = () => { if (sayNow && sayNow.uid === uid2) { sayEnded(); showToast(SAY_COPY.fail); } };
+  const P = sayPlugin();
+  if (P) { Promise.resolve(P.speak({ text, lang: navigator.language || "", id: uid2 })).catch(failed); return; }
+  try {
+    const u = new SpeechSynthesisUtterance(text), v = sayLocalVoice();
+    if (v) { u.voice = v; u.lang = v.lang; }
+    u.onend = () => { if (sayNow && sayNow.uid === uid2) sayEnded(); };
+    u.onerror = e => { if (e && (e.error === "interrupted" || e.error === "canceled")) { if (sayNow && sayNow.uid === uid2) sayEnded(); return; } failed(); };
+    speechSynthesis.cancel(); speechSynthesis.speak(u);
+  } catch (e) { failed(); }
+}
+document.addEventListener("click", e => {
+  const b = e.target.closest && e.target.closest("[data-say-text]");
+  if (!b) return;
+  e.preventDefault(); e.stopPropagation();
+  sayToggle(b);
+}, true);
+
+// ---------- v43: Your road. One feed of diary entries and path logs, newest first, from today back to the first
+// entry. Built at render time from what's already in the vault; nothing new is stored except "Note from now"
+// (data.lookBacks: separate records { id, ref, text, at, editedAt } that never change the entry they sit under).
+// No likes, counts, streaks or scores anywhere in here.
+const FEED_COPY = {
+  title: "Your road", sub: "What you wrote and walked, newest first.",
+  everything: "Everything", diary: "Diary", all: "All", photos: "Photos", voice: "Voice notes", text: "Text",
+  today: "Today", yesterday: "Yesterday", start: "This is where you started. {date}.", emptyFilter: "Nothing on this path yet.",
+  emptyTitle: "Your road starts with your first entry.", emptyBody: "Write in the Diary or log a moment on a path, and it shows up here.", emptyGo: "Open the Diary",
+  onThisDay: "On this day", monthAgo: "One month ago", yearAgo: "One year ago", older: "Show older",
+  noteBtn: "Note from now", notePh: "What would you tell yourself now?", noteFrom: "From you, {date}:", save: "Save", cancel: "Cancel", edit: "Edit", del: "Delete",
+  delAsk: "Delete this note? The entry above it stays as it was.", pathMoment: "A moment on this path.",
+  openDiary: "Open this day in the Diary", editEntry: "Edit", close: "Close", play: "Play", pause: "Pause", voiceNote: "Voice note", photo: "Photo"
+};
+const FEED_PAGE = 25;
+// Pablo's feed art (Nov 3): glyphs in every icon style (icons/glyphs128*/feed/), and one painted empty-feed picture.
+const FEED_ART = { tile: "feed/feed.png", empty: "icons/feed-empty.jpg", lookBack: "feed/note-from-now.png", onThisDay: "feed/on-this-day.png", say: "feed/read-aloud.png", sayStop: "feed/read-stop.png" };
+let feedSel = "all", feedSub = "all", feedShown = 0, feedList = [], feedStartDate = "", feedObs = null, feedMoreObs = null, feedAudio = null, feedAudioId = "", feedEntryRef = "";
+function fillCopy2(s, o) { return String(s).replace(/\{(\w+)\}/g, (m, k) => (o && o[k] != null ? o[k] : m)); }
+// Entry ids are uid(prefix) = prefix + Date.now() in base 36 + 5 random characters, so the time it was written is in
+// the id. Shown only when it was written on the entry's own day (a back-dated entry shows its date alone).
+function idTime(id, prefix) {
+  if (typeof id !== "string" || id.indexOf(prefix) !== 0 || id.length < prefix.length + 7) return null;
+  const s = id.slice(prefix.length, -5); if (!/^[0-9a-z]+$/.test(s)) return null;
+  const n = parseInt(s, 36); return n > 1.5e12 && n < 4.1e12 ? n : null;
+}
+function feedPathText(l) { return [l.did, l.journal].map(x => String(x || "").trim()).filter(Boolean).join("\n"); }
+function feedItems() {
+  const out = [];
+  (data.diary || []).forEach((e, i) => {
+    const t = idTime(e.id, "d");
+    out.push({ kind: "diary", id: e.id, ref: "d:" + e.id, date: e.date, t: t && iso(new Date(t)) === e.date ? t : null, ord: i, e,
+      text: String(e.note || "").trim(), media: Array.isArray(e.media) ? e.media : [], paths: e.path || [], areas: e.area || [], pulls: e.pulls || [], steered: e.steered || [] });
+  });
+  (data.pathLogs || []).forEach((l, i) => {
+    if (l.logged === false || !l.date) return;
+    const text = feedPathText(l);
+    if (!text && !l.rating && !(l.pulls || []).length && !(l.steered || []).length && !l.minutes) return;
+    const t = idTime(l.id, "pl");
+    out.push({ kind: "path", id: l.id, ref: "pl:" + l.id, date: l.date, t: t && iso(new Date(t)) === l.date ? t : null, ord: 1e6 + i, l,
+      text, media: [], paths: [l.pathId], areas: l.area ? [l.area] : [], pulls: l.pulls || [], steered: l.steered || [] });
+  });
+  return out.sort((a, b) => a.date !== b.date ? (a.date < b.date ? 1 : -1) : ((b.t || 0) - (a.t || 0)) || (b.ord - a.ord));
+}
+function feedPaths(items) { return (data.paths || []).filter(p => !p.archived || items.some(it => it.paths.includes(p.id))); }
+function feedFilter(items) {
+  return items.filter(it => {
+    if (feedSel === "diary" && it.kind !== "diary") return false;
+    if (feedSel !== "all" && feedSel !== "diary" && !it.paths.includes(feedSel)) return false;
+    if (feedSub === "photos") return it.media.some(m => m.kind === "photo");
+    if (feedSub === "voice") return it.media.some(m => m.kind === "audio");
+    if (feedSub === "text") return !!it.text;
+    return true;
+  });
+}
+function feedDayLabel(d) {
+  if (d === TODAY) return FEED_COPY.today;
+  if (d === shift(TODAY, -1)) return FEED_COPY.yesterday;
+  const dt = parseISO(d), o = { weekday: "short", month: "short", day: "numeric" };
+  if (dt.getFullYear() !== parseISO(TODAY).getFullYear()) o.year = "numeric";
+  return dt.toLocaleDateString(undefined, o);
+}
+function feedLongDate(d) { return parseISO(d).toLocaleDateString(undefined, { month: "long", day: "numeric", year: "numeric" }); }
+function feedNoteDate(at) { const d = new Date(at); return isNaN(d) ? "" : d.toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" }); }
+function feedWhen(it) { return shortDate(it.date) + (it.t ? " · " + new Date(it.t).toLocaleTimeString(undefined, { hour: "numeric", minute: "2-digit" }) : ""); }
+function feedLabel(it) {
+  const names = it.paths.map(pathById).filter(Boolean).map(p => p.name);
+  if (names.length) return names.join(" · ");
+  if (it.areas.length) return it.areas.map(fastLabel).join(" · ");
+  return FEED_COPY.diary;
+}
+function feedPic(it) {
+  const ph = it.media.find(m => m.kind === "photo");
+  if (ph) return '<img class="rf-pic is-photo" data-rf-media="' + esc(ph.id) + '" alt="' + esc(FEED_COPY.photo) + '" />';
+  const p = it.paths.map(pathById).find(Boolean);
+  const a = !p && it.areas.length ? AREAS.find(x => x.id === it.areas[0]) : null;
+  const src = p ? pathIcon(p) : a ? a.img : "icons/diary.jpg";
+  return '<img class="rf-pic" src="' + esc(iv(src)) + '" alt="" loading="lazy" />';
+}
+function feedTags(it) {
+  const pulls = (it.pulls || []).map(pullLabel).join(", "), st = (it.steered || []).join(", ");
+  if (pulls && st) return pulls + " steered to " + st;
+  if (st) return "Steered to " + st;
+  return pulls;
+}
+// ---- Notes from now: oldest first under the entry, each a little further in (3 steps at most) and a little warmer.
+function lookBacksFor(ref) { return ((data && data.lookBacks) || []).filter(n => n.ref === ref).sort((a, b) => (a.at < b.at ? -1 : a.at > b.at ? 1 : 0)); }
+function lookBackIcon() {
+  return '<img class="nfn-ico glyph" src="' + gv(FEED_ART.lookBack) + '" alt="" />';
+}
+function lookBackHtml(n, i, canEdit) {
+  return '<div class="nfn nfn-' + Math.min(i, 2) + '" data-nfn="' + esc(n.id) + '">' + lookBackIcon() + '<div class="nfn-body">' +
+    '<p class="nfn-from">' + esc(fillCopy2(FEED_COPY.noteFrom, { date: feedNoteDate(n.at) })) + '</p><p class="nfn-text">' + esc(n.text) + '</p>' +
+    '<div class="nfn-acts">' + sayBtn(n.text) + (canEdit ? '<button type="button" class="tiny" data-nfn-edit="' + esc(n.id) + '">' + esc(FEED_COPY.edit) + '</button><button type="button" class="tiny" data-nfn-del="' + esc(n.id) + '">' + esc(FEED_COPY.del) + '</button>' : "") + '</div></div></div>';
+}
+function lookBacksHtml(ref, date, canEdit) {
+  const list = lookBacksFor(ref);
+  const add = canEdit && date < TODAY ? '<button type="button" class="tiny nfn-add" data-nfn-add="' + esc(ref) + '">' + esc(FEED_COPY.noteBtn) + '</button>' : "";
+  if (!list.length && !add) return "";
+  return '<div class="nfn-list" data-nfn-for="' + esc(ref) + '" data-nfn-date="' + esc(date) + '" data-nfn-edit-ok="' + (canEdit ? "1" : "") + '">' + list.map((n, i) => lookBackHtml(n, i, canEdit)).join("") + add + '</div>';
+}
+function lookBackComposer(text, id) {
+  return '<div class="nfn-compose"' + (id ? ' data-nfn-editing="' + esc(id) + '"' : "") + '><label class="field"><span class="sr-only">' + esc(FEED_COPY.noteBtn) + '</span><textarea rows="3" maxlength="1000" data-nfn-text placeholder="' + esc(FEED_COPY.notePh) + '" aria-label="' + esc(FEED_COPY.notePh) + '">' + esc(text || "") + '</textarea></label>' +
+    '<div class="row-actions"><button type="button" class="btn primary" data-nfn-save>' + esc(FEED_COPY.save) + '</button><button type="button" class="btn" data-nfn-cancel>' + esc(FEED_COPY.cancel) + '</button></div></div>';
+}
+function refreshLookBacks(ref) {
+  document.querySelectorAll('[data-nfn-for="' + (window.CSS && CSS.escape ? CSS.escape(ref) : ref) + '"]').forEach(box => {
+    const html = lookBacksHtml(ref, box.dataset.nfnDate, !!box.dataset.nfnEditOk);
+    const tmp = document.createElement("div"); tmp.innerHTML = html;
+    box.replaceWith(tmp.firstChild || document.createTextNode(""));
+  });
+}
+function refExists(ref) {
+  const [k, id] = String(ref).split(/:(.*)/);
+  return k === "d" ? (data.diary || []).some(e => e.id === id) : k === "pl" ? (data.pathLogs || []).some(l => l.id === id) : false;
+}
+function dropLookBacks(ref) { if (data && data.lookBacks) data.lookBacks = data.lookBacks.filter(n => n.ref !== ref); }
+document.addEventListener("click", async e => {
+  const t = e.target.closest && e.target.closest("[data-nfn-add],[data-nfn-edit],[data-nfn-del],[data-nfn-save],[data-nfn-cancel]");
+  if (!t || !data) return;
+  const box = t.closest("[data-nfn-for]"); if (!box) return;
+  const ref = box.dataset.nfnFor;
+  if (t.dataset.nfnAdd != null) {
+    box.querySelectorAll(".nfn-compose").forEach(c => c.remove());
+    t.hidden = true; t.insertAdjacentHTML("afterend", lookBackComposer("", ""));
+    const ta = box.querySelector("[data-nfn-text]"); if (ta) ta.focus();
+    return;
+  }
+  if (t.dataset.nfnEdit != null) {
+    const n = (data.lookBacks || []).find(x => x.id === t.dataset.nfnEdit); if (!n) return;
+    box.querySelectorAll(".nfn-compose").forEach(c => c.remove());
+    const row = box.querySelector('[data-nfn="' + n.id + '"]'); row.hidden = true;
+    row.insertAdjacentHTML("afterend", lookBackComposer(n.text, n.id));
+    const ta = box.querySelector("[data-nfn-text]"); if (ta) { ta.focus(); ta.setSelectionRange(ta.value.length, ta.value.length); }
+    return;
+  }
+  if (t.dataset.nfnDel != null) {
+    if (!(await askDelete(FEED_COPY.delAsk, FEED_COPY.del))) return;
+    data.lookBacks = (data.lookBacks || []).filter(x => x.id !== t.dataset.nfnDel); save(); refreshLookBacks(ref); return;
+  }
+  if (t.dataset.nfnCancel != null) { refreshLookBacks(ref); return; }
+  if (t.dataset.nfnSave != null) {
+    const c = t.closest(".nfn-compose"), text = c.querySelector("[data-nfn-text]").value.trim().slice(0, 1000);
+    const editing = c.dataset.nfnEditing;
+    if (editing) { const n = (data.lookBacks || []).find(x => x.id === editing); if (n && text) { n.text = text; n.editedAt = new Date().toISOString(); } }
+    else if (text) { if (!Array.isArray(data.lookBacks)) data.lookBacks = []; data.lookBacks.push({ id: uid("nb"), ref, text, at: new Date().toISOString() }); }
+    if (text) save();
+    refreshLookBacks(ref);
+  }
+});
+function feedCardHtml(it) {
+  const photos = it.media.filter(m => m.kind === "photo"), voices = it.media.filter(m => m.kind === "audio");
+  const tags = feedTags(it);
+  const text = it.text ? '<p class="rf-text">' + esc(it.text) + '</p>' : (it.kind === "path" && !tags ? '<p class="rf-text rf-quiet">' + esc(FEED_COPY.pathMoment) + '</p>' : "");
+  const extra = photos.length > 1 ? '<div class="rf-thumbs">' + photos.slice(1).map(m => '<img class="rf-thumb" data-rf-media="' + esc(m.id) + '" alt="' + esc(FEED_COPY.photo) + '" />').join("") + '</div>' : "";
+  const voice = voices.map(m => '<div class="rf-voice"><button type="button" class="btn rf-play" data-rf-play="' + esc(m.id) + '" aria-pressed="false"><span class="rf-play-ico" aria-hidden="true">▶</span><span class="rf-play-t">' + esc(FEED_COPY.play) + '</span></button>' +
+    '<span class="rf-voice-k">' + esc(FEED_COPY.voiceNote + " · " + fmtSecs(m.secs || 0)) + '</span>' +
+    (String(m.text || "").trim() ? '<p class="rf-transcript">' + esc(m.text) + '</p><div class="rf-acts">' + sayBtn(m.text) + '</div>' : "") + '</div>').join("");
+  return '<li class="rf-card" data-rf-item="' + esc(it.ref) + '" data-rf-kind="' + it.kind + '">' +
+    '<div class="rf-main" role="button" tabindex="0" data-rf-open="' + esc(it.ref) + '">' + feedPic(it) +
+    '<div class="rf-body"><p class="rf-meta"><span class="rf-path">' + esc(feedLabel(it)) + '</span><time datetime="' + esc(it.date) + '">' + esc(feedWhen(it)) + '</time></p>' + text +
+    (tags ? '<p class="rf-tags">' + esc(tags) + '</p>' : "") + '</div></div>' +
+    (it.text ? '<div class="rf-acts">' + sayBtn(it.text) + '</div>' : "") + extra + voice + lookBacksHtml(it.ref, it.date, true) + '</li>';
+}
+function monthsBack(n) {
+  const d = parseISO(TODAY), y = d.getFullYear(), m = d.getMonth() - n;
+  const last = new Date(y, m + 1, 0).getDate();
+  return iso(new Date(y, m, Math.min(d.getDate(), last)));
+}
+// "On this day": an entry from one month ago and/or one year ago. If that exact day is empty, the nearest day within
+// three days either side that has one.
+function feedOnThisDay(items) {
+  const out = [];
+  const tryAt = (target, label) => {
+    for (let k = 0; k <= 3; k++) {
+      const days = k ? [shift(target, -k), shift(target, k)] : [target];
+      for (const d of days) {
+        if (d >= TODAY) continue;
+        const hit = items.find(it => it.date === d);
+        if (hit) { if (!out.some(o => o.it.date === hit.date)) out.push({ it: hit, label }); return; }
+      }
+    }
+  };
+  tryAt(monthsBack(1), FEED_COPY.monthAgo); tryAt(monthsBack(12), FEED_COPY.yearAgo);
+  return out.slice(0, 2);
+}
+function feedOtdHtml(list) {
+  if (!list.length) return "";
+  return '<section class="rf-otd" aria-label="' + esc(FEED_COPY.onThisDay) + '"><h3 class="rf-otd-h"><img class="glyph rf-h-ico" src="' + gv(FEED_ART.onThisDay) + '" alt="" />' + esc(FEED_COPY.onThisDay) + '</h3>' + list.map(({ it, label }) => {
+    const snip = it.text || feedTags(it) || (it.media.some(m => m.kind === "photo") ? FEED_COPY.photo : it.media.length ? FEED_COPY.voiceNote : FEED_COPY.pathMoment);
+    return '<button type="button" class="rf-otd-card" data-rf-open="' + esc(it.ref) + '" data-rf-otd="' + esc(it.date) + '">' + feedPic(it) +
+      '<span class="rf-otd-body"><span class="rf-otd-k">' + esc(label) + ' · ' + esc(feedDayLabel(it.date)) + '</span><span class="rf-otd-t">' + esc(snip.length > 140 ? snip.slice(0, 137) + "…" : snip) + '</span><span class="rf-otd-p">' + esc(feedLabel(it)) + '</span></span></button>';
+  }).join("") + '</section>';
+}
+function feedChipHtml(val, label, on, icon, attr) {
+  return '<button type="button" class="chip" ' + attr + '="' + esc(val) + '" aria-pressed="' + (on ? "true" : "false") + '">' + (icon || "") + '<span>' + esc(label) + '</span></button>';
+}
+function renderFeed(keep) {
+  const el = document.getElementById("feedPanel"); if (!el || !data) return;
+  el.querySelectorAll("img[data-gv]").forEach(i => { const w = gv(i.dataset.gv); if (i.getAttribute("src") !== w) i.src = w; });
+  if (currentScreen !== "feed" && !document.documentElement.classList.contains("hs-all")) return;
+  const all = feedItems();
+  const paths = feedPaths(all);
+  if (feedSel !== "all" && feedSel !== "diary" && !paths.some(p => p.id === feedSel)) feedSel = "all";
+  const chips = document.getElementById("feedChips"), sub = document.getElementById("feedSub");
+  chips.innerHTML = feedChipHtml("all", FEED_COPY.everything, feedSel === "all", "", "data-rf-sel") + feedChipHtml("diary", FEED_COPY.diary, feedSel === "diary", chipIcon("icons/diary.jpg"), "data-rf-sel") +
+    paths.map(p => feedChipHtml(p.id, p.name, feedSel === p.id, chipIcon(pathIcon(p)), "data-rf-sel")).join("");
+  sub.innerHTML = [["all", FEED_COPY.all], ["photos", FEED_COPY.photos], ["voice", FEED_COPY.voice], ["text", FEED_COPY.text]].map(([v, l]) => feedChipHtml(v, l, feedSub === v, "", "data-rf-sub")).join("");
+  const empty = document.getElementById("feedEmpty"), none = document.getElementById("feedNone");
+  const filters = document.getElementById("feedFilters");
+  feedList = feedFilter(all);
+  // "Where you started" is the first entry of the chosen path (or the Diary, or everything), whatever the second filter.
+  { const keep = feedSub; feedSub = "all"; const base = feedFilter(all); feedSub = keep; feedStartDate = base.length ? base[base.length - 1].date : ""; }
+  filters.hidden = !all.length;
+  empty.hidden = !!all.length;
+  if (!all.length) {
+    const art = document.getElementById("feedEmptyArt");
+    if (!art.firstChild) art.innerHTML = '<img src="' + esc(iv(FEED_ART.empty)) + '" alt="" width="800" height="450" />';
+  }
+  none.hidden = !all.length || !!feedList.length;
+  document.getElementById("feedOtd").innerHTML = feedList.length ? feedOtdHtml(feedOnThisDay(feedList)) : "";
+  const want = keep ? Math.max(feedShown, FEED_PAGE) : FEED_PAGE;
+  feedShown = 0;
+  document.getElementById("feedList").innerHTML = "";
+  feedAppend(want);
+  feedLazy(document.getElementById("feedOtd"));
+}
+function feedAppend(n) {
+  const ul = document.getElementById("feedList"); if (!ul) return;
+  const end = Math.min(feedList.length, feedShown + n);
+  let html = "", prev = feedShown ? feedList[feedShown - 1].date : "";
+  for (let i = feedShown; i < end; i++) {
+    const it = feedList[i];
+    if (it.date !== prev) { html += '<li class="rf-day"><h3>' + esc(feedDayLabel(it.date)) + '</h3></li>'; prev = it.date; }
+    html += feedCardHtml(it);
+  }
+  ul.insertAdjacentHTML("beforeend", html);
+  feedShown = end;
+  const more = document.getElementById("feedMore"), start = document.getElementById("feedStart");
+  const done = feedShown >= feedList.length;
+  more.hidden = done || !feedList.length;
+  start.hidden = !done || !feedList.length;
+  if (done && feedList.length) start.textContent = fillCopy2(FEED_COPY.start, { date: feedLongDate(feedStartDate || feedList[feedList.length - 1].date) });
+  feedLazy(ul);
+  if (!done && "IntersectionObserver" in window) {
+    if (!feedMoreObs) feedMoreObs = new IntersectionObserver(es => { if (es.some(x => x.isIntersecting) && currentScreen === "feed") feedAppend(FEED_PAGE); }, { rootMargin: "600px 0px" });
+    feedMoreObs.disconnect(); feedMoreObs.observe(more);
+  } else if (feedMoreObs) feedMoreObs.disconnect();
+}
+// Photos load (decrypt) only as they come near the screen.
+function feedLazy(root) {
+  const imgs = [...root.querySelectorAll("img[data-rf-media]:not([data-rf-asked])")];
+  const load = img => { img.dataset.rfAsked = "1"; mediaUrl(img.dataset.rfMedia).then(u => { if (u) img.src = u; else img.alt = "Photo not on this phone"; }).catch(() => {}); };
+  if (!("IntersectionObserver" in window)) { imgs.forEach(load); return; }
+  if (!feedObs) feedObs = new IntersectionObserver(es => es.forEach(x => { if (x.isIntersecting) { feedObs.unobserve(x.target); load(x.target); } }), { rootMargin: "400px 0px" });
+  imgs.forEach(i => feedObs.observe(i));
+}
+function feedStopAudio() {
+  if (feedAudio) { try { feedAudio.pause(); } catch (e) {} }
+  document.querySelectorAll("[data-rf-play][aria-pressed=true]").forEach(b => feedPlayLabel(b, false));
+  feedAudioId = "";
+}
+function feedPlayLabel(b, on) {
+  b.setAttribute("aria-pressed", on ? "true" : "false");
+  b.querySelector(".rf-play-ico").textContent = on ? "❚❚" : "▶";
+  b.querySelector(".rf-play-t").textContent = on ? FEED_COPY.pause : FEED_COPY.play;
+}
+async function feedPlay(btn) {
+  const id = btn.dataset.rfPlay;
+  if (feedAudioId === id && feedAudio && !feedAudio.paused) { feedStopAudio(); return; }
+  feedStopAudio(); sayStop();
+  const u = await mediaUrl(id); if (!u) { showToast("This voice note isn't on this phone."); return; }
+  if (!feedAudio) { feedAudio = new Audio(); feedAudio.onended = () => feedStopAudio(); }
+  feedAudio.src = u; feedAudioId = id;
+  feedPlayLabel(btn, true);
+  try { await feedAudio.play(); } catch (e) { feedStopAudio(); }
+}
+function feedFind(ref) { return feedItems().find(it => it.ref === ref) || null; }
+function feedOpen(ref) {
+  const it = feedFind(ref); if (!it) return;
+  feedStopAudio();
+  if (it.kind === "path") { openPathLog(it.l.pathId, it.l.id); return; }
+  feedEntryRef = ref; feedEntryEditing = false;
+  renderFeedEntry();
+  const d = document.getElementById("feedEntryDialog"); if (!d.open) d.showModal();
+}
+let feedEntryEditing = false;
+function renderFeedEntry() {
+  const it = feedFind(feedEntryRef), body = document.getElementById("feedEntryBody");
+  if (!it) { document.getElementById("feedEntryDialog").close(); return; }
+  const e = it.e, tags = feedTags(it);
+  const text = feedEntryEditing ? '<label class="field"><span class="sr-only">' + esc(FEED_COPY.editEntry) + '</span><textarea id="feedEntryText" rows="7" maxlength="8000">' + esc(e.note || "") + '</textarea></label>' +
+      '<div class="row-actions"><button type="button" class="btn primary" id="feedEntrySave">' + esc(FEED_COPY.save) + '</button><button type="button" class="btn" id="feedEntryCancel">' + esc(FEED_COPY.cancel) + '</button></div>'
+    : (it.text ? '<p class="rf-full-text">' + esc(it.text) + '</p><div class="rf-acts">' + sayBtn(it.text) + '</div>' : "");
+  body.innerHTML = '<div class="rf-entry-head">' + feedPic(Object.assign({}, it, { media: [] })) + '<div><h3 id="feedEntryTitle">' + esc(feedLabel(it)) + '</h3><p class="rf-meta"><time datetime="' + esc(it.date) + '">' + esc(feedDayLabel(it.date) + (it.t ? " · " + new Date(it.t).toLocaleTimeString(undefined, { hour: "numeric", minute: "2-digit" }) : "")) + '</time></p></div></div>' +
+    text + (it.media.length ? diaryMediaHtml(e.id, it.media) : "") + (tags ? '<p class="rf-tags">' + esc(tags) + '</p>' : "") + (e.offered ? '<p class="rf-tags">Next move: ' + esc(e.offered) + '</p>' : "") +
+    lookBacksHtml(it.ref, it.date, true);
+  bindDiaryMedia(body);
+  document.getElementById("feedEntryEdit").hidden = feedEntryEditing;
+  if (feedEntryEditing) {
+    document.getElementById("feedEntrySave").onclick = () => { const v = document.getElementById("feedEntryText").value; const x = data.diary.find(n => n.id === e.id); if (x) { x.note = v.trim(); save(); } feedEntryEditing = false; renderFeedEntry(); renderDiary(); renderFeed(true); };
+    document.getElementById("feedEntryCancel").onclick = () => { feedEntryEditing = false; renderFeedEntry(); };
+    document.getElementById("feedEntryText").focus();
+  }
+}
+document.getElementById("feedEntryClose").onclick = () => document.getElementById("feedEntryDialog").close();
+document.getElementById("feedEntryDialog").addEventListener("close", () => { sayStop(); feedEntryEditing = false; if (data && currentScreen === "feed") renderFeed(true); });
+document.getElementById("feedEntryEdit").onclick = () => {
+  const it = feedFind(feedEntryRef); if (!it) return;
+  if (it.e.full) { // the day's full-screen page: its own editor
+    document.getElementById("feedEntryDialog").close();
+    diaryDay = it.date; renderDiaryFull(); document.getElementById("diaryFull").showModal(); document.getElementById("dfText").focus(); return;
+  }
+  feedEntryEditing = true; renderFeedEntry();
+};
+document.getElementById("feedEntryDiary").onclick = () => {
+  const it = feedFind(feedEntryRef); document.getElementById("feedEntryDialog").close();
+  if (it) { setDiaryDay(it.date); openScreen("diary"); }
+};
+document.getElementById("feedEmptyGo").onclick = () => openScreen("diary");
+document.getElementById("feedMore").onclick = () => feedAppend(FEED_PAGE);
+document.getElementById("recordRoad").onclick = () => openScreen("feed");
+document.getElementById("feedPanel").addEventListener("click", e => {
+  const sel = e.target.closest("[data-rf-sel]"); if (sel) { feedSel = sel.dataset.rfSel; renderFeed(); return; }
+  const s2 = e.target.closest("[data-rf-sub]"); if (s2) { feedSub = s2.dataset.rfSub; renderFeed(); return; }
+  const pl = e.target.closest("[data-rf-play]"); if (pl) { feedPlay(pl); return; }
+  if (e.target.closest("button:not([data-rf-open]), a, audio, textarea, input")) return;
+  const op = e.target.closest("[data-rf-open]"); if (op) feedOpen(op.dataset.rfOpen);
+});
+document.getElementById("feedPanel").addEventListener("keydown", e => {
+  if (e.key !== "Enter" && e.key !== " ") return;
+  const op = e.target.closest && e.target.closest(".rf-main[data-rf-open]");
+  if (op && e.target === op) { e.preventDefault(); feedOpen(op.dataset.rfOpen); }
+});
+document.getElementById("pathLogDialog").addEventListener("close", () => { if (data && currentScreen === "feed") renderFeed(true); });
+document.getElementById("diaryFull").addEventListener("close", () => { if (data && currentScreen === "feed") renderFeed(true); });
 
 // ---------- Paths
 let editingPathId = null;
@@ -6817,13 +7338,16 @@ function savePullPair(pull, steer, starred) {
 function shadowSelectHtml(picked) {
   const opt = p => '<option value="' + esc(p.id) + '">' + esc(p.label) + '</option>';
   const avail = allPullDefs().filter(p => !picked.includes(p.id) && !isPullHidden(p.id));
-  const book = BOOK_PULL_IDS.map(id => avail.find(p => p.id === id)).filter(Boolean);
+  // v43: the book's shadows first, then Addiction on its own (no preset steer or opposite), then yours (starred
+  // first), then the other built-in pulls, then "+ Add your own".
+  const book = BOOK_PULL_IDS.filter(id => id !== "addiction").map(id => avail.find(p => p.id === id)).filter(Boolean);
+  const addiction = avail.filter(p => p.id === "addiction");
   const custom = avail.filter(p => customPullDef(p.id));
   const starred = custom.filter(p => customPullDef(p.id).starred);
-  const yours = custom.filter(p => !customPullDef(p.id).starred);
+  const yours = starred.concat(custom.filter(p => !customPullDef(p.id).starred));
   const other = avail.filter(p => !BOOK_PULL_IDS.includes(p.id) && !customPullDef(p.id));
   const grp = (label, list) => list.length ? '<optgroup label="' + esc(label) + '">' + list.map(opt).join("") + '</optgroup>' : "";
-  return '<option value="">' + esc(PAIR_COPY.pickPull) + '</option>' + grp("Starred", starred) + grp("From the book", book) + grp("More pulls", other) + grp("Yours", yours) +
+  return '<option value="">' + esc(PAIR_COPY.pickPull) + '</option>' + grp("From the book", book) + addiction.map(opt).join("") + grp("Yours", yours) + grp("More pulls", other) +
     '<option value="__add">' + esc(PAIR_COPY.add) + '</option>';
 }
 // The steer list starts on the picked shadows' own upgrades (Pride -> Honor), then their opposites, then the rest.
@@ -6855,7 +7379,7 @@ function storyLineHtml(sid, forLabel) {
   if (!st) return "";
   return '<div class="shadow-story" data-story="' + esc(sid) + '"><span class="story-k">' + esc(forLabel ? "A story for " + forLabel : "A story") + '</span> ' +
     '<b class="story-title">' + esc(st.title) + '</b> <span class="story-label">' + esc(st.label) + '</span>' +
-    (st.text ? '<p class="story-text">' + esc(st.text) + '</p>' : "") + '</div>';
+    (st.text ? '<p class="story-text">' + esc(st.text) + '</p>' + sayBtn(st.title + ". " + st.text) : "") + '</div>';
 }
 function shadowStoryHtml(pullId) { const sid = pickStoryId(pullId); return sid ? storyLineHtml(sid, pullLabel(pullId)) : ""; }
 function addictionQuoteHtml() {
@@ -6971,6 +7495,7 @@ function bindPathFieldChips(root, state, onChange) {
   root.querySelector("[data-pf-steersel]").onchange = e => {
     const v = e.target.value; e.target.value = "";
     if (!v) return;
+    if (v === "__add" && state.pulls.includes("addiction")) { const a = root.querySelector('[data-pf="addSteer"]'); if (a) a.focus(); return; }
     if (v === "__add") { openPair(); paint(); return; }
     if (!state.steered.some(x => x.toLowerCase() === v.toLowerCase()) && state.steered.length < PICK_MAX) state.steered.push(v);
     paint(); onChange && onChange();
@@ -7054,7 +7579,7 @@ document.getElementById("plCancel").onclick = closePathLog;
 document.getElementById("plDelete").onclick = async () => {
   const l = (data.pathLogs || []).find(x => x.id === editingPathLogId);
   if (l && !(await askDelete("Remove this moment? This can't be undone.", "Remove"))) return;
-  if (l) { removePathTask(l); data.pathLogs = data.pathLogs.filter(x => x.id !== l.id); save(); }
+  if (l) { removePathTask(l); data.pathLogs = data.pathLogs.filter(x => x.id !== l.id); dropLookBacks("pl:" + l.id); save(); }
   closePathLog();
   renderCheckin(); renderDerived();
 };
@@ -8621,6 +9146,8 @@ const HOME_TILES = [
   { id: "goals", label: "Goals", home: "goals" },
   { id: "week", label: "Check-in", home: "checkin" },
   { id: "diary", label: "Diary", home: "diary" },
+  // v43: the feed, with Pablo's feed glyph.
+  { id: "feed", label: "Your road", gv: "feed/feed.png" },
   { id: "area:career", label: "Career", area: "career" },
   { id: "area:personal", label: "Growth", area: "personal" },
   { id: "area:social", label: "Social", area: "social" },
@@ -8631,11 +9158,12 @@ const HOME_TILES = [
   { id: "record", label: "Record", home: "record" },
   { id: "settings", label: "Settings", icon: "icons/settings.jpg" }
 ];
-const SCREEN_TITLES = { coach: "Coach", paths: "Paths", goals: "Goals", money: "Money", diary: "Diary", week: "Check-in", record: "Record" };
+const SCREEN_TITLES = { coach: "Coach", paths: "Paths", goals: "Goals", money: "Money", diary: "Diary", feed: "Your road", week: "Check-in", record: "Record" };
 function tileIcon(t) {
   // Pablo's home glyphs; a plain letter tile only if a file is ever missing.
   // v36: Pablo's blank coin with the chosen currency symbol on it; otherwise his money coin, then the piggy bank.
   if (t.id === "money" && (HOME_GLYPHS.has("money-plain") || glyphListed("home/money-plain.png"))) return coinHtml("home/money-plain.png");
+  if (t.gv) return '<img class="glyph" data-no-glyph src="' + gv(t.gv) + '" alt="" />';
   if (t.home && t.ifListed && !HOME_GLYPHS.has(t.home)) return '<img class="glyph" data-no-glyph src="' + esc(gv(t.glyph.replace(/^icons\/glyphs128\//, ""))) + '" alt="" />';
   if (t.home) return '<img class="glyph" data-no-glyph src="' + gv("home/" + t.home + ".png") + '" alt="" onerror="this.outerHTML=\'<span class=&quot;tile-fb&quot; aria-hidden=&quot;true&quot;>' + esc(t.label[0]) + '</span>\'" />';
   const ar = t.area ? AREAS.find(a => a.id === t.area) : null, src = ar ? ar.img : (t.icon || t.fallback);
@@ -8683,7 +9211,8 @@ document.getElementById("pieDayPrev").onclick = () => goToDay(shift(data.selecte
 document.getElementById("pieDayNext").onclick = () => { const n = shift(data.selected, timeView() === "week" ? 7 : 1); const h = planHorizon(); goToDay(n > h ? h : n, true); };
 let currentScreen = "home";
 function applyScreen(name) {
-  if (!/^(home|coach|paths|goals|money|diary|week|record|area:(career|personal|social|spiritual|time))$/.test(name)) name = "home";
+  if (!/^(home|coach|paths|goals|money|diary|feed|week|record|area:(career|personal|social|spiritual|time))$/.test(name)) name = "home";
+  if (name !== currentScreen) { try { sayStop(); feedStopAudio(); } catch (e) {} }
   currentScreen = name;
   const kind = name.split(":")[0];
   document.body.dataset.screen = kind;
@@ -8703,6 +9232,7 @@ function applyScreen(name) {
   document.getElementById("screenTitle").textContent = kind === "area" ? fastLabel(name.split(":")[1]) : (SCREEN_TITLES[kind] || "");
   if (kind === "home") renderCoachNotes();
   if (kind === "coach") renderCoachPage();
+  if (kind === "feed") renderFeed();
   window.scrollTo(0, 0);
 }
 function openScreen(name) {
@@ -8722,7 +9252,7 @@ document.getElementById("screenBack").onclick = () => openScreen("home");
 function menuScreenFor(g) {
   if (g.area) return "area:" + g.area;
   const id = g.el && g.el() && g.el().id;
-  return { timeCard: "home", checkin: "week", coach: "week", pathsPanel: "paths", diaryPanel: "diary", moneySection: "money", goalsPanel: "goals", recordSection: "record", weekNudges: "week" }[id] || "home";
+  return { timeCard: "home", checkin: "week", coach: "week", pathsPanel: "paths", diaryPanel: "diary", feedPanel: "feed", moneySection: "money", goalsPanel: "goals", recordSection: "record", weekNudges: "week" }[id] || "home";
 }
 
 // ---------- v29: repeat duplicates from older versions. Found on unlock, shown for review, merged only if you say so.
@@ -8822,7 +9352,7 @@ function enterApp() {
   askPersistentStorage(); cacheThemeArtFor(data.theme); noteAppUpdate();
   calAutoSync("open");
   setTimeout(() => { sweepMedia().catch(() => {}); }, 1500);
-  speechCheck();
+  speechCheck(); sayCheck();
 }
 // v39: ask the browser to keep this site's storage (so it isn't cleared to free space). Silent either way.
 function askPersistentStorage() {
@@ -10033,6 +10563,7 @@ function openPlanEditor(opts) {
   const back = document.getElementById("planDayDialog").open ? planDayDate : document.getElementById("planWeekDialog").open ? "week" : "";
   planEdit = { mode, plan: opts.plan || null, occ: opts.occ || null, back };
   const $ = id => document.getElementById(id);
+  $("planPickHint").textContent = mode === "log" ? PICK_ONE : PICK_ONE_PLAN;
   $("planDialogTitle").textContent = mode === "log" ? "Log time" : mode === "occ" ? "Change this day" : (opts.plan ? "Edit planned block" : "Add a planned block");
   $("planArea").innerHTML = planAreaOptions(src ? src.area : "", mode !== "log");
   $("planPath").innerHTML = pathSelectHtml(src ? src.pathId : (activePaths()[0] || {}).id);
@@ -10772,6 +11303,7 @@ const MENU_GO = [
   { label: "Hobbies", icon: "icons/hobbies.jpg", area: "time" },
   { label: "Paths", icon: "icons/paths-section.jpg", el: () => document.getElementById("pathsPanel") },
   { label: "Diary", icon: "icons/diary.jpg", el: () => document.getElementById("diaryPanel") },
+  { label: "Your road", icon: "icons/glyphs128/feed/feed.png", el: () => document.getElementById("feedPanel") },
   { label: "Money", icon: "icons/money.jpg", el: () => document.getElementById("moneySection") },
   { label: "Goals", icon: "icons/purpose.jpg", el: () => document.getElementById("goalsPanel") },
   { label: "Record", icon: "icons/shadow.jpg", el: () => document.getElementById("recordSection") }
@@ -10785,7 +11317,7 @@ const MENU_GO = [
   let viaHistory = false, returnFocus = true;
   try { history.scrollRestoration = "manual"; } catch (e) {}
   document.getElementById("menuGoList").innerHTML = MENU_GO.map((g, i) =>
-    '<li><button type="button" data-menu-go="' + i + '"><img src="' + esc(iv(g.icon)) + '" alt="' + esc(g.alt || "") + '" /><span>' + esc(g.label) + '</span></button></li>').join("");
+    '<li><button type="button" data-menu-go="' + i + '"><img' + (/glyphs128\//.test(g.icon) ? ' class="glyph"' : "") + ' src="' + esc(/glyphs128\//.test(g.icon) ? gv(g.icon.replace(/^icons\/glyphs128\//, "")) : iv(g.icon)) + '" alt="' + esc(g.alt || "") + '" /><span>' + esc(g.label) + '</span></button></li>').join("");
   const open = () => {
     if (dlg.open) return;
     returnFocus = true;

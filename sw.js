@@ -1,6 +1,6 @@
 /* Higher Self — offline shell for install / Add to Home Screen */
-const CACHE = "higher-self-v42";
-const ICON_VER = "42";
+const CACHE = "higher-self-v43";
+const ICON_VER = "43";
 // v39: theme picture sets. Only the default set is precached; the page caches another set when that theme is picked.
 const DEFAULT_ART_SETS = ["abstract"];
 // Plain URLs: shell + manifest/link icons. Versioned (?v=) URLs: every icon the page renders.
@@ -21,6 +21,14 @@ const PRECACHE_PLAIN = [
 const PRECACHE_ICONS = [
   "./icons/glyphs128/money/index.json",
   "./icons/theme-art.json",
+  // v43: Pablo's feed glyphs (classic; style copies are fetched for the active style only) and the painted empty-feed picture.
+  "./icons/glyphs128/feed/feed.png",
+  "./icons/glyphs128/feed/note-from-now.png",
+  "./icons/glyphs128/feed/on-this-day.png",
+  "./icons/glyphs128/feed/feed-empty.png",
+  "./icons/glyphs128/feed/read-aloud.png",
+  "./icons/glyphs128/feed/read-stop.png",
+  "./icons/feed-empty.jpg",
   "./icons/glyphs128/area-career-v2.png",
   "./icons/glyphs128/area-note.png",
   "./icons/glyphs128/diary.png",
