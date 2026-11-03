@@ -1109,6 +1109,54 @@
   .cal-share-row:last-of-type { border-bottom: 0; }
   .legend li.planned span:nth-child(2)::after { content: " · Planned"; color: var(--muted); font-size: 0.8em; }
   .first-log { margin-top: 0.5rem; }
+  .nohours-row { margin: 0.45rem 0; padding: 0.4rem 0.6rem; border: 1px dashed var(--border); border-radius: 10px; }
+  .nohours-item { margin: 0.1rem 0; font-size: 0.9rem; }
+  .nohours-note { margin: 0.15rem 0 0; font-size: 0.75rem; }
+  .shrunk-note { display: block; color: var(--muted); }
+  .choice-lead { margin: 0 0 0.3rem; }
+  /* v42 */
+  .legend .swatch.plan-swatch { background: repeating-linear-gradient(45deg, var(--sw) 0 3px, #FFF8EB 3px 5px); border: 1px solid var(--sw); }
+  .legend li.has-plan span:nth-child(3) { color: var(--muted); }
+  .debt-acts { margin-top: 0.35rem; }
+  .debt-payoff .chip-icon, .media-btn .chip-icon { width: 20px; height: 20px; border-radius: 5px; vertical-align: -5px; margin-right: 0.3rem; }
+  .title-book img.payoff-ico { border-radius: 8px; }
+  .pf-pick select { width: 100%; }
+  .picked-chip { display: inline-flex; gap: 0.2rem; align-items: center; }
+  .chip-x { margin-left: 0.35rem; font-weight: 700; opacity: 0.7; }
+  .star-chip { min-width: 2.2rem; justify-content: center; }
+  .pf-pairform { border: 1px dashed var(--border); border-radius: 10px; padding: 0.6rem; margin: 0.4rem 0; }
+  .shadow-story { font-size: 0.86rem; margin: 0.3rem 0; padding: 0.35rem 0.55rem; border-left: 3px solid var(--accent); background: color-mix(in srgb, var(--panel) 85%, var(--accent)); border-radius: 0 8px 8px 0; }
+  .shadow-story .story-k { color: var(--muted); font-size: 0.78rem; display: block; }
+  .shadow-story .story-label { font-size: 0.72rem; padding: 0.05rem 0.4rem; border: 1px solid var(--border); border-radius: 999px; margin-left: 0.25rem; color: var(--muted); white-space: nowrap; }
+  .shadow-story .story-text { margin: 0.25rem 0 0; }
+  .book-quote { margin: 0.4rem 0; padding: 0.45rem 0.7rem; border-left: 3px solid var(--accent); font-style: italic; }
+  .book-quote p { margin: 0 0 0.25rem; }
+  .book-quote cite { font-size: 0.78rem; color: var(--muted); font-style: normal; }
+  .honor-test { margin: 0.5rem 0; padding: 0.5rem 0.7rem; border: 1px solid var(--border); border-radius: 10px; }
+  .honor-qs { margin: 0.2rem 0 0.3rem; padding-left: 1.1rem; }
+  .honor-qs li { margin: 0.15rem 0; }
+  .over-lines { margin-top: 0.4rem; }
+  .over-line { margin: 0.2rem 0; font-size: 0.9rem; }
+  .month-top { display: grid; grid-template-columns: minmax(120px, 160px) 1fr; gap: 0.6rem; align-items: center; }
+  .month-top svg { width: 100%; height: auto; }
+  .month-stats { padding-left: 1.1rem; margin: 0.4rem 0 0.6rem; font-size: 0.9rem; }
+  .month-stats li { margin: 0.15rem 0; }
+  .month-close { font-style: italic; text-align: center; margin: 0.7rem 0 0.3rem; }
+  .month-past-btn { padding: 0.2rem 0.6rem; }
+  .diary-media-row { margin-top: 0.4rem; align-items: center; }
+  .media-btn.recording { background: #B3261E; color: #fff; border-color: #B3261E; }
+  .rec-time { margin: 0; font-variant-numeric: tabular-nums; }
+  .media-pending { list-style: none; padding: 0; margin: 0.3rem 0; display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .media-pending li { display: flex; align-items: center; gap: 0.35rem; border: 1px solid var(--border); border-radius: 8px; padding: 0.2rem 0.35rem; }
+  .pending-photo { width: 56px; height: 56px; object-fit: cover; border-radius: 6px; }
+  .diary-media { display: flex; flex-direction: column; gap: 0.4rem; margin: 0.35rem 0; }
+  .diary-photo { max-width: 100%; max-height: 260px; object-fit: contain; border-radius: 8px; align-self: flex-start; }
+  .diary-voice { display: flex; flex-direction: column; gap: 0.25rem; }
+  .diary-voice audio { width: 100%; max-width: 22rem; height: 36px; }
+  .voice-k { font-size: 0.8rem; color: var(--muted); }
+  .transcript { margin: 0; white-space: pre-wrap; }
+  .transcript-note { margin: 0; font-size: 0.75rem; }
+  .to-text { align-self: flex-start; }
 </style>
 </head>
 <body>
@@ -1119,14 +1167,14 @@
   <header class="top">
     <div class="brand-row">
       <div class="brand">
-        <h1 class="brand-mark"><button type="button" class="logo-btn" id="logoBtn" aria-label="Open menu" aria-haspopup="dialog" aria-expanded="false" aria-controls="menuDrawer"><img class="book app-mark" id="logoImg" src="icons/logo.jpg?v=39" alt="" /></button>Higher Self</h1>
+        <h1 class="brand-mark"><button type="button" class="logo-btn" id="logoBtn" aria-label="Open menu" aria-haspopup="dialog" aria-expanded="false" aria-controls="menuDrawer"><img class="book app-mark" id="logoImg" src="icons/logo.jpg?v=42" alt="" /></button>Higher Self</h1>
         <p id="todayLabel"></p>
       </div>
     </div>
     <div class="screen-bar" id="screenBar" hidden><button type="button" class="btn" id="screenBack" aria-label="Back to home">‹ Back</button><h2 id="screenTitle"></h2></div>
     <p class="home-greet" id="homeGreet" data-scr="home"></p>
     <section class="panel time-card" id="timeCard" data-scr="home" aria-labelledby="pieTitle">
-      <h2 id="pieTitle" class="title-book"><img class="book" src="icons/time-pie.jpg?v=39" alt="" />Where your time goes</h2>
+      <h2 id="pieTitle" class="title-book"><img class="book" src="icons/time-pie.jpg?v=42" alt="" />Where your time goes</h2>
       <div class="chip-row" id="timeViewToggle" role="radiogroup" aria-label="Day / Week">
         <button type="button" class="chip" data-tview="day" aria-pressed="true">Today</button>
         <button type="button" class="chip" data-tview="week" aria-pressed="false">This week</button>
@@ -1186,7 +1234,7 @@
 
   <section class="panel" id="replacementPanel" data-scr="record" aria-labelledby="replTitle">
     <h2 id="replTitle">Replacement list</h2>
-    <div class="book-slot"><img class="book" src="icons/shadow.jpg?v=39" alt="" /><span>When a pull hits</span></div>
+    <div class="book-slot"><img class="book" src="icons/shadow.jpg?v=42" alt="" /><span>When a pull hits</span></div>
     <p class="hint">Moves you picked ahead for when a pull hits.</p>
     <p class="hint">When a pull shows up, offer one from this list.</p>
     <ul class="entry-list" id="replList"></ul>
@@ -1201,8 +1249,8 @@
     <h2 id="diaryTitle">Diary</h2>
     <div class="book-slot" title="Diary and shadow icons">
       <span class="book-set">
-        <img class="book" src="icons/diary.jpg?v=39" alt="" />
-        <img class="book" src="icons/shadow.jpg?v=39" alt="" />
+        <img class="book" src="icons/diary.jpg?v=42" alt="" />
+        <img class="book" src="icons/shadow.jpg?v=42" alt="" />
       </span>
       <span>Diary</span>
     </div>
@@ -1228,6 +1276,15 @@
     <div class="composer diary-composer">
       <label class="field" style="max-width:12rem">Date<input id="diaryDate" type="date" /></label>
       <label class="field" style="margin-top:0.45rem">Note<textarea id="diaryNote" rows="3" maxlength="4000" placeholder="What happened today?"></textarea></label>
+      <div class="row-actions diary-media-row">
+        <button type="button" class="btn media-btn" id="diaryVoice" aria-pressed="false"><img class="chip-icon glyph" data-gv="diary/voice-note.png" alt="" /><span id="diaryVoiceText">Voice note</span></button>
+        <button type="button" class="btn media-btn" id="diaryPhoto"><img class="chip-icon glyph" data-gv="diary/add-photo.png" alt="" /><span>Add photo</span></button>
+        <span class="hint rec-time" id="diaryRecTime" aria-live="polite" hidden></span>
+      </div>
+      <input type="file" id="diaryPhotoFile" accept="image/*" hidden />
+      <ul class="media-pending" id="diaryPending"></ul>
+      <p class="hint">Voice notes and photos stay on this phone and go into your backups.</p>
+      <p class="short-note" id="diaryMediaErr" hidden></p>
       <p class="q-title diary-tag-title">Area</p>
       <div class="chip-row" id="diaryTagArea"></div>
       <div id="diaryTagPathWrap"><p class="q-title diary-tag-title">Path</p><div class="chip-row" id="diaryTagPath"></div></div>
@@ -1240,7 +1297,7 @@
   </section>
 
   <section class="panel" id="pathsPanel" data-scr="paths" aria-labelledby="pathsTitle">
-    <h2 id="pathsTitle" class="title-book"><img class="book" src="icons/paths-section.jpg?v=39" alt="" />Your paths</h2>
+    <h2 id="pathsTitle" class="title-book"><img class="book" src="icons/paths-section.jpg?v=42" alt="" />Your paths</h2>
     <div class="row-actions"><button type="button" class="btn primary" id="pathAddBtn">Add path</button><button type="button" class="btn" id="pathManageBtn">Manage paths</button></div>
     <p class="hint">Martial artist, writer, father, husband, whatever you're walking.</p>
     <div id="pathList"></div>
@@ -1257,9 +1314,14 @@
       <label class="field record-filter"><select id="recordFilter" aria-label="Filter the record by pull"><option value="">All pulls</option></select></label>
       <div class="tally" id="recordTally"></div>
       <ul class="log-list record-list" id="logList"></ul>
+      <div class="subpanel month-box" id="monthBox">
+        <h3>Your month</h3>
+        <div class="row-actions"><button type="button" class="btn" id="monthOpenLast"></button><button type="button" class="btn" id="monthOpenThis">This month so far</button></div>
+        <ul class="entry-list" id="monthPast"></ul>
+      </div>
     </section>
     <section class="side" id="moneySection" data-scr="money" aria-labelledby="moneyTitle">
-      <h2 id="moneyTitle" class="title-book"><img class="book" src="icons/money.jpg?v=39" alt="" />Money tracker</h2>
+      <h2 id="moneyTitle" class="title-book"><img class="book" src="icons/money.jpg?v=42" alt="" />Money tracker</h2>
       <div class="row-actions screen-only"><button type="button" class="btn primary" id="moneyAddHere">Add money</button></div>
       <div class="account-grid" id="accountGrid"></div>
       <ul class="acct-targets" id="accountTargets" hidden></ul>
@@ -1529,6 +1591,16 @@
   </div>
 </dialog>
 
+<dialog id="payoffDialog" aria-labelledby="payoffTitle">
+  <h3 id="payoffTitle" class="title-book"><img class="book glyph payoff-ico" id="payoffIco" alt="" hidden /><span id="payoffTitleText">Pay off</span></h3>
+  <p class="q-title" id="payoffTotal"></p>
+  <label class="field">Take it from:<select id="payoffFrom"></select></label>
+  <p class="short-note" id="payoffErr" hidden></p>
+  <div class="actions">
+    <button type="button" class="btn" id="payoffCancel">Cancel</button>
+    <button type="button" class="btn primary" id="payoffGo">Pay off</button>
+  </div>
+</dialog>
 <dialog id="debtDialog" class="wide" aria-labelledby="debtDialogTitle">
   <h3 id="debtDialogTitle">Add a debt</h3>
   <label class="field">Name<input id="debtName" type="text" maxlength="60" placeholder="Credit card, car loan…" /></label>
@@ -1619,7 +1691,7 @@
   <div class="guide-card">
     <img id="guideImg" alt="" hidden />
     <p id="guideText" class="guide-text" tabindex="-1" aria-live="polite"></p>
-    <div class="guide-dots" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+    <div class="guide-dots" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
     <p class="hint" id="guideStep" style="margin:0"></p>
     <div><button type="button" class="btn primary" id="guideNext">Next</button></div>
     <div><button type="button" class="guide-skip" id="guideSkip">Skip</button></div>
@@ -1631,7 +1703,7 @@
     <button type="button" class="btn" id="menuClose">Close</button>
   </div>
   <button type="button" class="menu-row menu-settings" id="menuSettingsToggle" aria-expanded="false" aria-controls="menuSettings">
-    <img src="icons/settings.jpg?v=39" alt="" /><span><b>Settings</b><small>Themes, backup, reminders, guide, lock</small></span>
+    <img src="icons/settings.jpg?v=42" alt="" /><span><b>Settings</b><small>Themes, backup, reminders, guide, lock</small></span>
   </button>
   <div class="menu-group" id="menuSettings" hidden>
     <button type="button" class="menu-item" id="btnOptions">All settings</button>
@@ -1734,12 +1806,17 @@
     <select id="curList" size="6" aria-labelledby="curTitle"></select>
     <p class="hint" id="curNow"></p>
   </div>
+  <div class="subpanel" id="backupSizePanel">
+    <h3>Backups</h3>
+    <p class="hint" id="backupSize"></p>
+    <p class="hint">Voice notes and photos stay on this phone and go into your backups.</p>
+  </div>
   <div class="subpanel" id="pullsOptions">
     <h3>Pulls</h3>
     <div class="row-actions"><button type="button" class="btn" id="optAddPull">Add pull</button><button type="button" class="btn" id="optManagePulls">Manage pulls</button></div>
   </div>
   <div class="subpanel" id="purposePanel" aria-labelledby="purposeTitle">
-    <h3 id="purposeTitle" class="title-book"><img class="book" src="icons/purpose.jpg?v=39" alt="" />Purpose (optional)</h3>
+    <h3 id="purposeTitle" class="title-book"><img class="book" src="icons/purpose.jpg?v=42" alt="" />Purpose (optional)</h3>
     <p class="hint">A note on how you're walking the path you already picked. Not a new choice, and not a finish.</p>
 
     <div class="subpanel">
@@ -1878,10 +1955,12 @@
   </div>
 </dialog>
 <dialog id="choiceDialog" aria-labelledby="choiceMsg">
+  <p class="hint choice-lead" id="choiceLead" hidden></p>
   <p class="q-title" id="choiceMsg"></p>
   <div class="actions" style="flex-wrap:wrap">
     <button type="button" class="btn" id="choiceA"></button>
     <button type="button" class="btn primary" id="choiceB"></button>
+    <button type="button" class="btn" id="choiceC" hidden></button>
     <button type="button" class="btn" id="choiceCancel">Cancel</button>
   </div>
 </dialog>
@@ -1933,9 +2012,35 @@
     <button type="button" class="btn primary" id="planSave">Save</button>
   </div>
 </dialog>
+<dialog id="monthDialog" class="wide" aria-labelledby="mrTitle">
+  <h3 id="mrTitle">Your month</h3>
+  <p class="hint" id="monthWhich"></p>
+  <div class="month-top"><svg id="monthPie" viewBox="0 0 200 200" role="img" aria-label="Your month"></svg><ul class="legend" id="monthLegend"></ul></div>
+  <ul class="month-stats" id="monthStats"></ul>
+  <label class="field">What went well?<textarea id="monthWell" rows="2" maxlength="1500" data-private="true"></textarea></label>
+  <label class="field">What slipped?<textarea id="monthSlip" rows="2" maxlength="1500" data-private="true"></textarea></label>
+  <label class="field"><span id="monthAimsLabel">Your aims for next month</span><textarea id="monthAims" rows="2" maxlength="1500" data-private="true"></textarea></label>
+  <p class="month-close" id="monthClose">This too shall pass. The good and the hard both.</p>
+  <div class="actions">
+    <button type="button" class="btn" id="monthCancel">Close</button>
+    <button type="button" class="btn primary" id="monthSave">Save</button>
+  </div>
+</dialog>
+<dialog id="overDialog" aria-labelledby="overTitle">
+  <h3 id="overTitle">Work ran over</h3>
+  <label class="field">Which block ran over?<select id="overBlock"></select></label>
+  <label class="field">New end time<input id="overEnd" type="time" /></label>
+  <p class="hint">The extra hours come out of what got dropped after it.</p>
+  <p class="short-note" id="overErr" hidden></p>
+  <div class="actions">
+    <button type="button" class="btn" id="overCancel">Cancel</button>
+    <button type="button" class="btn primary" id="overSave">Save</button>
+  </div>
+</dialog>
 <dialog id="planDayDialog" class="wide" aria-labelledby="planDayTitle">
   <h3 id="planDayTitle"></h3>
   <ul class="plan-list" id="planDayList"></ul>
+  <div id="planDayNoHours"></div>
   <div class="actions"><button type="button" class="btn" id="planDayAdd">Add a block</button><button type="button" class="btn primary" id="planDayDone">Done</button></div>
 </dialog>
 <dialog id="planWeekDialog" class="wide" aria-labelledby="planWeekTitle">
@@ -2191,7 +2296,8 @@ const ICON_LIBRARY = [
   "icons/opp-temperance.jpg", "icons/opp-patience.jpg", "icons/opp-zeal.jpg", "icons/opp-calm.jpg", "icons/opp-ease.jpg",
   "icons/opp-belonging.jpg", "icons/opp-endurance.jpg", "icons/opp-release.jpg", "icons/opp-boundary.jpg", "icons/opp-presence.jpg"
 ];
-const SLEEP_COLOR = "#1E2A5A";
+const SLEEP_COLOR = "#4A5C9E"; // v42: lighter so it reads next to the other areas
+const PIE_CREAM = "#FFF8EB";
 const PATH_DEFAULT_ICON = "icons/paths/custom.jpg";
 // Path marks. Never icons/paths-sheet.jpg.
 const PATH_ICONS = [
@@ -2222,8 +2328,8 @@ const PATH_ICON_LABELS = {
 };
 const PATH_WRESTLING_ICON = "icons/paths/wrestling.jpg";
 // Icon cache-bust: same filenames were re-cut, so every rendered icon URL carries ?v=. Stored data keeps plain paths.
-const ICON_VER = "39";
-const APP_VERSION = "41"; // shown in Settings as "Version 40"; bump with sw.js CACHE
+const ICON_VER = "42";
+const APP_VERSION = "42"; // shown in Settings as "Version 40"; bump with sw.js CACHE
 const REPORT_EMAIL = "gmlopez5864@gmail.com";
 const LOGO_SRC = "icons/logo.jpg"; // swap the app logo here (header, menu button, vault screens)
 function plainIcon(src) { return String(src || "").split("?")[0]; }
@@ -2243,6 +2349,7 @@ const DEFAULT_PULLS = [
 ];
 const EXTRA_PULLS = [
   { id: "fear", label: "Fear", img: "icons/pull-fear.jpg" },
+  { id: "addiction", label: "Addiction", img: "icons/pull-addiction.jpg" },
   { id: "anxiety", label: "Anxiety", img: "icons/pull-anxiety.jpg" },
   { id: "shame", label: "Shame", img: "icons/pull-shame.jpg" },
   { id: "despair", label: "Despair", img: "icons/pull-despair.jpg" },
@@ -2296,6 +2403,62 @@ PULL_OPPOSITES.anger = PULL_OPPOSITES.wrath;
 PULL_OPPOSITES.appetite = PULL_OPPOSITES.gluttony;
 PULL_OPPOSITES.avoidance = PULL_OPPOSITES.sloth;
 const PULLS = DEFAULT_PULLS; // alias for older call sites
+// v42: the book's shadows come first in the "Pick a shadow" list.
+const BOOK_PULL_IDS = ["pride", "greed", "lust", "envy", "gluttony", "wrath", "sloth", "fear", "addiction"];
+const ADDICTION_STEER_PROMPT = "What will you do instead? Pick it before the urge.";
+// Addiction has no fixed steer: you name what you'll do instead ("Freedom" is only the placeholder). Its chips use
+// Pablo's steer-freedom icon.
+const ADDICTION_STEER_IMG = "icons/steer-freedom.jpg", ADDICTION_STEER_PLACEHOLDER = "Freedom";
+// PENDING Guillermo's yes: Addiction's opposite. Set to null to drop it, or change the label here (one line).
+const ADDICTION_OPPOSITE = { label: "Clarity", img: "icons/opp-clarity.jpg" };
+if (ADDICTION_OPPOSITE) PULL_OPPOSITES.addiction = ADDICTION_OPPOSITE;
+const ADDICTION_QUOTES = ["This is not only quitting. Quitting leaves a hole, and holes pull the old habit back in.", "Make the list. Not when the urge arrives. Before it."];
+const PAIR_COPY = {
+  add: "+ Add your own", pickPull: "Pick a shadow", pickSteer: "Pick a steer",
+  pullQ: "Name the pull", pullHint: "A screen habit, worry, gossip, whatever pulls at you.",
+  steerQ: "What will you steer it toward?", steerHint: "Name the higher version of this pull."
+};
+// v42: shadow stories from Threefold Training. Title + label now; `text` is the slot for a short
+// phone-length version, keyed per story, so it can be dropped in later without touching the UI.
+const SHADOW_STORIES = {
+  "emperors-new-clothes": { title: "The Emperor's New Clothes", label: "Written", text: "" },
+  "the-commission": { title: "The Commission", label: "Happened", text: "" },
+  "zuko": { title: "Zuko", label: "Written", text: "" },
+  "house-of-iyi": { title: "The House of Iyi", label: "Written", text: "" },
+  "golden-touch": { title: "The Golden Touch", label: "Handed down", text: "" },
+  "fake-gold": { title: "The Fake Gold", label: "Written", text: "" },
+  "green-belt-women": { title: "The Green Belt Women", label: "Happened", text: "" },
+  "the-brothers": { title: "The Brothers", label: "Written", text: "" },
+  "the-catalogue": { title: "The Catalogue", label: "Written", text: "" },
+  "the-field": { title: "The Field", label: "Handed down", text: "" },
+  "lotus-eaters": { title: "The Lotus-Eaters", label: "Handed down", text: "" },
+  "the-table": { title: "The Table", label: "Written", text: "" },
+  "priams-hands": { title: "Priam's Hands", label: "Handed down", text: "" },
+  "no-enemies": { title: "I Have No Enemies", label: "Written", text: "" },
+  "the-doorway": { title: "The Doorway", label: "Happened", text: "" },
+  "sister-back": { title: "I Want My Sister Back", label: "Happened", text: "" },
+  "below-deck": { title: "Below Deck", label: "Handed down", text: "" },
+  "yoshida-saburo": { title: "Yoshida Saburō's Year", label: "Happened", text: "" },
+  "one-day": { title: "One Day", label: "Happened", text: "" },
+  "the-pocket": { title: "The Pocket", label: "Written", text: "" },
+  "the-mast": { title: "The Mast", label: "Handed down", text: "" },
+  "the-card": { title: "The Card", label: "Written", text: "" }
+};
+const PULL_STORIES = {
+  pride: ["emperors-new-clothes", "the-commission", "zuko", "house-of-iyi"],
+  greed: ["golden-touch", "fake-gold", "green-belt-women"],
+  lust: ["the-brothers", "the-catalogue"],
+  envy: ["the-field"],
+  gluttony: ["lotus-eaters", "the-table"],
+  wrath: ["priams-hands", "no-enemies", "the-doorway", "sister-back"],
+  sloth: ["below-deck", "yoshida-saburo"],
+  fear: ["one-day"],
+  clean: ["the-pocket", "the-mast"],
+  custom: ["the-card"]
+};
+PULL_STORIES.anger = PULL_STORIES.wrath; PULL_STORIES.appetite = PULL_STORIES.gluttony; PULL_STORIES.avoidance = PULL_STORIES.sloth;
+PULL_STORIES.addiction = PULL_STORIES.custom;
+const HONOR_TEST = { title: "The honor test", qs: ["Would I still do this if no one ever knew?", "Can I still say I was wrong?"], hint: "Answer only to yourself." };
 const INCOME_SOURCES = { paycheck: "Paycheck", side: "Side work", gift: "Gift", refund: "Refund", other: "Other" };
 const EXPENSE_CATS = [
   ["rent-or-mortgage", "Rent or mortgage"], ["groceries", "Groceries"], ["eating-out", "Eating out"], ["phone", "Phone"],
@@ -2687,8 +2850,16 @@ function migrateLegacy(raw) {
     area: strArr(e.area).filter(a => AREAS.some(x => x.id === a)),
     path: strArr(e.path),
     pulls: (Array.isArray(e.pulls) ? strArr(e.pulls) : (e.pull ? [String(e.pull)] : [])).slice(0, 5),
-    steered: strArr(e.steered).slice(0, 5)
-  }));
+    steered: strArr(e.steered).slice(0, 5),
+    // v42: voice notes and photos (the files live encrypted in IndexedDB; these are just the pointers).
+    media: (Array.isArray(e.media) ? e.media : []).filter(m => m && typeof m.id === "string" && (m.kind === "audio" || m.kind === "photo")).slice(0, 12).map(m => {
+      const o = { id: m.id, kind: m.kind, type: String(m.type || ""), bytes: +m.bytes || 0, at: String(m.at || "") };
+      if (m.kind === "audio") o.secs = +m.secs || 0;
+      if (m.kind === "photo") { o.w = +m.w || 0; o.h = +m.h || 0; }
+      if (typeof m.text === "string" && m.text) { o.text = m.text; o.textAt = String(m.textAt || ""); o.textHow = String(m.textHow || ""); }
+      return o;
+    })
+  })).map(e => { if (!e.media.length) delete e.media; return e; });
   Object.keys(d.days).forEach(k => {
     const x = d.days[k];
     if (!x || typeof x !== "object") { delete d.days[k]; return; }
@@ -3190,7 +3361,7 @@ function addCustomPull(label, steer, opposite, img) {
 }
 function sortedDesc(list) { return list.slice().sort((a, b) => a.date < b.date ? 1 : a.date > b.date ? -1 : 0); }
 function bookSlot(label) {
-  return '<span class="book-slot" title="Area notes"><img class="book" src="icons/area-note.jpg?v=39" alt="" /><span>' + esc(label) + '</span></span>';
+  return '<span class="book-slot" title="Area notes"><img class="book" src="icons/area-note.jpg?v=42" alt="" /><span>' + esc(label) + '</span></span>';
 }
 function pickReplacement() {
   if (!data.replacements.length) return null;
@@ -3429,7 +3600,7 @@ function renderCheckin() {
       '<p class="hint" id="sleepPreview" aria-live="polite"></p>';
   }
   const body =
-    '<div class="sleep-row"><p class="q-title title-book"><img class="book" src="icons/sleep.jpg?v=39" alt="" />How did last night go?</p>' + sleepHtml + '</div>' +
+    '<div class="sleep-row"><p class="q-title title-book"><img class="book" src="icons/sleep.jpg?v=42" alt="" />How did last night go?</p>' + sleepHtml + '</div>' +
     pathCheckinHtml(date);
   document.getElementById("checkinBody").innerHTML = body;
   if (editing && sleep.source === "times") { const b = document.getElementById("bed"), w = document.getElementById("wake"); if (b) b.value = sleep.bed || ""; if (w) w.value = sleep.wake || ""; }
@@ -3905,8 +4076,10 @@ function renderDiary() {
     ? rows.map(feedItemHtml).join("")
     : '<li><span class="empty">Nothing written this day. <button type="button" class="btn" id="diaryWriteNow">Write now?</button></span></li>';
   list.querySelectorAll("[data-del-diary]").forEach(btn => {
-    btn.onclick = async () => { if (!(await askDelete("Remove this diary entry? This can't be undone.", "Remove"))) return; data.diary = data.diary.filter(n => n.id !== btn.dataset.delDiary); save(); renderDiary(); };
+    btn.onclick = async () => { if (!(await askDelete("Remove this diary entry? This can't be undone.", "Remove"))) return; removeDiaryEntry(btn.dataset.delDiary); renderDiary(); };
   });
+  bindDiaryMedia(list);
+  paintMediaIcons();
   const wn = document.getElementById("diaryWriteNow");
   if (wn) wn.onclick = () => {
     const dd = document.getElementById("diaryDate");
@@ -3948,20 +4121,26 @@ function renderPie() {
   days.forEach(d => { const ph = plannedHoursFor(d); Object.keys(plan).forEach(k => { plan[k] += ph[k] || 0; }); });
   let planRoom = Math.max(0, 24 * days.length - taskH - sleepH);
   const planSlices = areas.map(a => ({ id: a.id, name: a.name, color: a.color })).concat([{ id: "sleep", name: "Sleep", color: SLEEP_COLOR }]).map(x => {
-    const h = Math.min(plan[x.id] || 0, planRoom); planRoom -= h; return { name: x.name + " (planned)", label: x.name, color: x.color, hours: h, planned: true };
+    const h = Math.min(plan[x.id] || 0, planRoom); planRoom -= h; return { id: x.id, name: x.name + " (planned)", label: x.name, color: x.color, hours: h, planned: true };
   }).filter(s => s.hours > 0);
   const planH = planSlices.reduce((t, s) => t + s.hours, 0);
+  const planOf = id => { const p = planSlices.find(x => x.id === id); return p ? p.hours : 0; };
   const openLeft = Math.max(0, openH - planH);
-  const slices = areas.map(a => ({ name: a.name, color: a.color, hours: hours[a.id] }))
-    .concat([{ name: "Sleep", color: SLEEP_COLOR, hours: sleepH }]).concat(planSlices).concat([{ name: "Open time", color: "url(#openStripes)", hours: openLeft }])
+  const slices = areas.map(a => ({ id: a.id, name: a.name, color: a.color, hours: hours[a.id] }))
+    .concat([{ id: "sleep", name: "Sleep", color: SLEEP_COLOR, hours: sleepH }]).concat(planSlices).concat([{ id: "open", name: "Open time", color: "url(#openStripes)", hours: openLeft }])
     .filter(s => s.hours > 0);
+  // v42: planned slices use the area's full colour with diagonal cream stripes; every slice gets a thin cream outline.
+  const planPat = sl => "planStripes-" + sl.id;
   const defs = '<defs><pattern id="openStripes" patternUnits="userSpaceOnUse" width="6" height="6" patternTransform="rotate(45)">' +
-    '<rect width="6" height="6" fill="#EEEEEE"/><line x1="0" y1="0" x2="0" y2="6" stroke="#CFCFCF" stroke-width="2.5"/></pattern></defs>';
+    '<rect width="6" height="6" fill="#EEEEEE"/><line x1="0" y1="0" x2="0" y2="6" stroke="#CFCFCF" stroke-width="2.5"/></pattern>' +
+    planSlices.map(sl => '<pattern id="' + planPat(sl) + '" class="plan-pattern" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(45)">' +
+      '<rect width="7" height="7" fill="' + sl.color + '"/><line x1="0" y1="0" x2="0" y2="7" stroke="' + PIE_CREAM + '" stroke-opacity="0.75" stroke-width="2.6"/></pattern>').join("") + '</defs>';
   const sum = slices.reduce((s, sl) => s + sl.hours, 0) || 1;
   let angle = -Math.PI / 2;
   const paths = slices.map(sl => {
-    const op = sl.planned ? ' fill-opacity="0.4" stroke="' + sl.color + '" stroke-dasharray="3 2" class="pie-planned"' : "";
-    if (slices.length === 1) return '<circle cx="100" cy="100" r="78" fill="' + sl.color + '"' + op + '/>';
+    const fill = sl.planned ? "url(#" + planPat(sl) + ")" : sl.color;
+    const op = ' stroke="' + PIE_CREAM + '" stroke-width="1.2" stroke-linejoin="round" data-slice="' + esc(sl.planned ? "plan:" + sl.id : sl.id) + '"' + (sl.planned ? ' class="pie-planned"' : "");
+    if (slices.length === 1) return '<circle cx="100" cy="100" r="78" fill="' + fill + '"' + op + '/>';
     const sweep = (sl.hours / sum) * Math.PI * 2;
     const a0 = angle, a1 = angle + sweep;
     angle = a1;
@@ -3969,24 +4148,26 @@ function renderPie() {
     const r = 78, cx = 100, cy = 100;
     const x1 = cx + r * Math.cos(a0), y1 = cy + r * Math.sin(a0);
     const x2 = cx + r * Math.cos(a1 - 0.0001), y2 = cy + r * Math.sin(a1 - 0.0001);
-    return '<path d="M ' + cx + ' ' + cy + ' L ' + x1.toFixed(2) + ' ' + y1.toFixed(2) + ' A ' + r + ' ' + r + ' 0 ' + large + ' 1 ' + x2.toFixed(2) + ' ' + y2.toFixed(2) + ' Z" fill="' + sl.color + '"' + op + '></path>';
+    return '<path d="M ' + cx + ' ' + cy + ' L ' + x1.toFixed(2) + ' ' + y1.toFixed(2) + ' A ' + r + ' ' + r + ' 0 ' + large + ' 1 ' + x2.toFixed(2) + ' ' + y2.toFixed(2) + ' Z" fill="' + fill + '"' + op + '></path>';
   });
-  // v29: hours left in the centre ("{h}h left today" / "Logged {x}h").
+  // v42: the centre shows open time ("3.3h open"), with "Done 5h · Planned 15.8h" under it.
   const used = isWeek ? days.reduce((t, d) => t + dayUsed(d).used, 0) : dayUsed(date).used;
-  const leftH = Math.max(0, (isWeek ? 24 * 7 : 24) - used);
-  const big = fmtHours(Math.round(leftH * 10) / 10) + "h";
-  const sub1 = isWeek ? "left this week" : (date === TODAY ? "left today" : "open");
-  const centre = '<text class="pie-c-big" x="100" y="98" text-anchor="middle" font-size="22" font-weight="700" fill="var(--text)">' + esc(big) + '</text>' +
-    '<text class="pie-c-sub" x="100" y="114" text-anchor="middle" font-size="10" fill="var(--text)">' + esc(sub1) + '</text>' +
-    '<text class="pie-c-logged" x="100" y="128" text-anchor="middle" font-size="9" fill="var(--muted)">' + esc("Logged " + fmtHours(Math.round(used * 10) / 10) + "h") + '</text>' +
-    (planH ? '<text class="pie-c-planned" x="100" y="140" text-anchor="middle" font-size="8" fill="var(--muted)">' + esc(PLAN_COPY.planned + " " + fmtHours(Math.round(planH * 10) / 10) + "h") + '</text>' : "");
-  svg.innerHTML = defs + paths.join("") + '<circle cx="100" cy="100" r="46" fill="var(--panel)"/>' + centre;
-  const pc = document.getElementById("pieCentre"); if (pc) pc.textContent = big + " " + sub1 + ". Logged " + fmtHours(Math.round(used * 10) / 10) + "h." + (planH ? " " + PLAN_COPY.planned + " " + fmtHours(Math.round(planH * 10) / 10) + "h." : "");
+  const r1 = x => fmtHours(Math.round(x * 10) / 10);
+  const openC = Math.max(0, 24 * days.length - used - planH);
+  const bigNum = r1(openC) + "h";
+  const big = bigNum + " open";
+  const sub1 = "Done " + r1(used) + "h" + (planH ? " · " + PLAN_COPY.planned + " " + r1(planH) + "h" : "");
+  const centre = '<text class="pie-c-big" x="100" y="101" text-anchor="middle" font-size="21" font-weight="700" fill="var(--text)">' + esc(bigNum) + '<tspan font-size="12" font-weight="600"> open</tspan></text>' +
+    '<text class="pie-c-sub" x="100" y="117" text-anchor="middle" font-size="8" fill="var(--muted)">' + esc(sub1) + '</text>';
+  svg.innerHTML = defs + paths.join("") + '<circle cx="100" cy="100" r="54" fill="var(--panel)" stroke="' + PIE_CREAM + '" stroke-width="1.2"/>' + centre;
+  const pc = document.getElementById("pieCentre"); if (pc) pc.textContent = big + ". " + sub1.replace(" · ", ". ") + ".";
   svg.setAttribute("aria-label", (isWeek ? "Whole week. " : "Whole day. ") + slices.map(s => s.name + " " + fmtHours(s.hours) + " " + pluralWord(s.hours, "hour")).join(", "));
-  legend.innerHTML = areas.map(a => '<li><span class="swatch" style="background:' + a.color + '"></span><span>' + esc(a.name) + '</span><span>' + fmtHours(hours[a.id]) + 'h</span></li>').join("") +
-    '<li><span class="swatch" style="background:' + SLEEP_COLOR + '"></span><span>Sleep</span><span>' + fmtHours(sleepH) + 'h</span></li>' +
-    planSlices.map(s => '<li class="planned"><span class="swatch" style="background:' + s.color + ';opacity:0.45"></span><span>' + esc(s.label) + '</span><span>' + fmtHours(s.hours) + 'h</span></li>').join("") +
-    '<li><span class="swatch open-swatch"></span><span>Open time</span><span>' + fmtHours(openLeft) + 'h</span></li>';
+  // v42: one row per area: "0h of 10h planned", "5h done · 3h planned", or just "4h".
+  const rowVal = (done, pl) => pl > 0 ? (done > 0 ? fmtHours(done) + "h done · " + fmtHours(pl) + "h planned" : "0h of " + fmtHours(pl) + "h planned") : fmtHours(done) + "h";
+  const sw = (color, done, pl) => pl > 0 && !(done > 0) ? '<span class="swatch plan-swatch" style="--sw:' + color + '"></span>' : '<span class="swatch" style="background:' + color + '"></span>';
+  const row = (id, name, color, done) => { const pl = planOf(id); return '<li data-area="' + esc(id) + '"' + (pl > 0 ? ' class="has-plan"' : "") + '>' + sw(color, done, pl) + '<span>' + esc(name) + '</span><span>' + rowVal(done, pl) + '</span></li>'; };
+  legend.innerHTML = areas.map(a => row(a.id, a.name, a.color, hours[a.id])).join("") + row("sleep", "Sleep", SLEEP_COLOR, sleepH) +
+    '<li data-area="open"><span class="swatch open-swatch"></span><span>Open time</span><span>' + fmtHours(openLeft) + 'h</span></li>';
   renderPlanCard();
 }
 // One quiet line about returns to practice. Nothing at all when there are none yet.
@@ -4281,12 +4462,52 @@ function renderDebts() {
     const p = debtPlan(d.balance, d.apr, d.mode, d.payment, d.pct, d.extra);
     const line = !(d.balance > 0) ? "Paid off" : (p.ok ? "About " + yearsMonths(p.months) + " to go · about " + moneyWhole(p.interest) + " in interest" : "Payment doesn't cover the interest");
     return '<div class="debt-item"><button type="button" class="debt-card" data-debt="' + esc(d.id) + '"><div class="dn"><span>' + esc(d.name) + '</span><span class="money-neg">' + moneyPlain(d.balance) + '</span></div><div class="ds">' + esc(d.apr + "% APR · " + (d.mode === "minimum" ? "card minimum " + d.pct + "% + interest" : moneyPlain(d.payment) + "/month") + (d.extra > 0 ? " + " + moneyPlain(d.extra) + " extra" : "") + (d.payFrom && data.accounts.some(x => x.id === d.payFrom) ? " · due the " + (d.dueDay === "last" ? "last day" : ordinal(Number(d.dueDay))) : "")) + '</div><div class="ds' + (p.ok || !(d.balance > 0) ? "" : " money-neg") + '">' + esc(line) + '</div></button>' +
-      (d.balance > 0 ? '<button type="button" class="btn debt-log" data-debt-log="' + esc(d.id) + '">' + (debtPaymentsThisMonth(d.id).length ? "Edit this month's payment" : "Log payment") + '</button>' : "") + '</div>';
+      (d.balance > 0 ? '<div class="row-actions debt-acts"><button type="button" class="btn debt-log" data-debt-log="' + esc(d.id) + '">' + (debtPaymentsThisMonth(d.id).length ? "Edit this month's payment" : "Log payment") + '</button>' +
+        '<button type="button" class="btn debt-payoff" data-debt-payoff="' + esc(d.id) + '">' + payoffIconHtml() + '<span>Pay off</span></button></div>' : "") + '</div>';
   }).join("") || '<p class="empty" style="margin:0">No debts added.</p>';
   renderPayoffPlans();
   list.querySelectorAll("[data-debt]").forEach(b => b.onclick = () => openDebtDialog(b.dataset.debt));
   list.querySelectorAll("[data-debt-log]").forEach(b => b.onclick = () => openDebtPayment(b.dataset.debtLog));
+  list.querySelectorAll("[data-debt-payoff]").forEach(b => b.onclick = () => openPayoff(b.dataset.debtPayoff));
 }
+// v42: pay a debt off in one go. Logs the payment from the picked account, marks it paid off,
+// and the monthly bill stops (syncDebtBills turns the repeat off once nothing is owed).
+let payoffDebtId = null;
+function payoffIconHtml() { return MONEY_GLYPH_SET.has("payoff") ? '<img class="chip-icon glyph" src="' + esc(gv("money/payoff.png")) + '" alt="" />' : ""; }
+function openPayoff(debtId) {
+  const d = data.debts.find(x => x.id === debtId);
+  if (!d || !(d.balance > 0)) return;
+  payoffDebtId = debtId;
+  const $ = x => document.getElementById(x);
+  $("payoffTitleText").textContent = "Pay off " + d.name + "?";
+  const ico = $("payoffIco"); if (MONEY_GLYPH_SET.has("payoff")) { ico.src = gv("money/payoff.png"); ico.hidden = false; } else ico.hidden = true;
+  $("payoffTotal").textContent = "Total: " + moneyPlain(d.balance);
+  const from = $("payoffFrom");
+  from.innerHTML = data.accounts.filter(a => !a.archived).map(a => '<option value="' + esc(a.id) + '">' + esc(a.name) + '</option>').join("");
+  if (d.payFrom && data.accounts.some(a => a.id === d.payFrom)) from.value = d.payFrom;
+  $("payoffErr").hidden = true;
+  $("payoffGo").disabled = !from.options.length;
+  if (!from.options.length) { $("payoffErr").textContent = "Add an account first, so the payment has somewhere to come from."; $("payoffErr").hidden = false; }
+  $("payoffDialog").showModal();
+}
+function payOffDebt(debtId, accountId, date) {
+  const d = data.debts.find(x => x.id === debtId);
+  if (!d || !(d.balance > 0) || !accountId) return null;
+  const entry = { id: uid("m"), type: "expense", amount: Math.round(d.balance * 100) / 100, accountId, category: debtBillCategory(d), label: d.name, date: date || iso(new Date()), goalId: "", debtId: d.id, applyDebt: true, payoff: true };
+  applyEntryEffects(entry); data.money.push(entry);
+  d.balance = 0; d.paidOff = entry.date;
+  syncDebtBills();
+  return entry;
+}
+document.getElementById("payoffCancel").onclick = () => document.getElementById("payoffDialog").close();
+document.getElementById("payoffGo").onclick = () => {
+  const d = data.debts.find(x => x.id === payoffDebtId);
+  const acct = document.getElementById("payoffFrom").value;
+  if (!d || !acct) return;
+  payOffDebt(d.id, acct);
+  save(); document.getElementById("payoffDialog").close(); renderDerived();
+  showToast(d.name + " is paid off.");
+};
 let editingDebtId = null, debtMode = "fixed";
 function debtFromForm() {
   return { name: document.getElementById("debtName").value.trim() || "Debt", balance: Math.max(0, Number(document.getElementById("debtBalance").value) || 0),
@@ -4647,10 +4868,14 @@ function renderRepeats() {
     save(); renderDerived();
   });
 }
-function askChoice(msg, a, b, primary) {
+// v42: optional third button (opts.c) and a small lead line above the question (opts.lead).
+function askChoice(msg, a, b, primary, opts) {
+  opts = opts || {};
   return new Promise(resolve => {
     const dlg = document.getElementById("choiceDialog");
     document.getElementById("choiceMsg").textContent = msg;
+    const lead = document.getElementById("choiceLead"); lead.textContent = opts.lead || ""; lead.hidden = !opts.lead;
+    const cb = document.getElementById("choiceC"); cb.textContent = opts.c || ""; cb.hidden = !opts.c; cb.onclick = () => finish("c");
     document.getElementById("choiceA").textContent = a; document.getElementById("choiceB").textContent = b;
     const pa = primary === "a";
     document.getElementById("choiceA").className = "btn" + (pa ? " primary" : "");
@@ -5243,6 +5468,7 @@ document.getElementById("tgtRemove").onclick = async () => {
 document.getElementById("targetDialog").addEventListener("click", e => { if (e.target.id === "targetDialog") e.target.close(); });
 document.getElementById("accountTarget").onclick = () => { if (editingAccountId) openTargetDialog({ accountId: editingAccountId }); };
 function renderDerived() {
+  try { renderMonthBox(); } catch (e) { console.error(e); }
   syncPreCleanupItem();
   renderStats(); renderCoach(); renderWeekNudges(); renderNotices(); renderStrip(); renderAreas();
   renderReplacements(); renderPurpose(); renderDiary(); renderPaths(); renderRoad();
@@ -5550,7 +5776,7 @@ function syncMoneyOther() {
 }
 
 document.querySelectorAll(".themes button").forEach(btn => { btn.onclick = () => applyTheme(btn.dataset.theme); });
-document.getElementById("btnOptions").onclick = () => { renderReminderList(); openSheet(document.getElementById("optionsDialog")); };
+document.getElementById("btnOptions").onclick = () => { renderReminderList(); renderBackupSize(); openSheet(document.getElementById("optionsDialog")); };
 document.getElementById("optionsClose").onclick = () => document.getElementById("optionsDialog").close();
 document.getElementById("btnAddTask").onclick = () => openTaskDialog(null);
 document.getElementById("btnAddGoal").onclick = () => openGoalDialog(null);
@@ -5717,7 +5943,7 @@ document.getElementById("goalSave").onclick = () => {
 };
 document.getElementById("moneySave").onclick = () => saveMoneyDialog();
 document.getElementById("moneyDelete").onclick = () => deleteMoneyEntry();
-["taskDialog", "goalDialog", "moneyDialog", "debtDialog", "savingsDialog", "accountDialog", "pullDialog", "pullsDialog", "moveDialog", "pathDialog", "pathLogDialog", "progressDialog", "pathsManageDialog"].forEach(id => {
+["payoffDialog", "monthDialog", "overDialog", "taskDialog", "goalDialog", "moneyDialog", "debtDialog", "savingsDialog", "accountDialog", "pullDialog", "pullsDialog", "moveDialog", "pathDialog", "pathLogDialog", "progressDialog", "pathsManageDialog"].forEach(id => {
   const dlg = document.getElementById(id);
   dlg.addEventListener("click", e => { if (e.target === dlg) dlg.close(); });
 });
@@ -5762,12 +5988,270 @@ document.getElementById("diaryAdd").onclick = () => {
     box.hidden = false;
     box.innerHTML = '<strong>When a pull shows up, offer one from this list.</strong><p style="margin:0.25rem 0 0">' + esc(offered) + '</p><p class="hint" style="margin:0.35rem 0 0">It may not make the pull leave. It gives you the next move.</p>';
   }
-  data.diary.push({ id: uid("d"), date, note: noteText, offered, full: false, area: dTagArea.slice(), path: dTagPath.slice(), pulls: dTagPulls.slice(), steered: dTagSteered.slice() });
+  if (diaryRec) { showMediaErr("Stop the recording first."); return; }
+  const media = dMedia.slice();
+  data.diary.push(Object.assign({ id: uid("d"), date, note: noteText, offered, full: false, area: dTagArea.slice(), path: dTagPath.slice(), pulls: dTagPulls.slice(), steered: dTagSteered.slice() }, media.length ? { media } : {}));
+  dMedia = []; renderPendingMedia();
   document.getElementById("diaryNote").value = "";
   dTagArea = []; dTagPath = []; dTagPulls = []; dTagSteered = [];
   diaryDay = date;
   save(); renderDiary();
 };
+
+// ---------- v42: diary voice notes and photos ----------
+// Each file is encrypted (AES-GCM, key from your passphrase + a per-vault salt) and kept in IndexedDB on this
+// device, keyed by the vault, so it doesn't fill the small localStorage space. Entries keep only the id and size.
+// Backups carry the files inside the same encrypted backup. Nothing is uploaded.
+const MEDIA_DB = "higher-self-media";
+const VOICE_MAX_SECS = 180;
+const PHOTO_MAX_PX = 1280, PHOTO_QUALITY = 0.72;
+const MEDIA_COPY = { voice: "Voice note", recording: "Recording… tap to stop", photo: "Add photo", toText: "Turn into text", transcribed: "Transcribed on this phone.",
+  micOff: "The microphone is off for Higher Self. Turn it on in your phone's settings to record.", noMic: "This browser can't record voice notes.",
+  capped: "Voice notes stop at 3 minutes.", photoFail: "Couldn't add that photo. Try another one.", listening: "Turning into text…", textFail: "Couldn't turn this into text on this phone." };
+let dMedia = [], diaryRec = null, mediaDbP = null;
+const mediaKeys = new Map(), mediaUrls = new Map();
+function voiceMaxSecs() { return Number(window.HS_VOICE_MAX_SECS) > 0 ? Number(window.HS_VOICE_MAX_SECS) : VOICE_MAX_SECS; }
+function mediaDb() {
+  if (!mediaDbP) mediaDbP = new Promise((res, rej) => {
+    const r = indexedDB.open(MEDIA_DB, 1);
+    r.onupgradeneeded = () => { if (!r.result.objectStoreNames.contains("media")) r.result.createObjectStore("media"); };
+    r.onsuccess = () => res(r.result); r.onerror = () => { mediaDbP = null; rej(r.error); };
+  });
+  return mediaDbP;
+}
+async function idbDo(mode, fn) {
+  const db = await mediaDb();
+  return new Promise((res, rej) => {
+    const tx = db.transaction("media", mode); let out;
+    const r = fn(tx.objectStore("media")); if (r) r.onsuccess = () => { out = r.result; };
+    tx.oncomplete = () => res(out); tx.onerror = () => rej(tx.error); tx.onabort = () => rej(tx.error);
+  });
+}
+const mediaKeyFor = (vault, id) => vault + "|" + id;
+function idbKeys(vault) { return idbDo("readonly", st => st.getAllKeys(IDBKeyRange.bound(vault + "|", vault + "|\uffff"))); }
+async function mediaKey() {
+  if (!data.mediaSalt) { data.mediaSalt = b64(crypto.getRandomValues(new Uint8Array(16))); save(); }
+  const k = KEY + "|" + data.mediaSalt;
+  if (!mediaKeys.has(k)) mediaKeys.set(k, deriveKey(sessionPass, fromB64(data.mediaSalt)));
+  return mediaKeys.get(k);
+}
+async function putMediaBytes(id, bytes, type) {
+  const key = await mediaKey(), iv = crypto.getRandomValues(new Uint8Array(12));
+  const ct = await crypto.subtle.encrypt({ name: "AES-GCM", iv }, key, bytes);
+  await idbDo("readwrite", st => st.put({ v: 1, iv: b64(iv), type: type || "", ct }, mediaKeyFor(KEY, id)));
+}
+async function storeMedia(blob, meta) {
+  const id = uid("md");
+  await putMediaBytes(id, await blob.arrayBuffer(), blob.type);
+  return Object.assign({ id, type: blob.type, bytes: blob.size, at: new Date().toISOString() }, meta);
+}
+async function loadMediaBytes(id) {
+  const rec = await idbDo("readonly", st => st.get(mediaKeyFor(KEY, id)));
+  if (!rec) return null;
+  const plain = await crypto.subtle.decrypt({ name: "AES-GCM", iv: fromB64(rec.iv) }, await mediaKey(), rec.ct);
+  return { bytes: new Uint8Array(plain), type: rec.type };
+}
+async function mediaUrl(id) {
+  if (mediaUrls.has(id)) return mediaUrls.get(id);
+  const m = await loadMediaBytes(id); if (!m) return "";
+  const url = URL.createObjectURL(new Blob([m.bytes], { type: m.type }));
+  mediaUrls.set(id, url); return url;
+}
+function deleteMedia(ids) { return Promise.all((ids || []).map(id => { const u = mediaUrls.get(id); if (u) { URL.revokeObjectURL(u); mediaUrls.delete(id); } return idbDo("readwrite", st => st.delete(mediaKeyFor(KEY, id))).catch(() => {}); })); }
+async function deleteVaultMedia(vault) { const keys = await idbKeys(vault); await idbDo("readwrite", st => { keys.forEach(k => st.delete(k)); }); }
+function allEntryMedia() { const out = []; (data.diary || []).forEach(e => (e.media || []).forEach(m => out.push(m))); return out; }
+// Drop files no entry points to (e.g. recorded and then the app was closed before "Add entry").
+async function sweepMedia() {
+  if (!data) return;
+  const keep = new Set(allEntryMedia().concat(dMedia).map(m => mediaKeyFor(KEY, m.id)));
+  const keys = await idbKeys(KEY);
+  const drop = keys.filter(k => !keep.has(k));
+  if (drop.length) await idbDo("readwrite", st => { drop.forEach(k => st.delete(k)); });
+  return drop.length;
+}
+function removeDiaryEntry(id) {
+  const e = data.diary.find(n => n.id === id);
+  if (e && e.media) deleteMedia(e.media.map(m => m.id));
+  data.diary = data.diary.filter(n => n.id !== id); save(); renderBackupSize();
+}
+async function exportMedia() {
+  const out = {};
+  for (const m of allEntryMedia()) { const got = await loadMediaBytes(m.id); if (got) out[m.id] = { type: got.type, b64: b64(got.bytes) }; }
+  return out;
+}
+async function restoreMedia(media) {
+  mediaUrls.forEach(u => URL.revokeObjectURL(u)); mediaUrls.clear(); mediaKeys.clear();
+  try { await deleteVaultMedia(KEY); } catch (e) {}
+  if (!media) return 0;
+  let n = 0;
+  for (const id of Object.keys(media)) { const m = media[id]; if (m && m.b64) { await putMediaBytes(id, fromB64(m.b64), m.type); n++; } }
+  return n;
+}
+function mediaOnLock() {
+  if (diaryRec) { diaryRec.discard = true; try { diaryRec.mr.stop(); } catch (e) {} }
+  if (dMedia.length) { const ids = dMedia.map(m => m.id); dMedia = []; deleteMedia(ids); }
+  mediaUrls.forEach(u => URL.revokeObjectURL(u)); mediaUrls.clear(); mediaKeys.clear();
+  const p = document.getElementById("diaryPending"); if (p) p.innerHTML = "";
+}
+function fmtBytes(n) { return n < 1024 * 1024 ? Math.max(1, Math.round(n / 1024)) + " KB" : (Math.round(n / 1024 / 1024 * 10) / 10) + " MB"; }
+function fmtSecs(n) { n = Math.max(0, Math.round(n)); return Math.floor(n / 60) + ":" + String(n % 60).padStart(2, "0"); }
+// Backup size: the vault JSON plus each file as base64, then base64 again as ciphertext.
+function backupSizeEstimate() {
+  const media = allEntryMedia();
+  const mediaB = media.reduce((t, m) => t + (Number(m.bytes) || 0), 0);
+  const total = Math.round((JSON.stringify(data).length + mediaB * 4 / 3) * 4 / 3 + 600);
+  return { total, voice: media.filter(m => m.kind === "audio").length, photos: media.filter(m => m.kind === "photo").length };
+}
+function renderBackupSize() {
+  const el = document.getElementById("backupSize"); if (!el || !data) return;
+  const b = backupSizeEstimate();
+  const parts = [];
+  if (b.voice) parts.push(b.voice + (b.voice === 1 ? " voice note" : " voice notes"));
+  if (b.photos) parts.push(b.photos + (b.photos === 1 ? " photo" : " photos"));
+  el.textContent = "Your backup is about " + fmtBytes(b.total) + (parts.length ? ", with " + parts.join(" and ") + "." : ".");
+}
+function paintMediaIcons() { document.querySelectorAll("img[data-gv]").forEach(i => { const want = gv(i.dataset.gv); if (i.getAttribute("src") !== want) i.src = want; }); }
+function showMediaErr(msg) { const el = document.getElementById("diaryMediaErr"); el.textContent = msg || ""; el.hidden = !msg; }
+function paintVoiceBtn() {
+  const b = document.getElementById("diaryVoice"), t = document.getElementById("diaryRecTime");
+  b.setAttribute("aria-pressed", diaryRec ? "true" : "false"); b.classList.toggle("recording", !!diaryRec);
+  document.getElementById("diaryVoiceText").textContent = diaryRec ? MEDIA_COPY.recording : MEDIA_COPY.voice;
+  t.hidden = !diaryRec;
+  t.textContent = diaryRec ? fmtSecs((Date.now() - diaryRec.t0) / 1000) + " of " + fmtSecs(voiceMaxSecs()) : "";
+}
+async function toggleVoice() {
+  if (diaryRec) { try { diaryRec.mr.stop(); } catch (e) {} return; }
+  showMediaErr("");
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia || !window.MediaRecorder) { showMediaErr(MEDIA_COPY.noMic); return; }
+  let stream;
+  try { stream = await navigator.mediaDevices.getUserMedia({ audio: true }); } catch (e) { showMediaErr(MEDIA_COPY.micOff); return; }
+  const mime = ["audio/webm;codecs=opus", "audio/webm", "audio/mp4", "audio/ogg;codecs=opus"].find(t => MediaRecorder.isTypeSupported && MediaRecorder.isTypeSupported(t)) || "";
+  let mr;
+  try { mr = new MediaRecorder(stream, mime ? { mimeType: mime, audioBitsPerSecond: 32000 } : undefined); } catch (e) { stream.getTracks().forEach(t => t.stop()); showMediaErr(MEDIA_COPY.noMic); return; }
+  const chunks = [], rec = { mr, t0: Date.now(), discard: false };
+  mr.ondataavailable = e => { if (e.data && e.data.size) chunks.push(e.data); };
+  mr.onstop = async () => {
+    stream.getTracks().forEach(t => t.stop()); clearInterval(rec.timer); clearTimeout(rec.cap);
+    diaryRec = null; paintVoiceBtn();
+    if (rec.discard || !data) return;
+    const blob = new Blob(chunks, { type: (mr.mimeType || mime || "audio/webm").split(";")[0] });
+    if (!blob.size) return;
+    const secs = Math.min(voiceMaxSecs(), Math.round((Date.now() - rec.t0) / 100) / 10);
+    try { dMedia.push(await storeMedia(blob, { kind: "audio", secs })); } catch (e) { console.error(e); showMediaErr(MEDIA_COPY.noMic); }
+    renderPendingMedia();
+  };
+  diaryRec = rec;
+  mr.start(1000);
+  rec.timer = setInterval(paintVoiceBtn, 500);
+  rec.cap = setTimeout(() => { if (mr.state !== "inactive") { rec.capped = true; mr.stop(); showToast(MEDIA_COPY.capped); } }, voiceMaxSecs() * 1000);
+  paintVoiceBtn();
+}
+// Photos are shrunk to 1280px on the long side and saved as JPEG (about 0.1–0.4 MB each).
+async function compressPhoto(blob) {
+  let src;
+  try { src = await createImageBitmap(blob, { imageOrientation: "from-image" }); }
+  catch (e) { src = await new Promise((res, rej) => { const im = new Image(); im.onload = () => res(im); im.onerror = rej; im.src = URL.createObjectURL(blob); }); }
+  const w0 = src.width, h0 = src.height, sc = Math.min(1, PHOTO_MAX_PX / Math.max(w0, h0));
+  const w = Math.max(1, Math.round(w0 * sc)), h = Math.max(1, Math.round(h0 * sc));
+  const c = document.createElement("canvas"); c.width = w; c.height = h;
+  const g = c.getContext("2d"); g.fillStyle = "#fff"; g.fillRect(0, 0, w, h); g.drawImage(src, 0, 0, w, h);
+  if (src.close) src.close();
+  const out = await new Promise(res => c.toBlob(res, "image/jpeg", PHOTO_QUALITY));
+  return { blob: out, w, h };
+}
+async function addPhotoBlob(blob) {
+  showMediaErr("");
+  try { const c = await compressPhoto(blob); dMedia.push(await storeMedia(c.blob, { kind: "photo", w: c.w, h: c.h })); renderPendingMedia(); }
+  catch (e) { console.error(e); showMediaErr(MEDIA_COPY.photoFail); }
+}
+async function addPhoto() {
+  const Cam = isNativeCapacitor() && Capacitor.Plugins && Capacitor.Plugins.Camera;
+  if (Cam) {
+    try {
+      const p = await Cam.getPhoto({ resultType: "dataUrl", source: "PROMPT", quality: 80, width: PHOTO_MAX_PX, correctOrientation: true, saveToGallery: false,
+        promptLabelHeader: "Add photo", promptLabelPhoto: "From your photos", promptLabelPicture: "Take a photo", promptLabelCancel: "Cancel" });
+      if (p && p.dataUrl) await addPhotoBlob(await (await fetch(p.dataUrl)).blob());
+    } catch (e) { if (!/cancel/i.test(String(e && e.message))) showMediaErr(MEDIA_COPY.photoFail); }
+    return;
+  }
+  document.getElementById("diaryPhotoFile").click();
+}
+document.getElementById("diaryVoice").onclick = () => toggleVoice();
+document.getElementById("diaryPhoto").onclick = () => addPhoto();
+document.getElementById("diaryPhotoFile").onchange = async e => { const f = e.target.files && e.target.files[0]; e.target.value = ""; if (f) await addPhotoBlob(f); };
+function renderPendingMedia() {
+  const ul = document.getElementById("diaryPending"); if (!ul) return;
+  ul.innerHTML = dMedia.map(m => '<li data-pending="' + esc(m.id) + '">' + (m.kind === "photo" ? '<img class="pending-photo" data-media-src="' + esc(m.id) + '" alt="Photo to add" />' : '<span class="pending-voice">' + esc(MEDIA_COPY.voice + " · " + fmtSecs(m.secs || 0)) + '</span>') +
+    '<button type="button" class="tiny" data-pending-rm="' + esc(m.id) + '">Remove</button></li>').join("");
+  ul.querySelectorAll("[data-pending-rm]").forEach(b => b.onclick = () => { const id = b.dataset.pendingRm; dMedia = dMedia.filter(m => m.id !== id); deleteMedia([id]); renderPendingMedia(); });
+  hydrateMedia(ul);
+  renderBackupSize();
+}
+function diaryMediaHtml(entryId, media) {
+  return '<div class="diary-media">' + media.map(m => {
+    if (m.kind === "photo") return '<img class="diary-photo" data-media-src="' + esc(m.id) + '" alt="Photo" />';
+    const text = String(m.text || "").trim();
+    return '<div class="diary-voice" data-voice="' + esc(m.id) + '"><span class="voice-k">' + esc(MEDIA_COPY.voice + " · " + fmtSecs(m.secs || 0)) + '</span>' +
+      '<audio controls preload="none" data-media-src="' + esc(m.id) + '"></audio>' +
+      (text ? '<p class="transcript">' + esc(text) + '</p><p class="hint transcript-note">' + esc(MEDIA_COPY.transcribed) + '</p>'
+        : (speechOk ? '<button type="button" class="btn to-text" data-to-text="' + esc(entryId + "|" + m.id) + '">' + esc(MEDIA_COPY.toText) + '</button>' : "")) + '</div>';
+  }).join("") + '</div>';
+}
+function hydrateMedia(root) {
+  root.querySelectorAll("[data-media-src]").forEach(el => {
+    if (el.dataset.hydrated) return; el.dataset.hydrated = "1";
+    mediaUrl(el.dataset.mediaSrc).then(u => { if (u) el.src = u; else if (el.tagName === "IMG") el.alt = "Photo not on this phone"; }).catch(e => console.warn("media", e));
+  });
+}
+function bindDiaryMedia(root) {
+  hydrateMedia(root);
+  root.querySelectorAll("[data-to-text]").forEach(b => b.onclick = () => { const [eid, mid] = b.dataset.toText.split("|"); transcribeVoice(eid, mid, b); });
+}
+// ---- "Turn into text": on-device speech recognition only (Android 13+ with an offline model). There is no
+// network fallback: when the phone can't do it on the device, the button isn't shown at all.
+let speechOk = false, speechChecked = false;
+async function speechCheck() {
+  if (speechChecked) return speechOk; speechChecked = true;
+  try {
+    const S = isNativeCapacitor() && Capacitor.Plugins && Capacitor.Plugins.HSSpeech;
+    speechOk = !!(S && (await S.available()).available === true);
+  } catch (e) { speechOk = false; }
+  if (speechOk && data) renderDiary();
+  return speechOk;
+}
+// Decode the voice note to 16 kHz mono 16-bit PCM, which the on-device recognizer reads from a file.
+async function voicePcm16(bytes) {
+  const AC = window.AudioContext || window.webkitAudioContext;
+  const ac = new AC(); let buf;
+  try { buf = await ac.decodeAudioData(bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength)); } finally { try { ac.close(); } catch (e) {} }
+  const rate = 16000, len = Math.max(1, Math.ceil(buf.duration * rate));
+  const off = new OfflineAudioContext(1, len, rate);
+  const srcN = off.createBufferSource(); srcN.buffer = buf; srcN.connect(off.destination); srcN.start();
+  const out = (await off.startRendering()).getChannelData(0);
+  const pcm = new Int16Array(out.length);
+  for (let i = 0; i < out.length; i++) { const v = Math.max(-1, Math.min(1, out[i])); pcm[i] = v < 0 ? v * 0x8000 : v * 0x7fff; }
+  return { b64: b64(new Uint8Array(pcm.buffer)), rate };
+}
+async function transcribeVoice(entryId, mediaId, btn) {
+  const S = isNativeCapacitor() && Capacitor.Plugins && Capacitor.Plugins.HSSpeech;
+  if (!S || !speechOk) return;
+  const e = data.diary.find(x => x.id === entryId); const m = e && (e.media || []).find(x => x.id === mediaId);
+  if (!m) return;
+  if (btn) { btn.disabled = true; btn.textContent = MEDIA_COPY.listening; }
+  try {
+    const got = await loadMediaBytes(mediaId); if (!got) throw new Error("missing");
+    const pcm = await voicePcm16(got.bytes);
+    const r = await S.transcribe({ pcm: pcm.b64, rate: pcm.rate, lang: navigator.language || "" });
+    const text = String((r && r.text) || "").trim();
+    if (!text) throw new Error("empty");
+    m.text = text.slice(0, 4000); m.textAt = new Date().toISOString(); m.textHow = "on-device";
+    save(); renderDiary(); if (document.getElementById("diaryFull").open) renderDiaryFullList();
+  } catch (err) {
+    console.warn("transcribe", err);
+    if (btn) { btn.disabled = false; btn.textContent = MEDIA_COPY.toText; }
+    showToast(MEDIA_COPY.textFail);
+  }
+}
 
 // ---------- Custom pulls dialog + manage pulls
 let editingPullId = null;
@@ -5920,7 +6404,7 @@ let dTagArea = [], dTagPath = [], dTagPulls = [], dTagSteered = [];
 function diaryFeed(date, excludeId) {
   const items = [];
   data.diary.filter(e => e.date === date && e.id !== excludeId).forEach(e => items.push({
-    kind: "note", id: e.id, text: e.note || "", areas: e.area || [], paths: e.path || [], pulls: e.pulls || [], steered: e.steered || [], offered: e.offered || ""
+    kind: "note", id: e.id, text: e.note || "", areas: e.area || [], paths: e.path || [], pulls: e.pulls || [], steered: e.steered || [], offered: e.offered || "", media: Array.isArray(e.media) ? e.media : []
   }));
   (data.pathLogs || []).filter(l => l.date === date && (String(l.journal || "").trim() || String(l.motive || "").trim() || l.clean)).forEach(l => items.push({
     kind: "path", id: l.id, text: l.journal, areas: l.area ? [l.area] : [], paths: [l.pathId], pulls: l.pulls || [], steered: l.steered || [], motive: !!(l.motive || l.clean)
@@ -5949,8 +6433,10 @@ function feedItemHtml(it) {
   const tagLine = tags.length ? '<span class="entry-meta feed-tags">' + icon + '<span>' + esc(tags.join(" · ")) + '</span></span>' : "";
   const reason = it.kind === "path" && it.motive ? plReasonHtml(it.id) : "";
   const offer = it.offered ? '<span class="entry-meta">Next move: ' + esc(it.offered) + '</span>' : "";
-  const text = it.text ? esc(it.text) : (it.kind === "note" ? "(no text)" : "");
-  return '<li data-feed-kind="' + it.kind + '"><div class="note-body">' + tagLine + '<span class="feed-text">' + text + '</span>' + reason + offer + '</div>' +
+  const hasMedia = it.media && it.media.length;
+  const text = it.text ? esc(it.text) : (it.kind === "note" && !hasMedia ? "(no text)" : "");
+  const media = hasMedia ? diaryMediaHtml(it.id, it.media) : "";
+  return '<li data-feed-kind="' + it.kind + '"><div class="note-body">' + tagLine + '<span class="feed-text">' + text + '</span>' + media + reason + offer + '</div>' +
     (it.kind === "note" ? '<button type="button" class="tiny" data-del-diary="' + esc(it.id) + '">Remove</button>' : "") + '</li>';
 }
 function syncDiaryFilterUI() {
@@ -6003,8 +6489,9 @@ function renderDiaryFullList() {
   const list = document.getElementById("dfList");
   list.innerHTML = diaryFeed(date, dfEntryId).map(feedItemHtml).join("");
   list.querySelectorAll("[data-del-diary]").forEach(btn => {
-    btn.onclick = async () => { if (!(await askDelete("Remove this diary entry? This can't be undone.", "Remove"))) return; data.diary = data.diary.filter(n => n.id !== btn.dataset.delDiary); save(); renderDiaryFullList(); renderDiary(); };
+    btn.onclick = async () => { if (!(await askDelete("Remove this diary entry? This can't be undone.", "Remove"))) return; removeDiaryEntry(btn.dataset.delDiary); renderDiaryFullList(); renderDiary(); };
   });
+  bindDiaryMedia(list);
 }
 function renderDiaryFull() {
   const date = diaryDay || data.selected;
@@ -6259,9 +6746,11 @@ function steerOptions(selectedPulls, selectedSteers) {
   const forPull = id => { const u = pullUpgrade(id); const o = pullOpposite(id); if (u) add(u.label, u.img); if (o) add(o.label, o.img); };
   (selectedPulls || []).forEach(forPull);
   allPullDefs().filter(p => !isPullHidden(p.id)).forEach(p => forPull(p.id));
+  if ((selectedPulls || []).includes("addiction") || (data && (data.addictionSteers || []).length)) addictionSteers().forEach(v => add(v, ADDICTION_STEER_IMG));
   (selectedSteers || []).forEach(v => add(v, "icons/steer-custom.jpg"));
   return out;
 }
+function addictionSteers() { return (data && Array.isArray(data.addictionSteers)) ? data.addictionSteers : []; }
 function steerImg(label) {
   const k = String(label || "").toLowerCase();
   const hit = steerOptions([], []).find(o => o.label.toLowerCase() === k);
@@ -6307,6 +6796,76 @@ function showToast(msg, action) {
 const ICON_ALTS = { "icons/spirit.jpg": "Rising light" };
 function chipIcon(src) { return src ? '<img class="chip-icon" src="' + esc(iv(src)) + '" alt="' + esc(ICON_ALTS[src] || "") + '" />' : ""; }
 // ----- Shared path-log fields (the "Log on this path" form and each check-in path row use this)
+// ---- v42: shadow/steer dropdowns, pairs, stories, honor test ----
+function pairFormHtml(pfx) {
+  return '<div class="pf-pairform" data-pf-pair hidden>' +
+    '<label class="field">' + esc(PAIR_COPY.pullQ) + '<input id="' + pfx + 'PairPull" data-pf="pairPull" type="text" maxlength="40" autocomplete="off" /></label>' +
+    '<p class="hint">' + esc(PAIR_COPY.pullHint) + '</p>' +
+    '<label class="field">' + esc(PAIR_COPY.steerQ) + '<input id="' + pfx + 'PairSteer" data-pf="pairSteer" type="text" maxlength="40" autocomplete="off" /></label>' +
+    '<p class="hint">' + esc(PAIR_COPY.steerHint) + '</p>' +
+    '<label class="check-line"><input type="checkbox" data-pf="pairStar" /> <span>Star this pair</span></label>' +
+    '<p class="short-note" data-pf-pairerr hidden></p>' +
+    '<div class="row-actions"><button type="button" class="btn" data-pf-paircancel>Cancel</button><button type="button" class="btn primary" data-pf-pairsave>Save pair</button></div>' +
+    '</div>';
+}
+function savePullPair(pull, steer, starred) {
+  const id = addCustomPull(pull, steer);
+  const c = customPullDef(id);
+  if (c) { if (!String(c.steer || "").trim()) c.steer = String(steer).trim().slice(0, 40); if (starred) c.starred = true; c.pair = true; save(); }
+  return id;
+}
+function shadowSelectHtml(picked) {
+  const opt = p => '<option value="' + esc(p.id) + '">' + esc(p.label) + '</option>';
+  const avail = allPullDefs().filter(p => !picked.includes(p.id) && !isPullHidden(p.id));
+  const book = BOOK_PULL_IDS.map(id => avail.find(p => p.id === id)).filter(Boolean);
+  const custom = avail.filter(p => customPullDef(p.id));
+  const starred = custom.filter(p => customPullDef(p.id).starred);
+  const yours = custom.filter(p => !customPullDef(p.id).starred);
+  const other = avail.filter(p => !BOOK_PULL_IDS.includes(p.id) && !customPullDef(p.id));
+  const grp = (label, list) => list.length ? '<optgroup label="' + esc(label) + '">' + list.map(opt).join("") + '</optgroup>' : "";
+  return '<option value="">' + esc(PAIR_COPY.pickPull) + '</option>' + grp("Starred", starred) + grp("From the book", book) + grp("More pulls", other) + grp("Yours", yours) +
+    '<option value="__add">' + esc(PAIR_COPY.add) + '</option>';
+}
+// The steer list starts on the picked shadows' own upgrades (Pride -> Honor), then their opposites, then the rest.
+function steerSelectHtml(pulls, steered) {
+  const low = steered.map(x => x.toLowerCase());
+  const all = steerOptions(pulls, []).filter(o => !low.includes(o.label.toLowerCase()));
+  const ups = [], opps = [];
+  if (pulls.includes("addiction")) addictionSteers().forEach(v => ups.push(v.toLowerCase()));
+  pulls.forEach(id => { const u = pullUpgrade(id), o = pullOpposite(id); if (u) ups.push(u.label.toLowerCase()); if (o) opps.push(o.label.toLowerCase()); });
+  const first = all.filter(o => ups.includes(o.label.toLowerCase()));
+  const second = all.filter(o => !ups.includes(o.label.toLowerCase()) && opps.includes(o.label.toLowerCase()));
+  const rest = all.filter(o => !ups.includes(o.label.toLowerCase()) && !opps.includes(o.label.toLowerCase()));
+  const opt = o => '<option value="' + esc(o.label) + '">' + esc(o.label) + '</option>';
+  return '<option value="">' + esc(PAIR_COPY.pickSteer) + '</option>' + first.concat(second).concat(rest).map(opt).join("") + '<option value="__add">' + esc(PAIR_COPY.add) + '</option>';
+}
+function storyIdsFor(pullId) {
+  if (PULL_STORIES[pullId]) return PULL_STORIES[pullId];
+  return customPullDef(pullId) ? PULL_STORIES.custom : [];
+}
+// One story per shadow; rotates by day so the same title doesn't always show.
+function pickStoryId(key) {
+  const ids = storyIdsFor(key);
+  if (!ids.length) return "";
+  const n = Math.floor(parseISO(TODAY).getTime() / 86400000);
+  return ids[((n % ids.length) + ids.length) % ids.length];
+}
+function storyLineHtml(sid, forLabel) {
+  const st = SHADOW_STORIES[sid];
+  if (!st) return "";
+  return '<div class="shadow-story" data-story="' + esc(sid) + '"><span class="story-k">' + esc(forLabel ? "A story for " + forLabel : "A story") + '</span> ' +
+    '<b class="story-title">' + esc(st.title) + '</b> <span class="story-label">' + esc(st.label) + '</span>' +
+    (st.text ? '<p class="story-text">' + esc(st.text) + '</p>' : "") + '</div>';
+}
+function shadowStoryHtml(pullId) { const sid = pickStoryId(pullId); return sid ? storyLineHtml(sid, pullLabel(pullId)) : ""; }
+function addictionQuoteHtml() {
+  return '<blockquote class="book-quote" data-addiction-quote>' + ADDICTION_QUOTES.map(q => '<p>' + esc(q) + '</p>').join("") + '<cite>Threefold Training</cite></blockquote>';
+}
+function honorTestHtml() {
+  return '<div class="honor-test" data-pf-honor><p class="q-title pf-q">' + esc(HONOR_TEST.title) + '</p>' +
+    '<ul class="honor-qs">' + HONOR_TEST.qs.map(q => '<li>' + esc(q) + '</li>').join("") + '</ul>' +
+    '<p class="hint">' + esc(HONOR_TEST.hint) + '</p>' + storyLineHtml(pickStoryId("clean"), "") + '</div>';
+}
 function pathFieldsHtml(pfx, l, afterDid) {
   const C = PATH_STEP_COPY;
   const mins = l && l.minutes ? Number(l.minutes) : null;
@@ -6331,9 +6890,17 @@ function pathFieldsHtml(pfx, l, afterDid) {
     // 2. Steer.
     '<p class="pf-step">' + esc(C.steer) + '</p>' +
     '<p class="q-title pf-q">' + esc(C.steerQ) + '</p>' +
-    '<p class="pf-sub">' + esc(C.pullsLabel) + '</p><div class="chip-row" id="' + pfx + 'Pulls" data-pf-pulls></div>' +
-    '<p class="pf-sub">' + esc(C.steeredLabel) + '</p><p class="hint">Discipline, Presence, or one of your own.</p><div class="chip-row" id="' + pfx + 'Steered" data-pf-steers></div>' +
-    '<span class="pf-pair pf-own"><input id="' + pfx + 'SteerOwn" data-pf="own" type="text" maxlength="40" placeholder="Your own" aria-label="Your own" /><button type="button" class="btn" id="' + pfx + 'SteerAdd" data-pf-add>Add</button></span>' +
+    '<p class="pf-sub">' + esc(C.pullsLabel) + '</p>' +
+    '<label class="field pf-pick"><span class="sr-only">' + esc(PAIR_COPY.pickPull) + '</span><select id="' + pfx + 'PullPick" data-pf-pullsel aria-label="' + esc(PAIR_COPY.pickPull) + '"></select></label>' +
+    '<div class="chip-row" id="' + pfx + 'Pulls" data-pf-pulls></div>' +
+    pairFormHtml(pfx) +
+    '<div class="shadow-stories" data-pf-stories></div>' +
+    '<p class="pf-sub">' + esc(C.steeredLabel) + '</p><p class="hint" data-pf-steerhint>Discipline, Presence, or one of your own.</p>' +
+    '<label class="field pf-pick"><span class="sr-only">' + esc(PAIR_COPY.pickSteer) + '</span><select id="' + pfx + 'SteerPick" data-pf-steersel aria-label="' + esc(PAIR_COPY.pickSteer) + '"></select></label>' +
+    '<div class="chip-row" id="' + pfx + 'Steered" data-pf-steers></div>' +
+    '<div class="pf-addsteer" data-pf-addsteer hidden><span class="pf-pair"><input id="' + pfx + 'AddSteer" data-pf="addSteer" type="text" maxlength="40" autocomplete="off" placeholder="' + esc(ADDICTION_STEER_PLACEHOLDER) + '" aria-label="' + esc(ADDICTION_STEER_PROMPT) + '" />' +
+      '<button type="button" class="btn" data-pf-addsteer-go>Add</button></span></div>' +
+    '<div data-pf-quote></div>' +
     // 3. Clean spirit.
     '<p class="pf-step">' + esc(C.clean) + '</p>' +
     '<p class="q-title pf-q">' + esc(C.reasonQ) + '</p>' +
@@ -6343,6 +6910,7 @@ function pathFieldsHtml(pfx, l, afterDid) {
     '<button type="button" class="btn pf-reason-btn" data-pf-reason-open aria-expanded="false">' + esc(l && (l.motive || l.clean) ? C.showReason : C.writeReason) + '</button>' +
     '<label class="field" data-pf-reason-wrap hidden><span class="sr-only">The real reason</span><input id="' + pfx + 'Motive" data-pf="motive" type="text" autocomplete="off" autocapitalize="sentences" spellcheck="true" data-private="true" maxlength="280" aria-label="The real reason" value="' + v(l && l.motive) + '" /></label>' +
     '<p class="hint">' + esc(C.reasonNote) + '</p>' +
+    honorTestHtml() +
     '<label class="field">Diary<textarea id="' + pfx + 'Journal" data-pf="journal" rows="3" maxlength="2000" placeholder="What you noticed on this path.">' + v(l && l.journal) + '</textarea></label>' +
     '</div>';
 }
@@ -6364,20 +6932,73 @@ function readPathFields(root) {
 // state = { pulls: [], steered: [] } (a log entry works too). onChange runs after any chip change.
 function bindPathFieldChips(root, state, onChange) {
   const paint = () => {
-    const pulls = allPullDefs().filter(p => !isPullHidden(p.id) || state.pulls.includes(p.id));
-    state.pulls.filter(id => !pulls.some(p => p.id === id)).forEach(id => pulls.push({ id, label: pullLabel(id), img: pullImg(id) }));
     const pr = root.querySelector("[data-pf-pulls]");
-    pr.innerHTML = pulls.map(p => { const on = state.pulls.includes(p.id); return '<button type="button" class="chip" data-pfpull="' + esc(p.id) + '" aria-pressed="' + (on ? "true" : "false") + '"' + capAttr(on, state.pulls.length) + '>' + chipIcon(p.img || "icons/pull-custom.jpg") + '<span>' + esc(p.label) + '</span></button>'; }).join("") + capHint(state.pulls.length);
-    pr.querySelector(".cap-hint").insertAdjacentHTML("beforebegin", '<button type="button" class="chip more-chip" data-pf-addpull>Add pull</button>');
-    pr.querySelector("[data-pf-addpull]").onclick = () => {
-      pullAddHook = id => { if (!state.pulls.includes(id) && state.pulls.length < PICK_MAX) state.pulls.push(id); onChange && onChange(); paint(); };
-      openPullDialog(null, false);
-    };
-    pr.querySelectorAll("[data-pfpull]").forEach(btn => { btn.onclick = () => { state.pulls = capToggle(state.pulls, btn.dataset.pfpull); paint(); onChange && onChange(); }; });
+    const full = state.pulls.length >= PICK_MAX;
+    // Picked shadows: removable chips; custom pairs get a star toggle.
+    pr.innerHTML = state.pulls.map(id => {
+      const c = customPullDef(id);
+      const star = c ? '<button type="button" class="chip star-chip" data-pf-star="' + esc(id) + '" aria-pressed="' + (c.starred ? "true" : "false") + '" aria-label="' + esc((c.starred ? "Unstar " : "Star ") + c.label) + '">' + (c.starred ? "★" : "☆") + '</button>' : "";
+      return '<span class="picked-chip"><button type="button" class="chip" aria-pressed="true" data-pfpull="' + esc(id) + '" aria-label="' + esc("Remove " + pullLabel(id)) + '">' + chipIcon(pullImg(id) || "icons/pull-custom.jpg") + '<span>' + esc(pullLabel(id)) + '</span><span class="chip-x" aria-hidden="true">×</span></button>' + star + '</span>';
+    }).join("") + capHint(state.pulls.length);
+    const ps = root.querySelector("[data-pf-pullsel]");
+    ps.innerHTML = shadowSelectHtml(state.pulls);
+    ps.disabled = full;
+    pr.querySelectorAll("[data-pfpull]").forEach(btn => { btn.onclick = () => { state.pulls = state.pulls.filter(x => x !== btn.dataset.pfpull); paint(); onChange && onChange(); }; });
+    pr.querySelectorAll("[data-pf-star]").forEach(btn => { btn.onclick = () => { const c = customPullDef(btn.dataset.pfStar); if (c) { c.starred = !c.starred; save(); } paint(); }; });
     const sr = root.querySelector("[data-pf-steers]");
-    sr.innerHTML = steerChipRowHtml(state.pulls, state.steered, "data-pfsteer", "pf:" + (root.dataset.pfRoot || root.id || ""));
-    bindSteerMore(sr, paint);
-    sr.querySelectorAll("[data-pfsteer]").forEach(btn => { btn.onclick = () => { state.steered = capToggle(state.steered, btn.dataset.pfsteer); paint(); onChange && onChange(); }; });
+    sr.innerHTML = state.steered.map(v => '<button type="button" class="chip" aria-pressed="true" data-pfsteer="' + esc(v) + '" aria-label="' + esc("Remove " + v) + '">' + chipIcon(steerImg(v)) + '<span>' + esc(v) + '</span><span class="chip-x" aria-hidden="true">×</span></button>').join("") + capHint(state.steered.length);
+    sr.querySelectorAll("[data-pfsteer]").forEach(btn => { btn.onclick = () => { state.steered = state.steered.filter(x => x !== btn.dataset.pfsteer); paint(); onChange && onChange(); }; });
+    const ss = root.querySelector("[data-pf-steersel]");
+    ss.innerHTML = steerSelectHtml(state.pulls, state.steered);
+    ss.disabled = state.steered.length >= PICK_MAX;
+    const addict = state.pulls.includes("addiction");
+    root.querySelector("[data-pf-steerhint]").textContent = addict ? ADDICTION_STEER_PROMPT : "Discipline, Presence, or one of your own.";
+    root.querySelector("[data-pf-quote]").innerHTML = addict ? addictionQuoteHtml() : "";
+    root.querySelector("[data-pf-addsteer]").hidden = !addict;
+    root.querySelector("[data-pf-stories]").innerHTML = state.pulls.map(id => shadowStoryHtml(id)).join("");
+  };
+  const pairBox = root.querySelector("[data-pf-pair]");
+  const openPair = () => { pairBox.hidden = false; pairBox.querySelector('[data-pf="pairPull"]').focus(); };
+  root.querySelector("[data-pf-pullsel]").onchange = e => {
+    const v = e.target.value; e.target.value = "";
+    if (!v) return;
+    if (v === "__add") { openPair(); paint(); return; }
+    if (!state.pulls.includes(v) && state.pulls.length < PICK_MAX) state.pulls.push(v);
+    const c = customPullDef(v);
+    if (c && c.steer && !state.steered.some(x => x.toLowerCase() === c.steer.toLowerCase()) && state.steered.length < PICK_MAX) state.steered.push(c.steer);
+    paint(); onChange && onChange();
+  };
+  root.querySelector("[data-pf-steersel]").onchange = e => {
+    const v = e.target.value; e.target.value = "";
+    if (!v) return;
+    if (v === "__add") { openPair(); paint(); return; }
+    if (!state.steered.some(x => x.toLowerCase() === v.toLowerCase()) && state.steered.length < PICK_MAX) state.steered.push(v);
+    paint(); onChange && onChange();
+  };
+  const addIn = root.querySelector('[data-pf="addSteer"]');
+  root.querySelector("[data-pf-addsteer-go]").onclick = () => {
+    const v = addIn.value.trim().slice(0, 40);
+    if (!v) { addIn.focus(); return; }
+    if (!data.addictionSteers) data.addictionSteers = [];
+    if (!data.addictionSteers.some(x => x.toLowerCase() === v.toLowerCase())) { data.addictionSteers.push(v); save(); }
+    if (!state.steered.some(x => x.toLowerCase() === v.toLowerCase()) && state.steered.length < PICK_MAX) state.steered.push(v);
+    addIn.value = ""; paint(); onChange && onChange();
+  };
+  addIn.addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); root.querySelector("[data-pf-addsteer-go]").click(); } });
+  root.querySelector("[data-pf-paircancel]").onclick = () => { pairBox.hidden = true; pairBox.querySelector("[data-pf-pairerr]").hidden = true; };
+  root.querySelector("[data-pf-pairsave]").onclick = () => {
+    const pIn = pairBox.querySelector('[data-pf="pairPull"]'), sIn = pairBox.querySelector('[data-pf="pairSteer"]');
+    const err = pairBox.querySelector("[data-pf-pairerr]");
+    const pl = pIn.value.trim(), st = sIn.value.trim();
+    if (!pl || !st) { err.textContent = !pl ? "Name the pull first." : "Name what you'll steer it toward."; err.hidden = false; (!pl ? pIn : sIn).focus(); return; }
+    err.hidden = true;
+    const id = savePullPair(pl, st, pairBox.querySelector('[data-pf="pairStar"]').checked);
+    if (id && !state.pulls.includes(id) && state.pulls.length < PICK_MAX) state.pulls.push(id);
+    const steer = pullUpgrade(id) ? pullUpgrade(id).label : st;
+    if (!state.steered.some(x => x.toLowerCase() === steer.toLowerCase()) && state.steered.length < PICK_MAX) state.steered.push(steer);
+    pIn.value = ""; sIn.value = ""; pairBox.querySelector('[data-pf="pairStar"]').checked = false;
+    pairBox.hidden = true;
+    paint(); onChange && onChange();
   };
   root.querySelectorAll("[data-pf-clean]").forEach(btn => {
     btn.onclick = () => {
@@ -6396,15 +7017,6 @@ function bindPathFieldChips(root, state, onChange) {
     rOpen.setAttribute("aria-expanded", wrap.hidden ? "false" : "true");
     if (!wrap.hidden) wrap.querySelector("input").focus();
   };
-  const own = root.querySelector('[data-pf="own"]');
-  root.querySelector("[data-pf-add]").onclick = () => {
-    const v = own.value.trim().slice(0, 40);
-    if (!v) { own.focus(); return; }
-    if (!state.steered.some(x => x.toLowerCase() === v.toLowerCase())) { if (state.steered.length >= PICK_MAX) { paint(); return; } state.steered.push(v); }
-    own.value = "";
-    paint(); onChange && onChange();
-  };
-  own.addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); root.querySelector("[data-pf-add]").click(); } });
   paint();
 }
 let plState = { pulls: [], steered: [] };
@@ -7116,7 +7728,10 @@ const GUIDE_SCREENS = [
   { title: "Your time.", text: "You get 24 hours a day. The pie shows where they go across your five areas.", img: 1 },
   { title: "Your goals.", text: "Set a goal, give it a number, and update it as you go.", img: 3 },
   { title: "Your money.", text: "Add your pay and your bills. Scroll ahead to see the month a card hits zero or a savings goal lands.", img: 4 },
-  { title: "Your pulls.", text: "A pull is what tugs you off course: pride, fear, a screen. When you notice one and steer it, that's the record. No score. Add the app to your home screen so it opens like an app.", src: "icons/shadow.jpg" }
+  { title: "Your pulls.", text: "Pulls are the shadows that tug at you, like Pride or Wrath. Name one and the app shows what to steer it toward.", src: "icons/shadow.jpg" },
+  { title: "Your check-in.", text: "Check-in is a quick look at your week: how each path went and which pull showed up.", src: "icons/paths-section.jpg" },
+  { title: "Your diary.", text: "The Diary is for whatever's on your mind. Write it, say it, or add a photo, and it stays on this phone.", src: "icons/diary.jpg" },
+  { title: "Your record.", text: "The Record keeps everything you've logged, day by day, so you can look back honestly. Add the app to your home screen so it opens like an app.", src: "icons/area-note.jpg" }
 ];
 let guideIdx = 0, guideReturnFocus = null;
 function guideRender() {
@@ -7730,6 +8345,11 @@ function coachCandidates(today) {
     if (pct >= 80) out.push({ key, type: "goal", text: fillCopy(COACH_COPY.goalClose, { goal: goalName(gl), left: goalLeftText(gl) }), actions: btn });
     else out.push({ key, type: "goal", text: fillCopy(COACH_COPY.goalProgress, { goal: goalName(gl), percent: pct }), actions: btn });
   });
+  // v42: first week of a month: look back at the one that ended (once it has something in it and no review yet).
+  if (Number(today.slice(8, 10)) <= 7) {
+    const prev = monthShift(today.slice(0, 7), -1);
+    if (!(data.monthReviews || {})[prev] && monthHasData(prev)) out.push({ key: "month:" + prev, type: "area", urgent: true, text: fillCopy(MONTH_COPY.coach, { month: MONTH_WORDS[Number(prev.slice(5, 7)) - 1] }), actions: [{ act: "month", id: prev, label: MONTH_COPY.title }] });
+  }
   // Season check-ins that are due (the full prompt lives on This week)
   dueReevaluateAreas(today).forEach(a => out.push({ key: "reeval:" + a.id + ":" + today, type: "area", urgent: true, text: fillCopy(COACH_COPY.reeval, { area: areaShort(a) }), actions: [{ act: "screen", id: "week", label: "Open This week" }] }));
   // (b) The area with the least time this week (quiet / heavy-season areas are skipped until their reevaluate date)
@@ -7881,6 +8501,7 @@ function coachAction(act, id) {
   if (act === "pause") { const g = data.goals.find(x => x.id === id); if (g) { g.paused = true; save(); renderDerived(); showToast("Paused. You can pick it up again in Goals."); } return; }
   if (act === "newgoal") return openGoalDialog(null, id);
   if (act === "screen") return openScreen(id);
+  if (act === "month") return openMonthReview(id);
   if (act === "taskArchive") { data.coachArchivedTasks = (data.coachArchivedTasks || []).concat([id]); save(); renderCoachNotes(); return; }
   if (act === "taskToday") {
     const n = coachCandidates(TODAY).find(x => x.key === "task:" + id);
@@ -8200,6 +8821,8 @@ function enterApp() {
   else if (!reviewRepeatDuplicates()) openFromHash();
   askPersistentStorage(); cacheThemeArtFor(data.theme); noteAppUpdate();
   calAutoSync("open");
+  setTimeout(() => { sweepMedia().catch(() => {}); }, 1500);
+  speechCheck();
 }
 // v39: ask the browser to keep this site's storage (so it isn't cleared to free space). Silent either way.
 function askPersistentStorage() {
@@ -8239,6 +8862,7 @@ function lockApp() {
   const t = document.getElementById("toast"); if (t) t.hidden = true;
   const go = document.getElementById("guideOverlay"); if (go) go.hidden = true;
   document.getElementById("appRoot").removeAttribute("aria-hidden");
+  mediaOnLock();
   sessionPass = null;
   data = null;
   resetThemeVisuals(); // the picker never shows someone's theme or photo
@@ -8253,7 +8877,11 @@ function isNativeCapacitor() {
 }
 async function downloadBackup() {
   if (!sessionPass || !data) return;
-  const envelope = await encryptPayload(data, sessionPass);
+  // v42: voice notes and photos go inside the same encrypted payload (base64 under __media).
+  let payload = data;
+  try { const media = await exportMedia(); if (Object.keys(media).length) payload = Object.assign({}, data, { __media: media }); }
+  catch (e) { console.warn("media backup failed", e); alert("Couldn't read the voice notes and photos for the backup. Try again."); return; }
+  const envelope = await encryptPayload(payload, sessionPass);
   envelope.exportedAt = new Date().toISOString();
   envelope.note = "Higher Self encrypted backup. We can't read this file without your passphrase.";
   envelope.app = "higher-self"; envelope.appVersion = APP_VERSION;
@@ -8326,8 +8954,11 @@ async function importBackupFile(file) {
     if (!currentProfile) throw new Error("no profile");
     // v39: an open profile keeps the passphrase you signed in with; the restored data is saved under it.
     if (!open) sessionPass = pass;
+    const media = unlocked && unlocked.__media && typeof unlocked.__media === "object" ? unlocked.__media : null;
+    if (unlocked) delete unlocked.__media;
     data = migrateLegacy(unlocked);
     await persist();
+    await restoreMedia(media);
     upsertProfile(currentProfile);
     if (pendingProfile && pendingProfile.migrate) { try { localStorage.removeItem(KEY_SINGLE); } catch (e) {} }
     pendingProfile = null;
@@ -8366,11 +8997,12 @@ document.getElementById("btnRemoveProfile").onclick = async () => {
   const ok = await askDelete("Remove " + prof.name + " and all their data? This can't be undone.", "Remove");
   if (!ok) return;
   try { localStorage.removeItem(vaultKeyFor(prof.id)); } catch (e) {}
+  try { await deleteVaultMedia(vaultKeyFor(prof.id)); } catch (e) {}
   saveProfiles(loadProfiles().filter(x => x.id !== prof.id));
   lockApp();
 };
 
-const GLYPHS = new Set(["area-career-v2", "area-note", "diary", "hobbies", "library/chain", "library/crack", "library/empty-cup", "library/flame", "library/knot", "library/mask", "library/maze", "library/screen", "library/spiral", "library/storm", "library/wave", "library/weight", "money", "opp-belonging", "opp-boundary", "opp-calm", "opp-chastity", "opp-custom", "opp-ease", "opp-endurance", "opp-generosity", "opp-gratitude", "opp-humility", "opp-patience", "opp-presence", "opp-release", "opp-temperance", "opp-zeal", "paths-section", "paths/athlete", "paths/boots", "paths/builder", "paths/custom", "paths/dance", "paths/daughter", "paths/father", "paths/friend", "paths/hammer", "paths/kitchen", "paths/lover", "paths/martial-artist", "paths/mother", "paths/musician", "paths/paintbrush", "paths/parent", "paths/partner", "paths/pen", "paths/running-shoes", "paths/sandals", "paths/son", "paths/video", "paths/weights", "paths/wolf", "paths/wrench", "paths/wrestling", "paths/writer", "personal-development", "pull-anxiety", "pull-control", "pull-custom", "pull-despair", "pull-envy", "pull-fear", "pull-gluttony", "pull-greed", "pull-lust", "pull-numbness", "pull-people-pleasing", "pull-pride", "pull-shame", "pull-sloth", "pull-wrath", "purpose", "settings", "shadow", "sleep", "social", "spirit", "steer-admiration", "steer-aspiration", "steer-courage", "steer-custom", "steer-dignity", "steer-discipline", "steer-feeling", "steer-fortitude", "steer-honesty", "steer-honor", "steer-hope", "steer-respect", "steer-savoring", "steer-steadiness", "steer-trust", "time-pie"]);
+const GLYPHS = new Set(["area-career-v2", "area-note", "diary", "hobbies", "library/chain", "library/crack", "library/empty-cup", "library/flame", "library/knot", "library/mask", "library/maze", "library/screen", "library/spiral", "library/storm", "library/wave", "library/weight", "money", "opp-belonging", "opp-boundary", "opp-calm", "opp-chastity", "opp-clarity", "opp-custom", "opp-ease", "opp-endurance", "opp-generosity", "opp-gratitude", "opp-humility", "opp-patience", "opp-presence", "opp-release", "opp-temperance", "opp-zeal", "paths-section", "paths/athlete", "paths/boots", "paths/builder", "paths/custom", "paths/dance", "paths/daughter", "paths/father", "paths/friend", "paths/hammer", "paths/kitchen", "paths/lover", "paths/martial-artist", "paths/mother", "paths/musician", "paths/paintbrush", "paths/parent", "paths/partner", "paths/pen", "paths/running-shoes", "paths/sandals", "paths/son", "paths/video", "paths/weights", "paths/wolf", "paths/wrench", "paths/wrestling", "paths/writer", "personal-development", "pull-addiction", "pull-anxiety", "pull-control", "pull-custom", "pull-despair", "pull-envy", "pull-fear", "pull-gluttony", "pull-greed", "pull-lust", "pull-numbness", "pull-people-pleasing", "pull-pride", "pull-shame", "pull-sloth", "pull-wrath", "purpose", "settings", "shadow", "sleep", "social", "spirit", "steer-admiration", "steer-aspiration", "steer-courage", "steer-custom", "steer-dignity", "steer-discipline", "steer-feeling", "steer-fortitude", "steer-freedom", "steer-honesty", "steer-honor", "steer-hope", "steer-respect", "steer-savoring", "steer-steadiness", "steer-trust", "time-pie"]);
 // ---------- Themes (v23): Calm (CSS themes), Bold palettes, Picture backgrounds, Custom. All per profile (stored in the vault).
 const BOLD_THEMES = [
   ["neon-city", "Neon City", "#0B0B1A", "#1A1033", "#FF2E88", "#00E5FF", "#F2F2FF"],
@@ -8980,7 +9612,8 @@ const PLAN_COPY = {
   shareTitle: "What your calendar shows", show: "Show details", busy: "Busy only", off: "Leave off", shareNote: "Busy only shows the time as busy, with no name.",
   always: "Always put '{event}' here",
   firstLog: "Log your first block of time",
-  overlap: "'{a}' and '{b}' overlap. Which one got the hour?",
+  overlap: "This overlaps {event}, {start}–{end}. Which one counts?", thisOne: "This one", theOther: "The other", split: "Split the time",
+  allDay: "All day: {event}", noHours: "Doesn't use any hours.", shrunk: "{h}h left around {events}",
   sameTimes: "Start and end are the same. Pick an end time."
 };
 const SLEEP_AREA = "sleep";
@@ -8998,7 +9631,9 @@ function migratePlans(d) {
     }, p.source === "phone" ? { phoneKey: String(p.phoneKey || "") } : {});
   }) : [];
   const obj = v => (v && typeof v === "object" && !Array.isArray(v)) ? v : {};
-  d.planDays = obj(d.planDays); d.planDone = obj(d.planDone); d.icsMap = obj(d.icsMap);
+  d.planDays = obj(d.planDays); d.planDone = obj(d.planDone); d.icsMap = obj(d.icsMap); d.planOver = obj(d.planOver);
+  d.monthReviews = obj(d.monthReviews);
+  d.noHours = obj(d.noHours); Object.keys(d.noHours).forEach(k => { if (!isoRe.test(k) || !Array.isArray(d.noHours[k])) delete d.noHours[k]; });
   const cs = obj(d.calShare); d.calShare = {};
   AREAS.map(a => a.id).concat([SLEEP_AREA]).forEach(id => { d.calShare[id] = cs[id] === "show" || cs[id] === "off" ? cs[id] : "busy"; }); // everything starts as Busy only
   migrateCalSync(d);
@@ -9044,13 +9679,47 @@ function occsTouching(date, opts) {
   return out.sort((a, b) => (a.date + a.start < b.date + b.start ? -1 : 1));
 }
 // Planned (not yet confirmed) hours on a day, by area id (plus "sleep").
+// ---- v42: real events (from the phone calendar or a calendar file) win over planned blocks.
+function isRealPlan(p) { return !!p && (p.source === "phone" || p.source === "ics"); }
+function isRealOcc(o) { return isRealPlan(o.plan); }
+// Minute range [start, end) an occurrence covers on a calendar day, or null.
+function occDayRange(o, date) {
+  const s0 = hmMin(o.start), e0 = hmMin(o.end);
+  if (o.date === date) return [s0, e0 > s0 ? e0 : 1440];
+  if (o.date === shift(date, -1) && e0 <= s0 && e0 > 0) return [0, e0];
+  return null;
+}
+function overlapMins(r, ranges) {
+  const cut = ranges.map(x => [Math.max(r[0], x[0]), Math.min(r[1], x[1])]).filter(x => x[1] > x[0]).sort((a, b) => a[0] - b[0]);
+  let t = 0, cs = -1, ce = -1;
+  cut.forEach(([a, b]) => { if (a > ce) { if (ce > cs) t += ce - cs; cs = a; ce = b; } else ce = Math.max(ce, b); });
+  if (ce > cs) t += ce - cs;
+  return t;
+}
+// Minutes of o on that day that another block holds: a planned block loses what real events cover;
+// two real events set to "Split the time" each give up half of their overlap.
+function takenMins(o, date) {
+  const r = occDayRange(o, date); if (!r) return 0;
+  const real = occsTouching(date).filter(x => x.key !== o.key && isRealOcc(x));
+  if (!isRealOcc(o)) return overlapMins(r, real.map(x => occDayRange(x, date)).filter(Boolean));
+  if (!o.split) return 0;
+  return overlapMins(r, real.filter(x => x.split).map(x => occDayRange(x, date)).filter(Boolean)) / 2;
+}
+function occDayHours(o, date) { const r = occDayRange(o, date); return r ? Math.max(0, r[1] - r[0] - takenMins(o, date)) / 60 : 0; }
+function shrunkNote(o) {
+  if (isRealOcc(o)) return "";
+  const segs = occSegments(o); let taken = 0; const names = new Set();
+  segs.forEach(sg => { const t = takenMins(o, sg.date); if (t > 0) { taken += t; occsTouching(sg.date).filter(x => isRealOcc(x) && x.key !== o.key).forEach(x => { const r = occDayRange(o, sg.date), rx = occDayRange(x, sg.date); if (r && rx && overlapMins(r, [rx]) > 0) names.add(planLabel(x)); }); } });
+  if (!taken) return "";
+  return fillCopy(PLAN_COPY.shrunk, { h: fmtHours(Math.round((occHours(o) * 60 - taken) / 6) / 10), events: andList(Array.from(names)) });
+}
 function plannedHoursFor(date) {
   const map = { career: 0, personal: 0, social: 0, spiritual: 0, time: 0, sleep: 0 };
   // v40: a day whose sleep was logged by hand (bed/wake or "Confirm 8h") already holds that day's sleep, so planned
   // sleep on it would count the same night twice (9h logged + 9h planned = 18h). Only plan-confirmed sleep adds up.
   const sl = data.days && data.days[date] && data.days[date].sleep;
   const handSleep = !!(sl && sl.source !== "plan");
-  occsTouching(date).forEach(o => { if (o.done) return; if (o.area === SLEEP_AREA && handSleep) return; occSegments(o).forEach(sg => { if (sg.date === date && map[o.area] != null) map[o.area] += sg.hours; }); });
+  occsTouching(date).forEach(o => { if (o.done) return; if (o.area === SLEEP_AREA && handSleep) return; if (map[o.area] != null) map[o.area] += occDayHours(o, date); });
   return map;
 }
 function pendingOccs(date) { return occsTouching(date).filter(o => !o.done); }
@@ -9089,7 +9758,7 @@ function repeatsCostText() {
 function confirmOcc(o) {
   if (o.done) return;
   occSegments(o).forEach(sg => {
-    const mins = Math.round(sg.hours * 60);
+    const mins = Math.round(sg.hours * 60 - takenMins(o, sg.date)); // v42: a planned block logs only what real events left it
     if (!(mins > 0)) return;
     if (o.area === SLEEP_AREA) {
       const d = day(sg.date);
@@ -9118,6 +9787,148 @@ function confirmDay(date) {
   showToast("Logged.");
   return true;
 }
+// ---- v42: "Work ran over". A block's new end time takes the extra hours from the blocks it ran into
+// (they're shortened, or skipped when fully covered). Then one plain line: what ran over and where it came from. No grade.
+function overLabel(area) { return area === SLEEP_AREA ? "Sleep" : fastLabel(area); }
+function andList(xs) { return xs.length <= 1 ? (xs[0] || "") : xs.slice(0, -1).join(", ") + " and " + xs[xs.length - 1]; }
+function runOver(date, key, newEnd) {
+  const all = occsTouching(date).concat(occsTouching(shift(date, 1)));
+  const seen = new Set(); const list = all.filter(o => !seen.has(o.key) && seen.add(o.key));
+  const o = list.find(x => x.key === key && !x.done);
+  if (!o || !hmRe.test(String(newEnd))) return { error: "Pick a block and a new end time." };
+  const oS = hmMin(o.start); let oE = hmMin(o.end); if (oE <= oS) oE += 1440;
+  let nE = hmMin(newEnd); while (nE <= oE) nE += 1440;
+  if (nE - oE >= 720) return { error: "That's 12 hours or more past the plan. Pick a closer end time." };
+  const taken = {}; let takenMin = 0;
+  list.filter(x => x.key !== o.key && !x.done).forEach(x => {
+    const off = daysBetween(o.date, x.date) * 1440;
+    const xs = off + hmMin(x.start), xe = xs + Math.round(occHours(x) * 60);
+    const ovl = Math.max(0, Math.min(xe, nE) - Math.max(xs, oE));
+    if (!(ovl > 0)) return;
+    const cur = data.planDays[x.key] || {};
+    let got = ovl;
+    if (xs >= oE && xe <= nE) data.planDays[x.key] = Object.assign({}, cur, { skip: true });
+    else if (xs >= oE) {
+      const rel = nE - off;
+      if (rel >= 1440) { data.planDays[x.key] = Object.assign({}, cur, { skip: true }); got = xe - xs; }
+      else data.planDays[x.key] = Object.assign({}, cur, { start: minHm(rel) });
+    } else data.planDays[x.key] = Object.assign({}, cur, { end: minHm(oE - off) });
+    taken[x.area] = (taken[x.area] || 0) + got; takenMin += got;
+  });
+  data.planDays[o.key] = Object.assign({}, data.planDays[o.key] || {}, { end: minHm(nE) });
+  const extraH = Math.round((nE - oE) / 6) / 10;
+  const from = Object.keys(taken).sort((a, b) => taken[b] - taken[a]).map(overLabel);
+  if (nE - oE - takenMin > 0) from.push("open time");
+  const text = overLabel(o.area) + " ran " + fmtHours(extraH) + "h over plan. It came out of " + andList(from) + ".";
+  data.planOver[o.key] = { date: o.date, text };
+  return { text };
+}
+let overDate = "";
+function openRunOver(date) {
+  overDate = date;
+  const pend = pendingOccs(date).filter(o => o.date === date || hmMin(o.end) > 0);
+  const sel = document.getElementById("overBlock");
+  sel.innerHTML = pend.map(o => '<option value="' + esc(o.key) + '">' + esc(planLabel(o) + " · " + fmtClock(o.start) + "–" + fmtClock(o.end)) + '</option>').join("");
+  const career = pend.find(o => o.area === "career"); if (career) sel.value = career.key;
+  const setEnd = () => { const o = pend.find(x => x.key === sel.value); if (o) document.getElementById("overEnd").value = minHm(hmMin(o.end) + 60); };
+  sel.onchange = setEnd; setEnd();
+  document.getElementById("overErr").hidden = true;
+  document.getElementById("overDialog").showModal();
+}
+document.getElementById("overCancel").onclick = () => document.getElementById("overDialog").close();
+document.getElementById("overSave").onclick = () => {
+  const r = runOver(overDate, document.getElementById("overBlock").value, document.getElementById("overEnd").value);
+  const err = document.getElementById("overErr");
+  if (r.error) { err.textContent = r.error; err.hidden = false; return; }
+  save(); document.getElementById("overDialog").close(); renderDerived(); calPushSoon();
+};
+// ---- v42: monthly review ("Your month"). Opens from the Coach in the first days of a month, and from the Record.
+const MONTH_WORDS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+const MONTH_COPY = { title: "Your month", well: "What went well?", slipped: "What slipped?", close: "This too shall pass. The good and the hard both.", coach: "{month} is done. Take a look back at your month." };
+function monthWord(ym) { return MONTH_WORDS[Number(ym.slice(5, 7)) - 1] + " " + ym.slice(0, 4); }
+function monthShift(ym, n) { const d = new Date(Number(ym.slice(0, 4)), Number(ym.slice(5, 7)) - 1 + n, 1); return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0"); }
+function monthDays(ym) { const out = []; let d = ym + "-01"; while (d.slice(0, 7) === ym) { out.push(d); d = shift(d, 1); } return out; }
+function monthStats(ym) {
+  const days = monthDays(ym).filter(d => d <= TODAY);
+  const hours = { career: 0, personal: 0, social: 0, spiritual: 0, time: 0 };
+  let sleepH = 0, sleepN = 0, logged = 0;
+  days.forEach(d => {
+    const h = hoursFor(d); Object.keys(hours).forEach(k => { hours[k] += Number(h[k]) || 0; });
+    const sl = data.days[d] && data.days[d].sleep; const sh = sl ? Number(sl.hours) || 0 : 0;
+    if (sh > 0) { sleepH += sh; sleepN++; }
+    const any = AREAS.some(a => (Number(h[a.id]) || 0) > 0) || sh > 0 || (data.diary || []).some(e => e.date === d) || (data.pathLogs || []).some(l => l.date === d && l.logged !== false) || (data.money || []).some(m => m.date === d);
+    if (any) logged++;
+  });
+  const inM = x => String(x || "").slice(0, 7) === ym;
+  const pathMin = {};
+  (data.pathLogs || []).filter(l => inM(l.date) && l.logged !== false && l.minutes > 0).forEach(l => { pathMin[l.pathId] = (pathMin[l.pathId] || 0) + Number(l.minutes); });
+  const top = Object.keys(pathMin).filter(id => pathById(id)).sort((a, b) => pathMin[b] - pathMin[a]).slice(0, 3).map(id => ({ name: pathById(id).name, hours: Math.round(pathMin[id] / 6) / 10 }));
+  let moneyIn = 0, moneyOut = 0;
+  (data.money || []).filter(m => inM(m.date) && m.category !== "transfer").forEach(m => { if (m.type === "income") moneyIn += Number(m.amount) || 0; else if (m.type === "expense") moneyOut += Number(m.amount) || 0; });
+  const logs = (data.pathLogs || []).filter(l => inM(l.date) && l.logged !== false);
+  const pulls = logs.reduce((t, l) => t + (l.pulls || []).length, 0) + (data.diary || []).filter(e => inM(e.date)).reduce((t, e) => t + (e.pulls || []).length, 0);
+  const steered = logs.filter(l => (l.steered || []).length).length;
+  const goalsHit = (data.goals || []).filter(g => inM(g.reachedAt)).length;
+  const total = AREAS.reduce((t, a) => t + hours[a.id], 0) + sleepH;
+  return { ym, days: days.length, hours, sleepH, avgSleep: sleepN ? Math.round(sleepH / sleepN * 10) / 10 : 0, logged, top, moneyIn, moneyOut, left: moneyIn - moneyOut, pulls, steered, goalsHit, total: Math.round(total * 10) / 10 };
+}
+function monthHasData(ym) { const st = monthStats(ym); return st.logged > 0; }
+function monthPieHtml(st) {
+  const slices = orderedAreas().map(a => ({ name: a.name, color: a.color, hours: st.hours[a.id] })).concat([{ name: "Sleep", color: SLEEP_COLOR, hours: st.sleepH }]).filter(x => x.hours > 0);
+  const sum = slices.reduce((t, x) => t + x.hours, 0);
+  let angle = -Math.PI / 2;
+  const paths = !sum ? ['<circle cx="100" cy="100" r="78" fill="var(--border)"/>'] : slices.map(sl => {
+    if (slices.length === 1) return '<circle cx="100" cy="100" r="78" fill="' + sl.color + '" stroke="' + PIE_CREAM + '" stroke-width="1.2"/>';
+    const sweep = sl.hours / sum * Math.PI * 2, a0 = angle, a1 = angle + sweep; angle = a1;
+    const x1 = 100 + 78 * Math.cos(a0), y1 = 100 + 78 * Math.sin(a0), x2 = 100 + 78 * Math.cos(a1 - 0.0001), y2 = 100 + 78 * Math.sin(a1 - 0.0001);
+    return '<path d="M 100 100 L ' + x1.toFixed(2) + ' ' + y1.toFixed(2) + ' A 78 78 0 ' + (sweep > Math.PI ? 1 : 0) + ' 1 ' + x2.toFixed(2) + ' ' + y2.toFixed(2) + ' Z" fill="' + sl.color + '" stroke="' + PIE_CREAM + '" stroke-width="1.2"></path>';
+  });
+  return { svg: paths.join("") + '<circle cx="100" cy="100" r="50" fill="var(--panel)"/><text class="pie-c-big" x="100" y="102" text-anchor="middle" font-size="20" font-weight="700" fill="var(--text)">' + esc(fmtHours(st.total) + "h") + '</text>' +
+    '<text x="100" y="118" text-anchor="middle" font-size="9" fill="var(--muted)">logged</text>',
+    legend: slices.map(sl => '<li><span class="swatch" style="background:' + sl.color + '"></span><span>' + esc(sl.name) + '</span><span>' + fmtHours(Math.round(sl.hours * 10) / 10) + 'h</span></li>').join("") };
+}
+let monthOpen = "";
+function openMonthReview(ym) {
+  monthOpen = ym;
+  const st = monthStats(ym), $ = x => document.getElementById(x);
+  const rv = (data.monthReviews || {})[ym] || {};
+  $("monthWhich").textContent = monthWord(ym) + (ym === TODAY.slice(0, 7) ? " so far" : "");
+  const pie = monthPieHtml(st);
+  $("monthPie").innerHTML = pie.svg; $("monthLegend").innerHTML = pie.legend;
+  $("monthPie").setAttribute("aria-label", monthWord(ym) + ". " + fmtHours(st.total) + " hours logged.");
+  $("monthStats").innerHTML = [
+    "Total: " + fmtHours(st.total) + "h logged",
+    st.top.length ? "Top paths: " + st.top.map(t => t.name + " (" + fmtHours(t.hours) + "h)").join(", ") : "Top paths: none logged yet",
+    "Money: in " + moneyPlain(st.moneyIn) + " · out " + moneyPlain(st.moneyOut) + " · left " + moneyPlain(st.left),
+    "Pulls you noticed: " + st.pulls + " · steered " + st.steered + (st.steered === 1 ? " time" : " times"),
+    "Goals hit: " + st.goalsHit,
+    "Average sleep: " + (st.avgSleep ? fmtHours(st.avgSleep) + "h" : "not logged"),
+    "Days logged: " + st.logged + " of " + st.days
+  ].map(x => '<li>' + esc(x) + '</li>').join("");
+  $("monthWell").value = rv.well || ""; $("monthSlip").value = rv.slipped || ""; $("monthAims").value = rv.aims || "";
+  $("monthAimsLabel").textContent = "Your aims for " + MONTH_WORDS[Number(monthShift(ym, 1).slice(5, 7)) - 1];
+  $("monthDialog").showModal();
+}
+function renderMonthBox() {
+  const last = document.getElementById("monthOpenLast"); if (!last || !data) return;
+  const prev = monthShift(TODAY.slice(0, 7), -1);
+  last.textContent = "Look back at " + MONTH_WORDS[Number(prev.slice(5, 7)) - 1];
+  const rv = data.monthReviews || {};
+  const keys = Object.keys(rv).sort().reverse();
+  document.getElementById("monthPast").innerHTML = keys.length ? keys.map(k => '<li><button type="button" class="btn month-past-btn" data-month="' + esc(k) + '">' + esc(monthWord(k)) + '</button>' +
+    (rv[k].well ? '<span class="hint"> ' + esc(String(rv[k].well).slice(0, 80)) + '</span>' : "") + '</li>').join("") : '<li class="hint">Past reviews show here.</li>';
+  document.querySelectorAll("#monthPast [data-month]").forEach(b => b.onclick = () => openMonthReview(b.dataset.month));
+}
+document.getElementById("monthOpenLast").onclick = () => openMonthReview(monthShift(TODAY.slice(0, 7), -1));
+document.getElementById("monthOpenThis").onclick = () => openMonthReview(TODAY.slice(0, 7));
+document.getElementById("monthCancel").onclick = () => document.getElementById("monthDialog").close();
+document.getElementById("monthSave").onclick = () => {
+  if (!monthOpen) return;
+  const v = x => document.getElementById(x).value.trim();
+  if (!data.monthReviews) data.monthReviews = {};
+  data.monthReviews[monthOpen] = { well: v("monthWell"), slipped: v("monthSlip"), aims: v("monthAims"), savedAt: TODAY };
+  save(); document.getElementById("monthDialog").close(); renderMonthBox(); renderCoachNotes(); showToast("Saved.");
+};
 function skipOcc(o, on) {
   const cur = data.planDays[o.key] || {};
   if (on) data.planDays[o.key] = Object.assign({}, cur, { skip: true });
@@ -9132,15 +9943,22 @@ function renderPlanCard() {
   let html = "";
   if (!isWeek && pend.length && date <= TODAY) {
     html += '<div class="plan-confirm" id="planAsk"><p class="coach-line">' + esc(fillCopy(PLAN_COPY.ask, { day: dayWord(date) })) + '</p>' +
-      '<div class="row-actions"><button type="button" class="btn primary" id="planYes">' + esc(PLAN_COPY.yes) + '</button><button type="button" class="btn" id="planChange">' + esc(PLAN_COPY.change) + '</button></div></div>';
+      '<div class="row-actions"><button type="button" class="btn primary" id="planYes">' + esc(PLAN_COPY.yes) + '</button><button type="button" class="btn" id="planChange">' + esc(PLAN_COPY.change) + '</button>' +
+      '<button type="button" class="btn" id="planOver">Work ran over</button></div></div>';
   } else if (!isWeek && pend.length) {
     html += '<div class="plan-confirm"><p><span class="planned-chip">' + esc(PLAN_COPY.planned) + '</span> ' + esc(pend.map(planLabel).join(", ")) + '</p>' +
       '<div class="row-actions"><button type="button" class="btn" id="planChange">' + esc(PLAN_COPY.change) + '</button></div></div>';
+  }
+  if (!isWeek) html += noHoursHtml(date);
+  if (!isWeek) {
+    const lines = Object.keys(data.planOver || {}).map(k => data.planOver[k]).filter(x => x && x.date === date);
+    if (lines.length) html += '<div class="over-lines">' + lines.map(x => '<p class="over-line">' + esc(x.text) + '</p>').join("") + '</div>';
   }
   html += '<div class="row-actions" style="margin-top:0.5rem"><button type="button" class="btn" id="planWeekOpen">Planned week</button><button type="button" class="btn" id="planAddHere">Add a planned block</button></div>';
   box.innerHTML = html;
   const y = document.getElementById("planYes"); if (y) y.onclick = () => confirmDay(date);
   const c = document.getElementById("planChange"); if (c) c.onclick = () => openPlanDay(date);
+  const ov = document.getElementById("planOver"); if (ov) ov.onclick = () => openRunOver(date);
   document.getElementById("planWeekOpen").onclick = () => openPlanWeek();
   document.getElementById("planAddHere").onclick = () => openPlanEditor({ date });
 }
@@ -9154,12 +9972,13 @@ function renderPlanDay() {
   const list = occsTouching(date, { withSkipped: true });
   const past = date <= TODAY;
   document.getElementById("planDayList").innerHTML = list.length ? list.map(o =>
-    '<li class="' + (o.skipped ? "is-skipped" : "") + '" data-occ="' + esc(o.key) + '"><span class="pl-what">' + esc(planLabel(o)) + (o.done ? ' · Logged' : "") + '<small>' + esc(planSubLabel(o)) + '</small></span><span class="row-actions" style="margin:0">' +
+    '<li class="' + (o.skipped ? "is-skipped" : "") + '" data-occ="' + esc(o.key) + '"><span class="pl-what">' + esc(planLabel(o)) + (o.done ? ' · Logged' : "") + '<small>' + esc(planSubLabel(o)) + '</small>' + (o.skipped ? "" : (n => n ? '<small class="shrunk-note">' + esc(n) + '</small>' : "")(shrunkNote(o))) + '</span><span class="row-actions" style="margin:0">' +
     (o.done ? "" : o.skipped ? '<button type="button" class="btn" data-occ-unskip="' + esc(o.key) + '">Bring back</button>' :
       (past ? '<button type="button" class="btn primary" data-occ-confirm="' + esc(o.key) + '">Confirm</button>' : "") +
       '<button type="button" class="btn" data-occ-edit="' + esc(o.key) + '">Edit</button><button type="button" class="btn" data-occ-skip="' + esc(o.key) + '">Skip</button>' +
       '<button type="button" class="btn" data-occ-ics="' + esc(o.key) + '">Add to calendar</button>') +
     '</span></li>').join("") : '<li><span class="pl-what hint">Nothing planned.</span></li>';
+  const nhBox = document.getElementById("planDayNoHours"); if (nhBox) nhBox.innerHTML = noHoursHtml(date);
   const find = k => list.find(o => o.key === k);
   dlg.querySelectorAll("[data-occ-confirm]").forEach(b => b.onclick = () => {
     const o = find(b.dataset.occConfirm); if (!o) return;
@@ -9383,7 +10202,7 @@ function tzWallToLocal(y, mo, d, h, mi, tz) {
 function icsParseDate(val, params) {
   const m = /^(\d{4})(\d{2})(\d{2})(?:T(\d{2})(\d{2})(\d{2})?(Z)?)?$/.exec(String(val || "").trim());
   if (!m) return null;
-  if (!m[4] || /VALUE=DATE(?!-)/i.test(params || "")) return { allDay: true };
+  if (!m[4] || /VALUE=DATE(?!-)/i.test(params || "")) return { allDay: true, date: m[1] + "-" + m[2] + "-" + m[3] };
   const [y, mo, d, h, mi] = [m[1], m[2], m[3], m[4], m[5]].map(Number);
   let dt;
   if (m[7]) dt = new Date(Date.UTC(y, mo - 1, d, h, mi));
@@ -9393,7 +10212,7 @@ function icsParseDate(val, params) {
 // Returns { events: [{ uid, title, start, end, date, every, days, until }], skipped: n }
 function parseIcs(text) {
   const lines = String(text || "").replace(/\r\n[ \t]/g, "").replace(/\n[ \t]/g, "").split(/\r?\n/);
-  const events = []; let cur = null, skipped = 0;
+  const events = []; let cur = null, skipped = 0; const noHours = [];
   lines.forEach(line => {
     if (/^BEGIN:VEVENT/i.test(line)) { cur = {}; return; }
     if (/^END:VEVENT/i.test(line)) { if (cur) events.push(cur); cur = null; return; }
@@ -9408,12 +10227,24 @@ function parseIcs(text) {
   events.forEach(ev => {
     if (!ev.DTSTART || (ev.STATUS && /CANCELLED/i.test(ev.STATUS.val))) { skipped++; return; }
     const s = icsParseDate(ev.DTSTART.val, ev.DTSTART.params);
-    if (!s || s.allDay) { skipped++; return; }
+    const title0 = icsUnesc(ev.SUMMARY ? ev.SUMMARY.val : "").trim() || "Event";
+    if (!s) { skipped++; return; }
+    if (s.allDay) { // v42: all-day events show in the day's "All day" row and use no hours
+      const e = ev.DTEND ? icsParseDate(ev.DTEND.val, ev.DTEND.params) : null;
+      let n = e && e.date && e.date > s.date ? daysBetween(s.date, e.date) : ev.DURATION ? Math.max(1, Math.round(icsDurationMins(ev.DURATION.val) / 1440)) : 1;
+      n = Math.min(31, Math.max(1, n));
+      for (let i = 0; i < n; i++) noHours.push({ kind: "allday", date: shift(s.date, i), title: title0, uid: ev.UID ? ev.UID.val.trim() : "" });
+      return;
+    }
     let endT = null;
     if (ev.DTEND) { const e = icsParseDate(ev.DTEND.val, ev.DTEND.params); if (e && !e.allDay) endT = e.t; }
-    else if (ev.DURATION) { const m = /P(?:(\d+)D)?T?(?:(\d+)H)?(?:(\d+)M)?/i.exec(ev.DURATION.val) || []; endT = s.t + (((+m[1] || 0) * 24 + (+m[2] || 0)) * 60 + (+m[3] || 0)) * 60000; }
+    else if (ev.DURATION) endT = s.t + icsDurationMins(ev.DURATION.val) * 60000;
     const mins = endT == null ? 0 : Math.round((endT - s.t) / 60000);
     if (!(mins > 0) || mins >= 1440) { skipped++; return; }
+    if (ev.TRANSP && /TRANSPARENT/i.test(ev.TRANSP.val)) { // marked free: shown, no hours
+      noHours.push({ kind: "free", date: s.date, title: title0, start: s.hm, end: minHm(hmMin(s.hm) + mins), uid: ev.UID ? ev.UID.val.trim() : "" });
+      return;
+    }
     const r = { uid: ev.UID ? ev.UID.val.trim() : "", title: icsUnesc(ev.SUMMARY ? ev.SUMMARY.val : "").trim() || "Event", date: s.date, start: s.hm, end: minHm(hmMin(s.hm) + mins), every: 0, days: [parseISO(s.date).getDay()], until: "", exdates: [] };
     if (ev.RRULE) {
       const rr = Object.fromEntries(ev.RRULE.val.split(";").map(x => x.split("=")).map(([k, v]) => [String(k).toUpperCase(), v || ""]));
@@ -9433,7 +10264,14 @@ function parseIcs(text) {
     (ev.EXDATE || []).forEach(x => x.val.split(",").forEach(v => { const d = icsParseDate(v, x.params); if (d && d.date) r.exdates.push(d.date); }));
     out.push(r);
   });
-  return { events: out, skipped };
+  return { events: out, skipped, noHours };
+}
+// RFC 5545 DURATION -> minutes: P1W, P1D, PT1H30M, PT3600S, P0DT1H0M0S, P3600S (Android's own form), with an optional sign.
+function icsDurationMins(v) {
+  const m = /^([+-])?P(?:(\d+)W)?(?:(\d+)D)?(?:T?(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?)?$/i.exec(String(v || "").trim());
+  if (!m) return 0;
+  const secs = (((+m[2] || 0) * 7 + (+m[3] || 0)) * 24 * 3600) + (+m[4] || 0) * 3600 + (+m[5] || 0) * 60 + (+m[6] || 0);
+  return (m[1] === "-" ? -1 : 1) * Math.round(secs / 60);
 }
 // Mapping question for one calendar title. Resolves { area, pathId, always } or null (skip).
 function askIcsMapping(title) {
@@ -9498,23 +10336,33 @@ function occRanges(p, date) {
 }
 // Overlaps with blocks already planned: ask which one got the hour (the loser is skipped on those days).
 // Returns true (keep cand), false (leave it out), or null when it would have to ask but canAsk is false.
+// v42: only two real calendar events ask (Oni: "This overlaps {event}, {start}–{end}. Which one counts?").
+// A real event over a planned block never asks: the real one keeps its hours and the planned block shrinks around it
+// (see takenMins). Returns true (keep cand), false (leave it out), or null when it would have to ask but canAsk is false.
 async function settleOverlaps(cand, canAsk) {
-  const clashes = data.plans.slice().map(other => ({ other, dates: planOverlapDates(cand, other) })).filter(x => x.dates.length);
+  const clashes = data.plans.filter(other => isRealPlan(other)).map(other => ({ other, dates: planOverlapDates(cand, other) })).filter(x => x.dates.length);
   if (clashes.length && !canAsk) return null;
   for (const { other, dates } of clashes) {
-    const v = await askChoice(fillCopy(PLAN_COPY.overlap, { a: cand.title, b: planLabel(other) }), cand.title, planLabel(other), "a");
-    if (v === "a") dates.forEach(d => {
-      // v41: skip the occurrence that really overlaps: the one starting that day, or last night's (overnight) piece
+    const oo = planOcc(other, dates[0]) || planOcc(other, shift(dates[0], -1)) || other;
+    const v = await askChoice(fillCopy(PLAN_COPY.overlap, { event: planLabel(Object.assign({ plan: other }, oo)), start: fmtClock(oo.start), end: fmtClock(oo.end) }),
+      PLAN_COPY.thisOne, PLAN_COPY.theOther, "a", { c: PLAN_COPY.split, lead: cand.title + " · " + prettyDate(dates[0]) + " · " + fmtClock(cand.start) + "–" + fmtClock(cand.end) });
+    if (v === null) return canAsk ? false : null;
+    const touch = (d, fn) => { // the other's occurrence that really overlaps on d: the one starting that day, or last night's piece
       const mine = occRanges(cand, d);
       [d, shift(d, -1)].forEach(st => {
         const o = planOcc(other, st); if (!o) return;
         const s0 = hmMin(o.start), e0 = hmMin(o.end);
         const r = st === d ? [s0, e0 > s0 ? e0 : 1440] : (e0 <= s0 && e0 > 0 ? [0, e0] : null);
         if (!r || !mine.some(x => x[0] < r[1] && r[0] < x[1])) return;
-        const k2 = planKey(other, st); data.planDays[k2] = Object.assign({}, data.planDays[k2] || {}, { skip: true });
+        fn(planKey(other, st));
       });
+    };
+    if (v === "a") dates.forEach(d => touch(d, k2 => { data.planDays[k2] = Object.assign({}, data.planDays[k2] || {}, { skip: true }); }));
+    else if (v === "c") dates.forEach(d => {
+      touch(d, k2 => { data.planDays[k2] = Object.assign({}, data.planDays[k2] || {}, { split: true }); });
+      const k1 = planKey(cand, d); data.planDays[k1] = Object.assign({}, data.planDays[k1] || {}, { split: true });
     });
-    else { if (cand.every === 0) return false; dates.forEach(d => { data.planDays[planKey(cand, d)] = { skip: true }; }); }
+    else { if (cand.every === 0) return false; dates.forEach(d => { data.planDays[planKey(cand, d)] = Object.assign({}, data.planDays[planKey(cand, d)] || {}, { skip: true }); }); }
   }
   return true;
 }
@@ -9522,7 +10370,8 @@ async function importIcsFile(file) {
   const fromWeek = document.getElementById("planWeekDialog").open, fromCal = document.getElementById("calDialog").open; // questions close them; come back after
   let parsed;
   try { parsed = parseIcs(await file.text()); } catch (e) { parsed = { events: [], skipped: 0 }; }
-  if (!parsed.events.length) { showToast(parsed.skipped ? "Nothing to add. All-day events aren't time blocks." : "No events in that file."); return; }
+  const nh = setNoHours("ics", parsed.noHours || [], false);
+  if (!parsed.events.length) { save(); renderDerived(); showToast(nh ? "Added " + nh + " to the All day row. They don't use any hours." : parsed.skipped ? "Nothing to add." : "No events in that file."); return; }
   const known = new Set(data.plans.map(p => p.icsUid).filter(Boolean));
   const fresh = parsed.events.filter(ev => !(ev.uid && known.has(ev.uid)));
   const answers = {}; let added = 0, already = parsed.events.length - fresh.length;
@@ -9651,29 +10500,64 @@ async function calPush(api, st, full) {
 }
 // Phone event instances -> one-day planned blocks keyed "phone:{calendar}:{event}:{date}".
 function calReadEvents(list) {
-  const cs = data.calSync, ours = new Set(Object.values(cs.out).map(x => x.id)), outEv = [];
+  const cs = data.calSync, ours = new Set(Object.values(cs.out).map(x => x.id)), outEv = [], noHours = [];
   let skipped = 0;
   (list || []).forEach(e => {
     const id = String(e.eventId), cal = String(e.calendarId);
-    if (e.ours || ours.has(id) || String(e.uid || "").endsWith(CAL_UID_END) || (cs.ownId && cal === cs.ownId)) return; // ours
-    if (e.allDay) { skipped++; return; }
+    if (e.ours || ours.has(id) || (e.originalId && ours.has(String(e.originalId))) || String(e.uid || "").endsWith(CAL_UID_END) || (cs.ownId && cal === cs.ownId)) return; // ours
+    const title = String(e.title || "").trim().slice(0, 120) || "Event";
+    // v42: all-day events (begin/end are UTC midnights) go to the day's "All day" row: no hours.
+    if (e.allDay) {
+      const d0 = new Date(Number(e.begin)).toISOString().slice(0, 10), d1 = new Date(Number(e.end)).toISOString().slice(0, 10);
+      const n = Math.min(31, Math.max(1, daysBetween(d0, d1)));
+      for (let i = 0; i < n; i++) { const dd = shift(d0, i); if (dd >= TODAY) noHours.push({ kind: "allday", date: dd, title, key: "phone:" + cal + ":" + id + ":" + dd }); }
+      return;
+    }
     const mins = Math.round((Number(e.end) - Number(e.begin)) / 60000);
     if (!(mins > 0) || mins >= 1440) { skipped++; return; }
     const b = new Date(Number(e.begin)), date = iso(b), start = minHm(b.getHours() * 60 + b.getMinutes());
     if (date < TODAY) return; // an overnight event from yesterday: its day is past
-    outEv.push({ key: "phone:" + cal + ":" + id + ":" + date, series: cal + ":" + id, cal, title: String(e.title || "").trim().slice(0, 120) || "Event", date, start, end: minHm(hmMin(start) + mins) });
+    if (e.free) { noHours.push({ kind: "free", date, title, start, end: minHm(hmMin(start) + mins), key: "phone:" + cal + ":" + id + ":" + date }); return; } // marked free/available: shown, no hours
+    if (cs.writeId && cal === cs.writeId && looksLikeOurBlock(date, start, minHm(hmMin(start) + mins), title)) return; // ours, even if the calendar app re-saved it
+    outEv.push({ key: "phone:" + cal + ":" + id + ":" + date, series: cal + ":" + id, cal, title, date, start, end: minHm(hmMin(start) + mins), mins });
   });
-  return { events: outEv, skipped };
+  return { events: outEv, skipped, noHours };
+}
+// One of our own planned blocks, as we'd have written it (same day, times, and title or "Busy")?
+function looksLikeOurBlock(date, start, end, title) {
+  return occsTouching(date).some(o => !isRealOcc(o) && o.date === date && o.start === start && o.end === end &&
+    (title === "Busy" || title === (o.title || "") || title === planLabel(o) || title === areaName(o.area)));
+}
+// v42: the "All day" row. src "phone" rows are replaced on every sync (today on); src "ics" rows add up.
+function setNoHours(src, list, replaceFuture) {
+  if (!data.noHours || typeof data.noHours !== "object") data.noHours = {};
+  if (replaceFuture) Object.keys(data.noHours).forEach(d => { if (d >= TODAY) { data.noHours[d] = data.noHours[d].filter(x => x.src !== src); if (!data.noHours[d].length) delete data.noHours[d]; } });
+  let n = 0;
+  list.forEach(x => {
+    const row = data.noHours[x.date] = data.noHours[x.date] || [];
+    const k = x.key || (src + ":" + (x.uid || x.title) + ":" + x.date + ":" + (x.start || ""));
+    if (row.some(y => y.key === k)) return;
+    row.push({ key: k, src, kind: x.kind, title: x.title, start: x.start || "", end: x.end || "" }); n++;
+  });
+  return n;
+}
+function noHoursHtml(date) {
+  const row = ((data && data.noHours) || {})[date] || [];
+  if (!row.length) return "";
+  return '<div class="nohours-row">' + row.map(x => '<p class="nohours-item">' + esc(x.kind === "allday" ? fillCopy(PLAN_COPY.allDay, { event: x.title }) : x.title + ", " + fmtClock(x.start) + "–" + fmtClock(x.end)) + '</p>').join("") +
+    '<p class="hint nohours-note">' + esc(PLAN_COPY.noHours) + '</p></div>';
 }
 async function calPull(api, st, canAsk) {
   const cs = data.calSync, readIds = cs.readIds.filter(id => id && id !== cs.ownId);
   const from = calLocalMs(TODAY, "00:00"), to = calLocalMs(shift(TODAY, CAL_DAYS + 1), "00:00");
   const r = readIds.length ? ((await api.listEvents({ from, to, calendarIds: readIds })) || {}) : { events: [] };
-  const { events } = calReadEvents(r.events);
+  const { events, noHours } = calReadEvents(r.events);
+  setNoHours("phone", noHours, true);
   const byKey = {}; events.forEach(e => { byKey[e.key] = e; });
   // blocks that came from the phone: follow moves and removals, but never touch past, confirmed or hand-changed days
   data.plans.slice().forEach(p => {
-    if (p.source !== "phone" || p.from < TODAY || data.planDone[planKey(p, p.from)] || data.planDays[planKey(p, p.from)]) return;
+    const ov = data.planDays[planKey(p, p.from)];
+    if (p.source !== "phone" || p.from < TODAY || data.planDone[planKey(p, p.from)] || (ov && Object.keys(ov).some(f => f !== "split"))) return;
     const e = byKey[p.phoneKey];
     if (!e) { data.plans = data.plans.filter(x => x !== p); st.gone++; return; }
     if (p.start !== e.start || p.end !== e.end || p.title !== e.title) { p.start = e.start; p.end = e.end; p.title = e.title; st.moved++; }

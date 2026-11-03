@@ -1,6 +1,6 @@
 /* Higher Self — offline shell for install / Add to Home Screen */
-const CACHE = "higher-self-v41";
-const ICON_VER = "39";
+const CACHE = "higher-self-v42";
+const ICON_VER = "42";
 // v39: theme picture sets. Only the default set is precached; the page caches another set when that theme is picked.
 const DEFAULT_ART_SETS = ["abstract"];
 // Plain URLs: shell + manifest/link icons. Versioned (?v=) URLs: every icon the page renders.
@@ -88,6 +88,11 @@ const PRECACHE_ICONS = [
   "./icons/glyphs128/pull-despair.png",
   "./icons/glyphs128/pull-envy.png",
   "./icons/glyphs128/pull-fear.png",
+  "./icons/glyphs128/pull-addiction.png",
+  "./icons/glyphs128/steer-freedom.png",
+  "./icons/glyphs128/opp-clarity.png",
+  "./icons/glyphs128/diary/voice-note.png",
+  "./icons/glyphs128/diary/add-photo.png",
   "./icons/glyphs128/pull-gluttony.png",
   "./icons/glyphs128/pull-greed.png",
   "./icons/glyphs128/pull-lust.png",
@@ -148,6 +153,9 @@ const PRECACHE_ICONS = [
   "./icons/steer-custom.jpg",
   "./icons/opp-custom.jpg",
   "./icons/pull-fear.jpg",
+  "./icons/pull-addiction.jpg",
+  "./icons/steer-freedom.jpg",
+  "./icons/opp-clarity.jpg",
   "./icons/pull-anxiety.jpg",
   "./icons/pull-shame.jpg",
   "./icons/pull-despair.jpg",
