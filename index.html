@@ -1638,6 +1638,7 @@
     <button type="button" class="menu-item" id="menuThemes">Themes</button>
     <button type="button" class="menu-item" id="menuArrange">Arrange areas</button>
     <button type="button" class="menu-item" id="menuReminders">Reminders</button>
+    <button type="button" class="menu-item" id="menuCalendar">Calendar</button>
     <button type="button" class="menu-item" id="menuGuide">Show the guide</button>
     <button type="button" class="menu-item" id="btnBackup">Back up to a file</button>
     <button type="button" class="menu-item" id="btnRestore">Restore from a backup</button>
@@ -1943,15 +1944,45 @@
   <ul class="plan-list" id="planRepeatList"></ul>
   <div class="row-actions"><button type="button" class="btn primary" id="planWeekAdd">Add a planned block</button></div>
   <div class="subpanel">
+    <div class="row-actions"><button type="button" class="btn" id="planWeekCal">Calendar</button></div>
+    <p class="hint">Sync with your phone calendar, use a calendar file, and choose what your calendar shows.</p>
+  </div>
+  <div class="actions"><button type="button" class="btn primary" id="planWeekDone">Done</button></div>
+</dialog>
+<dialog id="calDialog" class="wide" aria-labelledby="calTitle">
+  <h3 id="calTitle">Calendar</h3>
+  <div class="subpanel" id="calModePanel" hidden>
+    <h3 id="calModeQ">How should your calendar update?</h3>
+    <span class="chip-row" role="radiogroup" aria-labelledby="calModeQ"><button type="button" class="chip" role="radio" data-cal-mode="sync" aria-checked="false">Sync automatically</button><button type="button" class="chip" role="radio" data-cal-mode="file" aria-checked="false">Use a calendar file</button></span>
+    <p class="hint" id="calModeHint"></p>
+  </div>
+  <div class="subpanel" id="calSyncPanel" hidden>
+    <label class="check-row"><input type="checkbox" id="calSyncOn" /> <span>Sync with my phone calendar</span></label>
+    <p class="hint">Uses your phone's calendar. Higher Self itself uses no server.</p>
+    <p class="hint" id="calSyncNote">Your calendar app may back up what it gets to its own account. Busy areas send only the time. Areas you leave out never leave this phone.</p>
+    <div id="calSyncBody" hidden>
+      <label class="field">Put my planned blocks in<select id="calWriteSel"></select></label>
+      <p class="hint" id="calWriteHint"></p>
+      <p class="field-label" id="calReadLabel" style="margin:0.6rem 0 0.2rem;font-weight:600">Bring in events from</p>
+      <div id="calReadList" role="group" aria-labelledby="calReadLabel"></div>
+      <p class="hint">A new event asks once where it goes. Tick "Always put … here" and repeats sort themselves.</p>
+      <div class="row-actions"><button type="button" class="btn primary" id="calSyncNow">Sync now</button></div>
+    </div>
+    <p class="hint" id="calSyncLast"></p>
+    <p class="hint" id="calSyncStatus" role="status" style="font-weight:600"></p>
+  </div>
+  <div class="subpanel" id="calFilePanel">
     <div class="row-actions"><button type="button" class="btn" id="calExport">Export to calendar</button><button type="button" class="btn" id="calImport">Import from calendar</button></div>
     <p class="hint">Uses a calendar file. Nothing goes to a server.</p>
+    <p class="hint" id="calWebNote" hidden>Live sync with your phone calendar is in the Android app.</p>
   </div>
   <div class="subpanel">
     <h3>What your calendar shows</h3>
     <div id="calShareRows"></div>
     <p class="hint">Busy only shows the time as busy, with no name.</p>
+    <p class="hint">Leave off keeps an area out of your calendar completely.</p>
   </div>
-  <div class="actions"><button type="button" class="btn primary" id="planWeekDone">Done</button></div>
+  <div class="actions"><button type="button" class="btn primary" id="calDone">Done</button></div>
 </dialog>
 <dialog id="icsMapDialog" class="wide" aria-labelledby="icsMapTitle">
   <h3 id="icsMapTitle">Where does this go?</h3>
@@ -2192,7 +2223,7 @@ const PATH_ICON_LABELS = {
 const PATH_WRESTLING_ICON = "icons/paths/wrestling.jpg";
 // Icon cache-bust: same filenames were re-cut, so every rendered icon URL carries ?v=. Stored data keeps plain paths.
 const ICON_VER = "39";
-const APP_VERSION = "40"; // shown in Settings as "Version 40"; bump with sw.js CACHE
+const APP_VERSION = "41"; // shown in Settings as "Version 40"; bump with sw.js CACHE
 const REPORT_EMAIL = "gmlopez5864@gmail.com";
 const LOGO_SRC = "icons/logo.jpg"; // swap the app logo here (header, menu button, vault screens)
 function plainIcon(src) { return String(src || "").split("?")[0]; }
@@ -2930,7 +2961,10 @@ function heavyQuiet(date, areaId) {
   const g = areaGoal(areaId);
   return isMaxedMax(g) && insideReevaluateWindow(g, date);
 }
-function areaShort(a) { return fastLabel(a.id); } // v39: one short name everywhere (Growth, not Personal)
+function areaShort(a) { return a && a.id ? areaName(a.id) : String((a && a.name) || ""); } // v41: sentences and notes use the full area name, the same as the pie legend
+// v41: one name per area in the pie legend, the note under it, coach notes, pickers and calendar settings ("Personal development").
+// fastLabel() (Growth, Spirit…) is only for tight spots: home tiles, screen titles, chips and tags.
+function areaName(id) { const a = AREAS.find(x => x.id === id); return a ? a.name : id === "sleep" ? "Sleep" : String(id || ""); }
 function moveText(id) { return String(THIN_MOVES[id] || AREAS.find(a => a.id === id).starter).replace(/\.$/, ""); }
 function dueReevaluateAreas(date) {
   return orderedAreas().filter(a => reevaluateDue(areaGoal(a.id), date));
@@ -5332,7 +5366,7 @@ function fillTaskFavs() {
   const row = document.getElementById("taskFavs");
   const favs = data.favorites.tasks;
   if (!favs.length) { row.innerHTML = '<p class="empty">No favorites yet. Tap ⭐ on a task or goal you use often.</p>'; return; }
-  row.innerHTML = favs.map((f, i) => '<button type="button" class="chip" data-tfav="' + i + '">⭐ ' + esc(f.title) + ' · ' + esc(areaShort(areaById(f.area))) + '</button>').join("");
+  row.innerHTML = favs.map((f, i) => '<button type="button" class="chip" data-tfav="' + i + '">⭐ ' + esc(f.title) + ' · ' + esc(fastLabel(f.area)) + '</button>').join("");
   row.querySelectorAll("[data-tfav]").forEach(btn => {
     btn.onclick = () => {
       const f = favs[Number(btn.dataset.tfav)];
@@ -5407,7 +5441,7 @@ function fillGoalFavs() {
   const row = document.getElementById("goalFavs");
   const favs = data.favorites.goals;
   if (!favs.length) { row.innerHTML = '<p class="empty">No favorites yet. Tap ⭐ on a task or goal you use often.</p>'; return; }
-  row.innerHTML = favs.map((f, i) => '<button type="button" class="chip" data-gfav="' + i + '">⭐ ' + esc(f.title) + ' · ' + esc(areaShort(areaById(f.area))) + '</button>').join("");
+  row.innerHTML = favs.map((f, i) => '<button type="button" class="chip" data-gfav="' + i + '">⭐ ' + esc(f.title) + ' · ' + esc(fastLabel(f.area)) + '</button>').join("");
   row.querySelectorAll("[data-gfav]").forEach(btn => {
     btn.onclick = () => {
       const f = favs[Number(btn.dataset.gfav)];
@@ -6214,7 +6248,7 @@ function fmtMinutes(m) {
   return mm ? h + "h " + mm + "m" : h + "h";
 }
 function areaOptionsHtml(selected) {
-  return '<option value="">Pick an area</option>' + orderedAreas().map(a => '<option value="' + a.id + '"' + (a.id === selected ? " selected" : "") + '>' + esc(fastLabel(a.id)) + '</option>').join("");
+  return '<option value="">Pick an area</option>' + orderedAreas().map(a => '<option value="' + a.id + '"' + (a.id === selected ? " selected" : "") + '>' + esc(areaName(a.id)) + '</option>').join("");
 }
 function fastLabel(id) { return { career: "Career", personal: "Growth", spiritual: "Spirit", social: "Social", time: "Hobbies" }[id] || id; }
 // ----- Steer options: selected pulls' steers/opposites first, then all visible pulls, then typed ones
@@ -7532,7 +7566,7 @@ function weekNudges(refDate) {
     .map(a => ({ a, days: daysSinceArea(a.id, end) }))
     .filter(z => z.days >= ZERO_AREA_MIN_DAYS)
     .sort((x, y) => y.days - x.days);
-  zeros.forEach(z => out.push({ key: "zeroArea", area: z.a.id, text: fillCopy(COACH_COPY.zeroArea, { area: fastLabel(z.a.id), days: z.days }) }));
+  zeros.forEach(z => out.push({ key: "zeroArea", area: z.a.id, text: fillCopy(COACH_COPY.zeroArea, { area: areaName(z.a.id), days: z.days }) }));
   if (!out.length) out.push({ key: "balanced", text: COACH_COPY.balanced });
   return out;
 }
@@ -7707,11 +7741,11 @@ function coachCandidates(today) {
     const live = AREAS.filter(a => !nudgeAreaQuiet(a.id, today));
     const under = live.filter(a => { const m = areaGoal(a.id).min; return m != null && m !== "" && Number(m) > 0 && hrs[a.id] < Number(m); })
       .sort((x, y) => (hrs[x.id] / Number(areaGoal(x.id).min)) - (hrs[y.id] / Number(areaGoal(y.id).min)));
-    if (under.length) out.push({ key: "area:" + under[0].id, type: "area", text: fillCopy(COACH_COPY.areaUnderMin, { area: fastLabel(under[0].id), min: numFmt(areaGoal(under[0].id).min) }), actions: [{ act: "screen", id: "area:" + under[0].id, label: "Open " + fastLabel(under[0].id) }] });
+    if (under.length) out.push({ key: "area:" + under[0].id, type: "area", text: fillCopy(COACH_COPY.areaUnderMin, { area: areaName(under[0].id), min: numFmt(areaGoal(under[0].id).min) }), actions: [{ act: "screen", id: "area:" + under[0].id, label: "Open " + areaName(under[0].id) }] });
     else if (live.length && live.every(a => hrs[a.id] > 0)) out.push({ key: "area:balanced", type: "area", text: COACH_COPY.areaBalanced });
     else if (live.length) {
       const least = live.slice().sort((x, y) => hrs[x.id] - hrs[y.id] || orderedAreas().indexOf(x) - orderedAreas().indexOf(y))[0];
-      out.push({ key: "area:" + least.id, type: "area", text: fillCopy(COACH_COPY.areaLeast, { area: fastLabel(least.id) }), actions: [{ act: "screen", id: "area:" + least.id, label: "Open " + fastLabel(least.id) }] });
+      out.push({ key: "area:" + least.id, type: "area", text: fillCopy(COACH_COPY.areaLeast, { area: areaName(least.id) }), actions: [{ act: "screen", id: "area:" + least.id, label: "Open " + areaName(least.id) }] });
     }
   }
   // (c) Paths and tasks not logged in a while
@@ -8165,6 +8199,7 @@ function enterApp() {
   if (!data.guideSeen) openGuide();
   else if (!reviewRepeatDuplicates()) openFromHash();
   askPersistentStorage(); cacheThemeArtFor(data.theme); noteAppUpdate();
+  calAutoSync("open");
 }
 // v39: ask the browser to keep this site's storage (so it isn't cleared to free space). Silent either way.
 function askPersistentStorage() {
@@ -8932,7 +8967,8 @@ document.getElementById("optArrange").onclick = () => openArrange();
 // chosen weekdays, or happens once (every: 0). Planned time never counts as logged: "Confirm" turns a day's planned
 // blocks into path moments (each with its linked task, like any logged time). Overnight blocks split at midnight.
 // Stored in the vault: data.plans, data.planDays ("planId|date" -> { skip } or one-day changes), data.planDone
-// ("planId|date" -> date confirmed), data.icsMap (calendar title -> area + path), data.calShare (area -> show | busy).
+// ("planId|date" -> date confirmed), data.icsMap (calendar title -> area + path), data.calShare (area -> show | busy | off).
+// v41: data.calMode ("" | "sync" | "file") and data.calSync (phone calendar sync, Android only; see calSyncNow).
 const PLAN_COPY = {
   repeat: "Repeat", never: "Never", every: { 1: "Every week", 2: "Every 2 weeks", 3: "Every 3 weeks", 4: "Every 4 weeks" },
   untilStop: "Until I stop it", untilDate: "Until {date}",
@@ -8941,7 +8977,7 @@ const PLAN_COPY = {
   editWhich: "Change just this day, or every {interval}?", thisDay: "This day", everyTime: "Every time",
   cost: "Your repeats take {h} hours a week. That's about {m} months a year.",
   exportCal: "Export to calendar", importCal: "Import from calendar", calNote: "Uses a calendar file. Nothing goes to a server.",
-  shareTitle: "What your calendar shows", show: "Show details", busy: "Busy only", shareNote: "Busy only shows the time as busy, with no name.",
+  shareTitle: "What your calendar shows", show: "Show details", busy: "Busy only", off: "Leave off", shareNote: "Busy only shows the time as busy, with no name.",
   always: "Always put '{event}' here",
   firstLog: "Log your first block of time",
   overlap: "'{a}' and '{b}' overlap. Which one got the hour?",
@@ -8955,16 +8991,17 @@ function migratePlans(d) {
   d.plans = Array.isArray(d.plans) ? d.plans.filter(p => p && p.id && planAreaOk(p.area) && hmRe.test(String(p.start)) && hmRe.test(String(p.end)) && isoRe.test(String(p.from || ""))).map(p => {
     const every = [0, 1, 2, 3, 4].includes(Number(p.every)) ? Number(p.every) : 1;
     const days = Array.from(new Set((Array.isArray(p.days) ? p.days : []).map(Number).filter(n => n >= 0 && n <= 6))).sort();
-    return {
+    return Object.assign({
       id: String(p.id), area: p.area, pathId: p.area === SLEEP_AREA ? "" : String(p.pathId || ""), title: String(p.title || "").slice(0, 120),
       start: p.start, end: p.end, every, days: every === 0 ? [parseISO(p.from).getDay()] : (days.length ? days : [parseISO(p.from).getDay()]),
-      from: p.from, until: isoRe.test(String(p.until || "")) ? p.until : "", source: p.source === "ics" ? "ics" : "", icsUid: String(p.icsUid || "")
-    };
+      from: p.from, until: isoRe.test(String(p.until || "")) ? p.until : "", source: p.source === "ics" || p.source === "phone" ? p.source : "", icsUid: String(p.icsUid || "")
+    }, p.source === "phone" ? { phoneKey: String(p.phoneKey || "") } : {});
   }) : [];
   const obj = v => (v && typeof v === "object" && !Array.isArray(v)) ? v : {};
   d.planDays = obj(d.planDays); d.planDone = obj(d.planDone); d.icsMap = obj(d.icsMap);
   const cs = obj(d.calShare); d.calShare = {};
-  AREAS.map(a => a.id).concat([SLEEP_AREA]).forEach(id => { d.calShare[id] = cs[id] === "show" ? "show" : "busy"; }); // everything starts as Busy only
+  AREAS.map(a => a.id).concat([SLEEP_AREA]).forEach(id => { d.calShare[id] = cs[id] === "show" || cs[id] === "off" ? cs[id] : "busy"; }); // everything starts as Busy only
+  migrateCalSync(d);
 }
 function hmMin(s) { const [h, m] = String(s).split(":").map(Number); return h * 60 + m; }
 function minHm(n) { n = ((n % 1440) + 1440) % 1440; return String(Math.floor(n / 60)).padStart(2, "0") + ":" + String(n % 60).padStart(2, "0"); }
@@ -9085,7 +9122,7 @@ function skipOcc(o, on) {
   const cur = data.planDays[o.key] || {};
   if (on) data.planDays[o.key] = Object.assign({}, cur, { skip: true });
   else { const n = Object.assign({}, cur); delete n.skip; if (Object.keys(n).length) data.planDays[o.key] = n; else delete data.planDays[o.key]; }
-  save(); renderDerived(); renderPlanDay();
+  save(); renderDerived(); renderPlanDay(); calPushSoon();
 }
 // ---- Time card: confirm prompt / planned line under the pie
 function renderPlanCard() {
@@ -9153,10 +9190,6 @@ function renderPlanWeek() {
   const row = p => '<li><span class="pl-what">' + esc(planLabel(p)) + '<small>' + esc(planSubLabel(p) + " · " + planWhenText(p)) + '</small></span><span class="row-actions" style="margin:0"><button type="button" class="btn" data-plan-edit="' + esc(p.id) + '">Edit</button></span></li>';
   document.getElementById("planRepeatList").innerHTML = reps.concat(ones).map(row).join("") || '<li><span class="pl-what hint">Nothing planned yet. Add the blocks you know, like work and sleep.</span></li>';
   document.querySelectorAll("#planRepeatList [data-plan-edit]").forEach(b => b.onclick = () => { const p = data.plans.find(x => x.id === b.dataset.planEdit); if (p) openPlanEditor({ plan: p }); });
-  const rows = AREAS.map(a => [a.id, a.name]).concat([[SLEEP_AREA, "Sleep"]]);
-  document.getElementById("calShareRows").innerHTML = rows.map(([id, name]) => '<div class="cal-share-row"><span>' + esc(name) + '</span><span class="chip-row" role="radiogroup" aria-label="' + esc(name) + '" style="margin:0">' +
-    ['show', 'busy'].map(v => '<button type="button" class="chip" role="radio" data-cal-share="' + id + '" data-v="' + v + '" aria-checked="' + (data.calShare[id] === v ? "true" : "false") + '">' + esc(v === "show" ? PLAN_COPY.show : PLAN_COPY.busy) + '</button>').join("") + '</span></div>').join("");
-  document.querySelectorAll("[data-cal-share]").forEach(b => b.onclick = () => { data.calShare[b.dataset.calShare] = b.dataset.v; save(); renderPlanWeek(); });
 }
 function planWhenText(p) {
   if (p.every === 0) return prettyDate(p.from);
@@ -9169,7 +9202,7 @@ function pathSelectHtml(sel) {
   return activePaths().map(p => '<option value="' + esc(p.id) + '"' + (p.id === sel ? " selected" : "") + '>' + esc(p.name) + '</option>').join("") + '<option value="__new">New path…</option>';
 }
 function planAreaOptions(sel, withSleep) {
-  return '<option value="">Pick an area</option>' + orderedAreas().map(a => '<option value="' + a.id + '"' + (a.id === sel ? " selected" : "") + '>' + esc(fastLabel(a.id)) + '</option>').join("") +
+  return '<option value="">Pick an area</option>' + orderedAreas().map(a => '<option value="' + a.id + '"' + (a.id === sel ? " selected" : "") + '>' + esc(areaName(a.id)) + '</option>').join("") +
     (withSleep ? '<option value="sleep"' + (sel === SLEEP_AREA ? " selected" : "") + '>Sleep</option>' : "");
 }
 function openPlanEditor(opts) {
@@ -9279,7 +9312,7 @@ function savePlanForm() {
     if (planEdit.plan) Object.assign(planEdit.plan, rec);
     else data.plans.push(Object.assign({ id: uid("pn"), source: "", icsUid: "" }, rec));
   }
-  save(); $("planDialog").close(); renderDerived(); planEditorBack();
+  save(); $("planDialog").close(); renderDerived(); planEditorBack(); calPushSoon();
 }
 function planEditorBack() {
   const back = planEdit && planEdit.back; if (planEdit) planEdit.back = "";
@@ -9290,7 +9323,7 @@ async function deletePlan() {
   if (!(await askDelete("Remove " + planLabel(p) + " from your plan? Time you already confirmed stays.", "Remove"))) return;
   data.plans = data.plans.filter(x => x !== p);
   Object.keys(data.planDays).forEach(k => { if (k.indexOf(p.id + "|") === 0) delete data.planDays[k]; });
-  save(); document.getElementById("planDialog").close(); renderDerived(); planEditorBack();
+  save(); document.getElementById("planDialog").close(); renderDerived(); planEditorBack(); calPushSoon();
 }
 // Coach card: nothing logged yet -> one clear first step.
 function nothingLoggedYet() {
@@ -9316,6 +9349,7 @@ function icsSummary(p) {
   return p.title || [path ? path.name : "", p.area === SLEEP_AREA ? "Sleep" : fastLabel(p.area)].filter(Boolean).join(" · ");
 }
 function buildIcs(plans) {
+  plans = plans.filter(p => (data.calShare || {})[p.area] !== "off"); // v41: Leave off = never written to a calendar
   const L = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Higher Self//v" + APP_VERSION + "//EN", "CALSCALE:GREGORIAN"];
   const stamp = icsUtcStamp(new Date());
   plans.forEach(p => {
@@ -9331,6 +9365,7 @@ function buildIcs(plans) {
   return L.map(icsFold).join("\r\n") + "\r\n";
 }
 function downloadIcs(plans, name) {
+  if (!plans.some(p => (data.calShare || {})[p.area] !== "off")) { showToast(plans.length === 1 ? "That area is set to Leave off, so it stays out of calendars." : "Those areas are set to Leave off, so they stay out of calendars."); return; }
   const blob = new Blob([buildIcs(plans)], { type: "text/calendar" });
   const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = name || "higher-self-plan.ics"; a.click();
   setTimeout(() => URL.revokeObjectURL(a.href), 2000);
@@ -9461,8 +9496,30 @@ function occRanges(p, date) {
   });
   return out;
 }
+// Overlaps with blocks already planned: ask which one got the hour (the loser is skipped on those days).
+// Returns true (keep cand), false (leave it out), or null when it would have to ask but canAsk is false.
+async function settleOverlaps(cand, canAsk) {
+  const clashes = data.plans.slice().map(other => ({ other, dates: planOverlapDates(cand, other) })).filter(x => x.dates.length);
+  if (clashes.length && !canAsk) return null;
+  for (const { other, dates } of clashes) {
+    const v = await askChoice(fillCopy(PLAN_COPY.overlap, { a: cand.title, b: planLabel(other) }), cand.title, planLabel(other), "a");
+    if (v === "a") dates.forEach(d => {
+      // v41: skip the occurrence that really overlaps: the one starting that day, or last night's (overnight) piece
+      const mine = occRanges(cand, d);
+      [d, shift(d, -1)].forEach(st => {
+        const o = planOcc(other, st); if (!o) return;
+        const s0 = hmMin(o.start), e0 = hmMin(o.end);
+        const r = st === d ? [s0, e0 > s0 ? e0 : 1440] : (e0 <= s0 && e0 > 0 ? [0, e0] : null);
+        if (!r || !mine.some(x => x[0] < r[1] && r[0] < x[1])) return;
+        const k2 = planKey(other, st); data.planDays[k2] = Object.assign({}, data.planDays[k2] || {}, { skip: true });
+      });
+    });
+    else { if (cand.every === 0) return false; dates.forEach(d => { data.planDays[planKey(cand, d)] = { skip: true }; }); }
+  }
+  return true;
+}
 async function importIcsFile(file) {
-  const fromWeek = document.getElementById("planWeekDialog").open; // questions close it; come back after
+  const fromWeek = document.getElementById("planWeekDialog").open, fromCal = document.getElementById("calDialog").open; // questions close them; come back after
   let parsed;
   try { parsed = parseIcs(await file.text()); } catch (e) { parsed = { events: [], skipped: 0 }; }
   if (!parsed.events.length) { showToast(parsed.skipped ? "Nothing to add. All-day events aren't time blocks." : "No events in that file."); return; }
@@ -9480,21 +9537,321 @@ async function importIcsFile(file) {
     }
     if (!map || !planAreaOk(map.area) || (map.area !== SLEEP_AREA && !pathById(map.pathId))) continue;
     const cand = { id: uid("pn"), area: map.area, pathId: map.area === SLEEP_AREA ? "" : map.pathId, title: ev.title, start: ev.start, end: ev.end, every: ev.every, days: ev.days, from: ev.date, until: ev.until, source: "ics", icsUid: ev.uid };
-    let keep = true;
-    for (const other of data.plans.slice()) {
-      const dates = planOverlapDates(cand, other);
-      if (!dates.length) continue;
-      const v = await askChoice(fillCopy(PLAN_COPY.overlap, { a: cand.title, b: planLabel(other) }), cand.title, planLabel(other), "a");
-      if (v === "a") dates.forEach(d => { const k2 = planKey(other, d); if (planOccursOn(other, d)) data.planDays[k2] = Object.assign({}, data.planDays[k2] || {}, { skip: true }); else { const k3 = planKey(other, shift(d, -1)); data.planDays[k3] = Object.assign({}, data.planDays[k3] || {}, { skip: true }); } });
-      else { if (cand.every === 0) { keep = false; break; } dates.forEach(d => { data.planDays[planKey(cand, d)] = { skip: true }; }); }
-    }
-    if (!keep) continue;
+    if (!(await settleOverlaps(cand, true))) continue;
     (ev.exdates || []).forEach(d => { data.planDays[planKey(cand, d)] = { skip: true }; });
     data.plans.push(cand); added++;
   }
-  save(); renderDerived(); if (fromWeek) openPlanWeek();
+  save(); renderDerived(); if (fromCal) openCalSettings(); else if (fromWeek) openPlanWeek();
+  calPushSoon();
   showToast(added ? "Added " + added + " planned " + (added === 1 ? "block." : "blocks.") + (already ? " " + already + " already here." : "") : already ? "Those are already here." : "Nothing added.");
 }
+
+// ===================== v41: two-way sync with the phone's own calendar (Android app only) =====================
+// Uses the phone's calendar provider through the local HSCalendar plugin (Android CalendarContract), so it covers the
+// Google, Samsung, Outlook or local calendars already on the phone. Higher Self itself sends nothing anywhere.
+// Off by default. Out: planned blocks go to one calendar per "What your calendar shows" (Show details = the block or
+// path name, Busy only = "Busy", Leave off = never written). Every event we write has a UID "hs-{tag}-{key}@higher-self"
+// and its id is kept in data.calSync.out, so edits update it, removals delete it, and a re-sync never duplicates it.
+// In: events from the chosen calendars (today through the 8-week look-ahead) become planned blocks through the same
+// area + path picker as file import; our own events are skipped; all-day and 24h+ events are skipped like file import.
+const CAL_COPY = {
+  modeNone: "Neither is on. Your plan stays in Higher Self only.",
+  modeSync: "Your phone calendar and Higher Self keep each other up to date.",
+  modeFile: "Export or import a calendar file whenever you like.",
+  confirm: "Your calendar will get your planned blocks from now on. You can turn this off anytime.", turnOn: "Turn on sync", notNow: "Not now",
+  denied: "Higher Self can't see your calendar, so sync stays off. Nothing changed. You can allow it later in your phone's Settings, under Apps > Higher Self > Permissions.",
+  lost: "Calendar access is off now. Allow it in your phone's Settings to keep syncing.",
+  failed: "Couldn't reach your calendar this time. Your plan is safe here. Try Sync now in a bit.",
+  noWrite: "No calendar on this phone takes new events yet. Pick one to put your planned blocks in.",
+  ownName: "Higher Self (only on this phone)",
+  ownHint: "A calendar just for Higher Self, kept on this phone, so its events are easy to spot and remove.",
+  otherHint: "Higher Self only changes the events it added there. Your own events stay as they are.",
+  noRead: "No calendars to read from yet.",
+  last: "Last synced {time}", never: "Not synced yet.",
+  offAsk: "Remove the {n} Higher Self added to your phone calendar? Your own events stay as they are.", remove: "Remove them", keep: "Keep them",
+  removed: "Removed {n} from your phone calendar.", kept: "Sync is off. The events Higher Self added are still in your calendar.",
+  upToDate: "All caught up.", waiting: "{n} waiting for a place. Tap Sync now to sort them."
+};
+const CAL_DAYS = 56; // the planned week's look-ahead (planHorizon)
+const CAL_UID_END = "@higher-self";
+function hsCal() {
+  try { if (!isNativeCapacitor()) return null; const P = window.Capacitor.Plugins; return (P && P.HSCalendar) || null; } catch (e) { return null; }
+}
+function migrateCalSync(d) {
+  const o = v => (v && typeof v === "object" && !Array.isArray(v)) ? v : {};
+  d.calMode = d.calMode === "sync" || d.calMode === "file" ? d.calMode : "";
+  const c = o(d.calSync), out = {};
+  Object.keys(o(c.out)).forEach(k => { const x = c.out[k]; if (x && x.id != null) out[k] = { id: String(x.id), cal: String(x.cal || ""), sig: String(x.sig || "") }; });
+  d.calSync = {
+    on: !!c.on, asked: !!c.asked, tag: /^[a-z0-9]{4,12}$/.test(String(c.tag || "")) ? c.tag : "",
+    readIds: Array.isArray(c.readIds) ? c.readIds.map(String) : [], writeId: String(c.writeId || ""), ownId: String(c.ownId || ""),
+    out, seen: o(c.seen), last: Number(c.last) || 0, status: String(c.status || "")
+  };
+  if (!d.calSync.on && d.calMode === "sync") d.calMode = "";
+}
+function calLocalMs(date, hm) { const [y, m, dd] = date.split("-").map(Number); const [h, mi] = hm.split(":").map(Number); return new Date(y, m - 1, dd, h, mi).getTime(); }
+function calUtcStamp(ms) { return new Date(ms).toISOString().replace(/[-:]/g, "").replace(/\.\d+Z$/, "Z"); }
+function calLenMins(start, end) { const s = hmMin(start), e = hmMin(end); return e > s ? e - s : 1440 - s + e; }
+function calUid(key) { return "hs-" + data.calSync.tag + "-" + key.replace(/\|/g, "-") + CAL_UID_END; }
+// What the phone calendar should hold right now: key -> event. Blocks that came from a calendar are never written back.
+function calDesired() {
+  const want = {}, last = shift(TODAY, CAL_DAYS), cs = data.calSync;
+  const ev = (key, o, extra) => {
+    const share = (data.calShare || {})[o.area] || "busy";
+    if (share === "off") return;
+    const path = o.pathId ? pathById(o.pathId) : null;
+    const title = share === "show" ? (o.title || (path ? path.name : areaName(o.area))) : "Busy";
+    want[key] = Object.assign({ calendarId: cs.writeId, uid: calUid(key), title, description: "", start: calLocalMs(o.date, o.start), durationMins: calLenMins(o.start, o.end), rrule: "", exdate: "" }, extra || {});
+  };
+  ((data && data.plans) || []).forEach(p => {
+    if (p.source === "ics" || p.source === "phone") return;
+    if (p.every === 0) { if (p.from < TODAY) return; const o = planOcc(p, p.from); if (o) ev(p.id, o); return; }
+    if (p.until && p.until < TODAY) return;
+    const d0 = firstOccDate(p), ex = [], changed = [];
+    Object.keys(data.planDays || {}).forEach(k => {
+      const i = k.lastIndexOf("|"); if (k.slice(0, i) !== p.id) return;
+      const dt = k.slice(i + 1); if (!planOccursOn(p, dt)) return;
+      const ov = data.planDays[k] || {};
+      if (ov.skip) ex.push(dt);
+      else if (["area", "pathId", "title", "start", "end"].some(f => ov[f] != null && ov[f] !== p[f])) { ex.push(dt); if (dt >= TODAY && dt <= last) changed.push(dt); }
+    });
+    const rrule = "FREQ=WEEKLY;INTERVAL=" + p.every + ";WKST=SU;BYDAY=" + p.days.map(i => ICS_DAYS[i]).join(",") + (p.until ? ";UNTIL=" + calUtcStamp(calLocalMs(p.until, "23:59") + 59000) : "");
+    ev(p.id, { date: d0, area: p.area, pathId: p.pathId, title: p.title, start: p.start, end: p.end }, { rrule, exdate: ex.sort().map(dt => calUtcStamp(calLocalMs(dt, p.start))).join(",") });
+    changed.forEach(dt => { const o = planOcc(p, dt); if (o) ev(p.id + "|" + dt, o); }); // a one-day change is its own event
+  });
+  return want;
+}
+async function calPush(api, st, full) {
+  const cs = data.calSync, out = cs.out, want = calDesired();
+  if (full) { // adopt events we wrote but lost track of (e.g. after restoring an older backup) instead of writing them twice
+    let found = [];
+    try { found = ((await api.findOurs({})) || {}).events || []; } catch (e) { found = []; }
+    found = found.filter(e => String(e.uid || "").indexOf("hs-" + cs.tag + "-") === 0);
+    const tracked = new Set(Object.values(out).map(x => x.id));
+    found.forEach(e => { const k = Object.keys(want).find(k2 => want[k2].uid === e.uid); if (k && !out[k] && !tracked.has(String(e.id))) { out[k] = { id: String(e.id), cal: String(e.calendarId), sig: "" }; tracked.add(String(e.id)); } });
+    const orphans = found.filter(e => !tracked.has(String(e.id))).map(e => String(e.id)); // duplicates of ours: tidy them away
+    if (orphans.length) { const r = (await api.deleteEvents({ ids: orphans })) || {}; st.removed += (r.deleted || []).length; }
+  }
+  const drop = Object.keys(out).filter(k => !want[k] || out[k].cal !== want[k].calendarId);
+  if (drop.length) {
+    const r = (await api.deleteEvents({ ids: drop.map(k => out[k].id) })) || {};
+    st.removed += (r.deleted || []).length; drop.forEach(k => delete out[k]);
+  }
+  for (const k of Object.keys(want)) {
+    const w = want[k], sig = JSON.stringify(w), cur = out[k];
+    if (cur && cur.sig === sig) continue;
+    if (cur) {
+      const r = (await api.updateEvent(Object.assign({ id: cur.id }, w))) || {};
+      if (Number(r.updated) > 0) { cur.sig = sig; st.updated++; continue; }
+      delete out[k]; // gone from the calendar: write it again
+    }
+    const r = (await api.createEvent(w)) || {};
+    if (r.id != null) { out[k] = { id: String(r.id), cal: w.calendarId, sig }; st.added++; }
+  }
+}
+// Phone event instances -> one-day planned blocks keyed "phone:{calendar}:{event}:{date}".
+function calReadEvents(list) {
+  const cs = data.calSync, ours = new Set(Object.values(cs.out).map(x => x.id)), outEv = [];
+  let skipped = 0;
+  (list || []).forEach(e => {
+    const id = String(e.eventId), cal = String(e.calendarId);
+    if (e.ours || ours.has(id) || String(e.uid || "").endsWith(CAL_UID_END) || (cs.ownId && cal === cs.ownId)) return; // ours
+    if (e.allDay) { skipped++; return; }
+    const mins = Math.round((Number(e.end) - Number(e.begin)) / 60000);
+    if (!(mins > 0) || mins >= 1440) { skipped++; return; }
+    const b = new Date(Number(e.begin)), date = iso(b), start = minHm(b.getHours() * 60 + b.getMinutes());
+    if (date < TODAY) return; // an overnight event from yesterday: its day is past
+    outEv.push({ key: "phone:" + cal + ":" + id + ":" + date, series: cal + ":" + id, cal, title: String(e.title || "").trim().slice(0, 120) || "Event", date, start, end: minHm(hmMin(start) + mins) });
+  });
+  return { events: outEv, skipped };
+}
+async function calPull(api, st, canAsk) {
+  const cs = data.calSync, readIds = cs.readIds.filter(id => id && id !== cs.ownId);
+  const from = calLocalMs(TODAY, "00:00"), to = calLocalMs(shift(TODAY, CAL_DAYS + 1), "00:00");
+  const r = readIds.length ? ((await api.listEvents({ from, to, calendarIds: readIds })) || {}) : { events: [] };
+  const { events } = calReadEvents(r.events);
+  const byKey = {}; events.forEach(e => { byKey[e.key] = e; });
+  // blocks that came from the phone: follow moves and removals, but never touch past, confirmed or hand-changed days
+  data.plans.slice().forEach(p => {
+    if (p.source !== "phone" || p.from < TODAY || data.planDone[planKey(p, p.from)] || data.planDays[planKey(p, p.from)]) return;
+    const e = byKey[p.phoneKey];
+    if (!e) { data.plans = data.plans.filter(x => x !== p); st.gone++; return; }
+    if (p.start !== e.start || p.end !== e.end || p.title !== e.title) { p.start = e.start; p.end = e.end; p.title = e.title; st.moved++; }
+  });
+  const have = new Set(data.plans.filter(p => p.source === "phone").map(p => p.phoneKey));
+  const answers = {};
+  for (const e of events) {
+    if (have.has(e.key)) continue;
+    const t = e.title.toLowerCase();
+    let map = cs.seen[e.series];
+    if (map === undefined) map = data.icsMap[t] || answers[t];
+    if (map === undefined) {
+      if (!canAsk) { st.waiting++; continue; }
+      const a = await askIcsMapping(e.title);
+      answers[t] = a; if (a && a.always) data.icsMap[t] = { area: a.area, pathId: a.pathId };
+      map = a;
+    }
+    if (cs.seen[e.series] === undefined) cs.seen[e.series] = map ? { area: map.area, pathId: map.pathId } : "skip";
+    if (!map || map === "skip" || !planAreaOk(map.area) || (map.area !== SLEEP_AREA && !pathById(map.pathId))) continue;
+    const cand = { id: uid("pn"), area: map.area, pathId: map.area === SLEEP_AREA ? "" : map.pathId, title: e.title, start: e.start, end: e.end, every: 0, days: [parseISO(e.date).getDay()], from: e.date, until: "", source: "phone", icsUid: "", phoneKey: e.key };
+    const keep = await settleOverlaps(cand, canAsk);
+    if (keep === null) { st.waiting++; continue; } // the place is remembered; the overlap question waits for Sync now
+    if (!keep) continue;
+    data.plans.push(cand); have.add(e.key); st.came++;
+  }
+}
+function calStatusText(st) {
+  const bits = [];
+  if (st.added) bits.push("added " + plural(st.added, "block") + " to your calendar");
+  if (st.updated) bits.push("updated " + st.updated);
+  if (st.removed) bits.push("removed " + st.removed);
+  if (st.came) bits.push(plural(st.came, "new event") + " came in");
+  if (st.moved || st.gone) bits.push(plural(st.moved + st.gone, "event") + " changed");
+  let t = bits.length ? bits.join(", ") + "." : CAL_COPY.upToDate;
+  t = t.charAt(0).toUpperCase() + t.slice(1);
+  if (st.waiting) t += " " + fillCopy(CAL_COPY.waiting, { n: plural(st.waiting, "new event") });
+  return t;
+}
+let calBusy = false, calPushTimer = 0;
+// Full sync (out, then in). opts.ask: may open the picker even if a sheet is open (Sync now / turning sync on).
+async function calSyncNow(opts) {
+  opts = opts || {};
+  const api = hsCal();
+  if (!api || !data || !data.calSync.on || calBusy) return false;
+  calBusy = true;
+  const fromCal = document.getElementById("calDialog").open;
+  const st = { added: 0, updated: 0, removed: 0, came: 0, moved: 0, gone: 0, waiting: 0 };
+  const canAsk = !!opts.ask || !document.querySelector("dialog[open]");
+  try {
+    if (!data.calSync.tag) data.calSync.tag = Math.random().toString(36).slice(2, 10).replace(/[^a-z0-9]/g, "") || "hs";
+    if (data.calSync.writeId) await calPush(api, st, !opts.pushOnly);
+    if (!opts.pushOnly) await calPull(api, st, canAsk);
+    data.calSync.last = Date.now();
+    if (!opts.pushOnly || st.added || st.updated || st.removed) data.calSync.status = data.calSync.writeId ? calStatusText(st) : CAL_COPY.noWrite;
+  } catch (e) {
+    data.calSync.status = /PERMISSION|permission/.test(String((e && (e.code || e.message)) || e)) ? CAL_COPY.lost : CAL_COPY.failed;
+  } finally { calBusy = false; }
+  save(); renderDerived();
+  if (fromCal && !document.querySelector("dialog[open]")) openCalSettings(); else renderCalSettings();
+  return true;
+}
+function calPushSoon() {
+  if (!data || !data.calSync || !data.calSync.on || !hsCal()) return;
+  clearTimeout(calPushTimer);
+  calPushTimer = setTimeout(() => calSyncNow({ pushOnly: true }), 1200);
+}
+// On app open and when the app comes back to the front (at most once a minute).
+function calAutoSync(why) {
+  if (!data || !data.calSync || !data.calSync.on || !hsCal()) return;
+  if (why === "resume" && Date.now() - (data.calSync.last || 0) < 60000) return;
+  setTimeout(() => { if (data) calSyncNow({}); }, why === "open" ? 900 : 300);
+}
+document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible") calAutoSync("resume"); });
+let calList = []; // the phone's calendars, read when the Calendar sheet opens (never stored)
+async function calLoadCalendars(api) {
+  try { calList = ((await api.listCalendars()) || {}).calendars || []; } catch (e) { calList = []; }
+  return calList;
+}
+async function calTurnOn() {
+  const api = hsCal(); if (!api || !data) return false;
+  if (!data.calSync.asked) {
+    const v = await askChoice(CAL_COPY.confirm, CAL_COPY.turnOn, CAL_COPY.notNow, "a");
+    if (v !== "a") { renderCalSettings(); return false; }
+    data.calSync.asked = true;
+  }
+  let perm = null;
+  try { perm = await api.requestCalendar(); } catch (e) { perm = null; }
+  if (!perm || perm.calendar !== "granted") {
+    data.calSync.on = false; if (data.calMode === "sync") data.calMode = "";
+    data.calSync.status = CAL_COPY.denied; save(); renderCalSettings(); return false;
+  }
+  const cs = data.calSync;
+  try { const r = await api.ensureOwnCalendar(); cs.ownId = r && r.id != null ? String(r.id) : ""; } catch (e) { cs.ownId = ""; }
+  await calLoadCalendars(api);
+  const ids = calList.map(c => String(c.id));
+  if (!cs.writeId || !ids.includes(cs.writeId)) cs.writeId = cs.ownId || String((calList.find(c => c.writable && !c.ours) || {}).id || "");
+  if (!cs.readIds.length) cs.readIds = calList.filter(c => !c.ours && c.visible !== false).map(c => String(c.id));
+  cs.readIds = cs.readIds.filter(id => ids.includes(id));
+  if (!cs.tag) cs.tag = Math.random().toString(36).slice(2, 10).replace(/[^a-z0-9]/g, "") || "hs";
+  cs.on = true; data.calMode = "sync"; cs.status = "";
+  save(); renderCalSettings();
+  await calSyncNow({ ask: true });
+  return true;
+}
+async function calTurnOff(nextMode) {
+  const api = hsCal(), cs = data.calSync, ids = Object.values(cs.out).map(x => x.id);
+  if (ids.length && api) {
+    const v = await askChoice(fillCopy(CAL_COPY.offAsk, { n: plural(ids.length, "event") }), CAL_COPY.remove, CAL_COPY.keep, "a");
+    if (v === null) { renderCalSettings(); return false; }
+    if (v === "a") {
+      try {
+        const r = (await api.deleteEvents({ ids })) || {};
+        const gone = new Set((r.deleted || []).map(String));
+        Object.keys(cs.out).forEach(k => { if (gone.has(cs.out[k].id) || (r.refused || []).map(String).includes(cs.out[k].id)) delete cs.out[k]; });
+        if (cs.ownId) { const d = (await api.deleteOwnCalendar()) || {}; if (d.deleted) { if (cs.writeId === cs.ownId) cs.writeId = ""; cs.ownId = ""; } }
+        cs.status = fillCopy(CAL_COPY.removed, { n: plural(gone.size, "event") });
+      } catch (e) { cs.status = CAL_COPY.failed; }
+    } else cs.status = CAL_COPY.kept;
+  } else cs.status = "";
+  cs.on = false; data.calMode = nextMode || "";
+  clearTimeout(calPushTimer);
+  save(); renderCalSettings(); return true;
+}
+function calWhen(ms) {
+  if (!ms) return "";
+  const d = new Date(ms), t = d.toLocaleTimeString(undefined, { hour: "numeric", minute: "2-digit" });
+  return iso(d) === TODAY ? "today at " + t : prettyDate(iso(d)) + " at " + t;
+}
+function renderCalSettings() {
+  const dlg = document.getElementById("calDialog"); if (!dlg || !data) return;
+  const $ = id => document.getElementById(id), cs = data.calSync, native = !!hsCal();
+  $("calModePanel").hidden = !native; $("calWebNote").hidden = native;
+  const mode = native ? data.calMode : "file";
+  dlg.querySelectorAll("[data-cal-mode]").forEach(b => b.setAttribute("aria-checked", b.dataset.calMode === mode ? "true" : "false"));
+  $("calModeHint").textContent = mode === "sync" ? CAL_COPY.modeSync : mode === "file" ? CAL_COPY.modeFile : CAL_COPY.modeNone;
+  $("calSyncPanel").hidden = !native || (mode !== "sync" && !cs.status);
+  $("calFilePanel").hidden = native && mode !== "file";
+  $("calSyncOn").checked = !!cs.on;
+  $("calSyncBody").hidden = !cs.on;
+  if (cs.on) {
+    const writable = calList.filter(c => c.writable || c.ours);
+    const opt = c => '<option value="' + esc(String(c.id)) + '"' + (String(c.id) === cs.writeId ? " selected" : "") + '>' + esc(c.ours ? CAL_COPY.ownName : c.name + (c.account && c.account !== c.name ? " (" + c.account + ")" : "")) + '</option>';
+    const ownFirst = writable.filter(c => c.ours).concat(writable.filter(c => !c.ours));
+    $("calWriteSel").innerHTML = (cs.writeId ? "" : '<option value="">Pick a calendar</option>') + ownFirst.map(opt).join("");
+    const w = calList.find(c => String(c.id) === cs.writeId);
+    $("calWriteHint").textContent = !cs.writeId ? CAL_COPY.noWrite : w && w.ours ? CAL_COPY.ownHint : CAL_COPY.otherHint;
+    const readable = calList.filter(c => !c.ours);
+    $("calReadList").innerHTML = readable.length ? readable.map(c => '<label class="check-line"><input type="checkbox" data-cal-read="' + esc(String(c.id)) + '"' + (cs.readIds.includes(String(c.id)) ? " checked" : "") + ' /> <span><span class="swatch" style="display:inline-block;background:' + esc(c.color || "#999") + '"></span> ' + esc(c.name) + (c.account && c.account !== c.name ? ' <small class="hint">' + esc(c.account) + '</small>' : "") + '</span></label>').join("") : '<p class="hint">' + esc(CAL_COPY.noRead) + '</p>';
+    dlg.querySelectorAll("[data-cal-read]").forEach(b => b.onchange = () => {
+      const id = b.dataset.calRead; cs.readIds = cs.readIds.filter(x => x !== id); if (b.checked) cs.readIds.push(id); save();
+    });
+  }
+  $("calSyncLast").textContent = cs.on ? (cs.last ? fillCopy(CAL_COPY.last, { time: calWhen(cs.last) }) : CAL_COPY.never) : "";
+  $("calSyncStatus").textContent = cs.status || ""; $("calSyncStatus").hidden = !cs.status;
+  const rows = AREAS.map(a => [a.id, a.name]).concat([[SLEEP_AREA, "Sleep"]]);
+  $("calShareRows").innerHTML = rows.map(([id, name]) => '<div class="cal-share-row"><span>' + esc(name) + '</span><span class="chip-row" role="radiogroup" aria-label="' + esc(name) + '" style="margin:0">' +
+    ["show", "busy", "off"].map(v => '<button type="button" class="chip" role="radio" data-cal-share="' + id + '" data-v="' + v + '" aria-checked="' + (data.calShare[id] === v ? "true" : "false") + '">' + esc(PLAN_COPY[v]) + '</button>').join("") + '</span></div>').join("");
+  dlg.querySelectorAll("[data-cal-share]").forEach(b => b.onclick = () => { data.calShare[b.dataset.calShare] = b.dataset.v; save(); renderCalSettings(); calPushSoon(); });
+}
+async function openCalSettings() {
+  renderCalSettings();
+  openSheet(document.getElementById("calDialog"), document.getElementById("calTitle"));
+  const api = hsCal();
+  if (api && data.calSync.on) { await calLoadCalendars(api); renderCalSettings(); }
+}
+document.querySelectorAll("[data-cal-mode]").forEach(b => b.onclick = async () => {
+  if (!data) return;
+  const v = b.dataset.calMode;
+  if (v === "sync") { if (!data.calSync.on) await calTurnOn(); else renderCalSettings(); return; }
+  if (data.calSync.on) { await calTurnOff("file"); return; }
+  data.calMode = "file"; data.calSync.status = ""; save(); renderCalSettings();
+});
+document.getElementById("calSyncOn").onchange = async e => {
+  const want = e.target.checked; e.target.checked = !!data.calSync.on;
+  if (want) await calTurnOn(); else await calTurnOff("");
+};
+document.getElementById("calWriteSel").onchange = e => { data.calSync.writeId = e.target.value; save(); renderCalSettings(); calSyncNow({ pushOnly: true }); };
+document.getElementById("calSyncNow").onclick = () => calSyncNow({ ask: true });
 
 document.getElementById("planArea").onchange = syncPlanForm;
 document.getElementById("planPath").onchange = syncPlanForm;
@@ -9516,6 +9873,8 @@ document.getElementById("planDayDone").onclick = () => document.getElementById("
 document.getElementById("planWeekDone").onclick = () => document.getElementById("planWeekDialog").close();
 document.getElementById("planWeekAdd").onclick = () => openPlanEditor({ date: TODAY });
 document.getElementById("calExport").onclick = () => { const reps = data.plans.filter(p => p.every > 0 && (!p.until || p.until >= TODAY)); if (!reps.length) { showToast("Add a repeating block first."); return; } downloadIcs(reps, "higher-self-repeats.ics"); };
+document.getElementById("planWeekCal").onclick = () => openCalSettings();
+document.getElementById("calDone").onclick = () => document.getElementById("calDialog").close();
 document.getElementById("calImport").onclick = () => document.getElementById("icsFile").click();
 document.getElementById("icsFile").onchange = e => { const f = e.target.files && e.target.files[0]; e.target.value = ""; if (f) importIcsFile(f); };
 // ---------- Menu drawer (opened from the logo)
@@ -9590,6 +9949,7 @@ const MENU_GO = [
   document.getElementById("menuGuide").onclick = () => openGuide();
   document.getElementById("menuThemes").onclick = () => openThemes();
   document.getElementById("menuArrange").onclick = () => openArrange();
+  document.getElementById("menuCalendar").onclick = () => openCalSettings();
   dlg.querySelectorAll("[data-menu-go]").forEach(b => b.onclick = () => {
     const g = MENU_GO[Number(b.dataset.menuGo)];
     closeMenuThen(() => {

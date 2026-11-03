@@ -1,5 +1,5 @@
 /* Higher Self — offline shell for install / Add to Home Screen */
-const CACHE = "higher-self-v40";
+const CACHE = "higher-self-v41";
 const ICON_VER = "39";
 // v39: theme picture sets. Only the default set is precached; the page caches another set when that theme is picked.
 const DEFAULT_ART_SETS = ["abstract"];
