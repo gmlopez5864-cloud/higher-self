@@ -237,6 +237,24 @@
     const kind = p.kind === "drive" ? "drive" : "";
     return { kind, listen: migrateListen(p.listen, kind), breaks: salvageBreaks(p.start, p.end, p.breaks).map(persistBreak) };
   }
+  // Copy new fields only when the saved record already has them. An older plan or path log
+  // must come back with the same keys it was stored with (no empty breaks / kind / listen).
+  function hasOwn(raw, key) { return !!raw && Object.prototype.hasOwnProperty.call(raw, key); }
+  function keepPlanMeta(rec, raw, meta) {
+    meta = meta || migrateBlock(raw);
+    if (hasOwn(raw, "kind")) rec.kind = raw.area === "sleep" ? "" : meta.kind;
+    if (hasOwn(raw, "listen")) rec.listen = raw.area === "sleep" ? null : meta.listen;
+    if (hasOwn(raw, "breaks")) rec.breaks = meta.breaks;
+    return rec;
+  }
+  function keepLogMeta(rec, raw) {
+    const meta = migrateLogMeta(raw);
+    if (hasOwn(raw, "countsElapsed")) rec.countsElapsed = meta.countsElapsed;
+    if (hasOwn(raw, "alongside")) rec.alongside = meta.alongside;
+    if (hasOwn(raw, "gap")) rec.gap = meta.gap;
+    if (hasOwn(raw, "segment")) rec.segment = meta.segment;
+    return rec;
+  }
   function migrateLogMeta(l) {
     l = l && typeof l === "object" ? l : {};
     return {
@@ -281,7 +299,7 @@
 
   const api = {
     DRIVE_SAFE, hm, shift, spanAbs, validateBreaks, salvageBreaks, usesBreaks, account, calendarEvents,
-    competes, validateListen, migrateListen, migrateBlock, migrateLogMeta, untimedMinutes,
+    competes, validateListen, migrateListen, migrateBlock, migrateLogMeta, keepPlanMeta, keepLogMeta, untimedMinutes,
     upsertBreak, removeBreak, cloneBreaks, loggedPlan, persistBreak
   };
   if (typeof module === "object" && module && module.exports) module.exports = api;

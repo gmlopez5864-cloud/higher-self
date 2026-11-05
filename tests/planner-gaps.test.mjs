@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { execSync } from "node:child_process";
 import { createRequire } from "node:module";
 import fs from "node:fs";
 import path from "node:path";
@@ -214,6 +215,46 @@ test("a drive can count toward work or another area", () => {
   assert.equal(asHobby.byArea.career, undefined);
 });
 
+test("older plans and logs keep their own keys; empty drive fields are not invented", () => {
+  const sleep = { id: "slp", area: "sleep", pathId: "", title: "", start: "22:30", end: "06:30", every: 1, days: [0, 1, 2, 3, 4, 5, 6], from: "2026-10-20", until: "", source: "", icsUid: "" };
+  const rec = Object.assign({}, sleep);
+  G.keepPlanMeta(rec, sleep, G.migrateBlock(sleep));
+  assert.deepEqual(Object.keys(rec).sort(), Object.keys(sleep).sort());
+  assert.equal("breaks" in rec, false);
+  assert.equal("kind" in rec, false);
+  assert.equal("listen" in rec, false);
+  const again = Object.assign({}, rec);
+  G.keepPlanMeta(again, rec, G.migrateBlock(rec));
+  assert.deepEqual(again, rec);
+
+  const drive = {
+    id: "drv", area: "career", kind: "drive", start: "08:00", end: "09:30", from: DAY,
+    listen: { area: "personal", pathId: "book", title: "Audiobook", minutes: 90 },
+    breaks: [{ id: "b", start: "08:20", end: "08:40", acts: [] }]
+  };
+  const kept = {};
+  G.keepPlanMeta(kept, drive, G.migrateBlock(drive));
+  assert.equal(kept.kind, "drive");
+  assert.equal(kept.listen.title, "Audiobook");
+  assert.equal(kept.listen.minutes, 90);
+  assert.equal(kept.breaks.length, 1);
+  assert.equal(kept.breaks[0].id, "b");
+
+  const oldLog = { id: "pl1", pathId: "pw", date: DAY, minutes: 90, area: "personal", source: "log" };
+  const log = Object.assign({}, oldLog);
+  G.keepLogMeta(log, oldLog);
+  assert.equal("countsElapsed" in log, false);
+  assert.equal("alongside" in log, false);
+  assert.equal("gap" in log, false);
+  assert.equal("segment" in log, false);
+  const lesson = { id: "pl2", pathId: "book", date: DAY, minutes: 90, countsElapsed: false, alongside: "drv|" + DAY };
+  const lessonRow = {};
+  G.keepLogMeta(lessonRow, lesson);
+  assert.equal(lessonRow.countsElapsed, false);
+  assert.equal(lessonRow.alongside, "drv|" + DAY);
+  assert.equal("gap" in lessonRow, false);
+});
+
 test("old plans and logs migrate, and new metadata survives a second pass", () => {
   const old = { id: "p1", area: "career", start: "09:00", end: "17:00", from: "2020-01-06", title: "Work" };
   const migrated = G.migrateBlock(old);
@@ -299,10 +340,29 @@ test("the shared page keeps web version 43 and wires the Android planner copy", 
   assert.match(html, /Choose audio before you leave\. Keep your attention on the road\./);
   assert.equal(html.includes(G.DRIVE_SAFE), true);
   assert.match(html, /HSGaps\.account/);
-  assert.match(html, /countsElapsed/);
+  assert.match(html, /HSGaps\.keepPlanMeta/);
+  assert.match(html, /HSGaps\.keepLogMeta/);
+  assert.equal(/kind: p\.area === SLEEP_AREA \? "" : meta\.kind, listen: p\.area === SLEEP_AREA \? null : meta\.listen, breaks: meta\.breaks/.test(html), false);
   assert.match(html, /plannerAndroid\(/);
   assert.match(html, /s\.allDay/);
   assert.match(html, /e\.free/);
   const gaps = fs.readFileSync(path.join(root, "planner-gaps.js"), "utf8");
   assert.equal(/fetch\s*\(|XMLHttpRequest|WebSocket|openai|anthropic/i.test(gaps), false);
+});
+
+test("shipped icon bytes and the web cache are unchanged from main", () => {
+  const diff = execSync("git diff --name-only main -- icons sw.js manifest.webmanifest", { cwd: root, encoding: "utf8" }).trim();
+  assert.equal(diff, "");
+  const files = [
+    "icons/glyphs128-dog/feed/on-this-day.png",
+    "icons/glyphs128-cat/feed/on-this-day.png",
+    "icons/glyphs128-bird/feed/on-this-day.png",
+    "icons/glyphs128-fish/feed/on-this-day.png",
+    "icons/glyphs128-fish/feed/read-stop.png"
+  ];
+  for (const f of files) {
+    const head = execSync(`git rev-parse HEAD:${f}`, { cwd: root, encoding: "utf8" }).trim();
+    const base = execSync(`git rev-parse main:${f}`, { cwd: root, encoding: "utf8" }).trim();
+    assert.equal(head, base, f);
+  }
 });

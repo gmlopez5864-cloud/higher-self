@@ -3041,26 +3041,26 @@ function migrateLegacy(raw) {
     d.paths.forEach(p => { if (/wrestl/i.test(p.name) && (p.img === PATH_DEFAULT_ICON || p.img === "icons/paths/martial-artist.jpg")) p.img = PATH_WRESTLING_ICON; });
     d.migrated.wrestlingIcon = true;
   }
-  d.pathLogs = Array.isArray(d.pathLogs) ? d.pathLogs.filter(l => l && l.pathId && typeof l.date === "string").map(l => ({
-    id: l.id || uid("pl"), pathId: l.pathId, date: l.date,
-    motive: String(l.motive || ""), clean: ["yes", "notfully"].includes(l.clean) ? l.clean : "", logged: l.logged !== false,
-    did: String(l.did || ""), better: String(l.better || ""),
-    rating: ["good", "neutral", "bad"].includes(l.rating) ? l.rating : "",
-    reps: l.reps == null || l.reps === "" || Number.isNaN(Number(l.reps)) ? null : Number(l.reps),
-    pulls: (Array.isArray(l.pulls) ? l.pulls.filter(x => typeof x === "string" && x) : (l.pull ? [String(l.pull)] : [])).slice(0, 5),
-    steered: (Array.isArray(l.steered) ? l.steered.filter(x => typeof x === "string" && x.trim()).map(x => x.trim()) : []).slice(0, 5),
-    repsUnit: String(l.repsUnit || ""),
-    minutes: Number(l.minutes) > 0 ? Number(l.minutes) : null,
-    area: (typeof l.area === "string" && AREAS.some(a => a.id === l.area)) ? l.area : "",
-    taskId: typeof l.taskId === "string" ? l.taskId : "",
-    journal: String(l.journal || ""), source: l.source === "checkin" ? "checkin" : l.source === "plan" ? "plan" : "log",
-    planKey: typeof l.planKey === "string" ? l.planKey : "",
-    // Alongside a drive, countsElapsed false keeps the lesson on the path without adding a second block of hours.
-    countsElapsed: (typeof HSGaps !== "undefined" ? HSGaps.migrateLogMeta(l) : { countsElapsed: l.countsElapsed !== false }).countsElapsed,
-    alongside: typeof l.alongside === "string" ? l.alongside : "",
-    gap: l.gap === true,
-    segment: typeof l.segment === "string" ? l.segment.slice(0, 40) : ""
-  })) : [];
+  d.pathLogs = Array.isArray(d.pathLogs) ? d.pathLogs.filter(l => l && l.pathId && typeof l.date === "string").map(l => {
+    const row = {
+      id: l.id || uid("pl"), pathId: l.pathId, date: l.date,
+      motive: String(l.motive || ""), clean: ["yes", "notfully"].includes(l.clean) ? l.clean : "", logged: l.logged !== false,
+      did: String(l.did || ""), better: String(l.better || ""),
+      rating: ["good", "neutral", "bad"].includes(l.rating) ? l.rating : "",
+      reps: l.reps == null || l.reps === "" || Number.isNaN(Number(l.reps)) ? null : Number(l.reps),
+      pulls: (Array.isArray(l.pulls) ? l.pulls.filter(x => typeof x === "string" && x) : (l.pull ? [String(l.pull)] : [])).slice(0, 5),
+      steered: (Array.isArray(l.steered) ? l.steered.filter(x => typeof x === "string" && x.trim()).map(x => x.trim()) : []).slice(0, 5),
+      repsUnit: String(l.repsUnit || ""),
+      minutes: Number(l.minutes) > 0 ? Number(l.minutes) : null,
+      area: (typeof l.area === "string" && AREAS.some(a => a.id === l.area)) ? l.area : "",
+      taskId: typeof l.taskId === "string" ? l.taskId : "",
+      journal: String(l.journal || ""), source: l.source === "checkin" ? "checkin" : l.source === "plan" ? "plan" : "log",
+      planKey: typeof l.planKey === "string" ? l.planKey : ""
+    };
+    // New log fields stay only when that record already had them. Older moments are not rewritten.
+    if (typeof HSGaps !== "undefined") HSGaps.keepLogMeta(row, l);
+    return row;
+  }) : [];
   // v43: "Note from now". Separate records under an entry (ref "d:<diary id>" or "pl:<path log id>"); the entry itself
   // is never touched. Notes whose entry is gone are dropped.
   {
@@ -10212,12 +10212,14 @@ function migratePlans(d) {
     const every = [0, 1, 2, 3, 4].includes(Number(p.every)) ? Number(p.every) : 1;
     const days = Array.from(new Set((Array.isArray(p.days) ? p.days : []).map(Number).filter(n => n >= 0 && n <= 6))).sort();
     const meta = (typeof HSGaps !== "undefined") ? HSGaps.migrateBlock(p) : { kind: p.kind === "drive" ? "drive" : "", listen: null, breaks: [] };
-    return Object.assign({
+    const rec = {
       id: String(p.id), area: p.area, pathId: p.area === SLEEP_AREA ? "" : String(p.pathId || ""), title: String(p.title || "").slice(0, 120),
       start: p.start, end: p.end, every, days: every === 0 ? [parseISO(p.from).getDay()] : (days.length ? days : [parseISO(p.from).getDay()]),
-      from: p.from, until: isoRe.test(String(p.until || "")) ? p.until : "", source: p.source === "ics" || p.source === "phone" ? p.source : "", icsUid: String(p.icsUid || ""),
-      kind: p.area === SLEEP_AREA ? "" : meta.kind, listen: p.area === SLEEP_AREA ? null : meta.listen, breaks: meta.breaks
-    }, p.source === "phone" ? { phoneKey: String(p.phoneKey || "") } : {});
+      from: p.from, until: isoRe.test(String(p.until || "")) ? p.until : "", source: p.source === "ics" || p.source === "phone" ? p.source : "", icsUid: String(p.icsUid || "")
+    };
+    if (p.source === "phone") rec.phoneKey = String(p.phoneKey || "");
+    if (typeof HSGaps !== "undefined") HSGaps.keepPlanMeta(rec, p, meta);
+    return rec;
   }) : [];
   const obj = v => (v && typeof v === "object" && !Array.isArray(v)) ? v : {};
   d.planDays = obj(d.planDays); d.planDone = obj(d.planDone); d.icsMap = obj(d.icsMap); d.planOver = obj(d.planOver);
