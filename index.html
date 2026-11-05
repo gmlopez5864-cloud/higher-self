@@ -1185,6 +1185,12 @@
   .nohours-item { margin: 0.1rem 0; font-size: 0.9rem; }
   .nohours-note { margin: 0.15rem 0 0; font-size: 0.75rem; }
   .shrunk-note { display: block; color: var(--muted); }
+  .drive-badge { font-size: 0.72rem; letter-spacing: 0.04em; text-transform: uppercase; border: 1px solid var(--border); border-radius: 999px; padding: 0.05rem 0.45rem; margin-right: 0.3rem; }
+  .hs-phones { width: 1.05rem; height: 1.05rem; vertical-align: -0.2rem; margin-right: 0.15rem; }
+  .drive-safe { font-weight: 600; }
+  .break-card, .break-act { border: 1px dashed var(--border); border-radius: 10px; padding: 0.45rem 0.6rem; margin: 0.35rem 0; }
+  .break-card .pl-what small { display: block; margin-top: 0.15rem; }
+  .break-act { background: var(--field); }
   .choice-lead { margin: 0 0 0.3rem; }
   /* v42 */
   .legend .swatch.plan-swatch { background: repeating-linear-gradient(45deg, var(--sw) 0 3px, #FFF8EB 3px 5px); border: 1px solid var(--sw); }
@@ -2102,6 +2108,41 @@
     <label class="check-line"><input type="radio" name="planUntilMode" id="planUntilOn" /><span id="planUntilDateText">Until a date</span></label>
     <label class="field" style="max-width:12rem">End date<input id="planUntil" type="date" /></label>
   </fieldset>
+  <div id="planBreaksWrap" hidden>
+    <p class="q-title" style="font-size:0.95rem;margin:0.7rem 0 0.2rem">Breaks</p>
+    <div id="planBreakList"></div>
+    <div id="planBreakDraft" hidden>
+      <div class="time-row">
+        <label class="field">Break starts<input id="breakStart" type="time" /></label>
+        <label class="field">Break ends<input id="breakEnd" type="time" /></label>
+      </div>
+      <div id="breakActs"></div>
+      <button type="button" class="btn" id="breakAddAct">What did you do during this break?</button>
+      <p class="short-note" id="breakErr" role="alert" hidden></p>
+      <div class="row-actions">
+        <button type="button" class="btn" id="breakDraftCancel">Cancel</button>
+        <button type="button" class="btn primary" id="breakDraftSave">Save break</button>
+      </div>
+    </div>
+    <button type="button" class="btn" id="planAddBreak">Add a break</button>
+  </div>
+  <div id="planDriveWrap" hidden>
+    <label class="check-line"><input type="checkbox" id="planIsDrive" /> <span>This is a drive</span></label>
+    <p class="hint drive-safe" id="planDriveSafe" hidden>Choose audio before you leave. Keep your attention on the road.</p>
+    <p class="hint" id="planDriveAreaHint" hidden>A drive counts toward the area above. That can be work, or another area.</p>
+    <div id="planListenWrap" hidden>
+      <label class="check-line"><input type="checkbox" id="planListenOn" /> <span>Listen during this drive <svg class="hs-phones" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12 3a8 8 0 0 0-8 8v7a2 2 0 0 0 2 2h2v-7H6v-1a6 6 0 0 1 12 0v1h-2v7h2a2 2 0 0 0 2-2v-7a8 8 0 0 0-8-8z"/></svg></span></label>
+      <div id="planListenFields" hidden>
+        <label class="field">Area for the lesson<select id="listenArea"></select></label>
+        <label class="field">Path<select id="listenPath"></select></label>
+        <label class="field" id="listenNewWrap" hidden>New path<input id="listenNewPath" type="text" maxlength="60" /></label>
+        <label class="field">Audiobook or lesson<input id="listenTitle" type="text" maxlength="120" placeholder="Name it before you leave" /></label>
+        <label class="field">Minutes (optional)<input id="listenMins" type="number" min="1" max="1440" step="1" inputmode="numeric" /></label>
+        <p class="hint">Quiet driving is fine. You don't have to fill the drive.</p>
+        <p class="hint">Set the lesson before you leave. Higher Self won't ask you to read or type while you drive.</p>
+      </div>
+    </div>
+  </div>
   <p class="short-note" id="planErr" role="alert" hidden></p>
   <div class="actions" style="flex-wrap:wrap">
     <button type="button" class="tiny" id="planDelete" hidden>Remove</button>
@@ -2201,6 +2242,7 @@
 <input type="file" id="icsFile" accept=".ics,text/calendar" hidden />
 <input type="file" id="restoreFile" accept=".hsbak,.json,application/json,application/octet-stream" hidden />
 
+<script src="planner-gaps.js"></script>
 <script>
 // Time-pie coach thresholds. Soft and optional: edit these, or set one to null to turn that flag off.
 // Hours are a rolling 7 days ending on the selected day. There is no equal-time rule.
@@ -2427,7 +2469,7 @@ const PATH_ICON_LABELS = {
 const PATH_WRESTLING_ICON = "icons/paths/wrestling.jpg";
 // Icon cache-bust: same filenames were re-cut, so every rendered icon URL carries ?v=. Stored data keeps plain paths.
 const ICON_VER = "43";
-const APP_VERSION = "43"; // shown in Settings as "Version 40"; bump with sw.js CACHE
+const APP_VERSION = "43"; // web shell stays 43. Do not bump this or sw.js CACHE for the Android planner; that would publish a web release.
 const REPORT_EMAIL = "gmlopez5864@gmail.com";
 const LOGO_SRC = "icons/logo.jpg"; // swap the app logo here (header, menu button, vault screens)
 function plainIcon(src) { return String(src || "").split("?")[0]; }
@@ -3012,7 +3054,12 @@ function migrateLegacy(raw) {
     area: (typeof l.area === "string" && AREAS.some(a => a.id === l.area)) ? l.area : "",
     taskId: typeof l.taskId === "string" ? l.taskId : "",
     journal: String(l.journal || ""), source: l.source === "checkin" ? "checkin" : l.source === "plan" ? "plan" : "log",
-    planKey: typeof l.planKey === "string" ? l.planKey : ""
+    planKey: typeof l.planKey === "string" ? l.planKey : "",
+    // Alongside a drive, countsElapsed false keeps the lesson on the path without adding a second block of hours.
+    countsElapsed: (typeof HSGaps !== "undefined" ? HSGaps.migrateLogMeta(l) : { countsElapsed: l.countsElapsed !== false }).countsElapsed,
+    alongside: typeof l.alongside === "string" ? l.alongside : "",
+    gap: l.gap === true,
+    segment: typeof l.segment === "string" ? l.segment.slice(0, 40) : ""
   })) : [];
   // v43: "Note from now". Separate records under an entry (ref "d:<diary id>" or "pl:<path log id>"); the entry itself
   // is never touched. Notes whose entry is gone are dropped.
@@ -7238,7 +7285,7 @@ function removePathTask(l) {
 }
 function syncPathTask(l) {
   if (!l) return;
-  const want = Number(l.minutes) > 0 && l.area && AREAS.some(a => a.id === l.area);
+  const want = l.countsElapsed !== false && Number(l.minutes) > 0 && l.area && AREAS.some(a => a.id === l.area);
   let t = data.tasks.find(x => x.id === l.taskId) || data.tasks.find(x => x.pathLogId === l.id) || null;
   if (!want) { removePathTask(l); return; }
   const p = pathById(l.pathId);
@@ -9405,6 +9452,16 @@ function backupFileName() {
 function isNativeCapacitor() {
   try { return !!(window.Capacitor && Capacitor.isNativePlatform && Capacitor.isNativePlatform()); } catch (e) { return false; }
 }
+// Breaks and drives are for the Android package. ?android=1 previews them in a browser before packaging. The web shell stays on v43.
+function plannerAndroid() {
+  try {
+    if (isNativeCapacitor()) {
+      const plat = window.Capacitor.getPlatform ? Capacitor.getPlatform() : "android";
+      return plat === "android";
+    }
+  } catch (e) {}
+  try { return new URLSearchParams(location.search).get("android") === "1"; } catch (e2) { return false; }
+}
 async function downloadBackup() {
   if (!sessionPass || !data) return;
   // v42: voice notes and photos go inside the same encrypted payload (base64 under __media).
@@ -10154,10 +10211,12 @@ function migratePlans(d) {
   d.plans = Array.isArray(d.plans) ? d.plans.filter(p => p && p.id && planAreaOk(p.area) && hmRe.test(String(p.start)) && hmRe.test(String(p.end)) && isoRe.test(String(p.from || ""))).map(p => {
     const every = [0, 1, 2, 3, 4].includes(Number(p.every)) ? Number(p.every) : 1;
     const days = Array.from(new Set((Array.isArray(p.days) ? p.days : []).map(Number).filter(n => n >= 0 && n <= 6))).sort();
+    const meta = (typeof HSGaps !== "undefined") ? HSGaps.migrateBlock(p) : { kind: p.kind === "drive" ? "drive" : "", listen: null, breaks: [] };
     return Object.assign({
       id: String(p.id), area: p.area, pathId: p.area === SLEEP_AREA ? "" : String(p.pathId || ""), title: String(p.title || "").slice(0, 120),
       start: p.start, end: p.end, every, days: every === 0 ? [parseISO(p.from).getDay()] : (days.length ? days : [parseISO(p.from).getDay()]),
-      from: p.from, until: isoRe.test(String(p.until || "")) ? p.until : "", source: p.source === "ics" || p.source === "phone" ? p.source : "", icsUid: String(p.icsUid || "")
+      from: p.from, until: isoRe.test(String(p.until || "")) ? p.until : "", source: p.source === "ics" || p.source === "phone" ? p.source : "", icsUid: String(p.icsUid || ""),
+      kind: p.area === SLEEP_AREA ? "" : meta.kind, listen: p.area === SLEEP_AREA ? null : meta.listen, breaks: meta.breaks
     }, p.source === "phone" ? { phoneKey: String(p.phoneKey || "") } : {});
   }) : [];
   const obj = v => (v && typeof v === "object" && !Array.isArray(v)) ? v : {};
@@ -10184,19 +10243,44 @@ function planOcc(p, date, withSkipped) {
   if (!planOccursOn(p, date)) return null;
   const key = planKey(p, date), ov = data.planDays[key] || {};
   if (ov.skip && !withSkipped) return null;
-  const o = Object.assign({ key, plan: p, date, area: p.area, pathId: p.pathId, title: p.title, start: p.start, end: p.end }, ov.skip ? {} : ov);
+  const o = Object.assign({
+    key, plan: p, date, area: p.area, pathId: p.pathId, title: p.title, start: p.start, end: p.end,
+    kind: p.kind === "drive" ? "drive" : "", listen: p.listen || null, breaks: Array.isArray(p.breaks) ? p.breaks : []
+  }, ov.skip ? {} : ov);
+  if (o.area === SLEEP_AREA || o.kind !== "drive") o.kind = "";
+  if (typeof HSGaps !== "undefined") {
+    const meta = HSGaps.migrateBlock({ start: o.start, end: o.end, area: o.area, kind: o.kind, breaks: o.breaks, listen: o.listen });
+    o.breaks = meta.breaks;
+    o.listen = o.kind === "drive" ? meta.listen : null;
+    if (o.kind !== "drive") o.kind = "";
+  }
   o.skipped = !!ov.skip; o.done = !!data.planDone[key];
   return o;
 }
 // Pieces of an occurrence by calendar day: [{ date, hours }]. 22:00-06:00 gives 2h on the day, 6h on the next.
-function occSegments(o) {
+function occSegmentsPlain(o) {
   const s = hmMin(o.start), e = hmMin(o.end);
   if (e > s) return [{ date: o.date, hours: (e - s) / 60 }];
   const out = [{ date: o.date, hours: (1440 - s) / 60 }];
   if (e > 0) out.push({ date: shift(o.date, 1), hours: e / 60 });
   return out;
 }
-function occHours(o) { return occSegments(o).reduce((t, x) => t + x.hours, 0); }
+// Work around breaks. A plain block, a drive, and sleep keep the old split (sleep 22:00–07:00 is still 2h + 7h).
+function occSegments(o) {
+  if (typeof HSGaps === "undefined") return occSegmentsPlain(o);
+  const map = [];
+  HSGaps.account(o).pieces.forEach(p => {
+    const hit = map.find(x => x.date === p.date);
+    if (hit) hit.hours += p.mins / 60;
+    else map.push({ date: p.date, hours: p.mins / 60 });
+  });
+  return map;
+}
+function occHours(o) {
+  if (typeof HSGaps === "undefined") return occSegments(o).reduce((t, x) => t + x.hours, 0);
+  return HSGaps.account(o).elapsed / 60;
+}
+function occSpanMins(o) { const sp = spanMins(o.start, o.end); return sp ? sp.mins : 0; }
 // Occurrences touching a day (starting that day, or overnight from the day before).
 function occsTouching(date, opts) {
   const out = [];
@@ -10228,14 +10312,34 @@ function overlapMins(r, ranges) {
 }
 // Minutes of o on that day that another block holds: a planned block loses what real events cover;
 // two real events set to "Split the time" each give up half of their overlap.
-function takenMins(o, date) {
-  const r = occDayRange(o, date); if (!r) return 0;
+function realCoverRanges(o, date) {
   const real = occsTouching(date).filter(x => x.key !== o.key && isRealOcc(x));
-  if (!isRealOcc(o)) return overlapMins(r, real.map(x => occDayRange(x, date)).filter(Boolean));
-  if (!o.split) return 0;
-  return overlapMins(r, real.filter(x => x.split).map(x => occDayRange(x, date)).filter(Boolean)) / 2;
+  if (!isRealOcc(o)) return real.map(x => occDayRange(x, date)).filter(Boolean);
+  if (!o.split) return [];
+  return real.filter(x => x.split).map(x => occDayRange(x, date)).filter(Boolean);
 }
-function occDayHours(o, date) { const r = occDayRange(o, date); return r ? Math.max(0, r[1] - r[0] - takenMins(o, date)) / 60 : 0; }
+function takenMins(o, date) {
+  const cover = realCoverRanges(o, date);
+  if (typeof HSGaps !== "undefined" && HSGaps.usesBreaks(o)) {
+    let t = 0;
+    HSGaps.account(o).pieces.forEach(p => {
+      if (p.date !== date) return;
+      t += overlapMins([p.start, p.end >= 1440 ? 1440 : p.end], cover);
+    });
+    return isRealOcc(o) && o.split ? t / 2 : t;
+  }
+  const r = occDayRange(o, date); if (!r) return 0;
+  const hit = overlapMins(r, cover);
+  return isRealOcc(o) && o.split ? hit / 2 : hit;
+}
+function occDayHours(o, date) {
+  if (typeof HSGaps !== "undefined" && HSGaps.usesBreaks(o)) {
+    const span = HSGaps.account(o).pieces.filter(p => p.date === date).reduce((t, p) => t + p.mins, 0);
+    return Math.max(0, span - takenMins(o, date)) / 60;
+  }
+  const r = occDayRange(o, date);
+  return r ? Math.max(0, r[1] - r[0] - takenMins(o, date)) / 60 : 0;
+}
 function shrunkNote(o) {
   if (isRealOcc(o)) return "";
   const segs = occSegments(o); let taken = 0; const names = new Set();
@@ -10249,7 +10353,19 @@ function plannedHoursFor(date) {
   // sleep on it would count the same night twice (9h logged + 9h planned = 18h). Only plan-confirmed sleep adds up.
   const sl = data.days && data.days[date] && data.days[date].sleep;
   const handSleep = !!(sl && sl.source !== "plan");
-  occsTouching(date).forEach(o => { if (o.done) return; if (o.area === SLEEP_AREA && handSleep) return; if (map[o.area] != null) map[o.area] += occDayHours(o, date); });
+  occsTouching(date).forEach(o => {
+    if (o.done) return;
+    if (o.area === SLEEP_AREA && handSleep) return;
+    if (map[o.area] != null) map[o.area] += occDayHours(o, date);
+    // Gap activities count toward their own areas. A lesson during a drive does not add hours.
+    if (typeof HSGaps !== "undefined" && HSGaps.usesBreaks(o)) {
+      const cover = realCoverRanges(o, date);
+      HSGaps.account(o).activities.forEach(p => {
+        if (p.date !== date || map[p.area] == null) return;
+        map[p.area] += Math.max(0, p.mins - overlapMins([p.start, p.end >= 1440 ? 1440 : p.end], cover)) / 60;
+      });
+    }
+  });
   return map;
 }
 function pendingOccs(date) { return occsTouching(date).filter(o => !o.done); }
@@ -10258,9 +10374,20 @@ function planLabel(o) {
   const area = o.area === SLEEP_AREA ? "Sleep" : fastLabel(o.area);
   return o.title || (p ? p.name : area);
 }
+function phonesSvg() {
+  return '<svg class="hs-phones" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12 3a8 8 0 0 0-8 8v7a2 2 0 0 0 2 2h2v-7H6v-1a6 6 0 0 1 12 0v1h-2v7h2a2 2 0 0 0 2-2v-7a8 8 0 0 0-8-8z"/></svg>';
+}
+function planMarksHtml(o) {
+  if (!o || o.kind !== "drive") return "";
+  return '<span class="drive-badge">Drive</span>' + (o.listen ? phonesSvg() + '<span class="sr-only">Listening during this drive</span>' : "");
+}
 function planSubLabel(o) {
   const p = o.pathId ? pathById(o.pathId) : null;
-  return [fmtClock(o.start) + "–" + fmtClock(o.end), o.area === SLEEP_AREA ? "Sleep" : fastLabel(o.area), p ? p.name : ""].filter(Boolean).join(" · ");
+  const bits = [fmtClock(o.start) + "–" + fmtClock(o.end), o.area === SLEEP_AREA ? "Sleep" : fastLabel(o.area), p ? p.name : ""];
+  if (o.kind === "drive") bits.push("Drive");
+  if (o.kind === "drive" && o.listen) bits.push(o.listen.title ? "Listening: " + o.listen.title : "Listening");
+  if (typeof HSGaps !== "undefined" && HSGaps.usesBreaks(o)) bits.push((o.breaks || []).length === 1 ? "1 break" : (o.breaks || []).length + " breaks");
+  return bits.filter(Boolean).join(" · ");
 }
 function fmtClock(hm) {
   const [h, m] = hm.split(":").map(Number);
@@ -10275,7 +10402,7 @@ function dayWord(date) {
 // (730 hours = one month of 24-hour days: 24 × 365 ÷ 12).
 function repeatsWeeklyHours() {
   return ((data && data.plans) || []).filter(p => p.every > 0 && (!p.until || p.until >= TODAY)).reduce((t, p) => {
-    const len = occHours({ start: p.start, end: p.end, date: p.from });
+    const len = occHours(p);
     return t + len * p.days.length / p.every;
   }, 0);
 }
@@ -10285,9 +10412,37 @@ function repeatsCostText() {
   return fillCopy(PLAN_COPY.cost, { h: fmtHours(Math.round(h * 10) / 10), m: fmtHours(Math.round(m * 10) / 10) });
 }
 // ---- Confirm: planned -> logged. Each piece becomes a path moment on its own day (sleep goes to the day's sleep).
+function planLog(fields) {
+  const l = Object.assign({ id: uid("pl"), pathId: "", date: "", did: "", better: "", rating: "", reps: null, repsUnit: "", pulls: [], steered: [],
+    journal: "", motive: "", clean: "", minutes: null, area: "", taskId: "", source: "plan", planKey: "", logged: true,
+    countsElapsed: true, alongside: "", gap: false, segment: "" }, fields);
+  data.pathLogs.push(l); syncPathTask(l);
+  return l;
+}
+// A lesson during a drive is recorded on its path and does not add hours. Nothing here asks you to read or type while driving.
+function confirmListen(o) {
+  if (!o || o.kind !== "drive" || !o.listen || !o.listen.pathId || !pathById(o.listen.pathId)) return;
+  const mins = Number(o.listen.minutes) > 0 ? Math.round(Number(o.listen.minutes)) : null;
+  planLog({ pathId: o.listen.pathId, date: o.date, did: o.listen.title || "", minutes: mins, area: o.listen.area,
+    planKey: o.key + "#listen", countsElapsed: false, alongside: o.key });
+}
+function confirmGapped(o) {
+  const acc = HSGaps.account(o);
+  const write = (p, area, pathId, title, extra) => {
+    if (!pathById(pathId) || !AREAS.some(a => a.id === area)) return;
+    const end = p.end >= 1440 ? 1440 : p.end;
+    const mins = Math.round(p.mins - overlapMins([p.start, end], realCoverRanges(o, p.date)));
+    if (!(mins > 0)) return;
+    planLog({ pathId, date: p.date, did: title || "", minutes: mins, area, planKey: o.key + extra, gap: extra.indexOf("#g") === 0,
+      segment: minHm(p.start) + "–" + (end >= 1440 ? "24:00" : minHm(end)) });
+  };
+  acc.pieces.forEach((p, i) => write(p, o.area, o.pathId, o.title, "#w" + i));
+  acc.activities.forEach((p, i) => write(p, p.area, p.pathId, p.title, "#g" + i));
+}
 function confirmOcc(o) {
   if (o.done) return;
-  occSegments(o).forEach(sg => {
+  if (typeof HSGaps !== "undefined" && HSGaps.usesBreaks(o)) confirmGapped(o);
+  else occSegments(o).forEach(sg => {
     const mins = Math.round(sg.hours * 60 - takenMins(o, sg.date)); // v42: a planned block logs only what real events left it
     if (!(mins > 0)) return;
     if (o.area === SLEEP_AREA) {
@@ -10301,10 +10456,9 @@ function confirmOcc(o) {
       return;
     }
     if (!pathById(o.pathId)) return;
-    const l = { id: uid("pl"), pathId: o.pathId, date: sg.date, did: o.title || "", better: "", rating: "", reps: null, repsUnit: "", pulls: [], steered: [],
-      journal: "", motive: "", clean: "", minutes: mins, area: o.area, taskId: "", source: "plan", planKey: o.key, logged: true };
-    data.pathLogs.push(l); syncPathTask(l);
+    planLog({ pathId: o.pathId, date: sg.date, did: o.title || "", minutes: mins, area: o.area, planKey: o.key });
   });
+  confirmListen(o);
   data.planDone[o.key] = TODAY;
 }
 function confirmDay(date) {
@@ -10332,7 +10486,7 @@ function runOver(date, key, newEnd) {
   const taken = {}; let takenMin = 0;
   list.filter(x => x.key !== o.key && !x.done).forEach(x => {
     const off = daysBetween(o.date, x.date) * 1440;
-    const xs = off + hmMin(x.start), xe = xs + Math.round(occHours(x) * 60);
+    const xs = off + hmMin(x.start), xe = xs + occSpanMins(x);
     const ovl = Math.max(0, Math.min(xe, nE) - Math.max(xs, oE));
     if (!(ovl > 0)) return;
     const cur = data.planDays[x.key] || {};
@@ -10502,7 +10656,7 @@ function renderPlanDay() {
   const list = occsTouching(date, { withSkipped: true });
   const past = date <= TODAY;
   document.getElementById("planDayList").innerHTML = list.length ? list.map(o =>
-    '<li class="' + (o.skipped ? "is-skipped" : "") + '" data-occ="' + esc(o.key) + '"><span class="pl-what">' + esc(planLabel(o)) + (o.done ? ' · Logged' : "") + '<small>' + esc(planSubLabel(o)) + '</small>' + (o.skipped ? "" : (n => n ? '<small class="shrunk-note">' + esc(n) + '</small>' : "")(shrunkNote(o))) + '</span><span class="row-actions" style="margin:0">' +
+    '<li class="' + (o.skipped ? "is-skipped" : "") + '" data-occ="' + esc(o.key) + '"><span class="pl-what">' + planMarksHtml(o) + esc(planLabel(o)) + (o.done ? ' · Logged' : "") + '<small>' + esc(planSubLabel(o)) + '</small>' + (o.skipped ? "" : (n => n ? '<small class="shrunk-note">' + esc(n) + '</small>' : "")(shrunkNote(o))) + '</span><span class="row-actions" style="margin:0">' +
     (o.done ? "" : o.skipped ? '<button type="button" class="btn" data-occ-unskip="' + esc(o.key) + '">Bring back</button>' :
       (past ? '<button type="button" class="btn primary" data-occ-confirm="' + esc(o.key) + '">Confirm</button>' : "") +
       '<button type="button" class="btn" data-occ-edit="' + esc(o.key) + '">Edit</button><button type="button" class="btn" data-occ-skip="' + esc(o.key) + '">Skip</button>' +
@@ -10528,7 +10682,7 @@ function renderPlanDay() {
   });
   document.getElementById("planDayAdd").onclick = () => openPlanEditor({ date });
 }
-function occAsPlan(o) { return { id: o.key.replace("|", "-"), area: o.area, pathId: o.pathId, title: o.title, start: o.start, end: o.end, every: 0, days: [parseISO(o.date).getDay()], from: o.date, until: "" }; }
+function occAsPlan(o) { return { id: o.key.replace("|", "-"), area: o.area, pathId: o.pathId, title: o.title, start: o.start, end: o.end, every: 0, days: [parseISO(o.date).getDay()], from: o.date, until: "", kind: o.kind || "", listen: o.listen || null, breaks: o.breaks || [] }; }
 // ---- Planned week sheet: repeats, their cost, calendar files, what the calendar shows
 function openPlanWeek() { renderPlanWeek(); openSheet(document.getElementById("planWeekDialog"), document.getElementById("planWeekTitle")); }
 function renderPlanWeek() {
@@ -10536,7 +10690,7 @@ function renderPlanWeek() {
   const reps = data.plans.filter(p => p.every > 0 && (!p.until || p.until >= TODAY));
   const ones = data.plans.filter(p => p.every === 0 && p.from >= TODAY);
   document.getElementById("planCost").textContent = reps.length ? repeatsCostText() : "";
-  const row = p => '<li><span class="pl-what">' + esc(planLabel(p)) + '<small>' + esc(planSubLabel(p) + " · " + planWhenText(p)) + '</small></span><span class="row-actions" style="margin:0"><button type="button" class="btn" data-plan-edit="' + esc(p.id) + '">Edit</button></span></li>';
+  const row = p => '<li><span class="pl-what">' + planMarksHtml(p) + esc(planLabel(p)) + '<small>' + esc(planSubLabel(p) + " · " + planWhenText(p)) + '</small></span><span class="row-actions" style="margin:0"><button type="button" class="btn" data-plan-edit="' + esc(p.id) + '">Edit</button></span></li>';
   document.getElementById("planRepeatList").innerHTML = reps.concat(ones).map(row).join("") || '<li><span class="pl-what hint">Nothing planned yet. Add the blocks you know, like work and sleep.</span></li>';
   document.querySelectorAll("#planRepeatList [data-plan-edit]").forEach(b => b.onclick = () => { const p = data.plans.find(x => x.id === b.dataset.planEdit); if (p) openPlanEditor({ plan: p }); });
 }
@@ -10561,7 +10715,14 @@ function openPlanEditor(opts) {
   const p = opts.plan || (opts.occ && opts.occ.plan) || null;
   // Remember the sheet we came from, so Save / Cancel go back to it.
   const back = document.getElementById("planDayDialog").open ? planDayDate : document.getElementById("planWeekDialog").open ? "week" : "";
-  planEdit = { mode, plan: opts.plan || null, occ: opts.occ || null, back };
+  const listen0 = (src && src.listen) || {};
+  planEdit = {
+    mode, plan: opts.plan || null, occ: opts.occ || null, back,
+    breaks: (typeof HSGaps !== "undefined") ? HSGaps.cloneBreaks(src && src.breaks) : [],
+    drive: !!(src && src.kind === "drive" && (!src.area || src.area !== SLEEP_AREA)),
+    listenOn: !!(src && src.kind === "drive" && src.listen)
+  };
+  planBreakDraft = null;
   const $ = id => document.getElementById(id);
   $("planPickHint").textContent = mode === "log" ? PICK_ONE : PICK_ONE_PLAN;
   $("planDialogTitle").textContent = mode === "log" ? "Log time" : mode === "occ" ? "Change this day" : (opts.plan ? "Edit planned block" : "Add a planned block");
@@ -10581,10 +10742,18 @@ function openPlanEditor(opts) {
   $("planDelete").hidden = !(mode === "plan" && opts.plan);
   $("planIcs").hidden = mode === "log";
   $("planErr").hidden = true;
+  $("listenArea").innerHTML = planAreaOptions(listen0.area || "", false);
+  $("listenPath").innerHTML = pathSelectHtml(listen0.pathId || (activePaths()[0] || {}).id);
+  $("listenTitle").value = listen0.title || "";
+  $("listenMins").value = Number(listen0.minutes) > 0 ? String(listen0.minutes) : "";
+  $("listenNewPath").value = "";
+  $("listenNewWrap").hidden = $("listenPath").value !== "__new";
   syncPlanForm();
+  renderPlanBreaks();
   openSheet($("planDialog"), $("planArea"));
 }
 let planDaysPick = [];
+let planBreakDraft = null;
 function syncPlanForm() {
   const $ = id => document.getElementById(id);
   const mode = planEdit ? planEdit.mode : "plan";
@@ -10603,12 +10772,164 @@ function syncPlanForm() {
   $("planUntilDateText").textContent = fillCopy(PLAN_COPY.untilDate, { date: $("planUntil").value ? prettyDate($("planUntil").value) : "a date" });
   $("planDays").innerHTML = DAY_SHORT.map((d, i) => '<button type="button" class="chip" data-plan-day="' + i + '" aria-pressed="' + (planDaysPick.includes(i) ? "true" : "false") + '" aria-label="' + DAY_NAMES[i] + '">' + d + '</button>').join("");
   document.querySelectorAll("[data-plan-day]").forEach(b => b.onclick = () => { const i = Number(b.dataset.planDay); planDaysPick = planDaysPick.includes(i) ? planDaysPick.filter(x => x !== i) : planDaysPick.concat([i]).sort(); syncPlanForm(); });
+  syncPlanExtras();
+}
+function syncPlanExtras() {
+  const $ = id => document.getElementById(id);
+  const mode = planEdit ? planEdit.mode : "plan";
+  const sleep = $("planArea").value === SLEEP_AREA;
+  const android = plannerAndroid() && typeof HSGaps !== "undefined" && mode !== "log" && !sleep;
+  const driveOn = android && !!(planEdit && planEdit.drive);
+  $("planDriveWrap").hidden = !android;
+  if ($("planIsDrive")) $("planIsDrive").checked = !!(planEdit && planEdit.drive);
+  $("planDriveSafe").hidden = !driveOn;
+  $("planDriveAreaHint").hidden = !driveOn;
+  $("planListenWrap").hidden = !driveOn;
+  if ($("planListenOn")) $("planListenOn").checked = !!(planEdit && planEdit.listenOn);
+  $("planListenFields").hidden = !(driveOn && planEdit && planEdit.listenOn);
+  $("planBreaksWrap").hidden = !android || driveOn;
+}
+function breakFormErr(msg) { const m = document.getElementById("breakErr"); m.textContent = msg; m.hidden = false; }
+function renderBreakActs() {
+  const host = document.getElementById("breakActs");
+  if (!host || !planBreakDraft) return;
+  host.innerHTML = (planBreakDraft.acts || []).map((a, i) =>
+    '<div class="break-act" data-act-i="' + i + '">' +
+    '<div class="time-row"><label class="field">Starts<input type="time" data-act="start" value="' + esc(a.start || "") + '" /></label><label class="field">Ends<input type="time" data-act="end" value="' + esc(a.end || "") + '" /></label></div>' +
+    '<label class="field">Area<select data-act="area">' + planAreaOptions(a.area || "", false) + '</select></label>' +
+    '<label class="field">Path<select data-act="path">' + pathSelectHtml(a.pathId || "") + '</select></label>' +
+    '<label class="field" data-act-new hidden>New path<input data-act="newpath" type="text" maxlength="60" value="' + esc(a.newPath || "") + '" /></label>' +
+    '<label class="field">What<input data-act="title" type="text" maxlength="120" value="' + esc(a.title || "") + '" /></label>' +
+    '<span class="chip-row" role="radiogroup" aria-label="Planned or actual"><button type="button" class="chip" data-act="when" data-when="planned" aria-pressed="' + (a.when === "actual" ? "false" : "true") + '">Planned</button><button type="button" class="chip" data-act="when" data-when="actual" aria-pressed="' + (a.when === "actual" ? "true" : "false") + '">Actual</button></span>' +
+    '<button type="button" class="tiny" data-act="remove">Remove</button></div>').join("");
+  host.querySelectorAll(".break-act").forEach(row => {
+    const i = Number(row.dataset.actI);
+    const act = planBreakDraft.acts[i];
+    const syncNew = () => { const np = row.querySelector("[data-act-new]"); if (np) np.hidden = row.querySelector('[data-act="path"]').value !== "__new"; };
+    row.querySelectorAll("[data-act]").forEach(el => {
+      const key = el.dataset.act;
+      if (key === "when") { el.onclick = () => { act.when = el.dataset.when; row.querySelectorAll('[data-act="when"]').forEach(b => b.setAttribute("aria-pressed", b === el ? "true" : "false")); }; return; }
+      if (key === "remove") { el.onclick = () => { planBreakDraft.acts.splice(i, 1); renderBreakActs(); }; return; }
+      el.addEventListener(el.tagName === "SELECT" ? "change" : "input", () => {
+        if (key === "start") act.start = el.value;
+        else if (key === "end") act.end = el.value;
+        else if (key === "area") act.area = el.value;
+        else if (key === "path") { act.pathId = el.value; syncNew(); }
+        else if (key === "title") act.title = el.value;
+        else if (key === "newpath") act.newPath = el.value;
+      });
+    });
+    syncNew();
+  });
+}
+function renderPlanBreaks() {
+  const list = document.getElementById("planBreakList");
+  const draft = document.getElementById("planBreakDraft");
+  if (!list || !planEdit) return;
+  const breaks = planEdit.breaks || [];
+  list.innerHTML = breaks.length ? breaks.map(b => {
+    const acts = (b.acts || []).map(a => esc((a.when === "actual" ? "Actual" : "Planned") + " · " + fmtClock(a.start) + "–" + fmtClock(a.end) + (a.title ? " · " + a.title : ""))).join("<br>");
+    return '<div class="break-card"><span class="pl-what"><b>' + esc(fmtClock(b.start) + "–" + fmtClock(b.end)) + '</b>' + (acts ? "<small>" + acts + "</small>" : "<small>Nothing in this gap yet.</small>") + '</span><span class="row-actions" style="margin:0"><button type="button" class="btn" data-break-edit="' + esc(b.id) + '">Edit</button><button type="button" class="btn" data-break-remove="' + esc(b.id) + '">Remove</button></span></div>';
+  }).join("") : "";
+  list.querySelectorAll("[data-break-edit]").forEach(btn => btn.onclick = () => openBreakDraft(breaks.find(b => b.id === btn.dataset.breakEdit)));
+  list.querySelectorAll("[data-break-remove]").forEach(btn => btn.onclick = () => { planEdit.breaks = HSGaps.removeBreak(planEdit.breaks, btn.dataset.breakRemove); renderPlanBreaks(); });
+  const open = !!planBreakDraft;
+  draft.hidden = !open;
+  document.getElementById("planAddBreak").hidden = open;
+  syncPlanTimesHint();
+  if (!open) return;
+  document.getElementById("breakStart").value = planBreakDraft.start || "";
+  document.getElementById("breakEnd").value = planBreakDraft.end || "";
+  document.getElementById("breakErr").hidden = true;
+  renderBreakActs();
+}
+function openBreakDraft(br) {
+  planBreakDraft = br ? HSGaps.cloneBreaks([br])[0] : { id: uid("br"), start: "", end: "", acts: [] };
+  if (!planBreakDraft.acts) planBreakDraft.acts = [];
+  renderPlanBreaks();
+  const start = document.getElementById("breakStart"); if (start) start.focus();
+}
+function saveBreakDraft() {
+  if (!planBreakDraft || typeof HSGaps === "undefined") return;
+  const d = planBreakDraft;
+  d.start = document.getElementById("breakStart").value;
+  d.end = document.getElementById("breakEnd").value;
+  const made = [];
+  const acts = [];
+  for (let i = 0; i < (d.acts || []).length; i++) {
+    const a = d.acts[i];
+    let pathId = a.pathId || "";
+    if (pathId === "__new") {
+      const name = String(a.newPath || "").trim().slice(0, 60);
+      if (!name) return breakFormErr("Name the path.");
+      const ex = (data.paths || []).find(x => !x.archived && x.name.toLowerCase() === name.toLowerCase());
+      if (ex) pathId = ex.id;
+      else { const np = { id: uid("pa"), name, img: PATH_DEFAULT_ICON, created: TODAY, active: true, archived: false, reminder: null }; made.push(np); pathId = np.id; }
+    }
+    acts.push({ id: a.id || uid("ba"), start: a.start, end: a.end, area: a.area || "", pathId, title: String(a.title || "").slice(0, 120), when: a.when === "actual" ? "actual" : "planned" });
+  }
+  const next = HSGaps.upsertBreak(planEdit.breaks, { id: d.id || uid("br"), start: d.start, end: d.end, acts });
+  const v = HSGaps.validateBreaks(document.getElementById("planStart").value, document.getElementById("planEnd").value, next);
+  if (!v.ok) return breakFormErr(v.error);
+  made.forEach(np => data.paths.push(np));
+  planEdit.breaks = v.breaks;
+  planBreakDraft = null;
+  renderPlanBreaks();
+}
+function resolvePathChoice(selId, newId) {
+  const pathId = document.getElementById(selId).value;
+  if (pathId !== "__new") return { pathId };
+  const name = document.getElementById(newId).value.trim().slice(0, 60);
+  if (!name) return { pathId: "", missingName: true };
+  const ex = (data.paths || []).find(x => !x.archived && x.name.toLowerCase() === name.toLowerCase());
+  if (ex) return { pathId: ex.id };
+  const made = { id: uid("pa"), name, img: PATH_DEFAULT_ICON, created: TODAY, active: true, archived: false, reminder: null };
+  return { pathId: made.id, made };
+}
+function readPlanExtras(start, end) {
+  if (!planEdit) return { kind: "", listen: null, breaks: [] };
+  const src = planEdit.occ || planEdit.plan || {};
+  if (typeof HSGaps === "undefined") return { kind: src.kind === "drive" ? "drive" : "", listen: src.listen || null, breaks: Array.isArray(src.breaks) ? src.breaks : [] };
+  const area = document.getElementById("planArea").value;
+  if (area === SLEEP_AREA) return { kind: "", listen: null, breaks: [] };
+  if (!(plannerAndroid())) {
+    const meta = HSGaps.migrateBlock(src);
+    return { kind: meta.kind, listen: meta.listen, breaks: meta.breaks };
+  }
+  if (planBreakDraft) { planFormErr("Save the break first, or cancel it."); return null; }
+  if (planEdit.drive) {
+    let listen = null;
+    if (planEdit.listenOn) {
+      const picked = resolvePathChoice("listenPath", "listenNewPath");
+      if (picked.missingName) { planFormErr("Name the path for the lesson.", document.getElementById("listenNewPath")); return null; }
+      const minsRaw = document.getElementById("listenMins").value;
+      const sp = spanMins(start, end);
+      const v = HSGaps.validateListen({
+        area: document.getElementById("listenArea").value, pathId: picked.pathId,
+        title: document.getElementById("listenTitle").value, minutes: minsRaw === "" ? null : Number(minsRaw)
+      }, sp ? sp.mins : null);
+      if (!v.ok) { planFormErr(v.error, document.getElementById("listenArea")); return null; }
+      if (picked.made) data.paths.push(picked.made);
+      listen = v.listen;
+    }
+    return { kind: "drive", listen, breaks: [] };
+  }
+  const v = HSGaps.validateBreaks(start, end, planEdit.breaks || []);
+  if (!v.ok) { planFormErr(v.error); return null; }
+  return { kind: "", listen: null, breaks: v.breaks };
 }
 function syncPlanTimesHint() {
   const el = document.getElementById("planTimesHint"); if (!el) return;
   const mode = planEdit ? planEdit.mode : "plan";
   el.hidden = mode === "log";
-  el.textContent = spanHintText(document.getElementById("planStart").value, document.getElementById("planEnd").value, { sameMsg: PLAN_COPY.sameTimes });
+  let text = spanHintText(document.getElementById("planStart").value, document.getElementById("planEnd").value, { sameMsg: PLAN_COPY.sameTimes });
+  const start = document.getElementById("planStart").value, end = document.getElementById("planEnd").value;
+  if (typeof HSGaps !== "undefined" && planEdit && HSGaps.usesBreaks({ area: document.getElementById("planArea").value, kind: planEdit.drive ? "drive" : "", start, end, breaks: planEdit.breaks })) {
+    const a = HSGaps.account({ start, end, area: document.getElementById("planArea").value, breaks: planEdit.breaks });
+    const around = a.breaks.length === 1 ? "the break" : "the breaks";
+    text = (text ? text + " · " : "") + fmtHours(a.workMins / 60) + "h of work around " + around;
+  }
+  el.textContent = text;
 }
 function planFormErr(msg, el) { const m = document.getElementById("planErr"); m.textContent = msg; m.hidden = false; if (el) el.focus(); }
 function readPlanForm() {
@@ -10648,9 +10969,10 @@ function savePlanForm() {
     save(); $("planDialog").close(); renderCheckin(); renderDerived(); showToast(loggedToast(l)); return;
   }
   if (!hmRe.test(f.start) || !hmRe.test(f.end) || f.start === f.end) { planFormErr("Pick a start and an end time.", $("planStart")); return; }
+  const extra = readPlanExtras(f.start, f.end); if (!extra) return;
   if (mode === "occ") {
     const o = planEdit.occ;
-    const ch = { area: f.area, pathId: f.pathId, title: f.title, start: f.start, end: f.end };
+    const ch = { area: f.area, pathId: f.pathId, title: f.title, start: f.start, end: f.end, kind: extra.kind, listen: extra.listen, breaks: extra.breaks };
     data.planDays[o.key] = Object.assign({}, data.planDays[o.key] || {}, ch); delete data.planDays[o.key].skip;
   } else {
     const every = Number($("planRepeat").value) || 0;
@@ -10658,7 +10980,7 @@ function savePlanForm() {
     if (every > 0 && !days.length) { planFormErr("Pick at least one day.", $("planDays").querySelector("button")); return; }
     const until = every > 0 && $("planUntilOn").checked ? $("planUntil").value : "";
     if (every > 0 && $("planUntilOn").checked && (!isoRe.test(until) || until < f.date)) { planFormErr("Pick an end date after the start.", $("planUntil")); return; }
-    const rec = { area: f.area, pathId: f.pathId, title: f.title, start: f.start, end: f.end, every, days, from: f.date, until };
+    const rec = { area: f.area, pathId: f.pathId, title: f.title, start: f.start, end: f.end, every, days, from: f.date, until, kind: extra.kind, listen: extra.listen, breaks: extra.breaks };
     if (planEdit.plan) Object.assign(planEdit.plan, rec);
     else data.plans.push(Object.assign({ id: uid("pn"), source: "", icsUid: "" }, rec));
   }
@@ -10698,24 +11020,61 @@ function icsSummary(p) {
   const path = p.pathId ? pathById(p.pathId) : null;
   return p.title || [path ? path.name : "", p.area === SLEEP_AREA ? "Sleep" : fastLabel(p.area)].filter(Boolean).join(" · ");
 }
+// A block with breaks is several busy times (the work segments and whatever fills a gap). A drive with a lesson stays one event.
+function expandGapEvents(p, opts) {
+  const out = [];
+  if (typeof HSGaps === "undefined" || !HSGaps.usesBreaks(p)) return out;
+  const horizonEnd = p.until && p.until < shift(TODAY, CAL_DAYS) ? p.until : shift(TODAY, CAL_DAYS);
+  const startAt = p.every === 0 ? p.from : (p.from > shift(TODAY, -1) ? p.from : shift(TODAY, -1));
+  const live = !!(data && Array.isArray(data.plans) && data.plans.indexOf(p) >= 0);
+  for (let i = 0, cur = startAt; cur <= horizonEnd && i < 400; i++, cur = shift(cur, 1)) {
+    if (!planOccursOn(p, cur)) continue;
+    let block = { date: cur, start: p.start, end: p.end, area: p.area, pathId: p.pathId, title: p.title, kind: p.kind || "", listen: p.listen || null, breaks: p.breaks || [], id: p.id };
+    if (live) {
+      const o = planOcc(p, cur);
+      if (!o) continue;
+      block = o;
+    }
+    HSGaps.calendarEvents(block).forEach((ev, n) => {
+      if (opts && opts.futureOnly && ev.date < TODAY) return;
+      const endClock = ev.end >= 1440 ? "00:00" : minHm(ev.end);
+      out.push({
+        id: (p.id || "pn") + "-" + ev.date + "-" + minHm(ev.start).replace(":", "") + "-" + ev.role + n,
+        area: ev.area || p.area, pathId: ev.pathId || "", title: ev.title || "",
+        start: minHm(ev.start), end: endClock, every: 0, days: [parseISO(ev.date).getDay()], from: ev.date, until: "",
+        kind: ev.role === "work" ? (block.kind || "") : "", listen: ev.role === "work" ? (block.listen || null) : null, breaks: []
+      });
+    });
+  }
+  return out;
+}
+function icsEmitList(plans) {
+  const flat = [];
+  (plans || []).forEach(p => {
+    if (typeof HSGaps !== "undefined" && HSGaps.usesBreaks(p)) expandGapEvents(p).forEach(ev => flat.push(ev));
+    else flat.push(p);
+  });
+  return flat.filter(p => (data.calShare || {})[p.area] !== "off");
+}
 function buildIcs(plans) {
-  plans = plans.filter(p => (data.calShare || {})[p.area] !== "off"); // v41: Leave off = never written to a calendar
+  const emit = icsEmitList(plans); // v41: Leave off = never written to a calendar
   const L = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Higher Self//v" + APP_VERSION + "//EN", "CALSCALE:GREGORIAN"];
   const stamp = icsUtcStamp(new Date());
-  plans.forEach(p => {
+  emit.forEach(p => {
     const d0 = firstOccDate(p), over = hmMin(p.end) <= hmMin(p.start);
     L.push("BEGIN:VEVENT", "UID:" + p.id + "@higher-self", "DTSTAMP:" + stamp, "DTSTART:" + icsDT(d0, p.start), "DTEND:" + icsDT(over ? shift(d0, 1) : d0, p.end));
     if (p.every > 0) {
       L.push("RRULE:FREQ=WEEKLY;INTERVAL=" + p.every + ";BYDAY=" + p.days.map(i => ICS_DAYS[i]).join(",") + (p.until ? ";UNTIL=" + p.until.replace(/-/g, "") + "T235959" : ""));
       Object.keys(data.planDays || {}).forEach(k => { const [id, dt] = k.split("|"); if (id === p.id && data.planDays[k].skip) L.push("EXDATE:" + icsDT(dt, p.start)); });
     }
+    if ((data.calShare || {})[p.area] === "show" && p.kind === "drive" && p.listen && p.listen.title) L.push("DESCRIPTION:" + icsEsc("Listening: " + p.listen.title));
     L.push("SUMMARY:" + icsEsc(icsSummary(p)), "TRANSP:OPAQUE", "END:VEVENT");
   });
   L.push("END:VCALENDAR");
   return L.map(icsFold).join("\r\n") + "\r\n";
 }
 function downloadIcs(plans, name) {
-  if (!plans.some(p => (data.calShare || {})[p.area] !== "off")) { showToast(plans.length === 1 ? "That area is set to Leave off, so it stays out of calendars." : "Those areas are set to Leave off, so they stay out of calendars."); return; }
+  if (!icsEmitList(plans).length) { showToast(plans.length === 1 ? "That area is set to Leave off, so it stays out of calendars." : "Those areas are set to Leave off, so they stay out of calendars."); return; }
   const blob = new Blob([buildIcs(plans)], { type: "text/calendar" });
   const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = name || "higher-self-plan.ics"; a.click();
   setTimeout(() => URL.revokeObjectURL(a.href), 2000);
@@ -10859,6 +11218,14 @@ function occRanges(p, date) {
   const out = [];
   [date, shift(date, -1)].forEach(st => {
     const o = planOcc(p, st); if (!o) return;
+    if (typeof HSGaps !== "undefined" && HSGaps.usesBreaks(o)) {
+      HSGaps.calendarEvents(o).forEach(ev => {
+        if (ev.date !== date) return;
+        const b = ev.end >= 1440 ? 1440 : ev.end;
+        if (b > ev.start) out.push([ev.start, b]);
+      });
+      return;
+    }
     const s = hmMin(o.start), e = hmMin(o.end);
     if (st === date) out.push([s, e > s ? e : 1440]);
     else if (e <= s && e > 0) out.push([0, e]);
@@ -10981,10 +11348,15 @@ function calDesired() {
     if (share === "off") return;
     const path = o.pathId ? pathById(o.pathId) : null;
     const title = share === "show" ? (o.title || (path ? path.name : areaName(o.area))) : "Busy";
-    want[key] = Object.assign({ calendarId: cs.writeId, uid: calUid(key), title, description: "", start: calLocalMs(o.date, o.start), durationMins: calLenMins(o.start, o.end), rrule: "", exdate: "" }, extra || {});
+    const description = share === "show" && o.kind === "drive" && o.listen && o.listen.title ? "Listening: " + o.listen.title : "";
+    want[key] = Object.assign({ calendarId: cs.writeId, uid: calUid(key), title, description, start: calLocalMs(o.date, o.start), durationMins: calLenMins(o.start, o.end), rrule: "", exdate: "" }, extra || {});
   };
   ((data && data.plans) || []).forEach(p => {
     if (p.source === "ics" || p.source === "phone") return;
+    if (typeof HSGaps !== "undefined" && HSGaps.usesBreaks(p)) {
+      expandGapEvents(p, { futureOnly: true }).forEach(item => ev(item.id, { date: item.from, area: item.area, pathId: item.pathId, title: item.title, start: item.start, end: item.end, kind: item.kind, listen: item.listen }));
+      return;
+    }
     if (p.every === 0) { if (p.from < TODAY) return; const o = planOcc(p, p.from); if (o) ev(p.id, o); return; }
     if (p.until && p.until < TODAY) return;
     const d0 = firstOccDate(p), ex = [], changed = [];
@@ -10993,10 +11365,10 @@ function calDesired() {
       const dt = k.slice(i + 1); if (!planOccursOn(p, dt)) return;
       const ov = data.planDays[k] || {};
       if (ov.skip) ex.push(dt);
-      else if (["area", "pathId", "title", "start", "end"].some(f => ov[f] != null && ov[f] !== p[f])) { ex.push(dt); if (dt >= TODAY && dt <= last) changed.push(dt); }
+      else if (["area", "pathId", "title", "start", "end", "kind"].some(f => ov[f] != null && ov[f] !== p[f]) || (ov.listen && JSON.stringify(ov.listen) !== JSON.stringify(p.listen || null)) || (ov.breaks && JSON.stringify(ov.breaks) !== JSON.stringify(p.breaks || []))) { ex.push(dt); if (dt >= TODAY && dt <= last) changed.push(dt); }
     });
     const rrule = "FREQ=WEEKLY;INTERVAL=" + p.every + ";WKST=SU;BYDAY=" + p.days.map(i => ICS_DAYS[i]).join(",") + (p.until ? ";UNTIL=" + calUtcStamp(calLocalMs(p.until, "23:59") + 59000) : "");
-    ev(p.id, { date: d0, area: p.area, pathId: p.pathId, title: p.title, start: p.start, end: p.end }, { rrule, exdate: ex.sort().map(dt => calUtcStamp(calLocalMs(dt, p.start))).join(",") });
+    ev(p.id, { date: d0, area: p.area, pathId: p.pathId, title: p.title, start: p.start, end: p.end, kind: p.kind, listen: p.listen }, { rrule, exdate: ex.sort().map(dt => calUtcStamp(calLocalMs(dt, p.start))).join(",") });
     changed.forEach(dt => { const o = planOcc(p, dt); if (o) ev(p.id + "|" + dt, o); }); // a one-day change is its own event
   });
   return want;
@@ -11280,10 +11652,30 @@ document.getElementById("planCancel").onclick = () => { document.getElementById(
 document.getElementById("planDelete").onclick = deletePlan;
 document.getElementById("planIcs").onclick = () => {
   const f = readPlanForm(); if (!f) return;
+  if (!hmRe.test(f.start) || !hmRe.test(f.end) || f.start === f.end) { planFormErr("Pick a start and an end time.", document.getElementById("planStart")); return; }
+  const extra = readPlanExtras(f.start, f.end); if (!extra) return;
   const every = planEdit && planEdit.mode === "plan" ? Number(document.getElementById("planRepeat").value) || 0 : 0;
-  const p = { id: (planEdit && planEdit.plan ? planEdit.plan.id : uid("pn")), area: f.area, pathId: f.pathId, title: f.title, start: f.start, end: f.end, every, days: every ? planDaysPick.slice() : [parseISO(f.date).getDay()], from: f.date, until: every && document.getElementById("planUntilOn").checked ? document.getElementById("planUntil").value : "" };
+  const p = { id: (planEdit && planEdit.plan ? planEdit.plan.id : uid("pn")), area: f.area, pathId: f.pathId, title: f.title, start: f.start, end: f.end, every, days: every ? planDaysPick.slice() : [parseISO(f.date).getDay()], from: f.date, until: every && document.getElementById("planUntilOn").checked ? document.getElementById("planUntil").value : "", kind: extra.kind, listen: extra.listen, breaks: extra.breaks };
   downloadIcs([p], "higher-self-" + (f.title || "block").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") + ".ics");
 };
+document.getElementById("planIsDrive").onchange = () => {
+  if (!planEdit) return;
+  planEdit.drive = document.getElementById("planIsDrive").checked;
+  if (planEdit.drive) planBreakDraft = null;
+  syncPlanExtras();
+  renderPlanBreaks();
+};
+document.getElementById("planListenOn").onchange = () => { if (!planEdit) return; planEdit.listenOn = document.getElementById("planListenOn").checked; syncPlanExtras(); };
+document.getElementById("listenPath").onchange = () => { document.getElementById("listenNewWrap").hidden = document.getElementById("listenPath").value !== "__new"; };
+document.getElementById("planAddBreak").onclick = () => openBreakDraft(null);
+document.getElementById("breakAddAct").onclick = () => {
+  if (!planBreakDraft) return;
+  planBreakDraft.acts = planBreakDraft.acts || [];
+  planBreakDraft.acts.push({ id: uid("ba"), start: document.getElementById("breakStart").value, end: document.getElementById("breakEnd").value, area: "", pathId: (activePaths()[0] || {}).id || "__new", title: "", when: "planned", newPath: "" });
+  renderBreakActs();
+};
+document.getElementById("breakDraftSave").onclick = () => saveBreakDraft();
+document.getElementById("breakDraftCancel").onclick = () => { planBreakDraft = null; renderPlanBreaks(); };
 document.getElementById("planDayDone").onclick = () => document.getElementById("planDayDialog").close();
 document.getElementById("planWeekDone").onclick = () => document.getElementById("planWeekDialog").close();
 document.getElementById("planWeekAdd").onclick = () => openPlanEditor({ date: TODAY });
