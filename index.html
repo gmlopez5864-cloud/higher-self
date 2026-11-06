@@ -7038,10 +7038,13 @@ function feedOtdHtml(list) {
 function feedChipHtml(val, label, on, icon, attr) {
   return '<button type="button" class="chip" ' + attr + '="' + esc(val) + '" aria-pressed="' + (on ? "true" : "false") + '">' + (icon || "") + '<span>' + esc(label) + '</span></button>';
 }
+function feedScreenOn() {
+  return currentScreen === "journal" || currentScreen === "feed" || document.documentElement.classList.contains("hs-all");
+}
 function renderFeed(keep) {
   const el = document.getElementById("feedPanel"); if (!el || !data) return;
   el.querySelectorAll("img[data-gv]").forEach(i => { const w = gv(i.dataset.gv); if (i.getAttribute("src") !== w) i.src = w; });
-  if (currentScreen !== "feed" && !document.documentElement.classList.contains("hs-all")) return;
+  if (!feedScreenOn()) return;
   const all = feedItems();
   const paths = feedPaths(all);
   if (feedSel !== "all" && feedSel !== "diary" && !paths.some(p => p.id === feedSel)) feedSel = "all";
@@ -7086,7 +7089,7 @@ function feedAppend(n) {
   if (done && feedList.length) start.textContent = fillCopy2(FEED_COPY.start, { date: feedLongDate(feedStartDate || feedList[feedList.length - 1].date) });
   feedLazy(ul);
   if (!done && "IntersectionObserver" in window) {
-    if (!feedMoreObs) feedMoreObs = new IntersectionObserver(es => { if (es.some(x => x.isIntersecting) && currentScreen === "feed") feedAppend(FEED_PAGE); }, { rootMargin: "600px 0px" });
+    if (!feedMoreObs) feedMoreObs = new IntersectionObserver(es => { if (es.some(x => x.isIntersecting) && feedScreenOn()) feedAppend(FEED_PAGE); }, { rootMargin: "600px 0px" });
     feedMoreObs.disconnect(); feedMoreObs.observe(more);
   } else if (feedMoreObs) feedMoreObs.disconnect();
 }
@@ -7147,7 +7150,7 @@ function renderFeedEntry() {
   }
 }
 document.getElementById("feedEntryClose").onclick = () => document.getElementById("feedEntryDialog").close();
-document.getElementById("feedEntryDialog").addEventListener("close", () => { sayStop(); feedEntryEditing = false; if (data && currentScreen === "feed") renderFeed(true); });
+document.getElementById("feedEntryDialog").addEventListener("close", () => { sayStop(); feedEntryEditing = false; if (data && feedScreenOn()) renderFeed(true); });
 document.getElementById("feedEntryEdit").onclick = () => {
   const it = feedFind(feedEntryRef); if (!it) return;
   if (it.e.full) { // the day's full-screen page: its own editor
@@ -7175,8 +7178,8 @@ document.getElementById("feedPanel").addEventListener("keydown", e => {
   const op = e.target.closest && e.target.closest(".rf-main[data-rf-open]");
   if (op && e.target === op) { e.preventDefault(); feedOpen(op.dataset.rfOpen); }
 });
-document.getElementById("pathLogDialog").addEventListener("close", () => { if (data && currentScreen === "feed") renderFeed(true); });
-document.getElementById("diaryFull").addEventListener("close", () => { if (data && currentScreen === "feed") renderFeed(true); });
+document.getElementById("pathLogDialog").addEventListener("close", () => { if (data && feedScreenOn()) renderFeed(true); });
+document.getElementById("diaryFull").addEventListener("close", () => { if (data && feedScreenOn()) renderFeed(true); });
 
 // ---------- Paths
 let editingPathId = null;

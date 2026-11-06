@@ -94,6 +94,16 @@ async function unlock(page, name, pass) {
   await sleep(300);
   return true;
 }
+async function clean(page) {
+  await page.evaluate(() => {
+    const g = document.getElementById("guideOverlay");
+    if (g) g.hidden = true;
+    const root = document.getElementById("appRoot");
+    if (root) root.removeAttribute("aria-hidden");
+    document.querySelectorAll("dialog[open]").forEach(d => { try { d.close(); } catch (e) {} });
+  });
+  await sleep(150);
+}
 async function catchDownloads(page) {
   await page.evaluate(() => {
     window.__dl = window.__dl || [];
@@ -113,4 +123,4 @@ async function catchDownloads(page) {
 async function lastDownload(page) {
   return page.evaluate(() => window.__dl[window.__dl.length - 1]);
 }
-module.exports = { APP, TMP, ORIGIN, sleep, suite, launch, phonePage, fresh, setup, lock, unlock, catchDownloads, lastDownload };
+module.exports = { APP, TMP, ORIGIN, sleep, suite, launch, phonePage, fresh, setup, lock, unlock, clean, catchDownloads, lastDownload };

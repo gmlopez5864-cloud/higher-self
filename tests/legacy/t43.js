@@ -15,6 +15,14 @@ async function launchMedia() { return puppeteer.launch({ executablePath: "/usr/b
 async function phone(browser, pre) {
   const page = await browser.newPage();
   await page.emulate({ viewport: { width: 412, height: 915, deviceScaleFactor: 2, isMobile: true, hasTouch: true }, userAgent: "Mozilla/5.0 (Linux; Android 14; Pixel 8) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0 Mobile Safari/537.36" });
+  try { await page.emulateTimezone("America/Phoenix"); } catch (e) {}
+  // The history cases are written for Wed 21 Oct 2026. The file said that pin; this is where it is applied.
+  await page.evaluateOnNewDocument(() => {
+    const fixed = Date.parse("2026-10-21T12:00:00-07:00");
+    const Real = Date;
+    function Fake(...args) { if (!(this instanceof Fake)) return Real(...args); if (args.length === 0) return new Real(fixed); return new Real(...args); }
+    Fake.prototype = Real.prototype; Fake.now = () => fixed; Fake.parse = Real.parse; Fake.UTC = Real.UTC; window.Date = Fake;
+  });
   if (pre) await page.evaluateOnNewDocument(pre);
   const errs = [];
   page.on("pageerror", e => errs.push("pageerror: " + e.message));
@@ -110,6 +118,7 @@ const feedState = page => page.evaluate(() => {
   ok("only the first page renders (25 cards), with 'Show older'", f.cards.length === 25 && f.more && !f.start, { n: f.cards.length, more: f.more });
   r = await page.evaluate(() => [...document.querySelectorAll("#feedList .rf-card")].slice(0, 3).map(c => ({ meta: c.querySelector(".rf-meta").innerText.replace(/[\u202f\u00a0]/g, " ").replace(/\s+/g, " "), pic: c.querySelector(".rf-pic").className, src: c.querySelector(".rf-pic").getAttribute("src") || "" })));
   ok("cards: path + date/time ('Martial artist Oct 21 · 1:40 PM'), path tile when no photo, the photo when there is one", r[0].meta === "Martial artist Oct 21 · 1:40 PM" && /glyphs128\/paths\/martial-artist\.png/.test(r[0].src) && /glyph/.test(r[0].pic) && r[1].meta === "Writer Oct 21 · 9:12 AM" && /is-photo/.test(r[1].pic), r);
+  await page.evaluate(() => document.querySelector("#feedList .rf-pic.is-photo").scrollIntoView({ block: "center" })); await sleep(700);
   r = await page.evaluate(() => { const img = document.querySelector("#feedList .rf-card .rf-pic.is-photo"); return { src: img.src.slice(0, 5), w: img.naturalWidth }; });
   ok("photo in view is decrypted and shown (blob:)", r.src === "blob:" && r.w > 0, r);
   r = await page.evaluate(() => { const imgs = [...document.querySelectorAll("#feedList img[data-rf-media]")]; return { total: imgs.length, asked: imgs.filter(i => i.dataset.rfAsked).length }; });
@@ -164,7 +173,7 @@ const feedState = page => page.evaluate(() => {
   ok("indent and warmth stop at the third step (nfn-0, nfn-1, nfn-2, nfn-2, ...)", (r.match(/class="nfn nfn-(\d)"/g) || []).map(x => x.match(/\d/)[0]).join("") === "01222", r.match(/nfn-\d/g));
   await page.evaluate(() => { data.lookBacks = data.lookBacks.filter(n => !/^cap/.test(n.id)); save(); });
   // pagination to the end
-  for (let i = 0; i < 6; i++) { await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight)); await sleep(350); }
+  for (let i = 0; i < 8; i++) { await page.evaluate(() => { const more = document.getElementById("feedMore"); if (more && !more.hidden) more.scrollIntoView({ block: "end" }); }); await sleep(400); }
   f = await feedState(page);
   const total = await page.evaluate(() => feedItems().length);
   ok("scrolling down loads older pages until the first entry", f.cards.length === total && !f.more, { n: f.cards.length, total });
@@ -227,11 +236,13 @@ const feedState = page => page.evaluate(() => {
   ok("the Diary shows notes from now under the entry too", r.length === 1 && /^From you, Oct 20, 2026: I know it was a hard day but we made it\./.test(r[0]), r);
   // reload: media + notes survive
   await A.lock(page); ok("unlock again", await A.unlock(page, "Sample", "sample-pass-1"));
-  await page.evaluate(() => openScreen("feed")); await sleep(900);
+  await page.evaluate(() => openScreen("feed")); await sleep(400);
+  await page.evaluate(() => { const img = document.querySelector("#feedList .rf-pic.is-photo"); if (img) img.scrollIntoView({ block: "center" }); }); await sleep(700);
   r = await page.evaluate(() => { const img = document.querySelector("#feedList .rf-pic.is-photo"); return { w: img && img.naturalWidth, notes: data.lookBacks.length }; });
   ok("after lock + unlock: photos load and notes are still there", r.w > 0 && r.notes === 3, r);
   await page.reload({ waitUntil: "networkidle0" }); await A.unlock(page, "Sample", "sample-pass-1"); await A.clean(page);
-  await page.evaluate(() => openScreen("feed")); await sleep(900);
+  await page.evaluate(() => openScreen("feed")); await sleep(400);
+  await page.evaluate(() => { const img = document.querySelector("#feedList .rf-pic.is-photo"); if (img) img.scrollIntoView({ block: "center" }); }); await sleep(700);
   r = await page.evaluate(async () => { const img = document.querySelector("#feedList .rf-pic.is-photo"); const v = data.diary.find(e => e.date === "2026-10-20").media[0]; const got = await loadMediaBytes(v.id); return { w: img && img.naturalWidth, voice: got && got.bytes.length, notes: data.lookBacks.length }; });
   ok("after a full reload: photos and voice notes decrypt, notes are there", r.w > 0 && r.voice > 1000 && r.notes === 3, r);
   // backup + restore into another profile
@@ -247,7 +258,8 @@ const feedState = page => page.evaluate(() => {
   let [chooser] = await Promise.all([page.waitForFileChooser(), page.click("#confirmDelete")]);
   await chooser.accept([bak]); await page.waitForSelector("#passDialog[open]", { timeout: 5000 });
   await page.type("#passInput", "sample-pass-1"); await page.click("#passOk"); await sleep(3000); await A.clean(page);
-  await page.evaluate(() => openScreen("feed")); await sleep(1000);
+  await page.evaluate(() => openScreen("feed")); await sleep(400);
+  await page.evaluate(() => { const img = document.querySelector("#feedList .rf-pic.is-photo"); if (img) img.scrollIntoView({ block: "center" }); }); await sleep(800);
   r = await page.evaluate(async () => { const img = document.querySelector("#feedList .rf-pic.is-photo"); const v = data.diary.find(e => e.date === "2026-10-20").media[0]; const got = await loadMediaBytes(v.id); return { w: img && img.naturalWidth, voice: got && got.bytes.length, notes: data.lookBacks.map(n => n.text), items: feedItems().length }; });
   ok("restored profile: the feed, its photos, voice notes and notes from now all came back", r.w > 0 && r.voice > 1000 && r.notes.length === 3 && r.notes.includes("I know it was a hard day but we made it.") && r.items === total, r);
   // themes: dark + picture background stay legible
@@ -295,9 +307,9 @@ const feedState = page => page.evaluate(() => {
   ok("your pulls get their own group after Addiction", r[1] === "From the book" && r[2] === "Addiction" && r[3] === "Yours" && r[r.length - 1] === "+ Add your own", r);
   await page.select("#plPullPick", cid); await sleep(150);
   r = await page.evaluate(() => ({ steered: plState.steered.slice(), first: [...document.getElementById("plSteerPick").options].map(o => o.text) }));
-  ok("picking the custom pull from the dropdown brings its steer; the steer dropdown still works", JSON.stringify(r.steered) === '["Reading"]' && r.first[0] === "Pick a steer" && r.first.includes("Patience"), r);
+  ok("picking the saved shadow does not record its steer; the list still offers Reading", r.steered.length === 0 && r.first[0] === "Pick a steer" && r.first.includes("Reading") && r.first.includes("Patience"), r);
   await page.select("#plSteerPick", "Patience"); await sleep(100);
-  ok("...and a steer picked from the dropdown is added", await page.evaluate(() => JSON.stringify(plState.steered) === '["Reading","Patience"]'));
+  ok("a steer is recorded only when it is chosen from the dropdown", await page.evaluate(() => JSON.stringify(plState.steered) === '["Patience"]'));
   await page.evaluate(() => document.getElementById("plCancel").click()); await sleep(150);
 
   // ---- planned block hint
