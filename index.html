@@ -1185,6 +1185,12 @@
   .nohours-item { margin: 0.1rem 0; font-size: 0.9rem; }
   .nohours-note { margin: 0.15rem 0 0; font-size: 0.75rem; }
   .shrunk-note { display: block; color: var(--muted); }
+  .drive-badge { font-size: 0.72rem; letter-spacing: 0.04em; text-transform: uppercase; border: 1px solid var(--border); border-radius: 999px; padding: 0.05rem 0.45rem; margin-right: 0.3rem; }
+  .hs-phones { width: 1.05rem; height: 1.05rem; vertical-align: -0.2rem; margin-right: 0.15rem; }
+  .drive-safe { font-weight: 600; }
+  .break-card, .break-act { border: 1px dashed var(--border); border-radius: 10px; padding: 0.45rem 0.6rem; margin: 0.35rem 0; }
+  .break-card .pl-what small { display: block; margin-top: 0.15rem; }
+  .break-act { background: var(--field); }
   .choice-lead { margin: 0 0 0.3rem; }
   /* v42 */
   .legend .swatch.plan-swatch { background: repeating-linear-gradient(45deg, var(--sw) 0 3px, #FFF8EB 3px 5px); border: 1px solid var(--sw); }
@@ -1229,6 +1235,38 @@
   .transcript { margin: 0; white-space: pre-wrap; }
   .transcript-note { margin: 0; font-size: 0.75rem; }
   .to-text { align-self: flex-start; }
+  /* v45: Journal is one screen. Goals, then the entry, then history. */
+  body[data-screen="journal"] #appRoot { display: flex; flex-direction: column; }
+  body[data-screen="journal"] #goalsPanel { order: 1; }
+  body[data-screen="journal"] #diaryPanel { order: 2; }
+  body[data-screen="journal"] #feedPanel { order: 3; }
+  body[data-screen="journal"] #pathsPanel { order: 4; }
+  body[data-screen="journal"] #recordSection { order: 5; }
+  body[data-screen="journal"] #replacementPanel { order: 6; }
+  body[data-screen="journal"] .app-footer { order: 20; }
+  body[data-screen="journal"] .split { display: contents !important; }
+  body[data-screen="journal"] #logList,
+  body[data-screen="journal"] #recordSection .record-filter { display: none; }
+  body[data-screen="journal"] #diaryFilter,
+  body[data-screen="journal"] #diaryTagArea,
+  body[data-screen="journal"] .diary-tag-title,
+  body[data-screen="journal"] #diaryTagPathWrap,
+  body[data-screen="journal"] #diaryTagPulls,
+  body[data-screen="journal"] #diaryTagSteered,
+  body[data-screen="journal"] .diary-nav { display: none; }
+  .ss-row { display: flex; gap: 0.25rem; align-items: center; flex-wrap: wrap; }
+  .ss-ico { width: 1.35rem; height: 1.35rem; object-fit: contain; }
+  .money-tabs { display: flex; flex-wrap: wrap; gap: 0.35rem; margin: 0.45rem 0 0.2rem; }
+  .money-tabs .chip, .home-tile, .pf-details > summary { min-height: 44px; }
+  #moneySection[data-tab="overview"] [data-pane]:not([data-pane~="overview"]),
+  #moneySection[data-tab="income"] [data-pane]:not([data-pane~="income"]),
+  #moneySection[data-tab="spending"] [data-pane]:not([data-pane~="spending"]),
+  #moneySection[data-tab="debts"] [data-pane]:not([data-pane~="debts"]),
+  #moneySection[data-tab="savings"] [data-pane]:not([data-pane~="savings"]) { display: none; }
+  .shadow-steer { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+  .unknown-day { padding: 0.35rem 0 0.6rem; }
+  #menuGoTitle, #menuGoList { display: none !important; }
+  @media (max-width: 360px) { .shadow-steer { grid-template-columns: 1fr; } .home-tile { font-size: 0.92rem; } }
 </style>
 </head>
 <body>
@@ -1274,10 +1312,10 @@
       </div>
     </div>
     <div id="noticeArea" data-scr="home"></div>
-    <section class="coach" id="coach" data-scr="week" aria-live="polite"></section>
-    <section class="coach week-card" id="weekNudges" data-scr="week" aria-live="polite" hidden></section>
+  <section class="coach" id="coach" data-scr="coach" aria-live="polite"></section>
+  <section class="coach week-card" id="weekNudges" data-scr="coach" aria-live="polite" hidden></section>
       
-      <div id="roadPanel" class="panel" data-scr="week" aria-labelledby="roadTitle">
+      <div id="roadPanel" class="panel" data-scr="coach" aria-labelledby="roadTitle">
         <h3 id="roadTitle" class="q-title">Your road</h3>
         <ul class="road-list" id="roadList"></ul>
         <p class="hint" id="roadText"></p>
@@ -1286,25 +1324,26 @@
   </header>
 
 
-  <div class="day-nav" id="dayNav" data-scr="home area week">
+  <div class="day-nav" id="dayNav" data-scr="home areas week">
     <button type="button" class="btn" id="weekPrev" aria-label="Earlier week">‹</button>
     <span class="week-label" id="weekLabel" aria-live="polite"></span>
     <button type="button" class="btn" id="weekNext" aria-label="Later week">›</button>
     <button type="button" class="btn" id="dayPickBtn" aria-haspopup="dialog">Go to a day</button>
     <button type="button" class="link-btn" id="dayToday" hidden>Back to today</button>
   </div>
-  <div class="strip" id="strip" data-scr="home area week" role="tablist" aria-label="Week, Sunday through Saturday"></div>
-  <p class="hint day-empty" id="dayEmpty" data-scr="home area" hidden>No entry.</p>
+  <div class="strip" id="strip" data-scr="home areas week" role="tablist" aria-label="Week, Sunday through Saturday"></div>
+  <p class="hint day-empty" id="dayEmpty" data-scr="home areas" hidden>No entry.</p>
   <nav class="home-tiles" id="homeTiles" data-scr="home" aria-label="Sections"></nav>
 
   <section class="panel" id="checkin" data-scr="week" aria-labelledby="checkinTitle">
     <h2 id="checkinTitle">Check-in</h2>
+    <div id="planCardCheckin"></div>
     <div id="checkinBody"></div>
   </section>
 
-  <div class="areas" id="areas" data-scr="area"></div>
+  <div class="areas" id="areas" data-scr="areas"></div>
 
-  <section class="panel" id="replacementPanel" data-scr="record" aria-labelledby="replTitle">
+  <section class="panel" id="replacementPanel" data-scr="journal" aria-labelledby="replTitle">
     <h2 id="replTitle">Replacement list</h2>
     <div class="book-slot"><img class="book" src="icons/shadow.jpg?v=43" alt="" /><span>When a pull hits</span></div>
     <p class="hint">Moves you picked ahead for when a pull hits.</p>
@@ -1317,8 +1356,9 @@
     <p class="hint">It may not make the pull leave. It gives you the next move.</p>
   </section>
 
-  <section class="panel" id="diaryPanel" data-scr="diary" aria-labelledby="diaryTitle">
-    <h2 id="diaryTitle">Diary</h2>
+  <section class="panel" id="diaryPanel" data-scr="journal" aria-labelledby="diaryTitle">
+    <h2 id="diaryTitle">Journal</h2>
+    <div class="row-actions"><button type="button" class="btn primary" id="journalAdd">Add entry</button></div>
     <div class="book-slot" title="Diary and shadow icons">
       <span class="book-set">
         <img class="book" src="icons/diary.jpg?v=43" alt="" />
@@ -1364,18 +1404,18 @@
       <div class="chip-row" id="diaryTagPulls"></div>
       <p class="q-title diary-tag-title">Steered to</p>
       <div class="chip-row" id="diaryTagSteered"></div>
-      <div class="row-actions"><button type="button" class="btn primary" id="diaryAdd">Add entry</button></div>
+      <div class="row-actions"><button type="button" class="btn primary" id="diaryAdd">Save</button></div>
     </div>
   </section>
 
-  <section class="panel" id="pathsPanel" data-scr="paths" aria-labelledby="pathsTitle">
+  <section class="panel" id="pathsPanel" data-scr="journal" aria-labelledby="pathsTitle">
     <h2 id="pathsTitle" class="title-book"><img class="book" src="icons/paths-section.jpg?v=43" alt="" />Your paths</h2>
     <div class="row-actions"><button type="button" class="btn primary" id="pathAddBtn">Add path</button><button type="button" class="btn" id="pathManageBtn">Manage paths</button></div>
     <p class="hint">Martial artist, writer, father, husband, whatever you're walking.</p>
     <div id="pathList"></div>
   </section>
 
-  <section class="panel feed-panel" id="feedPanel" data-scr="feed" aria-labelledby="feedTitle">
+  <section class="panel feed-panel" id="feedPanel" data-scr="journal" aria-labelledby="feedTitle">
     <h2 id="feedTitle" class="title-book"><img class="book glyph" data-gv="feed/feed.png" alt="" />Your road</h2>
     <p class="hint">What you wrote and walked, newest first.</p>
     <div id="feedFilters">
@@ -1395,11 +1435,11 @@
     <p class="rf-start" id="feedStart" hidden></p>
   </section>
 
-  <section class="panel" id="goalsPanel" data-scr="goals" aria-labelledby="goalsTitle"><h2 id="goalsTitle" class="title-book">Goals</h2><div class="row-actions"><button type="button" class="btn primary" id="goalsAdd">Add goal</button></div><ul class="entry-list" id="goalsList"></ul></section>
+  <section class="panel" id="goalsPanel" data-scr="journal" aria-labelledby="goalsTitle"><h2 id="goalsTitle" class="title-book"><img class="book glyph" data-gv="home/goals.png" alt="" />Goals</h2><div class="row-actions"><button type="button" class="btn primary" id="goalsAdd">Add goal</button></div><ul class="entry-list" id="goalsList"></ul></section>
   <p class="returns-line" id="returnsLine" data-scr="week" hidden></p>
 
   <div class="split">
-    <section class="side" id="recordSection" data-scr="record" aria-labelledby="logTitle">
+    <section class="side" id="recordSection" data-scr="journal" aria-labelledby="logTitle">
       <h2 id="logTitle">The Record</h2>
       <p class="hint">Did you notice the pull and steer it? That's the record.</p>
       <p class="hint">The day, not your worth.</p>
@@ -1413,13 +1453,20 @@
         <ul class="entry-list" id="monthPast"></ul>
       </div>
     </section>
-    <section class="side" id="moneySection" data-scr="money" aria-labelledby="moneyTitle">
+    <section class="side" id="moneySection" data-scr="money" data-tab="overview" aria-labelledby="moneyTitle">
       <h2 id="moneyTitle" class="title-book"><img class="book" src="icons/money.jpg?v=43" alt="" />Money tracker</h2>
       <div class="row-actions screen-only"><button type="button" class="btn primary" id="moneyAddHere">Add money</button></div>
-      <div class="account-grid" id="accountGrid"></div>
-      <ul class="acct-targets" id="accountTargets" hidden></ul>
-      <p class="week-sum" id="weekSum"></p>
-      <div class="subpanel month-panel" id="monthPanel">
+      <div class="chip-row money-tabs" id="moneyTabs" role="group" aria-label="Money">
+        <button type="button" class="chip" data-money-tab="overview" aria-pressed="true">Overview</button>
+        <button type="button" class="chip" data-money-tab="income" aria-pressed="false">Income</button>
+        <button type="button" class="chip" data-money-tab="spending" aria-pressed="false">Spending</button>
+        <button type="button" class="chip" data-money-tab="debts" aria-pressed="false">Debts</button>
+        <button type="button" class="chip" data-money-tab="savings" aria-pressed="false">Savings</button>
+      </div>
+      <div class="account-grid" id="accountGrid" data-pane="overview"></div>
+      <ul class="acct-targets" id="accountTargets" data-pane="overview" hidden></ul>
+      <p class="week-sum" id="weekSum" data-pane="overview"></p>
+      <div class="subpanel month-panel" id="monthPanel" data-pane="overview">
         <div class="month-nav">
           <button type="button" class="day-arrow" id="monthPrev" aria-label="Previous month">‹</button>
           <h3 id="monthTitle" aria-live="polite"></h3>
@@ -1430,7 +1477,7 @@
         <button type="button" class="link-btn" id="monthNow" hidden>This month</button>
         <div id="monthTotals"></div>
       </div>
-      <div class="subpanel" id="moneyPiePanel">
+      <div class="subpanel" id="moneyPiePanel" data-pane="overview">
         <h3 id="moneyPieTitle">Where your money goes</h3>
         <div class="chip-row" id="moneyPieToggle" role="radiogroup" aria-labelledby="moneyPieTitle">
           <button type="button" class="chip" role="radio" data-mrange="month" aria-pressed="true" aria-checked="true">Month</button>
@@ -1438,21 +1485,21 @@
         </div>
         <div class="money-pie-wrap" id="moneyPie"></div>
       </div>
-      <div class="subpanel" id="activityPanel">
+      <div class="subpanel" id="activityPanel" data-pane="overview income spending">
         <h3 id="activityTitle">This month</h3>
         <p class="hint" id="activityHint" style="margin:0 0 0.3rem">Tap an entry to change it.</p>
         <ul class="money-list" id="moneyList"></ul>
         <button type="button" class="tiny" id="moneyListMore" hidden style="font-size:0.85rem;padding:0.4rem 0.2rem">Show all</button>
       </div>
-      <div class="subpanel" id="repeatsPanel" hidden>
+      <div class="subpanel" id="repeatsPanel" data-pane="spending" hidden>
         <h3>Coming up</h3>
         <p class="hint" style="margin:0 0 0.3rem">Bills and repeats due this month.</p>
         <ul class="money-list" id="repeatList"></ul>
       </div>
-      <div class="time-row" style="margin-top:0.55rem">
+      <div class="time-row" data-pane="overview" style="margin-top:0.55rem">
         <button type="button" class="btn" id="btnAddAccount">Add account</button>
       </div>
-      <div class="subpanel" id="debtPanel">
+      <div class="subpanel" id="debtPanel" data-pane="debts">
         <h3>Debts</h3>
         <div class="offer" id="debtBillBanner" role="status" hidden>
           <p style="margin:0">Set the day each bill is paid, and it&#39;ll show in your spending.</p>
@@ -1462,7 +1509,7 @@
         <button type="button" class="btn" id="btnAddDebt">Add debt</button>
         <div id="payoffPlans" hidden></div>
       </div>
-      <div class="subpanel" id="savingsPanel">
+      <div class="subpanel" id="savingsPanel" data-pane="savings">
         <h3>Savings and investments</h3>
         <div class="debt-list" id="savingsList"></div>
         <button type="button" class="btn" id="btnAddSavings">Add savings or investment</button>
@@ -1880,7 +1927,24 @@
 </dialog>
 <dialog id="optionsDialog" class="wide">
   <h3>Settings</h3>
-  <div class="row-actions"><button type="button" class="btn" id="optThemes">Themes</button><button type="button" class="btn" id="optArrange">Arrange areas</button></div>
+  <div class="subpanel" id="lookPanel">
+    <h3>Look</h3>
+    <p class="hint">Theme, guide, and icons. Customize only if you want to.</p>
+    <div class="row-actions"><button type="button" class="btn" id="optThemes">Themes</button><button type="button" class="btn" id="optArrange">Arrange areas</button><button type="button" class="btn" id="optGuide">Guide</button></div>
+  </div>
+  <div class="subpanel" id="savingPanel">
+    <h3>Saving</h3>
+    <p class="hint">Higher Self does not sign in to Google. The backup file is already encrypted. Nothing is uploaded unless you pick a place, such as Drive, in the phone's save sheet.</p>
+    <button type="button" class="btn" id="btnDriveBackup" hidden>Save encrypted backup</button>
+  </div>
+  <div class="subpanel" id="securityPanel">
+    <h3>Security</h3>
+    <label class="field">Days stay open after midnight (hours)<input id="graceHours" type="number" min="1" max="336" step="1" value="48" /></label>
+    <p class="hint">After this, a day with nothing recorded says Not logged. It is not a bad day. Default 48 hours.</p>
+    <button type="button" class="btn" id="btnBioOn" hidden>Use fingerprint to unlock</button>
+    <button type="button" class="btn" id="btnBioOff" hidden>Turn off fingerprint</button>
+    <p class="hint" id="bioHint" hidden>Your passphrase still opens the app. A new fingerprint removes this shortcut.</p>
+  </div>
   <div class="subpanel" id="iconStylePanel">
     <h3 id="iconStyleTitle">Icon style</h3>
     <p class="hint" id="iconStyleHint">Pick who walks your path.</p>
@@ -2019,7 +2083,8 @@
   <div class="actions">
     <button type="button" class="btn" id="plDelete" hidden>Remove</button>
     <button type="button" class="btn" id="plCancel">Cancel</button>
-    <button type="button" class="btn primary" id="plSave">Log it</button>
+    <button type="button" class="btn" id="plAnother">Log another</button>
+    <button type="button" class="btn primary" id="plSave">Save</button>
   </div>
 </dialog>
 
@@ -2102,6 +2167,41 @@
     <label class="check-line"><input type="radio" name="planUntilMode" id="planUntilOn" /><span id="planUntilDateText">Until a date</span></label>
     <label class="field" style="max-width:12rem">End date<input id="planUntil" type="date" /></label>
   </fieldset>
+  <div id="planBreaksWrap" hidden>
+    <p class="q-title" style="font-size:0.95rem;margin:0.7rem 0 0.2rem">Breaks</p>
+    <div id="planBreakList"></div>
+    <div id="planBreakDraft" hidden>
+      <div class="time-row">
+        <label class="field">Break starts<input id="breakStart" type="time" /></label>
+        <label class="field">Break ends<input id="breakEnd" type="time" /></label>
+      </div>
+      <div id="breakActs"></div>
+      <button type="button" class="btn" id="breakAddAct">What did you do during this break?</button>
+      <p class="short-note" id="breakErr" role="alert" hidden></p>
+      <div class="row-actions">
+        <button type="button" class="btn" id="breakDraftCancel">Cancel</button>
+        <button type="button" class="btn primary" id="breakDraftSave">Save break</button>
+      </div>
+    </div>
+    <button type="button" class="btn" id="planAddBreak">Add a break</button>
+  </div>
+  <div id="planDriveWrap" hidden>
+    <label class="check-line"><input type="checkbox" id="planIsDrive" /> <span>This is a drive</span></label>
+    <p class="hint drive-safe" id="planDriveSafe" hidden>Choose audio before you leave. Keep your attention on the road.</p>
+    <p class="hint" id="planDriveAreaHint" hidden>A drive counts toward the area above. That can be work, or another area.</p>
+    <div id="planListenWrap" hidden>
+      <label class="check-line"><input type="checkbox" id="planListenOn" /> <span>Listen during this drive <svg class="hs-phones" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12 3a8 8 0 0 0-8 8v7a2 2 0 0 0 2 2h2v-7H6v-1a6 6 0 0 1 12 0v1h-2v7h2a2 2 0 0 0 2-2v-7a8 8 0 0 0-8-8z"/></svg></span></label>
+      <div id="planListenFields" hidden>
+        <label class="field">Area for the lesson<select id="listenArea"></select></label>
+        <label class="field">Path<select id="listenPath"></select></label>
+        <label class="field" id="listenNewWrap" hidden>New path<input id="listenNewPath" type="text" maxlength="60" /></label>
+        <label class="field">Audiobook or lesson<input id="listenTitle" type="text" maxlength="120" placeholder="Name it before you leave" /></label>
+        <label class="field">Minutes (optional)<input id="listenMins" type="number" min="1" max="1440" step="1" inputmode="numeric" /></label>
+        <p class="hint">Quiet driving is fine. You don't have to fill the drive.</p>
+        <p class="hint">Set the lesson before you leave. Higher Self won't ask you to read or type while you drive.</p>
+      </div>
+    </div>
+  </div>
   <p class="short-note" id="planErr" role="alert" hidden></p>
   <div class="actions" style="flex-wrap:wrap">
     <button type="button" class="tiny" id="planDelete" hidden>Remove</button>
@@ -2201,6 +2301,7 @@
 <input type="file" id="icsFile" accept=".ics,text/calendar" hidden />
 <input type="file" id="restoreFile" accept=".hsbak,.json,application/json,application/octet-stream" hidden />
 
+<script src="planner-gaps.js"></script>
 <script>
 // Time-pie coach thresholds. Soft and optional: edit these, or set one to null to turn that flag off.
 // Hours are a rolling 7 days ending on the selected day. There is no equal-time rule.
@@ -2427,7 +2528,7 @@ const PATH_ICON_LABELS = {
 const PATH_WRESTLING_ICON = "icons/paths/wrestling.jpg";
 // Icon cache-bust: same filenames were re-cut, so every rendered icon URL carries ?v=. Stored data keeps plain paths.
 const ICON_VER = "43";
-const APP_VERSION = "43"; // shown in Settings as "Version 40"; bump with sw.js CACHE
+const APP_VERSION = "43"; // web shell stays 43. Do not bump this or sw.js CACHE for the Android planner; that would publish a web release.
 const REPORT_EMAIL = "gmlopez5864@gmail.com";
 const LOGO_SRC = "icons/logo.jpg"; // swap the app logo here (header, menu button, vault screens)
 function plainIcon(src) { return String(src || "").split("?")[0]; }
@@ -2738,8 +2839,8 @@ const PATH_STEP_COPY = {
   aimQ: "What would the better version of you on this path do?",
   steer: "Steer.",
   steerQ: "What pulled at you, and what did you steer toward?",
-  pullsLabel: "Pulls that showed up",
-  steeredLabel: "Steered to",
+  pullsLabel: "Shadow",
+  steeredLabel: "Steer",
   clean: "Clean spirit.",
   reasonQ: REASON_Q,
   reasonSub: "Would you have done it without the credit, or without the anger you walked in with?",
@@ -2749,8 +2850,8 @@ const PATH_STEP_COPY = {
   reasonNote: "Private. Only you can open it.",
   showReason: "Show my reason",
   writeReason: "Write the reason",
-  logIt: "Log it",
-  logAnother: "Log another moment",
+  logIt: "Save",
+  logAnother: "Log another",
   logged: "Logged",
   todayOne: "1 moment today",
   todayMany: n => n + " moments today",
@@ -2999,21 +3100,29 @@ function migrateLegacy(raw) {
     d.paths.forEach(p => { if (/wrestl/i.test(p.name) && (p.img === PATH_DEFAULT_ICON || p.img === "icons/paths/martial-artist.jpg")) p.img = PATH_WRESTLING_ICON; });
     d.migrated.wrestlingIcon = true;
   }
-  d.pathLogs = Array.isArray(d.pathLogs) ? d.pathLogs.filter(l => l && l.pathId && typeof l.date === "string").map(l => ({
-    id: l.id || uid("pl"), pathId: l.pathId, date: l.date,
-    motive: String(l.motive || ""), clean: ["yes", "notfully"].includes(l.clean) ? l.clean : "", logged: l.logged !== false,
-    did: String(l.did || ""), better: String(l.better || ""),
-    rating: ["good", "neutral", "bad"].includes(l.rating) ? l.rating : "",
-    reps: l.reps == null || l.reps === "" || Number.isNaN(Number(l.reps)) ? null : Number(l.reps),
-    pulls: (Array.isArray(l.pulls) ? l.pulls.filter(x => typeof x === "string" && x) : (l.pull ? [String(l.pull)] : [])).slice(0, 5),
-    steered: (Array.isArray(l.steered) ? l.steered.filter(x => typeof x === "string" && x.trim()).map(x => x.trim()) : []).slice(0, 5),
-    repsUnit: String(l.repsUnit || ""),
-    minutes: Number(l.minutes) > 0 ? Number(l.minutes) : null,
-    area: (typeof l.area === "string" && AREAS.some(a => a.id === l.area)) ? l.area : "",
-    taskId: typeof l.taskId === "string" ? l.taskId : "",
-    journal: String(l.journal || ""), source: l.source === "checkin" ? "checkin" : l.source === "plan" ? "plan" : "log",
-    planKey: typeof l.planKey === "string" ? l.planKey : ""
-  })) : [];
+  d.pathLogs = Array.isArray(d.pathLogs) ? d.pathLogs.filter(l => l && typeof l.date === "string" && (l.pathId || l.general === true)).map(l => {
+    const row = {
+      id: l.id || uid("pl"), pathId: l.pathId || "", date: l.date,
+      motive: String(l.motive || ""), clean: ["yes", "notfully"].includes(l.clean) ? l.clean : "", logged: l.logged !== false,
+      did: String(l.did || ""), better: String(l.better || ""),
+      rating: ["good", "neutral", "bad"].includes(l.rating) ? l.rating : "",
+      reps: l.reps == null || l.reps === "" || Number.isNaN(Number(l.reps)) ? null : Number(l.reps),
+      pulls: (Array.isArray(l.pulls) ? l.pulls.filter(x => typeof x === "string" && x) : (l.pull ? [String(l.pull)] : [])).slice(0, 5),
+      steered: (Array.isArray(l.steered) ? l.steered.filter(x => typeof x === "string" && x.trim()).map(x => x.trim()) : []).slice(0, 5),
+      repsUnit: String(l.repsUnit || ""),
+      minutes: Number(l.minutes) > 0 ? Number(l.minutes) : null,
+      area: (typeof l.area === "string" && AREAS.some(a => a.id === l.area)) ? l.area : "",
+      taskId: typeof l.taskId === "string" ? l.taskId : "",
+      journal: String(l.journal || ""), source: l.source === "checkin" ? "checkin" : l.source === "plan" ? "plan" : "log",
+      planKey: typeof l.planKey === "string" ? l.planKey : ""
+    };
+    // New log fields stay only when that record already had them. Older moments are not rewritten.
+    if (typeof HSGaps !== "undefined") HSGaps.keepLogMeta(row, l);
+    if (Array.isArray(l.pathIds)) row.pathIds = l.pathIds.filter(x => typeof x === "string" && x).slice(0, 8);
+    if (l.general === true) row.general = true;
+    if (typeof l.linkedDiary === "string" && l.linkedDiary) row.linkedDiary = l.linkedDiary;
+    return row;
+  }) : [];
   // v43: "Note from now". Separate records under an entry (ref "d:<diary id>" or "pl:<path log id>"); the entry itself
   // is never touched. Notes whose entry is gone are dropped.
   {
@@ -3704,13 +3813,25 @@ function renderCheckin() {
       '<div class="time-row"><label class="field">Bedtime<input id="bed" type="time" /></label><label class="field">Wake<input id="wake" type="time" /></label><button type="button" class="btn" id="saveSleep">Save sleep</button></div>' +
       '<p class="hint" id="sleepPreview" aria-live="polite"></p>';
   }
-  const body =
+  const stand = standingFor(date);
+  let dayNote = "";
+  if (stand === "unknown") dayNote = '<div class="unknown-day"><p class="q-title">' + esc(HSGaps.UNKNOWN_DAY.title) + '</p><p>' + esc(HSGaps.UNKNOWN_DAY.body) + '</p></div>';
+  else if (stand === "none") dayNote = '<div class="unknown-day"><p class="q-title">' + esc(HSGaps.NONE_DAY.title) + '</p><p>' + esc(HSGaps.NONE_DAY.body) + '</p></div>';
+  else if (date < TODAY && dayRecorded(date)) dayNote = '<p class="hint">Editing a day you already recorded.</p>';
+  else if (date < TODAY) dayNote = '<p class="hint">Filling in a day that was not recorded yet.</p><div class="row-actions"><button type="button" class="btn" id="markNone">Nothing happened</button></div>';
+  const body = dayNote +
     '<div class="sleep-row"><p class="q-title title-book"><img class="book" src="icons/sleep.jpg?v=43" alt="" />How did last night go?</p>' + sleepHtml + '</div>' +
     pathCheckinHtml(date);
   document.getElementById("checkinBody").innerHTML = body;
   if (editing && sleep.source === "times") { const b = document.getElementById("bed"), w = document.getElementById("wake"); if (b) b.value = sleep.bed || ""; if (w) w.value = sleep.wake || ""; }
   bindCheckin();
   bindPathCheckin(date);
+  const markNone = document.getElementById("markNone");
+  if (markNone) markNone.onclick = () => {
+    if (!data.dayMarks) data.dayMarks = {};
+    data.dayMarks[date] = "none";
+    save(); renderCheckin();
+  };
 }
 function checkinSteerChips(d) {
   return steerChipRowHtml(d.pulls, d.steeredTo, "data-cisteer", "ci");
@@ -4926,13 +5047,14 @@ function renderActivity() {
     const tail = " · " + (acc ? acc.name : "?") + " · " + prettyDate(m.date) + (goal ? " · toward " + goal.title : "");
     const pl = plannedFor(m), edited = pl != null && Math.abs(pl - Number(m.amount)) > 0.004;
     const amtTxt = edited ? "Planned " + moneyPlain(pl) + " · " + (m.type === "income" ? "Got " : "Spent ") + moneyPlain(m.amount) : moneyFmt(amt);
-    return '<li class="act"><button type="button" class="act-row" data-money="' + esc(m.id) + '" aria-label="Edit ' + esc(moneyRowLabel(m) + " " + amtTxt + tail) + '"><span class="act-main">' + esc(moneyRowLabel(m) + " · ") +
+    return '<li class="act" data-mtype="' + esc(m.type || "") + '"><button type="button" class="act-row" data-money="' + esc(m.id) + '" aria-label="Edit ' + esc(moneyRowLabel(m) + " " + amtTxt + tail) + '"><span class="act-main">' + esc(moneyRowLabel(m) + " · ") +
       '<span class="act-amt ' + (amt < 0 ? "money-neg" : "money-pos") + '">' + esc(amtTxt) + '</span>' + esc(tail) +
       (rp && rp.active ? '<span class="act-tag">' + esc(repeatTag(rp)) + '</span>' : "") + '</span></button></li>';
   }).join("") + projHtml;
   more.hidden = rows.length <= 12; more.textContent = activityShowAll ? "Show less" : "Show all";
   list.querySelectorAll("[data-money]").forEach(b => b.onclick = () => openMoneyDialog(b.dataset.money));
   bindProjRows(list);
+  applyMoneyTab();
 }
 function projRowHtml(x) {
   const name = x.kind === "save" ? x.label + " savings" : x.kind === "debt" ? x.label + " payment" : moneyRowLabel(x);
@@ -5881,7 +6003,7 @@ function syncMoneyOther() {
 }
 
 document.querySelectorAll(".themes button").forEach(btn => { btn.onclick = () => applyTheme(btn.dataset.theme); });
-document.getElementById("btnOptions").onclick = () => { renderReminderList(); renderBackupSize(); openSheet(document.getElementById("optionsDialog")); };
+document.getElementById("btnOptions").onclick = () => { renderReminderList(); renderBackupSize(); refreshSecurity(); openSheet(document.getElementById("optionsDialog")); };
 document.getElementById("optionsClose").onclick = () => document.getElementById("optionsDialog").close();
 document.getElementById("btnAddTask").onclick = () => openTaskDialog(null);
 document.getElementById("btnAddGoal").onclick = () => openGoalDialog(null);
@@ -6083,6 +6205,7 @@ document.getElementById("replAdd").onclick = () => {
   document.getElementById("replText").value = "";
   save(); renderReplacements();
 };
+document.getElementById("journalAdd").onclick = () => openPathLog("", null);
 document.getElementById("diaryAdd").onclick = () => {
   const date = document.getElementById("diaryDate").value || data.selected;
   const noteText = document.getElementById("diaryNote").value.trim();
@@ -6736,6 +6859,7 @@ function feedPathText(l) { return [l.did, l.journal].map(x => String(x || "").tr
 function feedItems() {
   const out = [];
   (data.diary || []).forEach((e, i) => {
+    if (e.linkedLog && (data.pathLogs || []).some(l => l.id === e.linkedLog)) return;
     const t = idTime(e.id, "d");
     out.push({ kind: "diary", id: e.id, ref: "d:" + e.id, date: e.date, t: t && iso(new Date(t)) === e.date ? t : null, ord: i, e,
       text: String(e.note || "").trim(), media: Array.isArray(e.media) ? e.media : [], paths: e.path || [], areas: e.area || [], pulls: e.pulls || [], steered: e.steered || [] });
@@ -6745,8 +6869,13 @@ function feedItems() {
     const text = feedPathText(l);
     if (!text && !l.rating && !(l.pulls || []).length && !(l.steered || []).length && !l.minutes) return;
     const t = idTime(l.id, "pl");
+    const ids = [];
+    if (l.pathId) ids.push(l.pathId);
+    (l.pathIds || []).forEach(id => { if (id && ids.indexOf(id) < 0) ids.push(id); });
+    const linked = (data.diary || []).find(e => e.linkedLog === l.id);
+    const media = linked && Array.isArray(linked.media) ? linked.media : [];
     out.push({ kind: "path", id: l.id, ref: "pl:" + l.id, date: l.date, t: t && iso(new Date(t)) === l.date ? t : null, ord: 1e6 + i, l,
-      text, media: [], paths: [l.pathId], areas: l.area ? [l.area] : [], pulls: l.pulls || [], steered: l.steered || [] });
+      text, media, paths: ids, areas: l.area ? [l.area] : [], pulls: l.pulls || [], steered: l.steered || [] });
   });
   return out.sort((a, b) => a.date !== b.date ? (a.date < b.date ? 1 : -1) : ((b.t || 0) - (a.t || 0)) || (b.ord - a.ord));
 }
@@ -6784,6 +6913,12 @@ function feedPic(it) {
   const a = !p && it.areas.length ? AREAS.find(x => x.id === it.areas[0]) : null;
   const src = p ? pathIcon(p) : a ? a.img : "icons/diary.jpg";
   return '<img class="rf-pic" src="' + esc(iv(src)) + '" alt="" loading="lazy" />';
+}
+function feedShadowIcons(it) {
+  const bits = [];
+  (it.pulls || []).forEach(id => bits.push('<img class="ss-ico" src="' + esc(iv(pullImg(id))) + '" alt="" /><span class="sr-only">Shadow ' + esc(pullLabel(id)) + '</span>'));
+  (it.steered || []).forEach(name => bits.push('<img class="ss-ico" src="' + esc(iv(steerImg(name))) + '" alt="" /><span class="sr-only">Steer ' + esc(name) + '</span>'));
+  return bits.length ? '<span class="ss-row">' + bits.join("") + '</span>' : "";
 }
 function feedTags(it) {
   const pulls = (it.pulls || []).map(pullLabel).join(", "), st = (it.steered || []).join(", ");
@@ -6867,7 +7002,7 @@ function feedCardHtml(it) {
   return '<li class="rf-card" data-rf-item="' + esc(it.ref) + '" data-rf-kind="' + it.kind + '">' +
     '<div class="rf-main" role="button" tabindex="0" data-rf-open="' + esc(it.ref) + '">' + feedPic(it) +
     '<div class="rf-body"><p class="rf-meta"><span class="rf-path">' + esc(feedLabel(it)) + '</span><time datetime="' + esc(it.date) + '">' + esc(feedWhen(it)) + '</time></p>' + text +
-    (tags ? '<p class="rf-tags">' + esc(tags) + '</p>' : "") + '</div></div>' +
+    (tags ? '<p class="rf-tags">' + feedShadowIcons(it) + '</p>' : "") + '</div></div>' +
     (it.text ? '<div class="rf-acts">' + sayBtn(it.text) + '</div>' : "") + extra + voice + lookBacksHtml(it.ref, it.date, true) + '</li>';
 }
 function monthsBack(n) {
@@ -6903,10 +7038,13 @@ function feedOtdHtml(list) {
 function feedChipHtml(val, label, on, icon, attr) {
   return '<button type="button" class="chip" ' + attr + '="' + esc(val) + '" aria-pressed="' + (on ? "true" : "false") + '">' + (icon || "") + '<span>' + esc(label) + '</span></button>';
 }
+function feedScreenOn() {
+  return currentScreen === "journal" || currentScreen === "feed" || document.documentElement.classList.contains("hs-all");
+}
 function renderFeed(keep) {
   const el = document.getElementById("feedPanel"); if (!el || !data) return;
   el.querySelectorAll("img[data-gv]").forEach(i => { const w = gv(i.dataset.gv); if (i.getAttribute("src") !== w) i.src = w; });
-  if (currentScreen !== "feed" && !document.documentElement.classList.contains("hs-all")) return;
+  if (!feedScreenOn()) return;
   const all = feedItems();
   const paths = feedPaths(all);
   if (feedSel !== "all" && feedSel !== "diary" && !paths.some(p => p.id === feedSel)) feedSel = "all";
@@ -6951,7 +7089,7 @@ function feedAppend(n) {
   if (done && feedList.length) start.textContent = fillCopy2(FEED_COPY.start, { date: feedLongDate(feedStartDate || feedList[feedList.length - 1].date) });
   feedLazy(ul);
   if (!done && "IntersectionObserver" in window) {
-    if (!feedMoreObs) feedMoreObs = new IntersectionObserver(es => { if (es.some(x => x.isIntersecting) && currentScreen === "feed") feedAppend(FEED_PAGE); }, { rootMargin: "600px 0px" });
+    if (!feedMoreObs) feedMoreObs = new IntersectionObserver(es => { if (es.some(x => x.isIntersecting) && feedScreenOn()) feedAppend(FEED_PAGE); }, { rootMargin: "600px 0px" });
     feedMoreObs.disconnect(); feedMoreObs.observe(more);
   } else if (feedMoreObs) feedMoreObs.disconnect();
 }
@@ -7012,7 +7150,7 @@ function renderFeedEntry() {
   }
 }
 document.getElementById("feedEntryClose").onclick = () => document.getElementById("feedEntryDialog").close();
-document.getElementById("feedEntryDialog").addEventListener("close", () => { sayStop(); feedEntryEditing = false; if (data && currentScreen === "feed") renderFeed(true); });
+document.getElementById("feedEntryDialog").addEventListener("close", () => { sayStop(); feedEntryEditing = false; if (data && feedScreenOn()) renderFeed(true); });
 document.getElementById("feedEntryEdit").onclick = () => {
   const it = feedFind(feedEntryRef); if (!it) return;
   if (it.e.full) { // the day's full-screen page: its own editor
@@ -7040,8 +7178,8 @@ document.getElementById("feedPanel").addEventListener("keydown", e => {
   const op = e.target.closest && e.target.closest(".rf-main[data-rf-open]");
   if (op && e.target === op) { e.preventDefault(); feedOpen(op.dataset.rfOpen); }
 });
-document.getElementById("pathLogDialog").addEventListener("close", () => { if (data && currentScreen === "feed") renderFeed(true); });
-document.getElementById("diaryFull").addEventListener("close", () => { if (data && currentScreen === "feed") renderFeed(true); });
+document.getElementById("pathLogDialog").addEventListener("close", () => { if (data && feedScreenOn()) renderFeed(true); });
+document.getElementById("diaryFull").addEventListener("close", () => { if (data && feedScreenOn()) renderFeed(true); });
 
 // ---------- Paths
 let editingPathId = null;
@@ -7051,7 +7189,7 @@ let pathLogRating = "";
 const pathHistoryOpen = new Set();
 function pathById(id) { return (data.paths || []).find(p => p.id === id) || null; }
 function pathIcon(p) { return (p && p.img) || PATH_DEFAULT_ICON; }
-function pathLogsFor(id) { return (data.pathLogs || []).filter(l => l.pathId === id); }
+function pathLogsFor(id) { return (data.pathLogs || []).filter(l => l.pathId === id || (Array.isArray(l.pathIds) && l.pathIds.indexOf(id) >= 0)); }
 function daysBetween(a, b) { return Math.round((parseISO(b) - parseISO(a)) / 86400000); }
 function pathTally(id) {
   const t = { good: 0, neutral: 0, bad: 0 };
@@ -7238,11 +7376,11 @@ function removePathTask(l) {
 }
 function syncPathTask(l) {
   if (!l) return;
-  const want = Number(l.minutes) > 0 && l.area && AREAS.some(a => a.id === l.area);
+  const want = l.countsElapsed !== false && Number(l.minutes) > 0 && l.area && AREAS.some(a => a.id === l.area);
   let t = data.tasks.find(x => x.id === l.taskId) || data.tasks.find(x => x.pathLogId === l.id) || null;
   if (!want) { removePathTask(l); return; }
   const p = pathById(l.pathId);
-  const title = (p ? p.name : "Path") + (l.did ? " · " + l.did : "");
+  const title = (p ? p.name : (l.did || "Entry")) + (p && l.did ? " · " + l.did : "");
   if (!t) { t = { id: uid("t"), status: "done", repeat: "", notes: "" }; data.tasks.push(t); }
   Object.assign(t, { area: l.area, title, hours: Math.round((Number(l.minutes) / 60) * 100) / 100, date: l.date, pathLogId: l.id });
   data.tasks = data.tasks.filter(x => x === t || x.pathLogId !== l.id); // one task per log
@@ -7264,6 +7402,12 @@ function steerOptions(selectedPulls, selectedSteers) {
   const out = [];
   const seen = new Set();
   const add = (label, img) => { const k = String(label || "").trim(); if (!k || seen.has(k.toLowerCase())) return; seen.add(k.toLowerCase()); out.push({ label: k, img: img || "" }); };
+  const pulls = selectedPulls || [];
+  if (pulls.length && pulls.every(id => id === "addiction")) {
+    addictionSteers().forEach(v => add(v, ADDICTION_STEER_IMG));
+    (selectedSteers || []).forEach(v => add(v, "icons/steer-custom.jpg"));
+    return out;
+  }
   const forPull = id => { const u = pullUpgrade(id); const o = pullOpposite(id); if (u) add(u.label, u.img); if (o) add(o.label, o.img); };
   (selectedPulls || []).forEach(forPull);
   allPullDefs().filter(p => !isPullHidden(p.id)).forEach(p => forPull(p.id));
@@ -7405,26 +7549,23 @@ function pathFieldsHtml(pfx, l, afterDid) {
     '<p class="hint">How long you spent.</p>' +
     '<label class="field">Counts toward<select id="' + pfx + 'Area" data-pf="area">' + areaOptionsHtml(l ? l.area : "") + '</select></label>' +
     '<p class="hint">' + esc(PICK_ONE) + '</p>' +
-    '<label class="field">Reps<span class="pf-pair"><input id="' + pfx + 'Reps" data-pf="reps" type="number" min="0" step="1" inputmode="numeric" value="' + v(l && l.reps) + '" />' +
-      '<input id="' + pfx + 'RepsUnit" data-pf="repsUnit" type="text" maxlength="20" placeholder="pages, rounds, sets" aria-label="Unit" value="' + v(l && l.repsUnit) + '" /></span></label>' +
-    '<p class="hint">Rounds, pages, sets, whatever you count.</p>' +
-    // 1. Aim higher.
-    '<p class="pf-step">' + esc(C.aim) + '</p>' +
-    '<label class="field">' + esc(C.aimQ) + '<input id="' + pfx + 'Better" data-pf="better" type="text" maxlength="200" value="' + v(l && l.better) + '" /></label>' +
-    // 2. Steer.
-    '<p class="pf-step">' + esc(C.steer) + '</p>' +
-    '<p class="q-title pf-q">' + esc(C.steerQ) + '</p>' +
-    '<p class="pf-sub">' + esc(C.pullsLabel) + '</p>' +
-    '<label class="field pf-pick"><span class="sr-only">' + esc(PAIR_COPY.pickPull) + '</span><select id="' + pfx + 'PullPick" data-pf-pullsel aria-label="' + esc(PAIR_COPY.pickPull) + '"></select></label>' +
+    '<label class="field">Paths<select id="' + pfx + 'Paths" data-pf="paths" multiple size="3" aria-label="Paths, optional">' +
+      ((data && data.paths) || []).filter(p => p && !p.archived).map(p => '<option value="' + esc(p.id) + '"' + ((l && ((l.pathIds || []).indexOf(p.id) >= 0 || l.pathId === p.id)) ? " selected" : "") + '>' + esc(p.name) + '</option>').join("") +
+    '</select></label><p class="hint">Optional. Time still counts once if you pick more than one.</p>' +
+    '<div class="shadow-steer"><label class="field pf-pick">' + esc(C.pullsLabel) + '<select id="' + pfx + 'PullPick" data-pf-pullsel aria-label="Shadow"></select></label>' +
+    '<label class="field pf-pick">' + esc(C.steeredLabel) + '<select id="' + pfx + 'SteerPick" data-pf-steersel aria-label="Steer"></select></label></div>' +
     '<div class="chip-row" id="' + pfx + 'Pulls" data-pf-pulls></div>' +
     pairFormHtml(pfx) +
     '<div class="shadow-stories" data-pf-stories></div>' +
-    '<p class="pf-sub">' + esc(C.steeredLabel) + '</p><p class="hint" data-pf-steerhint>Discipline, Presence, or one of your own.</p>' +
-    '<label class="field pf-pick"><span class="sr-only">' + esc(PAIR_COPY.pickSteer) + '</span><select id="' + pfx + 'SteerPick" data-pf-steersel aria-label="' + esc(PAIR_COPY.pickSteer) + '"></select></label>' +
+    '<p class="hint" data-pf-steerhint>A shadow can suggest a steer. Nothing is recorded until you choose one.</p>' +
     '<div class="chip-row" id="' + pfx + 'Steered" data-pf-steers></div>' +
     '<div class="pf-addsteer" data-pf-addsteer hidden><span class="pf-pair"><input id="' + pfx + 'AddSteer" data-pf="addSteer" type="text" maxlength="40" autocomplete="off" placeholder="' + esc(ADDICTION_STEER_PLACEHOLDER) + '" aria-label="' + esc(ADDICTION_STEER_PROMPT) + '" />' +
       '<button type="button" class="btn" data-pf-addsteer-go>Add</button></span></div>' +
     '<div data-pf-quote></div>' +
+    '<details class="pf-details"><summary>Details</summary>' +
+    '<label class="field">Reps<span class="pf-pair"><input id="' + pfx + 'Reps" data-pf="reps" type="number" min="0" step="1" inputmode="numeric" value="' + v(l && l.reps) + '" />' +
+      '<input id="' + pfx + 'RepsUnit" data-pf="repsUnit" type="text" maxlength="20" placeholder="pages, rounds, sets" aria-label="Unit" value="' + v(l && l.repsUnit) + '" /></span></label>' +
+    '<label class="field">' + esc(C.aimQ) + '<input id="' + pfx + 'Better" data-pf="better" type="text" maxlength="200" value="' + v(l && l.better) + '" /></label>' +
     // 3. Clean spirit.
     '<p class="pf-step">' + esc(C.clean) + '</p>' +
     '<p class="q-title pf-q">' + esc(C.reasonQ) + '</p>' +
@@ -7436,7 +7577,7 @@ function pathFieldsHtml(pfx, l, afterDid) {
     '<p class="hint">' + esc(C.reasonNote) + '</p>' +
     honorTestHtml() +
     '<label class="field">Diary<textarea id="' + pfx + 'Journal" data-pf="journal" rows="3" maxlength="2000" placeholder="What you noticed on this path.">' + v(l && l.journal) + '</textarea></label>' +
-    '</div>';
+    '</details></div>';
 }
 function readPathFields(root) {
   const g = k => root.querySelector('[data-pf="' + k + '"]');
@@ -7450,7 +7591,8 @@ function readPathFields(root) {
     repsUnit: g("repsUnit").value.trim(),
     journal: g("journal").value.trim(),
     motive: g("motive").value.trim(),
-    clean: (root.querySelector('[data-pf-clean][aria-pressed="true"]') || { dataset: {} }).dataset.pfClean || ""
+    clean: (root.querySelector('[data-pf-clean][aria-pressed="true"]') || { dataset: {} }).dataset.pfClean || "",
+    pathIds: Array.from((g("paths") && g("paths").selectedOptions) || []).map(o => o.value).filter(Boolean)
   };
 }
 // state = { pulls: [], steered: [] } (a log entry works too). onChange runs after any chip change.
@@ -7476,7 +7618,7 @@ function bindPathFieldChips(root, state, onChange) {
     ss.innerHTML = steerSelectHtml(state.pulls, state.steered);
     ss.disabled = state.steered.length >= PICK_MAX;
     const addict = state.pulls.includes("addiction");
-    root.querySelector("[data-pf-steerhint]").textContent = addict ? ADDICTION_STEER_PROMPT : "Discipline, Presence, or one of your own.";
+    root.querySelector("[data-pf-steerhint]").textContent = addict ? ADDICTION_STEER_PROMPT : "A shadow can suggest a steer. Nothing is recorded until you choose one.";
     root.querySelector("[data-pf-quote]").innerHTML = addict ? addictionQuoteHtml() : "";
     root.querySelector("[data-pf-addsteer]").hidden = !addict;
     root.querySelector("[data-pf-stories]").innerHTML = state.pulls.map(id => shadowStoryHtml(id)).join("");
@@ -7488,8 +7630,6 @@ function bindPathFieldChips(root, state, onChange) {
     if (!v) return;
     if (v === "__add") { openPair(); paint(); return; }
     if (!state.pulls.includes(v) && state.pulls.length < PICK_MAX) state.pulls.push(v);
-    const c = customPullDef(v);
-    if (c && c.steer && !state.steered.some(x => x.toLowerCase() === c.steer.toLowerCase()) && state.steered.length < PICK_MAX) state.steered.push(c.steer);
     paint(); onChange && onChange();
   };
   root.querySelector("[data-pf-steersel]").onchange = e => {
@@ -7554,19 +7694,19 @@ const PL_RATING_HTML = '<p class="q-title pf-title">How did it go?</p>' +
   '<p class="hint">' + esc(NOT_WORTH) + '</p>' +
   '<p class="gate pf-need" id="plNeedRating" hidden></p>';
 function openPathLog(pathId, logId, again) {
-  const p = pathById(pathId);
-  if (!p) return;
+  const p = pathId ? pathById(pathId) : null;
+  if (pathId && !p) return;
   const l = logId ? (data.pathLogs || []).find(x => x.id === logId) : null;
-  pathLogFor = p.id;
+  pathLogFor = p ? p.id : "";
   editingPathLogId = l ? l.id : null;
   pathLogRating = l ? l.rating : "";
-  document.getElementById("pathLogTitle").innerHTML = '<img class="path-icon sm" src="' + esc(iv(pathIcon(p))) + '" alt="" />' + esc(p.name);
+  document.getElementById("pathLogTitle").innerHTML = p ? '<img class="path-icon sm" src="' + esc(iv(pathIcon(p))) + '" alt="" />' + esc(p.name) : "Add entry";
   document.getElementById("plFields").innerHTML = pathFieldsHtml("pl", l, PL_RATING_HTML);
   document.querySelectorAll("#plRating [data-plrate]").forEach(btn => {
     btn.onclick = () => { pathLogRating = pathLogRating === btn.dataset.plrate ? "" : btn.dataset.plrate; syncPathRating(); if (pathLogRating) document.getElementById("plNeedRating").hidden = true; };
   });
   document.getElementById("plDelete").hidden = !l;
-  document.getElementById("plSave").textContent = again ? PATH_STEP_COPY.logAnother : PATH_STEP_COPY.logIt;
+  document.getElementById("plSave").textContent = PATH_STEP_COPY.logIt;
   document.getElementById("plCancel").textContent = again ? "Close" : "Cancel";
   plState = { pulls: l ? l.pulls.slice() : [], steered: l ? l.steered.slice() : [] };
   bindPathFieldChips(document.getElementById("plFields"), plState, null);
@@ -7583,30 +7723,35 @@ document.getElementById("plDelete").onclick = async () => {
   closePathLog();
   renderCheckin(); renderDerived();
 };
+document.getElementById("plAnother").onclick = () => {
+  const keep = pathLogFor || "";
+  closePathLog();
+  openPathLog(keep, null, true);
+};
 document.getElementById("plSave").onclick = () => {
-  if (!pathLogFor) return;
+  if (pathLogFor == null) return;
   const f = readPathFields(document.getElementById("plFields"));
   const existing = editingPathLogId ? data.pathLogs.find(x => x.id === editingPathLogId) : null;
-  if (!pathLogRating) {
+  const ids = f.pathIds && f.pathIds.length ? f.pathIds : (pathLogFor ? [pathLogFor] : []);
+  const fields = Object.assign(f, { pathId: ids[0] || "", pathIds: ids, rating: pathLogRating || "", pulls: plState.pulls.slice(), steered: plState.steered.slice(), logged: true });
+  if (ids.length) delete fields.general; else fields.general = true;
+  const blank = !existing && !fields.did && !fields.minutes && !fields.journal && !fields.better && !fields.motive && !fields.rating && !fields.pulls.length && !fields.steered.length && fields.reps == null;
+  if (blank) {
     const m = document.getElementById("plNeedRating");
-    m.textContent = PATH_STEP_COPY.needRating; m.hidden = false;
-    document.getElementById("plRating").scrollIntoView({ block: "center" });
+    if (m) { m.textContent = "Add what you did, or a time, before saving."; m.hidden = false; }
     return;
   }
-  const fields = Object.assign(f, { rating: pathLogRating, pulls: plState.pulls.slice(), steered: plState.steered.slice(), logged: true });
   let l = existing;
   const logDate = existing ? existing.date : data.selected;
   const ok = capGuard([logDate], () => document.getElementById("plFields").querySelector('[data-pf="time"]'), () => {
     if (l) Object.assign(l, fields);
-    else { l = Object.assign({ id: uid("pl"), pathId: pathLogFor, date: logDate, taskId: "", source: "log" }, fields); data.pathLogs.push(l); }
+    else { l = Object.assign({ id: uid("pl"), date: logDate, taskId: "", source: "log" }, fields); data.pathLogs.push(l); }
     syncPathTask(l);
   });
   if (!ok) return;
   save();
   showToast(loggedToast(l));
-  renderCheckin(); renderDerived();
-  // Stay open, cleared, for the next moment on this path.
-  openPathLog(pathLogFor, null, true);
+  closePathLog();
   renderCheckin(); renderDerived();
 };
 function pullsSteerText(l) {
@@ -7716,7 +7861,7 @@ function pathEntryFor(pid, date) {
   return mine.find(l => !l.logged) || mine.find(l => pcEditing.has(l.id)) || null;
 }
 function pathMomentsFor(pid, date) {
-  return (data.pathLogs || []).filter(l => l.pathId === pid && l.date === date && l.logged !== false && l.rating);
+  return (data.pathLogs || []).filter(l => (l.pathId === pid || (Array.isArray(l.pathIds) && l.pathIds.indexOf(pid) >= 0)) && l.date === date && l.logged !== false && (l.rating || l.source === "plan"));
 }
 function momentsCountText(n) { return n === 1 ? PATH_STEP_COPY.todayOne : PATH_STEP_COPY.todayMany(n); }
 const pcAnother = new Set();
@@ -7813,9 +7958,13 @@ function bindPathCheckin(date) {
         if (entry) { removePathTask(entry); pcEditing.delete(entry.id); data.pathLogs = data.pathLogs.filter(l => l !== entry); }
       } else {
         nt.delete(pid);
-        pcOpen.add(pid); pcAnother.add(pid);
-        if (entry) { entry.rating = val; if (!entry.logged) pcEditing.add(entry.id); }
-        else { const nl = Object.assign(blankPathEntry(pid, date), { rating: val }); data.pathLogs.push(nl); pcEditing.add(nl.id); }
+        const planned = (data.pathLogs || []).find(l => l.pathId === pid && l.date === date && l.source === "plan" && l.logged !== false);
+        if (planned) { planned.rating = val; pcOpen.delete(pid); }
+        else {
+          pcOpen.add(pid); pcAnother.add(pid);
+          if (entry) { entry.rating = val; if (!entry.logged) pcEditing.add(entry.id); }
+          else { const nl = Object.assign(blankPathEntry(pid, date), { rating: val }); data.pathLogs.push(nl); pcEditing.add(nl.id); }
+        }
       }
       d.pathNotToday = Array.from(nt);
       save(); renderCheckin(); renderDerived();
@@ -8116,6 +8265,7 @@ function showVault(mode, err, notice) {
         '<p class="q-title" style="margin:0.6rem 0 0.3rem">Pick an icon</p>' + iconPickHtml(pp.icon)) +
       '<label class="field" style="margin-top:0.7rem">Passphrase<input id="vaultPass" type="password" autocomplete="' + (mode === "migrate" ? "current-password" : "new-password") + '" /></label>' +
       (mode === "migrate" ? "" : '<label class="field" style="margin-top:0.45rem">Type it again<input id="vaultPass2" type="password" autocomplete="new-password" /></label>') +
+      (mode === "add" ? '<label class="field" style="margin-top:0.45rem">Unlogged days stay open (hours)<input id="vaultGrace" type="number" min="1" max="336" value="48" /></label><p class="hint">After this, a day with nothing recorded says Not logged. Default 48 hours.</p>' : "") +
       errHtml +
       (mode === "migrate" ? "" : '<p class="hint" style="margin-top:0.6rem">Each person\'s data is locked with their own passphrase. No one else on this phone can open it. Only names and icons show here.</p>') +
       '<div class="actions"><button type="button" class="btn primary" id="' + (mode === "migrate" ? "vaultUnlock" : "vaultSetup") + '">' + (mode === "migrate" ? "Open" : "Create profile") + '</button>' +
@@ -8141,7 +8291,7 @@ function showVault(mode, err, notice) {
       '<label class="field" style="margin-top:0.7rem">' + esc((p ? p.name : "") + "'s passphrase") + '<input id="vaultPass" type="password" autocomplete="current-password" /></label>' +
       '<p style="margin:0.35rem 0 0"><button type="button" class="link-btn" id="vaultFresh">Forgot it, or want a clean start?</button></p>' +
       errHtml +
-      '<div class="actions"><button type="button" class="btn primary" id="vaultUnlock">Open</button>' +
+      '<div class="actions"><button type="button" class="btn" id="vaultBio" hidden>Unlock with fingerprint</button><button type="button" class="btn primary" id="vaultUnlock">Open</button>' +
       '<button type="button" class="btn" id="profileBack">Back</button></div></div>';
   }
   gate.innerHTML = html;
@@ -8159,6 +8309,19 @@ function showVault(mode, err, notice) {
   if (nameEl && !nameEl.value) nameEl.focus(); else if (passEl) passEl.focus();
   const setupBtn = $("vaultSetup"); if (setupBtn) setupBtn.onclick = onSetupVault;
   const unlockBtn = $("vaultUnlock"); if (unlockBtn) unlockBtn.onclick = onUnlockVault;
+  const bioBtn = $("vaultBio");
+  if (bioBtn && hsBio()) {
+    hsBio().status().then(st => { bioBtn.hidden = !(st && st.enabled); }).catch(() => {});
+    bioBtn.onclick = async () => {
+      try {
+        const r = await hsBio().unlock();
+        if (r && r.passphrase && $("vaultPass")) { $("vaultPass").value = r.passphrase; await onUnlockVault(); if ($("vaultPass")) $("vaultPass").value = ""; }
+      } catch (e) {
+        const code = String((e && (e.code || e.message)) || "");
+        showVault("unlock", code.indexOf("invalidated") >= 0 ? "Fingerprint changed. Use your passphrase." : "Use your passphrase.");
+      }
+    };
+  }
   if ($("vaultFresh")) $("vaultFresh").onclick = () => showVault("fresh");
   if ($("freshErase")) $("freshErase").onclick = () => showVault("fresh-confirm");
   if ($("freshCancel")) $("freshCancel").onclick = () => showVault("unlock");
@@ -8204,6 +8367,8 @@ async function onSetupVault() {
   let base = wantDemoSeed() ? seed() : blankData();
   if (first) { try { const legacy = localStorage.getItem(KEY_LEGACY); if (legacy) base = migrateLegacy(JSON.parse(legacy)); } catch (e) {} }
   data = migrateLegacy(base);
+  const gEl = document.getElementById("vaultGrace");
+  if (gEl) { const n = Number(gEl.value); if (n >= 1 && n <= 336) data.graceHours = n; }
   await persist();
   upsertProfile(prof);
   if (first) { try { localStorage.removeItem(KEY_LEGACY); } catch (e) {} }
@@ -9142,23 +9307,13 @@ function coachPageAct(act, id) {
 const HOME_GLYPHS = new Set();
 fetch("icons/glyphs128/home/index.json?v=" + ICON_VER).then(r => r.ok ? r.json() : []).then(list => { (Array.isArray(list) ? list : []).forEach(x => HOME_GLYPHS.add(x)); if (data) renderHomeTiles(); }).catch(() => {});
 const HOME_TILES = [
-  { id: "paths", label: "Paths", icon: "icons/paths-section.jpg" },
-  { id: "goals", label: "Goals", home: "goals" },
+  { id: "journal", label: "Journal", icon: "icons/diary.jpg" },
+  { id: "areas", label: "Areas", icon: "icons/time-pie.jpg" },
   { id: "week", label: "Check-in", home: "checkin" },
-  { id: "diary", label: "Diary", home: "diary" },
-  // v43: the feed, with Pablo's feed glyph.
-  { id: "feed", label: "Your road", gv: "feed/feed.png" },
-  { id: "area:career", label: "Career", area: "career" },
-  { id: "area:personal", label: "Growth", area: "personal" },
-  { id: "area:social", label: "Social", area: "social" },
-  { id: "area:spiritual", label: "Spirit", area: "spiritual" },
-  { id: "area:time", label: "Hobbies", area: "time" },
-  // Pablo's coin (icons/glyphs/home/money.png) once it's in; until then the piggy-bank money glyph, not the ring.
   { id: "money", label: "Money", home: "money", ifListed: true, glyph: "icons/glyphs128/money/savings.png" },
-  { id: "record", label: "Record", home: "record" },
   { id: "settings", label: "Settings", icon: "icons/settings.jpg" }
 ];
-const SCREEN_TITLES = { coach: "Coach", paths: "Paths", goals: "Goals", money: "Money", diary: "Diary", feed: "Your road", week: "Check-in", record: "Record" };
+const SCREEN_TITLES = { coach: "Coach", journal: "Journal", areas: "Areas", money: "Money", week: "Check-in" };
 function tileIcon(t) {
   // Pablo's home glyphs; a plain letter tile only if a file is ever missing.
   // v36: Pablo's blank coin with the chosen currency symbol on it; otherwise his money coin, then the piggy bank.
@@ -9211,7 +9366,9 @@ document.getElementById("pieDayPrev").onclick = () => goToDay(shift(data.selecte
 document.getElementById("pieDayNext").onclick = () => { const n = shift(data.selected, timeView() === "week" ? 7 : 1); const h = planHorizon(); goToDay(n > h ? h : n, true); };
 let currentScreen = "home";
 function applyScreen(name) {
-  if (!/^(home|coach|paths|goals|money|diary|feed|week|record|area:(career|personal|social|spiritual|time))$/.test(name)) name = "home";
+  if (name === "paths" || name === "diary" || name === "feed" || name === "goals" || name === "record") name = "journal";
+  if (typeof name === "string" && name.indexOf("area:") === 0) name = "areas";
+  if (!/^(home|coach|journal|areas|money|week)$/.test(name)) name = "home";
   if (name !== currentScreen) { try { sayStop(); feedStopAudio(); } catch (e) {} }
   currentScreen = name;
   const kind = name.split(":")[0];
@@ -9220,19 +9377,16 @@ function applyScreen(name) {
     const on = el.dataset.scr.split(/\s+/).includes(kind);
     el.classList.toggle("screen-off", !on);
   });
-  const split = document.querySelector("#appRoot .split"); if (split) { split.classList.toggle("screen-off", !(kind === "money" || kind === "record")); split.classList.add("one-col"); }
+  const split = document.querySelector("#appRoot .split"); if (split) { split.classList.toggle("screen-off", !(kind === "money" || kind === "journal")); split.classList.add("one-col"); }
   const areas = document.getElementById("areas");
-  if (kind === "area") {
-    const id = name.split(":")[1]; areas.dataset.only = id;
-    if (isCollapsed(id)) { data.collapsedAreas = data.collapsedAreas.filter(x => x !== id); save(); renderAreas(); }
-    data.lastTaskArea = id;
-  } else delete areas.dataset.only;
+  if (areas) delete areas.dataset.only;
   const bar = document.getElementById("screenBar");
   bar.hidden = kind === "home";
   document.getElementById("screenTitle").textContent = kind === "area" ? fastLabel(name.split(":")[1]) : (SCREEN_TITLES[kind] || "");
   if (kind === "home") renderCoachNotes();
   if (kind === "coach") renderCoachPage();
-  if (kind === "feed") renderFeed();
+  if (kind === "journal") { renderFeed(); renderGoalsPanel(); if (typeof renderDiary === "function") renderDiary(); }
+  if (kind === "areas") { const row = document.querySelector("#areas .area"); if (row) row.scrollIntoView({ block: "nearest" }); }
   window.scrollTo(0, 0);
 }
 function openScreen(name) {
@@ -9371,8 +9525,9 @@ function reportMailto() {
   const body = "What happened?\n\n\n---\nVersion " + APP_VERSION + "\nPhone and browser: " + ua;
   return "mailto:" + REPORT_EMAIL + "?subject=" + encodeURIComponent("Higher Self v" + APP_VERSION + ": a problem") + "&body=" + encodeURIComponent(body);
 }
+function shownVersion() { return plannerAndroid() ? "45" : APP_VERSION; }
 function versionFooterHtml() {
-  return '<p class="app-version">Version ' + esc(APP_VERSION) + '</p><p class="app-report"><a class="link-btn" href="' + esc(reportMailto()) + '" data-report-link>Report a problem</a></p>';
+  return '<p class="app-version">Version ' + esc(shownVersion()) + '</p><p class="app-report"><a class="link-btn" href="' + esc(reportMailto()) + '" data-report-link>Report a problem</a></p>';
 }
 function renderVersionFooters() { document.querySelectorAll("[data-version-footer]").forEach(el => { el.innerHTML = versionFooterHtml(); }); }
 // v39: precache only the active theme's pictures; another theme's set is cached when it's picked.
@@ -9402,8 +9557,20 @@ function backupFileName() {
   const who = currentProfile ? currentProfile.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") : "";
   return "higher-self-backup-" + (who ? who + "-" : "") + TODAY + ".hsbak";
 }
+function hsBackup() { try { return isNativeCapacitor() && window.Capacitor && Capacitor.Plugins && Capacitor.Plugins.HSBackup; } catch (e) { return null; } }
+function hsBio() { try { return isNativeCapacitor() && window.Capacitor && Capacitor.Plugins && Capacitor.Plugins.HSBiometric; } catch (e) { return null; } }
 function isNativeCapacitor() {
   try { return !!(window.Capacitor && Capacitor.isNativePlatform && Capacitor.isNativePlatform()); } catch (e) { return false; }
+}
+// Breaks and drives are for the Android package. ?android=1 previews them in a browser before packaging. The web shell stays on v43.
+function plannerAndroid() {
+  try {
+    if (isNativeCapacitor()) {
+      const plat = window.Capacitor.getPlatform ? Capacitor.getPlatform() : "android";
+      return plat === "android";
+    }
+  } catch (e) {}
+  try { return new URLSearchParams(location.search).get("android") === "1"; } catch (e2) { return false; }
 }
 async function downloadBackup() {
   if (!sessionPass || !data) return;
@@ -9420,6 +9587,17 @@ async function downloadBackup() {
   const name = backupFileName();
   // Capacitor APK: write .hsbak to cache, then open the system share sheet (Files / Drive / etc.).
   // Browser / PWA: <a download> (blob downloads don't work in Android WebView).
+  if (hsBackup()) {
+    try {
+      const r = await hsBackup().saveEncrypted({ name, text });
+      if (r && r.cancelled) return;
+      if (typeof showToast === "function") showToast("Saved. The file stays encrypted.");
+    } catch (e) {
+      console.warn("document backup failed", e);
+      alert("Couldn't save the backup. Try again.");
+    }
+    return;
+  }
   if (isNativeCapacitor()) {
     try {
       const FS = Capacitor.Plugins.Filesystem;
@@ -10040,6 +10218,23 @@ function shrinkPhoto(file) {
   dlg.addEventListener("close", () => { if (data) applyTheme(data.theme, { noSave: true }); }); // drop an unsaved custom preview
   document.getElementById("themesDone").onclick = () => dlg.close();
   document.getElementById("optThemes").onclick = () => openThemes();
+  const optGuide = document.getElementById("optGuide"); if (optGuide) optGuide.onclick = () => openGuide();
+  document.querySelectorAll("#moneyTabs [data-money-tab]").forEach(b => b.onclick = () => applyMoneyTab(b.dataset.moneyTab));
+  const grace = document.getElementById("graceHours");
+  if (grace) grace.onchange = () => {
+    const n = Number(grace.value);
+    if (!(n >= 1 && n <= 336)) { grace.value = String(graceHoursOf()); return; }
+    data.graceHours = n; save();
+  };
+  const drive = document.getElementById("btnDriveBackup");
+  if (drive) drive.onclick = () => downloadBackup();
+  const bioOn = document.getElementById("btnBioOn"), bioOff = document.getElementById("btnBioOff");
+  if (bioOn) bioOn.onclick = async () => {
+    if (!sessionPass || !hsBio()) return;
+    try { await hsBio().enable({ passphrase: sessionPass }); refreshSecurity(); showToast("Fingerprint unlock is on. Your passphrase still works."); }
+    catch (e) { showToast("Fingerprint isn't available. Use your passphrase."); }
+  };
+  if (bioOff) bioOff.onclick = async () => { if (hsBio()) { try { await hsBio().disable(); } catch (e) {} } refreshSecurity(); };
   document.getElementById("ctPhotoBtn").onclick = () => document.getElementById("ctPhotoFile").click();
   document.getElementById("ctPhotoFile").onchange = async e => {
     const f = e.target.files && e.target.files[0]; e.target.value = ""; if (!f) return;
@@ -10068,7 +10263,7 @@ function shrinkPhoto(file) {
     const t = data.customThemes.find(x => x.id === data.theme); if (!t) return;
     t.icons = e.target.value; save(); refreshGlyphs(); renderHomeTiles(); renderIconStyle();
   };
-  document.getElementById("btnOptions").addEventListener("click", () => { document.getElementById("curSearch").value = ""; renderCurrencyList(); renderIconStyle(); document.getElementById("optSounds").checked = soundsOn(); });
+  document.getElementById("btnOptions").addEventListener("click", () => { document.getElementById("curSearch").value = ""; renderCurrencyList(); renderIconStyle(); document.getElementById("optSounds").checked = soundsOn(); refreshSecurity(); });
 })();
 // ---- Icon tiles: cream glyph on a theme-colored tile. Falls back to the original art if no glyph exists.
 function glyphFor(src) {
@@ -10135,7 +10330,7 @@ const PLAN_COPY = {
   repeat: "Repeat", never: "Never", every: { 1: "Every week", 2: "Every 2 weeks", 3: "Every 3 weeks", 4: "Every 4 weeks" },
   untilStop: "Until I stop it", untilDate: "Until {date}",
   planned: "Planned",
-  ask: "Did {day} go as planned?", yes: "Yes, as planned", change: "Change it",
+  ask: "Did {day} go as planned?", yes: "Confirm day", change: "Change something",
   editWhich: "Change just this day, or every {interval}?", thisDay: "This day", everyTime: "Every time",
   cost: "Your repeats take {h} hours a week. That's about {m} months a year.",
   exportCal: "Export to calendar", importCal: "Import from calendar", calNote: "Uses a calendar file. Nothing goes to a server.",
@@ -10154,11 +10349,15 @@ function migratePlans(d) {
   d.plans = Array.isArray(d.plans) ? d.plans.filter(p => p && p.id && planAreaOk(p.area) && hmRe.test(String(p.start)) && hmRe.test(String(p.end)) && isoRe.test(String(p.from || ""))).map(p => {
     const every = [0, 1, 2, 3, 4].includes(Number(p.every)) ? Number(p.every) : 1;
     const days = Array.from(new Set((Array.isArray(p.days) ? p.days : []).map(Number).filter(n => n >= 0 && n <= 6))).sort();
-    return Object.assign({
+    const meta = (typeof HSGaps !== "undefined") ? HSGaps.migrateBlock(p) : { kind: p.kind === "drive" ? "drive" : "", listen: null, breaks: [] };
+    const rec = {
       id: String(p.id), area: p.area, pathId: p.area === SLEEP_AREA ? "" : String(p.pathId || ""), title: String(p.title || "").slice(0, 120),
       start: p.start, end: p.end, every, days: every === 0 ? [parseISO(p.from).getDay()] : (days.length ? days : [parseISO(p.from).getDay()]),
       from: p.from, until: isoRe.test(String(p.until || "")) ? p.until : "", source: p.source === "ics" || p.source === "phone" ? p.source : "", icsUid: String(p.icsUid || "")
-    }, p.source === "phone" ? { phoneKey: String(p.phoneKey || "") } : {});
+    };
+    if (p.source === "phone") rec.phoneKey = String(p.phoneKey || "");
+    if (typeof HSGaps !== "undefined") HSGaps.keepPlanMeta(rec, p, meta);
+    return rec;
   }) : [];
   const obj = v => (v && typeof v === "object" && !Array.isArray(v)) ? v : {};
   d.planDays = obj(d.planDays); d.planDone = obj(d.planDone); d.icsMap = obj(d.icsMap); d.planOver = obj(d.planOver);
@@ -10184,19 +10383,44 @@ function planOcc(p, date, withSkipped) {
   if (!planOccursOn(p, date)) return null;
   const key = planKey(p, date), ov = data.planDays[key] || {};
   if (ov.skip && !withSkipped) return null;
-  const o = Object.assign({ key, plan: p, date, area: p.area, pathId: p.pathId, title: p.title, start: p.start, end: p.end }, ov.skip ? {} : ov);
+  const o = Object.assign({
+    key, plan: p, date, area: p.area, pathId: p.pathId, title: p.title, start: p.start, end: p.end,
+    kind: p.kind === "drive" ? "drive" : "", listen: p.listen || null, breaks: Array.isArray(p.breaks) ? p.breaks : []
+  }, ov.skip ? {} : ov);
+  if (o.area === SLEEP_AREA || o.kind !== "drive") o.kind = "";
+  if (typeof HSGaps !== "undefined") {
+    const meta = HSGaps.migrateBlock({ start: o.start, end: o.end, area: o.area, kind: o.kind, breaks: o.breaks, listen: o.listen });
+    o.breaks = meta.breaks;
+    o.listen = o.kind === "drive" ? meta.listen : null;
+    if (o.kind !== "drive") o.kind = "";
+  }
   o.skipped = !!ov.skip; o.done = !!data.planDone[key];
   return o;
 }
 // Pieces of an occurrence by calendar day: [{ date, hours }]. 22:00-06:00 gives 2h on the day, 6h on the next.
-function occSegments(o) {
+function occSegmentsPlain(o) {
   const s = hmMin(o.start), e = hmMin(o.end);
   if (e > s) return [{ date: o.date, hours: (e - s) / 60 }];
   const out = [{ date: o.date, hours: (1440 - s) / 60 }];
   if (e > 0) out.push({ date: shift(o.date, 1), hours: e / 60 });
   return out;
 }
-function occHours(o) { return occSegments(o).reduce((t, x) => t + x.hours, 0); }
+// Work around breaks. A plain block, a drive, and sleep keep the old split (sleep 22:00–07:00 is still 2h + 7h).
+function occSegments(o) {
+  if (typeof HSGaps === "undefined") return occSegmentsPlain(o);
+  const map = [];
+  HSGaps.account(o).pieces.forEach(p => {
+    const hit = map.find(x => x.date === p.date);
+    if (hit) hit.hours += p.mins / 60;
+    else map.push({ date: p.date, hours: p.mins / 60 });
+  });
+  return map;
+}
+function occHours(o) {
+  if (typeof HSGaps === "undefined") return occSegments(o).reduce((t, x) => t + x.hours, 0);
+  return HSGaps.account(o).elapsed / 60;
+}
+function occSpanMins(o) { const sp = spanMins(o.start, o.end); return sp ? sp.mins : 0; }
 // Occurrences touching a day (starting that day, or overnight from the day before).
 function occsTouching(date, opts) {
   const out = [];
@@ -10228,14 +10452,34 @@ function overlapMins(r, ranges) {
 }
 // Minutes of o on that day that another block holds: a planned block loses what real events cover;
 // two real events set to "Split the time" each give up half of their overlap.
-function takenMins(o, date) {
-  const r = occDayRange(o, date); if (!r) return 0;
+function realCoverRanges(o, date) {
   const real = occsTouching(date).filter(x => x.key !== o.key && isRealOcc(x));
-  if (!isRealOcc(o)) return overlapMins(r, real.map(x => occDayRange(x, date)).filter(Boolean));
-  if (!o.split) return 0;
-  return overlapMins(r, real.filter(x => x.split).map(x => occDayRange(x, date)).filter(Boolean)) / 2;
+  if (!isRealOcc(o)) return real.map(x => occDayRange(x, date)).filter(Boolean);
+  if (!o.split) return [];
+  return real.filter(x => x.split).map(x => occDayRange(x, date)).filter(Boolean);
 }
-function occDayHours(o, date) { const r = occDayRange(o, date); return r ? Math.max(0, r[1] - r[0] - takenMins(o, date)) / 60 : 0; }
+function takenMins(o, date) {
+  const cover = realCoverRanges(o, date);
+  if (typeof HSGaps !== "undefined" && HSGaps.usesBreaks(o)) {
+    let t = 0;
+    HSGaps.account(o).pieces.forEach(p => {
+      if (p.date !== date) return;
+      t += overlapMins([p.start, p.end >= 1440 ? 1440 : p.end], cover);
+    });
+    return isRealOcc(o) && o.split ? t / 2 : t;
+  }
+  const r = occDayRange(o, date); if (!r) return 0;
+  const hit = overlapMins(r, cover);
+  return isRealOcc(o) && o.split ? hit / 2 : hit;
+}
+function occDayHours(o, date) {
+  if (typeof HSGaps !== "undefined" && HSGaps.usesBreaks(o)) {
+    const span = HSGaps.account(o).pieces.filter(p => p.date === date).reduce((t, p) => t + p.mins, 0);
+    return Math.max(0, span - takenMins(o, date)) / 60;
+  }
+  const r = occDayRange(o, date);
+  return r ? Math.max(0, r[1] - r[0] - takenMins(o, date)) / 60 : 0;
+}
 function shrunkNote(o) {
   if (isRealOcc(o)) return "";
   const segs = occSegments(o); let taken = 0; const names = new Set();
@@ -10249,7 +10493,19 @@ function plannedHoursFor(date) {
   // sleep on it would count the same night twice (9h logged + 9h planned = 18h). Only plan-confirmed sleep adds up.
   const sl = data.days && data.days[date] && data.days[date].sleep;
   const handSleep = !!(sl && sl.source !== "plan");
-  occsTouching(date).forEach(o => { if (o.done) return; if (o.area === SLEEP_AREA && handSleep) return; if (map[o.area] != null) map[o.area] += occDayHours(o, date); });
+  occsTouching(date).forEach(o => {
+    if (o.done) return;
+    if (o.area === SLEEP_AREA && handSleep) return;
+    if (map[o.area] != null) map[o.area] += occDayHours(o, date);
+    // Gap activities count toward their own areas. A lesson during a drive does not add hours.
+    if (typeof HSGaps !== "undefined" && HSGaps.usesBreaks(o)) {
+      const cover = realCoverRanges(o, date);
+      HSGaps.account(o).activities.forEach(p => {
+        if (p.date !== date || map[p.area] == null) return;
+        map[p.area] += Math.max(0, p.mins - overlapMins([p.start, p.end >= 1440 ? 1440 : p.end], cover)) / 60;
+      });
+    }
+  });
   return map;
 }
 function pendingOccs(date) { return occsTouching(date).filter(o => !o.done); }
@@ -10258,13 +10514,76 @@ function planLabel(o) {
   const area = o.area === SLEEP_AREA ? "Sleep" : fastLabel(o.area);
   return o.title || (p ? p.name : area);
 }
+function phonesSvg() {
+  return '<svg class="hs-phones" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12 3a8 8 0 0 0-8 8v7a2 2 0 0 0 2 2h2v-7H6v-1a6 6 0 0 1 12 0v1h-2v7h2a2 2 0 0 0 2-2v-7a8 8 0 0 0-8-8z"/></svg>';
+}
+function planMarksHtml(o) {
+  if (!o || o.kind !== "drive") return "";
+  return '<span class="drive-badge">Drive</span>' + (o.listen ? phonesSvg() + '<span class="sr-only">Listening during this drive</span>' : "");
+}
 function planSubLabel(o) {
   const p = o.pathId ? pathById(o.pathId) : null;
-  return [fmtClock(o.start) + "–" + fmtClock(o.end), o.area === SLEEP_AREA ? "Sleep" : fastLabel(o.area), p ? p.name : ""].filter(Boolean).join(" · ");
+  const bits = [fmtClock(o.start) + "–" + fmtClock(o.end), o.area === SLEEP_AREA ? "Sleep" : fastLabel(o.area), p ? p.name : ""];
+  if (o.kind === "drive") bits.push("Drive");
+  if (o.kind === "drive" && o.listen) bits.push(o.listen.title ? "Listening: " + o.listen.title : "Listening");
+  if (typeof HSGaps !== "undefined" && HSGaps.usesBreaks(o)) bits.push((o.breaks || []).length === 1 ? "1 break" : (o.breaks || []).length + " breaks");
+  return bits.filter(Boolean).join(" · ");
 }
 function fmtClock(hm) {
   const [h, m] = hm.split(":").map(Number);
   try { return new Date(2000, 0, 1, h, m).toLocaleTimeString(undefined, { hour: "numeric", minute: "2-digit" }); } catch (e) { return hm; }
+}
+let moneyTab = "overview";
+function applyMoneyTab(tab) {
+  if (tab) moneyTab = tab;
+  const sec = document.getElementById("moneySection");
+  if (sec) sec.dataset.tab = moneyTab || "overview";
+  document.querySelectorAll("#moneyTabs [data-money-tab]").forEach(b => {
+    const on = b.dataset.moneyTab === (moneyTab || "overview");
+    b.setAttribute("aria-pressed", on ? "true" : "false");
+  });
+  document.querySelectorAll("#moneyList .act").forEach(li => {
+    const t = li.dataset.mtype || "";
+    if (moneyTab === "income") li.hidden = t !== "income";
+    else if (moneyTab === "spending") li.hidden = t === "income";
+    else li.hidden = false;
+  });
+}
+function refreshSecurity() {
+  const g = document.getElementById("graceHours");
+  if (g && document.activeElement !== g) g.value = String(graceHoursOf());
+  const drive = document.getElementById("btnDriveBackup");
+  if (drive) drive.hidden = !hsBackup();
+  const on = document.getElementById("btnBioOn"), off = document.getElementById("btnBioOff"), hint = document.getElementById("bioHint");
+  if (!on) return;
+  if (!hsBio()) { on.hidden = true; if (off) off.hidden = true; if (hint) hint.hidden = true; return; }
+  if (hint) hint.hidden = false;
+  hsBio().status().then(st => {
+    const en = !!(st && st.enabled);
+    on.hidden = en; if (off) off.hidden = !en;
+  }).catch(() => { on.hidden = true; if (off) off.hidden = true; });
+}
+function graceHoursOf() {
+  const n = Number(data && data.graceHours);
+  return n >= 1 && n <= 336 ? n : 48;
+}
+function dayRecorded(date) {
+  const d = (data.days && data.days[date]) || {};
+  if (d.sleep) return true;
+  if ((data.pathLogs || []).some(l => l.date === date && l.logged !== false && (l.minutes || l.did || l.rating || (l.pulls || []).length))) return true;
+  if ((data.diary || []).some(e => e.date === date && (String(e.note || "").trim() || (e.media || []).length))) return true;
+  if ((data.tasks || []).some(t => t.date === date && t.status === "done" && !t.pathLogId)) return true;
+  return false;
+}
+function standingFor(date) {
+  if (typeof HSGaps === "undefined" || !HSGaps.dayStanding) return "open";
+  let tz = 0;
+  try { tz = -new Date(date + "T00:00:00").getTimezoneOffset(); } catch (e) { tz = 0; }
+  return HSGaps.dayStanding({
+    date, nowMs: Date.now(), graceHours: graceHoursOf(), tzOffsetMinutes: tz,
+    hasRecord: dayRecorded(date),
+    explicitNone: !!(data.dayMarks && data.dayMarks[date] === "none")
+  });
 }
 function dayWord(date) {
   if (date === TODAY) return "today";
@@ -10275,7 +10594,7 @@ function dayWord(date) {
 // (730 hours = one month of 24-hour days: 24 × 365 ÷ 12).
 function repeatsWeeklyHours() {
   return ((data && data.plans) || []).filter(p => p.every > 0 && (!p.until || p.until >= TODAY)).reduce((t, p) => {
-    const len = occHours({ start: p.start, end: p.end, date: p.from });
+    const len = occHours(p);
     return t + len * p.days.length / p.every;
   }, 0);
 }
@@ -10285,9 +10604,47 @@ function repeatsCostText() {
   return fillCopy(PLAN_COPY.cost, { h: fmtHours(Math.round(h * 10) / 10), m: fmtHours(Math.round(m * 10) / 10) });
 }
 // ---- Confirm: planned -> logged. Each piece becomes a path moment on its own day (sleep goes to the day's sleep).
+function planLog(fields) {
+  const key = fields && fields.planKey;
+  if (key) {
+    const hit = (data.pathLogs || []).find(l => l.planKey === key && l.date === fields.date);
+    if (hit) {
+      Object.assign(hit, fields, { id: hit.id, taskId: hit.taskId || "", source: "plan" });
+      syncPathTask(hit);
+      return hit;
+    }
+  }
+  const l = Object.assign({ id: uid("pl"), pathId: "", date: "", did: "", better: "", rating: "", reps: null, repsUnit: "", pulls: [], steered: [],
+    journal: "", motive: "", clean: "", minutes: null, area: "", taskId: "", source: "plan", planKey: "", logged: true,
+    countsElapsed: true, alongside: "", gap: false, segment: "" }, fields);
+  data.pathLogs.push(l); syncPathTask(l);
+  return l;
+}
+// A lesson during a drive is recorded on its path and does not add hours. Nothing here asks you to read or type while driving.
+function confirmListen(o) {
+  if (!o || o.kind !== "drive" || !o.listen || !o.listen.pathId || !pathById(o.listen.pathId)) return;
+  if (data.planDays[o.key] && data.planDays[o.key].skipListen) return;
+  const mins = Number(o.listen.minutes) > 0 ? Math.round(Number(o.listen.minutes)) : null;
+  planLog({ pathId: o.listen.pathId, date: o.date, did: o.listen.title || "", minutes: mins, area: o.listen.area,
+    planKey: o.key + "#listen", countsElapsed: false, alongside: o.key });
+}
+function confirmGapped(o) {
+  const acc = HSGaps.account(o);
+  const write = (p, area, pathId, title, extra) => {
+    if (!pathById(pathId) || !AREAS.some(a => a.id === area)) return;
+    const end = p.end >= 1440 ? 1440 : p.end;
+    const mins = Math.round(p.mins - overlapMins([p.start, end], realCoverRanges(o, p.date)));
+    if (!(mins > 0)) return;
+    planLog({ pathId, date: p.date, did: title || "", minutes: mins, area, planKey: o.key + extra, gap: extra.indexOf("#g") === 0,
+      segment: minHm(p.start) + "–" + (end >= 1440 ? "24:00" : minHm(end)) });
+  };
+  acc.pieces.forEach((p, i) => write(p, o.area, o.pathId, o.title, "#w" + i));
+  acc.activities.forEach((p, i) => write(p, p.area, p.pathId, p.title, "#g" + i));
+}
 function confirmOcc(o) {
   if (o.done) return;
-  occSegments(o).forEach(sg => {
+  if (typeof HSGaps !== "undefined" && HSGaps.usesBreaks(o)) confirmGapped(o);
+  else occSegments(o).forEach(sg => {
     const mins = Math.round(sg.hours * 60 - takenMins(o, sg.date)); // v42: a planned block logs only what real events left it
     if (!(mins > 0)) return;
     if (o.area === SLEEP_AREA) {
@@ -10301,14 +10658,17 @@ function confirmOcc(o) {
       return;
     }
     if (!pathById(o.pathId)) return;
-    const l = { id: uid("pl"), pathId: o.pathId, date: sg.date, did: o.title || "", better: "", rating: "", reps: null, repsUnit: "", pulls: [], steered: [],
-      journal: "", motive: "", clean: "", minutes: mins, area: o.area, taskId: "", source: "plan", planKey: o.key, logged: true };
-    data.pathLogs.push(l); syncPathTask(l);
+    planLog({ pathId: o.pathId, date: sg.date, did: o.title || "", minutes: mins, area: o.area, planKey: o.key });
   });
+  confirmListen(o);
   data.planDone[o.key] = TODAY;
 }
-function confirmDay(date) {
+function confirmDay(date, root) {
   const list = pendingOccs(date);
+  const listenBox = root && root.querySelector ? root.querySelector("[data-plan-listen]") : document.querySelector("[data-plan-listen]");
+  if (listenBox && !listenBox.checked) {
+    list.forEach(o => { if (o.listen) data.planDays[o.key] = Object.assign({}, data.planDays[o.key] || {}, { skipListen: true }); });
+  }
   const dates = []; list.forEach(o => occSegments(o).forEach(sg => dates.push(sg.date)));
   const doneSnap = Object.assign({}, data.planDone);
   const ok = capGuard(dates, () => null, () => list.forEach(confirmOcc));
@@ -10332,7 +10692,7 @@ function runOver(date, key, newEnd) {
   const taken = {}; let takenMin = 0;
   list.filter(x => x.key !== o.key && !x.done).forEach(x => {
     const off = daysBetween(o.date, x.date) * 1440;
-    const xs = off + hmMin(x.start), xe = xs + Math.round(occHours(x) * 60);
+    const xs = off + hmMin(x.start), xe = xs + occSpanMins(x);
     const ovl = Math.max(0, Math.min(xe, nE) - Math.max(xs, oE));
     if (!(ovl > 0)) return;
     const cur = data.planDays[x.key] || {};
@@ -10472,25 +10832,48 @@ function renderPlanCard() {
   const pend = isWeek ? [] : pendingOccs(date);
   let html = "";
   if (!isWeek && pend.length && date <= TODAY) {
-    html += '<div class="plan-confirm" id="planAsk"><p class="coach-line">' + esc(fillCopy(PLAN_COPY.ask, { day: dayWord(date) })) + '</p>' +
-      '<div class="row-actions"><button type="button" class="btn primary" id="planYes">' + esc(PLAN_COPY.yes) + '</button><button type="button" class="btn" id="planChange">' + esc(PLAN_COPY.change) + '</button>' +
-      '<button type="button" class="btn" id="planOver">Work ran over</button></div></div>';
+    const listens = pend.filter(o => o.kind === "drive" && o.listen);
+    html += '<div class="plan-confirm"><p class="coach-line">' + esc(fillCopy(PLAN_COPY.ask, { day: dayWord(date) })) + '</p>' +
+      (listens.length ? '<label class="check-row"><input type="checkbox" data-plan-listen checked /> Listening: ' + esc(listens.map(o => (o.listen && o.listen.title) || "audio").join(", ")) + '</label><p class="hint">Planned listening. It is recorded only if you leave this checked.</p>' : "") +
+      '<div class="row-actions"><button type="button" class="btn primary" data-plan-yes>' + esc(PLAN_COPY.yes) + '</button><button type="button" class="btn" data-plan-change>' + esc(PLAN_COPY.change) + '</button>' +
+      '<button type="button" class="btn" data-plan-over>Work ran over</button></div></div>';
   } else if (!isWeek && pend.length) {
     html += '<div class="plan-confirm"><p><span class="planned-chip">' + esc(PLAN_COPY.planned) + '</span> ' + esc(pend.map(planLabel).join(", ")) + '</p>' +
-      '<div class="row-actions"><button type="button" class="btn" id="planChange">' + esc(PLAN_COPY.change) + '</button></div></div>';
+      '<div class="row-actions"><button type="button" class="btn" data-plan-change>' + esc(PLAN_COPY.change) + '</button></div></div>';
   }
   if (!isWeek) html += noHoursHtml(date);
   if (!isWeek) {
     const lines = Object.keys(data.planOver || {}).map(k => data.planOver[k]).filter(x => x && x.date === date);
     if (lines.length) html += '<div class="over-lines">' + lines.map(x => '<p class="over-line">' + esc(x.text) + '</p>').join("") + '</div>';
   }
-  html += '<div class="row-actions" style="margin-top:0.5rem"><button type="button" class="btn" id="planWeekOpen">Planned week</button><button type="button" class="btn" id="planAddHere">Add a planned block</button></div>';
-  box.innerHTML = html;
-  const y = document.getElementById("planYes"); if (y) y.onclick = () => confirmDay(date);
-  const c = document.getElementById("planChange"); if (c) c.onclick = () => openPlanDay(date);
-  const ov = document.getElementById("planOver"); if (ov) ov.onclick = () => openRunOver(date);
-  document.getElementById("planWeekOpen").onclick = () => openPlanWeek();
-  document.getElementById("planAddHere").onclick = () => openPlanEditor({ date });
+  if (!isWeek && standingFor(date) !== "unknown") {
+    const done = occsTouching(date).filter(o => o.done && o.date === date);
+    if (done.length) html += '<div class="row-actions"><button type="button" class="btn" data-plan-editlogged>Change something</button></div>';
+  }
+  html += '<div class="row-actions" style="margin-top:0.5rem"><button type="button" class="btn" data-plan-week>Planned week</button><button type="button" class="btn" data-plan-add>Add a planned block</button></div>';
+  const paint = root => {
+    if (!root) return;
+    root.innerHTML = html;
+    if (root.id === "planCard") {
+      const ask = root.querySelector("[data-plan-yes]");
+      if (ask) { ask.id = "planYes"; const box = ask.closest(".plan-confirm"); if (box) box.id = "planAsk"; }
+      const ch = root.querySelector("[data-plan-change]"); if (ch) ch.id = "planChange";
+      const ov = root.querySelector("[data-plan-over]"); if (ov) ov.id = "planOver";
+      const add = root.querySelector("[data-plan-add]"); if (add) add.id = "planAddHere";
+      const week = root.querySelector("[data-plan-week]"); if (week) week.id = "planWeekOpen";
+    }
+    const y = root.querySelector("[data-plan-yes]"); if (y) y.onclick = () => confirmDay(date, root);
+    const c = root.querySelector("[data-plan-change]"); if (c) c.onclick = () => openPlanDay(date);
+    const ov = root.querySelector("[data-plan-over]"); if (ov) ov.onclick = () => openRunOver(date);
+    const w = root.querySelector("[data-plan-week]"); if (w) w.onclick = () => openPlanWeek();
+    const a = root.querySelector("[data-plan-add]"); if (a) a.onclick = () => openPlanEditor({ date });
+    const ed = root.querySelector("[data-plan-editlogged]"); if (ed) ed.onclick = () => {
+      occsTouching(date).filter(o => o.done && o.date === date).forEach(o => { delete data.planDone[o.key]; });
+      save(); renderPlanCard(); renderCheckin();
+    };
+  };
+  paint(box);
+  paint(document.getElementById("planCardCheckin"));
 }
 // ---- One day's plan sheet
 let planDayDate = "";
@@ -10502,7 +10885,7 @@ function renderPlanDay() {
   const list = occsTouching(date, { withSkipped: true });
   const past = date <= TODAY;
   document.getElementById("planDayList").innerHTML = list.length ? list.map(o =>
-    '<li class="' + (o.skipped ? "is-skipped" : "") + '" data-occ="' + esc(o.key) + '"><span class="pl-what">' + esc(planLabel(o)) + (o.done ? ' · Logged' : "") + '<small>' + esc(planSubLabel(o)) + '</small>' + (o.skipped ? "" : (n => n ? '<small class="shrunk-note">' + esc(n) + '</small>' : "")(shrunkNote(o))) + '</span><span class="row-actions" style="margin:0">' +
+    '<li class="' + (o.skipped ? "is-skipped" : "") + '" data-occ="' + esc(o.key) + '"><span class="pl-what">' + planMarksHtml(o) + esc(planLabel(o)) + (o.done ? ' · Logged' : "") + '<small>' + esc(planSubLabel(o)) + '</small>' + (o.skipped ? "" : (n => n ? '<small class="shrunk-note">' + esc(n) + '</small>' : "")(shrunkNote(o))) + '</span><span class="row-actions" style="margin:0">' +
     (o.done ? "" : o.skipped ? '<button type="button" class="btn" data-occ-unskip="' + esc(o.key) + '">Bring back</button>' :
       (past ? '<button type="button" class="btn primary" data-occ-confirm="' + esc(o.key) + '">Confirm</button>' : "") +
       '<button type="button" class="btn" data-occ-edit="' + esc(o.key) + '">Edit</button><button type="button" class="btn" data-occ-skip="' + esc(o.key) + '">Skip</button>' +
@@ -10528,7 +10911,7 @@ function renderPlanDay() {
   });
   document.getElementById("planDayAdd").onclick = () => openPlanEditor({ date });
 }
-function occAsPlan(o) { return { id: o.key.replace("|", "-"), area: o.area, pathId: o.pathId, title: o.title, start: o.start, end: o.end, every: 0, days: [parseISO(o.date).getDay()], from: o.date, until: "" }; }
+function occAsPlan(o) { return { id: o.key.replace("|", "-"), area: o.area, pathId: o.pathId, title: o.title, start: o.start, end: o.end, every: 0, days: [parseISO(o.date).getDay()], from: o.date, until: "", kind: o.kind || "", listen: o.listen || null, breaks: o.breaks || [] }; }
 // ---- Planned week sheet: repeats, their cost, calendar files, what the calendar shows
 function openPlanWeek() { renderPlanWeek(); openSheet(document.getElementById("planWeekDialog"), document.getElementById("planWeekTitle")); }
 function renderPlanWeek() {
@@ -10536,7 +10919,7 @@ function renderPlanWeek() {
   const reps = data.plans.filter(p => p.every > 0 && (!p.until || p.until >= TODAY));
   const ones = data.plans.filter(p => p.every === 0 && p.from >= TODAY);
   document.getElementById("planCost").textContent = reps.length ? repeatsCostText() : "";
-  const row = p => '<li><span class="pl-what">' + esc(planLabel(p)) + '<small>' + esc(planSubLabel(p) + " · " + planWhenText(p)) + '</small></span><span class="row-actions" style="margin:0"><button type="button" class="btn" data-plan-edit="' + esc(p.id) + '">Edit</button></span></li>';
+  const row = p => '<li><span class="pl-what">' + planMarksHtml(p) + esc(planLabel(p)) + '<small>' + esc(planSubLabel(p) + " · " + planWhenText(p)) + '</small></span><span class="row-actions" style="margin:0"><button type="button" class="btn" data-plan-edit="' + esc(p.id) + '">Edit</button></span></li>';
   document.getElementById("planRepeatList").innerHTML = reps.concat(ones).map(row).join("") || '<li><span class="pl-what hint">Nothing planned yet. Add the blocks you know, like work and sleep.</span></li>';
   document.querySelectorAll("#planRepeatList [data-plan-edit]").forEach(b => b.onclick = () => { const p = data.plans.find(x => x.id === b.dataset.planEdit); if (p) openPlanEditor({ plan: p }); });
 }
@@ -10561,7 +10944,14 @@ function openPlanEditor(opts) {
   const p = opts.plan || (opts.occ && opts.occ.plan) || null;
   // Remember the sheet we came from, so Save / Cancel go back to it.
   const back = document.getElementById("planDayDialog").open ? planDayDate : document.getElementById("planWeekDialog").open ? "week" : "";
-  planEdit = { mode, plan: opts.plan || null, occ: opts.occ || null, back };
+  const listen0 = (src && src.listen) || {};
+  planEdit = {
+    mode, plan: opts.plan || null, occ: opts.occ || null, back,
+    breaks: (typeof HSGaps !== "undefined") ? HSGaps.cloneBreaks(src && src.breaks) : [],
+    drive: !!(src && src.kind === "drive" && (!src.area || src.area !== SLEEP_AREA)),
+    listenOn: !!(src && src.kind === "drive" && src.listen)
+  };
+  planBreakDraft = null;
   const $ = id => document.getElementById(id);
   $("planPickHint").textContent = mode === "log" ? PICK_ONE : PICK_ONE_PLAN;
   $("planDialogTitle").textContent = mode === "log" ? "Log time" : mode === "occ" ? "Change this day" : (opts.plan ? "Edit planned block" : "Add a planned block");
@@ -10581,10 +10971,18 @@ function openPlanEditor(opts) {
   $("planDelete").hidden = !(mode === "plan" && opts.plan);
   $("planIcs").hidden = mode === "log";
   $("planErr").hidden = true;
+  $("listenArea").innerHTML = planAreaOptions(listen0.area || "", false);
+  $("listenPath").innerHTML = pathSelectHtml(listen0.pathId || (activePaths()[0] || {}).id);
+  $("listenTitle").value = listen0.title || "";
+  $("listenMins").value = Number(listen0.minutes) > 0 ? String(listen0.minutes) : "";
+  $("listenNewPath").value = "";
+  $("listenNewWrap").hidden = $("listenPath").value !== "__new";
   syncPlanForm();
+  renderPlanBreaks();
   openSheet($("planDialog"), $("planArea"));
 }
 let planDaysPick = [];
+let planBreakDraft = null;
 function syncPlanForm() {
   const $ = id => document.getElementById(id);
   const mode = planEdit ? planEdit.mode : "plan";
@@ -10603,12 +11001,164 @@ function syncPlanForm() {
   $("planUntilDateText").textContent = fillCopy(PLAN_COPY.untilDate, { date: $("planUntil").value ? prettyDate($("planUntil").value) : "a date" });
   $("planDays").innerHTML = DAY_SHORT.map((d, i) => '<button type="button" class="chip" data-plan-day="' + i + '" aria-pressed="' + (planDaysPick.includes(i) ? "true" : "false") + '" aria-label="' + DAY_NAMES[i] + '">' + d + '</button>').join("");
   document.querySelectorAll("[data-plan-day]").forEach(b => b.onclick = () => { const i = Number(b.dataset.planDay); planDaysPick = planDaysPick.includes(i) ? planDaysPick.filter(x => x !== i) : planDaysPick.concat([i]).sort(); syncPlanForm(); });
+  syncPlanExtras();
+}
+function syncPlanExtras() {
+  const $ = id => document.getElementById(id);
+  const mode = planEdit ? planEdit.mode : "plan";
+  const sleep = $("planArea").value === SLEEP_AREA;
+  const android = plannerAndroid() && typeof HSGaps !== "undefined" && mode !== "log" && !sleep;
+  const driveOn = android && !!(planEdit && planEdit.drive);
+  $("planDriveWrap").hidden = !android;
+  if ($("planIsDrive")) $("planIsDrive").checked = !!(planEdit && planEdit.drive);
+  $("planDriveSafe").hidden = !driveOn;
+  $("planDriveAreaHint").hidden = !driveOn;
+  $("planListenWrap").hidden = !driveOn;
+  if ($("planListenOn")) $("planListenOn").checked = !!(planEdit && planEdit.listenOn);
+  $("planListenFields").hidden = !(driveOn && planEdit && planEdit.listenOn);
+  $("planBreaksWrap").hidden = !android || driveOn;
+}
+function breakFormErr(msg) { const m = document.getElementById("breakErr"); m.textContent = msg; m.hidden = false; }
+function renderBreakActs() {
+  const host = document.getElementById("breakActs");
+  if (!host || !planBreakDraft) return;
+  host.innerHTML = (planBreakDraft.acts || []).map((a, i) =>
+    '<div class="break-act" data-act-i="' + i + '">' +
+    '<div class="time-row"><label class="field">Starts<input type="time" data-act="start" value="' + esc(a.start || "") + '" /></label><label class="field">Ends<input type="time" data-act="end" value="' + esc(a.end || "") + '" /></label></div>' +
+    '<label class="field">Area<select data-act="area">' + planAreaOptions(a.area || "", false) + '</select></label>' +
+    '<label class="field">Path<select data-act="path">' + pathSelectHtml(a.pathId || "") + '</select></label>' +
+    '<label class="field" data-act-new hidden>New path<input data-act="newpath" type="text" maxlength="60" value="' + esc(a.newPath || "") + '" /></label>' +
+    '<label class="field">What<input data-act="title" type="text" maxlength="120" value="' + esc(a.title || "") + '" /></label>' +
+    '<span class="chip-row" role="radiogroup" aria-label="Planned or actual"><button type="button" class="chip" data-act="when" data-when="planned" aria-pressed="' + (a.when === "actual" ? "false" : "true") + '">Planned</button><button type="button" class="chip" data-act="when" data-when="actual" aria-pressed="' + (a.when === "actual" ? "true" : "false") + '">Actual</button></span>' +
+    '<button type="button" class="tiny" data-act="remove">Remove</button></div>').join("");
+  host.querySelectorAll(".break-act").forEach(row => {
+    const i = Number(row.dataset.actI);
+    const act = planBreakDraft.acts[i];
+    const syncNew = () => { const np = row.querySelector("[data-act-new]"); if (np) np.hidden = row.querySelector('[data-act="path"]').value !== "__new"; };
+    row.querySelectorAll("[data-act]").forEach(el => {
+      const key = el.dataset.act;
+      if (key === "when") { el.onclick = () => { act.when = el.dataset.when; row.querySelectorAll('[data-act="when"]').forEach(b => b.setAttribute("aria-pressed", b === el ? "true" : "false")); }; return; }
+      if (key === "remove") { el.onclick = () => { planBreakDraft.acts.splice(i, 1); renderBreakActs(); }; return; }
+      el.addEventListener(el.tagName === "SELECT" ? "change" : "input", () => {
+        if (key === "start") act.start = el.value;
+        else if (key === "end") act.end = el.value;
+        else if (key === "area") act.area = el.value;
+        else if (key === "path") { act.pathId = el.value; syncNew(); }
+        else if (key === "title") act.title = el.value;
+        else if (key === "newpath") act.newPath = el.value;
+      });
+    });
+    syncNew();
+  });
+}
+function renderPlanBreaks() {
+  const list = document.getElementById("planBreakList");
+  const draft = document.getElementById("planBreakDraft");
+  if (!list || !planEdit) return;
+  const breaks = planEdit.breaks || [];
+  list.innerHTML = breaks.length ? breaks.map(b => {
+    const acts = (b.acts || []).map(a => esc((a.when === "actual" ? "Actual" : "Planned") + " · " + fmtClock(a.start) + "–" + fmtClock(a.end) + (a.title ? " · " + a.title : ""))).join("<br>");
+    return '<div class="break-card"><span class="pl-what"><b>' + esc(fmtClock(b.start) + "–" + fmtClock(b.end)) + '</b>' + (acts ? "<small>" + acts + "</small>" : "<small>Nothing in this gap yet.</small>") + '</span><span class="row-actions" style="margin:0"><button type="button" class="btn" data-break-edit="' + esc(b.id) + '">Edit</button><button type="button" class="btn" data-break-remove="' + esc(b.id) + '">Remove</button></span></div>';
+  }).join("") : "";
+  list.querySelectorAll("[data-break-edit]").forEach(btn => btn.onclick = () => openBreakDraft(breaks.find(b => b.id === btn.dataset.breakEdit)));
+  list.querySelectorAll("[data-break-remove]").forEach(btn => btn.onclick = () => { planEdit.breaks = HSGaps.removeBreak(planEdit.breaks, btn.dataset.breakRemove); renderPlanBreaks(); });
+  const open = !!planBreakDraft;
+  draft.hidden = !open;
+  document.getElementById("planAddBreak").hidden = open;
+  syncPlanTimesHint();
+  if (!open) return;
+  document.getElementById("breakStart").value = planBreakDraft.start || "";
+  document.getElementById("breakEnd").value = planBreakDraft.end || "";
+  document.getElementById("breakErr").hidden = true;
+  renderBreakActs();
+}
+function openBreakDraft(br) {
+  planBreakDraft = br ? HSGaps.cloneBreaks([br])[0] : { id: uid("br"), start: "", end: "", acts: [] };
+  if (!planBreakDraft.acts) planBreakDraft.acts = [];
+  renderPlanBreaks();
+  const start = document.getElementById("breakStart"); if (start) start.focus();
+}
+function saveBreakDraft() {
+  if (!planBreakDraft || typeof HSGaps === "undefined") return;
+  const d = planBreakDraft;
+  d.start = document.getElementById("breakStart").value;
+  d.end = document.getElementById("breakEnd").value;
+  const made = [];
+  const acts = [];
+  for (let i = 0; i < (d.acts || []).length; i++) {
+    const a = d.acts[i];
+    let pathId = a.pathId || "";
+    if (pathId === "__new") {
+      const name = String(a.newPath || "").trim().slice(0, 60);
+      if (!name) return breakFormErr("Name the path.");
+      const ex = (data.paths || []).find(x => !x.archived && x.name.toLowerCase() === name.toLowerCase());
+      if (ex) pathId = ex.id;
+      else { const np = { id: uid("pa"), name, img: PATH_DEFAULT_ICON, created: TODAY, active: true, archived: false, reminder: null }; made.push(np); pathId = np.id; }
+    }
+    acts.push({ id: a.id || uid("ba"), start: a.start, end: a.end, area: a.area || "", pathId, title: String(a.title || "").slice(0, 120), when: a.when === "actual" ? "actual" : "planned" });
+  }
+  const next = HSGaps.upsertBreak(planEdit.breaks, { id: d.id || uid("br"), start: d.start, end: d.end, acts });
+  const v = HSGaps.validateBreaks(document.getElementById("planStart").value, document.getElementById("planEnd").value, next);
+  if (!v.ok) return breakFormErr(v.error);
+  made.forEach(np => data.paths.push(np));
+  planEdit.breaks = v.breaks;
+  planBreakDraft = null;
+  renderPlanBreaks();
+}
+function resolvePathChoice(selId, newId) {
+  const pathId = document.getElementById(selId).value;
+  if (pathId !== "__new") return { pathId };
+  const name = document.getElementById(newId).value.trim().slice(0, 60);
+  if (!name) return { pathId: "", missingName: true };
+  const ex = (data.paths || []).find(x => !x.archived && x.name.toLowerCase() === name.toLowerCase());
+  if (ex) return { pathId: ex.id };
+  const made = { id: uid("pa"), name, img: PATH_DEFAULT_ICON, created: TODAY, active: true, archived: false, reminder: null };
+  return { pathId: made.id, made };
+}
+function readPlanExtras(start, end) {
+  if (!planEdit) return { kind: "", listen: null, breaks: [] };
+  const src = planEdit.occ || planEdit.plan || {};
+  if (typeof HSGaps === "undefined") return { kind: src.kind === "drive" ? "drive" : "", listen: src.listen || null, breaks: Array.isArray(src.breaks) ? src.breaks : [] };
+  const area = document.getElementById("planArea").value;
+  if (area === SLEEP_AREA) return { kind: "", listen: null, breaks: [] };
+  if (!(plannerAndroid())) {
+    const meta = HSGaps.migrateBlock(src);
+    return { kind: meta.kind, listen: meta.listen, breaks: meta.breaks };
+  }
+  if (planBreakDraft) { planFormErr("Save the break first, or cancel it."); return null; }
+  if (planEdit.drive) {
+    let listen = null;
+    if (planEdit.listenOn) {
+      const picked = resolvePathChoice("listenPath", "listenNewPath");
+      if (picked.missingName) { planFormErr("Name the path for the lesson.", document.getElementById("listenNewPath")); return null; }
+      const minsRaw = document.getElementById("listenMins").value;
+      const sp = spanMins(start, end);
+      const v = HSGaps.validateListen({
+        area: document.getElementById("listenArea").value, pathId: picked.pathId,
+        title: document.getElementById("listenTitle").value, minutes: minsRaw === "" ? null : Number(minsRaw)
+      }, sp ? sp.mins : null);
+      if (!v.ok) { planFormErr(v.error, document.getElementById("listenArea")); return null; }
+      if (picked.made) data.paths.push(picked.made);
+      listen = v.listen;
+    }
+    return { kind: "drive", listen, breaks: [] };
+  }
+  const v = HSGaps.validateBreaks(start, end, planEdit.breaks || []);
+  if (!v.ok) { planFormErr(v.error); return null; }
+  return { kind: "", listen: null, breaks: v.breaks };
 }
 function syncPlanTimesHint() {
   const el = document.getElementById("planTimesHint"); if (!el) return;
   const mode = planEdit ? planEdit.mode : "plan";
   el.hidden = mode === "log";
-  el.textContent = spanHintText(document.getElementById("planStart").value, document.getElementById("planEnd").value, { sameMsg: PLAN_COPY.sameTimes });
+  let text = spanHintText(document.getElementById("planStart").value, document.getElementById("planEnd").value, { sameMsg: PLAN_COPY.sameTimes });
+  const start = document.getElementById("planStart").value, end = document.getElementById("planEnd").value;
+  if (typeof HSGaps !== "undefined" && planEdit && HSGaps.usesBreaks({ area: document.getElementById("planArea").value, kind: planEdit.drive ? "drive" : "", start, end, breaks: planEdit.breaks })) {
+    const a = HSGaps.account({ start, end, area: document.getElementById("planArea").value, breaks: planEdit.breaks });
+    const around = a.breaks.length === 1 ? "the break" : "the breaks";
+    text = (text ? text + " · " : "") + fmtHours(a.workMins / 60) + "h of work around " + around;
+  }
+  el.textContent = text;
 }
 function planFormErr(msg, el) { const m = document.getElementById("planErr"); m.textContent = msg; m.hidden = false; if (el) el.focus(); }
 function readPlanForm() {
@@ -10648,9 +11198,10 @@ function savePlanForm() {
     save(); $("planDialog").close(); renderCheckin(); renderDerived(); showToast(loggedToast(l)); return;
   }
   if (!hmRe.test(f.start) || !hmRe.test(f.end) || f.start === f.end) { planFormErr("Pick a start and an end time.", $("planStart")); return; }
+  const extra = readPlanExtras(f.start, f.end); if (!extra) return;
   if (mode === "occ") {
     const o = planEdit.occ;
-    const ch = { area: f.area, pathId: f.pathId, title: f.title, start: f.start, end: f.end };
+    const ch = { area: f.area, pathId: f.pathId, title: f.title, start: f.start, end: f.end, kind: extra.kind, listen: extra.listen, breaks: extra.breaks };
     data.planDays[o.key] = Object.assign({}, data.planDays[o.key] || {}, ch); delete data.planDays[o.key].skip;
   } else {
     const every = Number($("planRepeat").value) || 0;
@@ -10658,7 +11209,7 @@ function savePlanForm() {
     if (every > 0 && !days.length) { planFormErr("Pick at least one day.", $("planDays").querySelector("button")); return; }
     const until = every > 0 && $("planUntilOn").checked ? $("planUntil").value : "";
     if (every > 0 && $("planUntilOn").checked && (!isoRe.test(until) || until < f.date)) { planFormErr("Pick an end date after the start.", $("planUntil")); return; }
-    const rec = { area: f.area, pathId: f.pathId, title: f.title, start: f.start, end: f.end, every, days, from: f.date, until };
+    const rec = { area: f.area, pathId: f.pathId, title: f.title, start: f.start, end: f.end, every, days, from: f.date, until, kind: extra.kind, listen: extra.listen, breaks: extra.breaks };
     if (planEdit.plan) Object.assign(planEdit.plan, rec);
     else data.plans.push(Object.assign({ id: uid("pn"), source: "", icsUid: "" }, rec));
   }
@@ -10698,24 +11249,61 @@ function icsSummary(p) {
   const path = p.pathId ? pathById(p.pathId) : null;
   return p.title || [path ? path.name : "", p.area === SLEEP_AREA ? "Sleep" : fastLabel(p.area)].filter(Boolean).join(" · ");
 }
+// A block with breaks is several busy times (the work segments and whatever fills a gap). A drive with a lesson stays one event.
+function expandGapEvents(p, opts) {
+  const out = [];
+  if (typeof HSGaps === "undefined" || !HSGaps.usesBreaks(p)) return out;
+  const horizonEnd = p.until && p.until < shift(TODAY, CAL_DAYS) ? p.until : shift(TODAY, CAL_DAYS);
+  const startAt = p.every === 0 ? p.from : (p.from > shift(TODAY, -1) ? p.from : shift(TODAY, -1));
+  const live = !!(data && Array.isArray(data.plans) && data.plans.indexOf(p) >= 0);
+  for (let i = 0, cur = startAt; cur <= horizonEnd && i < 400; i++, cur = shift(cur, 1)) {
+    if (!planOccursOn(p, cur)) continue;
+    let block = { date: cur, start: p.start, end: p.end, area: p.area, pathId: p.pathId, title: p.title, kind: p.kind || "", listen: p.listen || null, breaks: p.breaks || [], id: p.id };
+    if (live) {
+      const o = planOcc(p, cur);
+      if (!o) continue;
+      block = o;
+    }
+    HSGaps.calendarEvents(block).forEach((ev, n) => {
+      if (opts && opts.futureOnly && ev.date < TODAY) return;
+      const endClock = ev.end >= 1440 ? "00:00" : minHm(ev.end);
+      out.push({
+        id: (p.id || "pn") + "-" + ev.date + "-" + minHm(ev.start).replace(":", "") + "-" + ev.role + n,
+        area: ev.area || p.area, pathId: ev.pathId || "", title: ev.title || "",
+        start: minHm(ev.start), end: endClock, every: 0, days: [parseISO(ev.date).getDay()], from: ev.date, until: "",
+        kind: ev.role === "work" ? (block.kind || "") : "", listen: ev.role === "work" ? (block.listen || null) : null, breaks: []
+      });
+    });
+  }
+  return out;
+}
+function icsEmitList(plans) {
+  const flat = [];
+  (plans || []).forEach(p => {
+    if (typeof HSGaps !== "undefined" && HSGaps.usesBreaks(p)) expandGapEvents(p).forEach(ev => flat.push(ev));
+    else flat.push(p);
+  });
+  return flat.filter(p => (data.calShare || {})[p.area] !== "off");
+}
 function buildIcs(plans) {
-  plans = plans.filter(p => (data.calShare || {})[p.area] !== "off"); // v41: Leave off = never written to a calendar
+  const emit = icsEmitList(plans); // v41: Leave off = never written to a calendar
   const L = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Higher Self//v" + APP_VERSION + "//EN", "CALSCALE:GREGORIAN"];
   const stamp = icsUtcStamp(new Date());
-  plans.forEach(p => {
+  emit.forEach(p => {
     const d0 = firstOccDate(p), over = hmMin(p.end) <= hmMin(p.start);
     L.push("BEGIN:VEVENT", "UID:" + p.id + "@higher-self", "DTSTAMP:" + stamp, "DTSTART:" + icsDT(d0, p.start), "DTEND:" + icsDT(over ? shift(d0, 1) : d0, p.end));
     if (p.every > 0) {
       L.push("RRULE:FREQ=WEEKLY;INTERVAL=" + p.every + ";BYDAY=" + p.days.map(i => ICS_DAYS[i]).join(",") + (p.until ? ";UNTIL=" + p.until.replace(/-/g, "") + "T235959" : ""));
       Object.keys(data.planDays || {}).forEach(k => { const [id, dt] = k.split("|"); if (id === p.id && data.planDays[k].skip) L.push("EXDATE:" + icsDT(dt, p.start)); });
     }
+    if ((data.calShare || {})[p.area] === "show" && p.kind === "drive" && p.listen && p.listen.title) L.push("DESCRIPTION:" + icsEsc("Listening: " + p.listen.title));
     L.push("SUMMARY:" + icsEsc(icsSummary(p)), "TRANSP:OPAQUE", "END:VEVENT");
   });
   L.push("END:VCALENDAR");
   return L.map(icsFold).join("\r\n") + "\r\n";
 }
 function downloadIcs(plans, name) {
-  if (!plans.some(p => (data.calShare || {})[p.area] !== "off")) { showToast(plans.length === 1 ? "That area is set to Leave off, so it stays out of calendars." : "Those areas are set to Leave off, so they stay out of calendars."); return; }
+  if (!icsEmitList(plans).length) { showToast(plans.length === 1 ? "That area is set to Leave off, so it stays out of calendars." : "Those areas are set to Leave off, so they stay out of calendars."); return; }
   const blob = new Blob([buildIcs(plans)], { type: "text/calendar" });
   const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = name || "higher-self-plan.ics"; a.click();
   setTimeout(() => URL.revokeObjectURL(a.href), 2000);
@@ -10859,6 +11447,14 @@ function occRanges(p, date) {
   const out = [];
   [date, shift(date, -1)].forEach(st => {
     const o = planOcc(p, st); if (!o) return;
+    if (typeof HSGaps !== "undefined" && HSGaps.usesBreaks(o)) {
+      HSGaps.calendarEvents(o).forEach(ev => {
+        if (ev.date !== date) return;
+        const b = ev.end >= 1440 ? 1440 : ev.end;
+        if (b > ev.start) out.push([ev.start, b]);
+      });
+      return;
+    }
     const s = hmMin(o.start), e = hmMin(o.end);
     if (st === date) out.push([s, e > s ? e : 1440]);
     else if (e <= s && e > 0) out.push([0, e]);
@@ -10981,10 +11577,15 @@ function calDesired() {
     if (share === "off") return;
     const path = o.pathId ? pathById(o.pathId) : null;
     const title = share === "show" ? (o.title || (path ? path.name : areaName(o.area))) : "Busy";
-    want[key] = Object.assign({ calendarId: cs.writeId, uid: calUid(key), title, description: "", start: calLocalMs(o.date, o.start), durationMins: calLenMins(o.start, o.end), rrule: "", exdate: "" }, extra || {});
+    const description = share === "show" && o.kind === "drive" && o.listen && o.listen.title ? "Listening: " + o.listen.title : "";
+    want[key] = Object.assign({ calendarId: cs.writeId, uid: calUid(key), title, description, start: calLocalMs(o.date, o.start), durationMins: calLenMins(o.start, o.end), rrule: "", exdate: "" }, extra || {});
   };
   ((data && data.plans) || []).forEach(p => {
     if (p.source === "ics" || p.source === "phone") return;
+    if (typeof HSGaps !== "undefined" && HSGaps.usesBreaks(p)) {
+      expandGapEvents(p, { futureOnly: true }).forEach(item => ev(item.id, { date: item.from, area: item.area, pathId: item.pathId, title: item.title, start: item.start, end: item.end, kind: item.kind, listen: item.listen }));
+      return;
+    }
     if (p.every === 0) { if (p.from < TODAY) return; const o = planOcc(p, p.from); if (o) ev(p.id, o); return; }
     if (p.until && p.until < TODAY) return;
     const d0 = firstOccDate(p), ex = [], changed = [];
@@ -10993,10 +11594,10 @@ function calDesired() {
       const dt = k.slice(i + 1); if (!planOccursOn(p, dt)) return;
       const ov = data.planDays[k] || {};
       if (ov.skip) ex.push(dt);
-      else if (["area", "pathId", "title", "start", "end"].some(f => ov[f] != null && ov[f] !== p[f])) { ex.push(dt); if (dt >= TODAY && dt <= last) changed.push(dt); }
+      else if (["area", "pathId", "title", "start", "end", "kind"].some(f => ov[f] != null && ov[f] !== p[f]) || (ov.listen && JSON.stringify(ov.listen) !== JSON.stringify(p.listen || null)) || (ov.breaks && JSON.stringify(ov.breaks) !== JSON.stringify(p.breaks || []))) { ex.push(dt); if (dt >= TODAY && dt <= last) changed.push(dt); }
     });
     const rrule = "FREQ=WEEKLY;INTERVAL=" + p.every + ";WKST=SU;BYDAY=" + p.days.map(i => ICS_DAYS[i]).join(",") + (p.until ? ";UNTIL=" + calUtcStamp(calLocalMs(p.until, "23:59") + 59000) : "");
-    ev(p.id, { date: d0, area: p.area, pathId: p.pathId, title: p.title, start: p.start, end: p.end }, { rrule, exdate: ex.sort().map(dt => calUtcStamp(calLocalMs(dt, p.start))).join(",") });
+    ev(p.id, { date: d0, area: p.area, pathId: p.pathId, title: p.title, start: p.start, end: p.end, kind: p.kind, listen: p.listen }, { rrule, exdate: ex.sort().map(dt => calUtcStamp(calLocalMs(dt, p.start))).join(",") });
     changed.forEach(dt => { const o = planOcc(p, dt); if (o) ev(p.id + "|" + dt, o); }); // a one-day change is its own event
   });
   return want;
@@ -11280,10 +11881,30 @@ document.getElementById("planCancel").onclick = () => { document.getElementById(
 document.getElementById("planDelete").onclick = deletePlan;
 document.getElementById("planIcs").onclick = () => {
   const f = readPlanForm(); if (!f) return;
+  if (!hmRe.test(f.start) || !hmRe.test(f.end) || f.start === f.end) { planFormErr("Pick a start and an end time.", document.getElementById("planStart")); return; }
+  const extra = readPlanExtras(f.start, f.end); if (!extra) return;
   const every = planEdit && planEdit.mode === "plan" ? Number(document.getElementById("planRepeat").value) || 0 : 0;
-  const p = { id: (planEdit && planEdit.plan ? planEdit.plan.id : uid("pn")), area: f.area, pathId: f.pathId, title: f.title, start: f.start, end: f.end, every, days: every ? planDaysPick.slice() : [parseISO(f.date).getDay()], from: f.date, until: every && document.getElementById("planUntilOn").checked ? document.getElementById("planUntil").value : "" };
+  const p = { id: (planEdit && planEdit.plan ? planEdit.plan.id : uid("pn")), area: f.area, pathId: f.pathId, title: f.title, start: f.start, end: f.end, every, days: every ? planDaysPick.slice() : [parseISO(f.date).getDay()], from: f.date, until: every && document.getElementById("planUntilOn").checked ? document.getElementById("planUntil").value : "", kind: extra.kind, listen: extra.listen, breaks: extra.breaks };
   downloadIcs([p], "higher-self-" + (f.title || "block").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") + ".ics");
 };
+document.getElementById("planIsDrive").onchange = () => {
+  if (!planEdit) return;
+  planEdit.drive = document.getElementById("planIsDrive").checked;
+  if (planEdit.drive) planBreakDraft = null;
+  syncPlanExtras();
+  renderPlanBreaks();
+};
+document.getElementById("planListenOn").onchange = () => { if (!planEdit) return; planEdit.listenOn = document.getElementById("planListenOn").checked; syncPlanExtras(); };
+document.getElementById("listenPath").onchange = () => { document.getElementById("listenNewWrap").hidden = document.getElementById("listenPath").value !== "__new"; };
+document.getElementById("planAddBreak").onclick = () => openBreakDraft(null);
+document.getElementById("breakAddAct").onclick = () => {
+  if (!planBreakDraft) return;
+  planBreakDraft.acts = planBreakDraft.acts || [];
+  planBreakDraft.acts.push({ id: uid("ba"), start: document.getElementById("breakStart").value, end: document.getElementById("breakEnd").value, area: "", pathId: (activePaths()[0] || {}).id || "__new", title: "", when: "planned", newPath: "" });
+  renderBreakActs();
+};
+document.getElementById("breakDraftSave").onclick = () => saveBreakDraft();
+document.getElementById("breakDraftCancel").onclick = () => { planBreakDraft = null; renderPlanBreaks(); };
 document.getElementById("planDayDone").onclick = () => document.getElementById("planDayDialog").close();
 document.getElementById("planWeekDone").onclick = () => document.getElementById("planWeekDialog").close();
 document.getElementById("planWeekAdd").onclick = () => openPlanEditor({ date: TODAY });
