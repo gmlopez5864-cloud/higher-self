@@ -328,6 +328,28 @@ test("metadata survives reload and an encrypted backup round trip", async () => 
   assert.equal(G.account(opened.plans[1]).elapsed, 90);
 });
 
+test("grace closes a day at local midnight plus the grace hours", () => {
+  const date = "2026-10-21";
+  const phoenix = -420;
+  const close = Date.UTC(2026, 9, 22, 0, 0, 0, 0) - phoenix * 60000;
+  const grace = 48 * 3600000;
+  assert.equal(G.dayStanding({ date, nowMs: close + grace - 1, graceHours: 48, tzOffsetMinutes: phoenix, hasRecord: false, explicitNone: false }), "open");
+  assert.equal(G.dayStanding({ date, nowMs: close + grace, graceHours: 48, tzOffsetMinutes: phoenix, hasRecord: false, explicitNone: false }), "unknown");
+  assert.equal(G.dayStanding({ date, nowMs: close + grace + 1, graceHours: 12, tzOffsetMinutes: 0, hasRecord: true }), "logged");
+  assert.equal(G.dayStanding({ date, nowMs: close + grace + 1, graceHours: 48, tzOffsetMinutes: 330, hasRecord: false, explicitNone: true }), "none");
+  assert.equal(G.UNKNOWN_DAY.title, "Not logged");
+  assert.equal(G.UNKNOWN_DAY.body, "Nothing recorded for this day.");
+});
+
+test("several paths on one entry count the minutes once", () => {
+  const logs = [
+    { id: "a", minutes: 90, pathId: "p1", pathIds: ["p1", "p2"] },
+    { id: "a", minutes: 90, pathId: "p1" },
+    { id: "b", minutes: 30, countsElapsed: false }
+  ];
+  assert.equal(G.elapsedOnce(logs), 90);
+});
+
 test("the shared page keeps web version 43 and wires the Android planner copy", () => {
   const html = fs.readFileSync(path.join(root, "index.html"), "utf8");
   const sw = fs.readFileSync(path.join(root, "sw.js"), "utf8");
@@ -344,6 +366,14 @@ test("the shared page keeps web version 43 and wires the Android planner copy", 
   assert.match(html, /HSGaps\.keepLogMeta/);
   assert.equal(/kind: p\.area === SLEEP_AREA \? "" : meta\.kind, listen: p\.area === SLEEP_AREA \? null : meta\.listen, breaks: meta\.breaks/.test(html), false);
   assert.match(html, /plannerAndroid\(/);
+  assert.match(html, /Journal/);
+  assert.match(html, /Confirm day/);
+  assert.match(html, /Change something/);
+  assert.match(html, /Higher Self does not sign in to Google/);
+  assert.match(html, /HSBackup/);
+  assert.match(html, /HSBiometric/);
+  assert.equal(html.includes("if (c && c.steer && !state.steered.some"), false);
+  assert.match(html, /shownVersion\(\)/);
   assert.match(html, /s\.allDay/);
   assert.match(html, /e\.free/);
   const gaps = fs.readFileSync(path.join(root, "planner-gaps.js"), "utf8");

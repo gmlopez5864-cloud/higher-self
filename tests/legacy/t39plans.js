@@ -66,7 +66,7 @@ const A = require("./lib/app"); const { sleep, ok, done } = Object.assign({}, A,
   r = await page.evaluate(() => { renderDerived(); return { leg: [...document.querySelectorAll("#legend li.has-plan")].map(li => li.innerText.replace(/\s+/g, " ").trim()), centre: document.getElementById("pieCentre").textContent, slices: document.querySelectorAll("#pie .pie-planned").length, tasks: data.tasks.length, logged: hoursFor(TODAY).career, used: document.getElementById("hoursUsed").textContent, ask: (document.getElementById("planAsk") || {}).innerText }; });
   ok("today's unconfirmed block shows as a lighter 'Planned' slice (8h Career)", r.slices === 1 && r.leg.length === 1 && /Career/.test(r.leg[0]) && /8h/.test(r.leg[0]) && /Planned 8h/.test(r.centre), r);
   ok("planned time isn't logged: tasks and Hours used unchanged (2h)", r.tasks === 1 && r.logged === 2 && /Done 2h/.test(r.centre), r);
-  ok("confirm prompt: 'Did today go as planned?' with 'Yes, as planned' / 'Change it' (+ v42 'Work ran over')", /^Did today go as planned\?\s+Yes, as planned\s+Change it\s+Work ran over$/.test((r.ask || "").trim()), r.ask);
+  ok("confirm prompt: 'Did today go as planned?' with 'Confirm day' / 'Change something' (+ v42 'Work ran over')", /^Did today go as planned\?\s+Confirm day\s+Change something\s+Work ran over$/.test((r.ask || "").trim()), r.ask);
   await page.evaluate(() => document.getElementById("timeCard").scrollIntoView()); await sleep(200);
   await page.screenshot({ path: A.TMP + "/v39-pie-planned.png" });
   // future days: pie can go ahead and labels them Planned
@@ -86,12 +86,12 @@ const A = require("./lib/app"); const { sleep, ok, done } = Object.assign({}, A,
   ok("cost line: Work 8h×2÷2 + sleep 8h×7 = 64h/week → 64×52÷730 ≈ 4.6 months", r.h === 64 && r.cost === "Your repeats take 64 hours a week. That's about 4.6 months a year.", r);
   // 24h cap: today has 2h logged + 8h work + 8h sleep (planned) = fine; push it over with an extra logged block
   await page.evaluate(() => { data.tasks.push({ id: "big", area: "social", title: "Big day", hours: 13, status: "done", date: TODAY, notes: "", repeat: "" }); save(); renderDerived(); });
-  await tap("#planYes"); await sleep(400);
+  await tap("[data-plan-yes]"); await sleep(400);
   r = await page.evaluate(() => ({ logs: data.pathLogs.filter(l => l.source === "plan").length, done: Object.keys(data.planDone).length, ask: !!document.getElementById("planAsk"), cap: window.__hsLastCap || "" }));
   ok("over 24h: confirming is refused, nothing logged, still planned", r.logs === 0 && r.done === 0 && r.ask && /24/.test(r.cap), r);
   await page.evaluate(() => { data.tasks = data.tasks.filter(t => t.id !== "big"); document.querySelectorAll(".cap-blocked,[data-cap-blocked]").forEach(x => x.remove()); save(); renderDerived(); });
   await page.screenshot({ path: A.TMP + "/v39-confirm-day.png" });
-  await tap("#planYes"); await sleep(500);
+  await tap("[data-plan-yes]"); await sleep(500);
   r = await page.evaluate(() => ({ logs: data.pathLogs.filter(l => l.source === "plan").map(l => [l.date, l.minutes, l.planKey]), sleep: data.days["2026-10-21"].sleep, sleepNext: (data.days["2026-10-22"] || {}).sleep, career: hoursFor(TODAY).career, planned: plannedHoursFor(TODAY), ask: !!document.getElementById("planAsk"), toast: document.getElementById("toast").textContent }));
   ok("Yes, as planned: Work becomes 8h logged on Engineer (with its plan key)", r.logs.length === 1 && r.logs[0][0] === "2026-10-21" && r.logs[0][1] === 480 && /\|2026-10-21$/.test(r.logs[0][2]) && r.career === 10, r);
   ok("...sleep logged on both days: last night's tail 6.5h + tonight's 1.5h today, 6.5h tomorrow", r.sleep && r.sleep.hours === 8 && r.sleep.source === "plan" && r.sleepNext && r.sleepNext.hours === 6.5, { sleep: r.sleep, next: r.sleepNext });

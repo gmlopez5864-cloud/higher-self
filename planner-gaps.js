@@ -247,6 +247,37 @@
     if (hasOwn(raw, "breaks")) rec.breaks = meta.breaks;
     return rec;
   }
+  // A day closes at the next local midnight. tzOffsetMinutes is that date's local offset (UTC = local + offset).
+  // Grace is how long after that close the day can still be filled in. Default 48 hours.
+  function dayStanding(opts) {
+    opts = opts || {};
+    if (opts.hasRecord) return "logged";
+    if (opts.explicitNone) return "none";
+    const parts = String(opts.date || "").split("-").map(Number);
+    if (parts.length < 3 || parts.some(n => !n && n !== 0)) return "unknown";
+    const graceH = opts.graceHours == null ? 48 : Number(opts.graceHours);
+    const grace = (graceH > 0 ? graceH : 48) * 3600000;
+    const off = Number(opts.tzOffsetMinutes) || 0;
+    const close = Date.UTC(parts[0], parts[1] - 1, parts[2] + 1, 0, 0, 0, 0) - off * 60000;
+    const now = Number(opts.nowMs);
+    if (!(now >= 0)) return "open";
+    return now < close + grace ? "open" : "unknown";
+  }
+  const UNKNOWN_DAY = { title: "Not logged", body: "Nothing recorded for this day." };
+  const NONE_DAY = { title: "Nothing happened", body: "You recorded that nothing happened this day." };
+  // One entry can name several paths. Its minutes count once.
+  function elapsedOnce(logs) {
+    const seen = new Set();
+    let mins = 0;
+    (logs || []).forEach(l => {
+      if (!l || l.countsElapsed === false) return;
+      const id = l.id || JSON.stringify([l.date, l.minutes, l.area]);
+      if (seen.has(id)) return;
+      seen.add(id);
+      mins += Number(l.minutes) > 0 ? Number(l.minutes) : 0;
+    });
+    return mins;
+  }
   function keepLogMeta(rec, raw) {
     const meta = migrateLogMeta(raw);
     if (hasOwn(raw, "countsElapsed")) rec.countsElapsed = meta.countsElapsed;
@@ -299,7 +330,8 @@
 
   const api = {
     DRIVE_SAFE, hm, shift, spanAbs, validateBreaks, salvageBreaks, usesBreaks, account, calendarEvents,
-    competes, validateListen, migrateListen, migrateBlock, migrateLogMeta, keepPlanMeta, keepLogMeta, untimedMinutes,
+    competes, validateListen, migrateListen, migrateBlock, migrateLogMeta, keepPlanMeta, keepLogMeta,
+    dayStanding, UNKNOWN_DAY, NONE_DAY, elapsedOnce, untimedMinutes,
     upsertBreak, removeBreak, cloneBreaks, loggedPlan, persistBreak
   };
   if (typeof module === "object" && module && module.exports) module.exports = api;
