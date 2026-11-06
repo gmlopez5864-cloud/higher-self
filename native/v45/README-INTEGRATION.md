@@ -33,6 +33,12 @@ On a machine without `/workspace/hs-excludes.txt`, the copy runs without `-X` so
 
 `HSBiometric` wraps the passphrase with an Android Keystore AES/GCM key. The key requires biometric authentication. On API 24 and newer the key is invalidated when fingerprints change; the plugin then deletes the key and the ciphertext and the app falls back to the passphrase. The passphrase is never written in the clear and is not logged. Below API 23 the feature is unavailable. The unlock screen shows fingerprint only when `status().enabled` is true. Cancel, lockout, and "Use passphrase" leave password unlock in place.
 
+## Compile
+
+`HSBiometricPlugin` keeps the Keystore invalidation fallback. `Cipher.doFinal` does not declare `KeyPermanentlyInvalidatedException`, so the callback no longer catches that type directly around `doFinal`. A helper unwraps it from the cause chain, rethrows it, and the caller deletes the key and ciphertext only for that case. A padding or block-size error does not delete the key. `Cipher.init` in `unlock` still catches invalidation and falls back to the passphrase.
+
+On this machine, with Android SDK 34 and build-tools 34.0.0, `:app:compileReleaseJavaWithJavac` succeeded for the overlaid wrapper. That is not a signed APK. There is still no device, fingerprint, or Google account here.
+
 ## Not verified on a device
 
 This environment has no phone, fingerprint, or Google account. The document-provider sheet and the biometric prompt need a device. A signed upgrade APK still has to be built on the packaging machine.

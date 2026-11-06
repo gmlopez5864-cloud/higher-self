@@ -1253,7 +1253,6 @@
   body[data-screen="journal"] #diaryTagPathWrap,
   body[data-screen="journal"] #diaryTagPulls,
   body[data-screen="journal"] #diaryTagSteered,
-  body[data-screen="journal"] #diaryList,
   body[data-screen="journal"] .diary-nav { display: none; }
   .ss-row { display: flex; gap: 0.25rem; align-items: center; flex-wrap: wrap; }
   .ss-ico { width: 1.35rem; height: 1.35rem; object-fit: contain; }
@@ -1436,7 +1435,7 @@
     <p class="rf-start" id="feedStart" hidden></p>
   </section>
 
-  <section class="panel" id="goalsPanel" data-scr="journal" aria-labelledby="goalsTitle"><h2 id="goalsTitle" class="title-book">Goals</h2><div class="row-actions"><button type="button" class="btn primary" id="goalsAdd">Add goal</button></div><ul class="entry-list" id="goalsList"></ul></section>
+  <section class="panel" id="goalsPanel" data-scr="journal" aria-labelledby="goalsTitle"><h2 id="goalsTitle" class="title-book"><img class="book glyph" data-gv="home/goals.png" alt="" />Goals</h2><div class="row-actions"><button type="button" class="btn primary" id="goalsAdd">Add goal</button></div><ul class="entry-list" id="goalsList"></ul></section>
   <p class="returns-line" id="returnsLine" data-scr="week" hidden></p>
 
   <div class="split">
@@ -1457,12 +1456,12 @@
     <section class="side" id="moneySection" data-scr="money" data-tab="overview" aria-labelledby="moneyTitle">
       <h2 id="moneyTitle" class="title-book"><img class="book" src="icons/money.jpg?v=43" alt="" />Money tracker</h2>
       <div class="row-actions screen-only"><button type="button" class="btn primary" id="moneyAddHere">Add money</button></div>
-      <div class="chip-row money-tabs" id="moneyTabs" role="tablist" aria-label="Money">
-        <button type="button" class="chip" role="tab" data-money-tab="overview" aria-selected="true">Overview</button>
-        <button type="button" class="chip" role="tab" data-money-tab="income" aria-selected="false">Income</button>
-        <button type="button" class="chip" role="tab" data-money-tab="spending" aria-selected="false">Spending</button>
-        <button type="button" class="chip" role="tab" data-money-tab="debts" aria-selected="false">Debts</button>
-        <button type="button" class="chip" role="tab" data-money-tab="savings" aria-selected="false">Savings</button>
+      <div class="chip-row money-tabs" id="moneyTabs" role="group" aria-label="Money">
+        <button type="button" class="chip" data-money-tab="overview" aria-pressed="true">Overview</button>
+        <button type="button" class="chip" data-money-tab="income" aria-pressed="false">Income</button>
+        <button type="button" class="chip" data-money-tab="spending" aria-pressed="false">Spending</button>
+        <button type="button" class="chip" data-money-tab="debts" aria-pressed="false">Debts</button>
+        <button type="button" class="chip" data-money-tab="savings" aria-pressed="false">Savings</button>
       </div>
       <div class="account-grid" id="accountGrid" data-pane="overview"></div>
       <ul class="acct-targets" id="accountTargets" data-pane="overview" hidden></ul>
@@ -1486,7 +1485,7 @@
         </div>
         <div class="money-pie-wrap" id="moneyPie"></div>
       </div>
-      <div class="subpanel" id="activityPanel" data-pane="income spending">
+      <div class="subpanel" id="activityPanel" data-pane="overview income spending">
         <h3 id="activityTitle">This month</h3>
         <p class="hint" id="activityHint" style="margin:0 0 0.3rem">Tap an entry to change it.</p>
         <ul class="money-list" id="moneyList"></ul>
@@ -7733,6 +7732,12 @@ document.getElementById("plSave").onclick = () => {
   const ids = f.pathIds && f.pathIds.length ? f.pathIds : (pathLogFor ? [pathLogFor] : []);
   const fields = Object.assign(f, { pathId: ids[0] || "", pathIds: ids, rating: pathLogRating || "", pulls: plState.pulls.slice(), steered: plState.steered.slice(), logged: true });
   if (ids.length) delete fields.general; else fields.general = true;
+  const blank = !existing && !fields.did && !fields.minutes && !fields.journal && !fields.better && !fields.motive && !fields.rating && !fields.pulls.length && !fields.steered.length && fields.reps == null;
+  if (blank) {
+    const m = document.getElementById("plNeedRating");
+    if (m) { m.textContent = "Add what you did, or a time, before saving."; m.hidden = false; }
+    return;
+  }
   let l = existing;
   const logDate = existing ? existing.date : data.selected;
   const ok = capGuard([logDate], () => document.getElementById("plFields").querySelector('[data-pf="time"]'), () => {
@@ -9377,7 +9382,7 @@ function applyScreen(name) {
   document.getElementById("screenTitle").textContent = kind === "area" ? fastLabel(name.split(":")[1]) : (SCREEN_TITLES[kind] || "");
   if (kind === "home") renderCoachNotes();
   if (kind === "coach") renderCoachPage();
-  if (kind === "journal") { renderFeed(); renderGoalsPanel(); }
+  if (kind === "journal") { renderFeed(); renderGoalsPanel(); if (typeof renderDiary === "function") renderDiary(); }
   if (kind === "areas") { const row = document.querySelector("#areas .area"); if (row) row.scrollIntoView({ block: "nearest" }); }
   window.scrollTo(0, 0);
 }
@@ -10532,7 +10537,7 @@ function applyMoneyTab(tab) {
   if (sec) sec.dataset.tab = moneyTab || "overview";
   document.querySelectorAll("#moneyTabs [data-money-tab]").forEach(b => {
     const on = b.dataset.moneyTab === (moneyTab || "overview");
-    b.setAttribute("aria-selected", on ? "true" : "false");
+    b.setAttribute("aria-pressed", on ? "true" : "false");
   });
   document.querySelectorAll("#moneyList .act").forEach(li => {
     const t = li.dataset.mtype || "";
@@ -10846,7 +10851,14 @@ function renderPlanCard() {
   const paint = root => {
     if (!root) return;
     root.innerHTML = html;
-    if (root.id === "planCard") { const ask = root.querySelector("[data-plan-yes]"); if (ask) ask.closest(".plan-confirm").id = "planAsk"; }
+    if (root.id === "planCard") {
+      const ask = root.querySelector("[data-plan-yes]");
+      if (ask) { ask.id = "planYes"; const box = ask.closest(".plan-confirm"); if (box) box.id = "planAsk"; }
+      const ch = root.querySelector("[data-plan-change]"); if (ch) ch.id = "planChange";
+      const ov = root.querySelector("[data-plan-over]"); if (ov) ov.id = "planOver";
+      const add = root.querySelector("[data-plan-add]"); if (add) add.id = "planAddHere";
+      const week = root.querySelector("[data-plan-week]"); if (week) week.id = "planWeekOpen";
+    }
     const y = root.querySelector("[data-plan-yes]"); if (y) y.onclick = () => confirmDay(date, root);
     const c = root.querySelector("[data-plan-change]"); if (c) c.onclick = () => openPlanDay(date);
     const ov = root.querySelector("[data-plan-over]"); if (ov) ov.onclick = () => openRunOver(date);

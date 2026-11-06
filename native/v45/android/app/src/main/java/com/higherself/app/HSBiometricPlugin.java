@@ -15,7 +15,9 @@ import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
 import com.getcapacitor.annotation.CapacitorPlugin;
 import java.security.KeyStore;
+import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.GCMParameterSpec;
@@ -86,12 +88,15 @@ public class HSBiometricPlugin extends Plugin {
             byte[] iv = Base64.decode(prefs().getString(K_IV, ""), Base64.NO_WRAP);
             SecretKey key = key();
             Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding");
+            // Android throws KeyPermanentlyInvalidatedException from Cipher.init when biometrics changed.
             cipher.init(Cipher.DECRYPT_MODE, key, new GCMParameterSpec(128, iv));
             prompt(call, cipher, "Unlock Higher Self", "Use your fingerprint. Your passphrase still works.", false, null);
         } catch (KeyPermanentlyInvalidatedException e) {
             deleteQuiet();
             rejectCode(call, "invalidated");
         } catch (Exception e) {
+            // Cipher.init failed, so this wrap cannot be opened. Drop it and use the passphrase.
+            // A later doFinal error deletes the key only when the cause is permanent invalidation.
             deleteQuiet();
             rejectCode(call, "invalidated");
         }
@@ -121,7 +126,7 @@ public class HSBiometricPlugin extends Plugin {
                         try {
                             Cipher c = result.getCryptoObject().getCipher();
                             if (enroll) {
-                                byte[] ct = c.doFinal(pass.getBytes(StandardCharsets.UTF_8));
+                                byte[] ct = finishCipher(c, pass.getBytes(StandardCharsets.UTF_8));
                                 prefs().edit()
                                     .putString(K_IV, Base64.encodeToString(c.getIV(), Base64.NO_WRAP))
                                     .putString(K_CT, Base64.encodeToString(ct, Base64.NO_WRAP))
@@ -132,7 +137,7 @@ public class HSBiometricPlugin extends Plugin {
                                 call.resolve(out);
                             } else {
                                 byte[] ct = Base64.decode(prefs().getString(K_CT, ""), Base64.NO_WRAP);
-                                String unlocked = new String(c.doFinal(ct), StandardCharsets.UTF_8);
+                                String unlocked = new String(finishCipher(c, ct), StandardCharsets.UTF_8);
                                 JSObject out = new JSObject();
                                 out.put("passphrase", unlocked);
                                 call.resolve(out);
@@ -141,6 +146,11 @@ public class HSBiometricPlugin extends Plugin {
                             deleteQuiet();
                             rejectCode(call, "invalidated");
                         } catch (Exception e) {
+                            if (permanentInvalidation(e)) {
+                                deleteQuiet();
+                                rejectCode(call, "invalidated");
+                                return;
+                            }
                             rejectCode(call, "failed");
                         }
                     }
@@ -199,6 +209,39 @@ public class HSBiometricPlugin extends Plugin {
         }
         gen.init(b.build());
         return gen.generateKey();
+    }
+
+    /**
+     * Cipher.doFinal does not declare KeyPermanentlyInvalidatedException, but Android Keystore can still
+     * throw it, or wrap it, if the key is invalidated after Cipher.init. This method declares that
+     * exception so the caller can delete the key and fall back to the passphrase.
+     * A padding or block-size error that is not invalidation is rethrown and does not delete the key.
+     */
+    private byte[] finishCipher(Cipher cipher, byte[] input) throws KeyPermanentlyInvalidatedException, IllegalBlockSizeException, BadPaddingException {
+        try {
+            return cipher.doFinal(input);
+        } catch (IllegalBlockSizeException | BadPaddingException e) {
+            if (permanentInvalidation(e)) throw invalidated(e);
+            throw e;
+        } catch (RuntimeException e) {
+            if (permanentInvalidation(e)) throw invalidated(e);
+            throw e;
+        }
+    }
+
+    private static KeyPermanentlyInvalidatedException invalidated(Throwable e) {
+        KeyPermanentlyInvalidatedException inv = new KeyPermanentlyInvalidatedException(e.getMessage() == null ? "Key permanently invalidated" : e.getMessage());
+        inv.initCause(e);
+        return inv;
+    }
+
+    private static boolean permanentInvalidation(Throwable e) {
+        while (e != null) {
+            if (e instanceof KeyPermanentlyInvalidatedException) return true;
+            if (e.getClass().getName().endsWith("KeyPermanentlyInvalidatedException")) return true;
+            e = e.getCause();
+        }
+        return false;
     }
 
     private void deleteQuiet() {

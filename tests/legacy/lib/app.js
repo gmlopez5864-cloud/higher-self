@@ -94,4 +94,23 @@ async function unlock(page, name, pass) {
   await sleep(300);
   return true;
 }
-module.exports = { APP, TMP, ORIGIN, sleep, suite, launch, phonePage, fresh, setup, lock, unlock };
+async function catchDownloads(page) {
+  await page.evaluate(() => {
+    window.__dl = window.__dl || [];
+    if (window.__dlHook) return;
+    window.__dlHook = true;
+    const orig = HTMLAnchorElement.prototype.click;
+    HTMLAnchorElement.prototype.click = function () {
+      const name = this.download || "";
+      const href = this.href || "";
+      if (name && href.indexOf("blob:") === 0) {
+        fetch(href).then(r => r.text()).then(text => window.__dl.push({ name, text })).catch(() => {});
+      }
+      return orig.apply(this, arguments);
+    };
+  });
+}
+async function lastDownload(page) {
+  return page.evaluate(() => window.__dl[window.__dl.length - 1]);
+}
+module.exports = { APP, TMP, ORIGIN, sleep, suite, launch, phonePage, fresh, setup, lock, unlock, catchDownloads, lastDownload };
