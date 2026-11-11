@@ -58,3 +58,27 @@ What's new in v46 (app side, all in `index.html`):
   - It shows how much of the day is left, and "Try again" re-runs the save.
 - **Version:** the Android footer shows 46.2.
 - **Tests:** `tests/legacy/t462cap.js` (36 checks). `HS_REPRO_ONLY=1 HS_ORIGIN=<46.1 page>` reproduces the 24.8h message on 46.1.
+
+## 46.3.0 (versionCode 49)
+- **Lock / welcome screen (Android only; the web gate is unchanged):**
+  - Full-screen deep indigo/violet gradient with soft teal and pink glows, and a frosted card centered both ways.
+  - Pablo's bow logo is 96px with a gold glow; "Higher Self" has a gold gradient. The entrance fades and rises in, and the logo glow pulses. All motion is off under `prefers-reduced-motion`.
+  - Profile tiles are centered.
+- **Fingerprint on the lock screen** (uses the v45 `HSBiometric` Keystore plugin, which is unchanged):
+  - When fingerprint is on, the screen shows a large "Unlock with fingerprint" button and prompts once by itself when the screen opens. The passphrase is under "or use your passphrase".
+  - On the profile picker, "Open {name} with fingerprint" is shown for the profile that fingerprint is tied to. The native slot holds one passphrase, so this is the one profile it is tied to (`hs-bio-profile`).
+  - Cancelling is quiet and puts the cursor in the passphrase box. Lockout or a changed fingerprint shows a short message, and you use the passphrase instead (a changed fingerprint also clears the tie).
+  - If fingerprint isn't on, after a passphrase unlock you see "Open faster next time?" with "Use fingerprint" or "Not now". "Not now" is remembered per profile (`hs-bio-skip:<id>`). Settings → enable/disable still works.
+- **Skip a planned block:** this is on Confirm day ("Skip" on each block row; skipped rows show "Skipped · no time counted" with Undo) and in Add entry ("It didn't happen: skip this block"). A toast with Undo appears. Skipped blocks count no time.
+- **Duration stepper:** this is on each Confirm day block, in Add entry when a block is picked, and in the open-time sheet. The −/+ buttons are 48px.
+  - It steps 5 min under 1 h and 15 min from 1 h up, and holding a button repeats.
+  - Tap the value to type exact hours and minutes.
+  - It shows "45 min" or "1 h 30 min". A planned block stops at 23 h 55 min, because a block can't start and end at the same time. An entry stops at 24 h. The 24h cap and the over-24h sheet are unchanged.
+- **Free time block type** (`area: "free"`, color #21A89A, placeholder icon `placeholders/free-time.png`):
+  - It is in the block-type dropdowns and has no path. The note is optional.
+  - Confirmed free time is logged as a general entry with `area: "free"`. It counts toward the 24h total and the cap, and it has its own pie slice and legend row.
+- **Open time in the day planner:** gaps of 15 min or more between blocks, inside the waking window, show as tappable "Open time" rows with start–end and length.
+  - Tapping one opens a sheet prefilled with the gap. It has "Make it free time" (one tap), or you can pick any block type, start and length (stepper). Whatever you don't use stays open time.
+  - "Make whole day free time" shows on a day with no non-sleep blocks. It fills only open waking time, so it never overlaps blocks or sleep.
+- **Version:** the Android footer shows 46.3.
+- **Tests:** `tests/legacy/t463.js` (46 checks).

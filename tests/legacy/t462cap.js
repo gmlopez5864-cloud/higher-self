@@ -177,7 +177,7 @@ const N = s => String(s || "").replace(/[\u202f\u00a0]/g, " ").replace(/\s+/g, "
   ok("'Change this entry's time' closes the sheet and puts you on the time field", r.focus === "time" && !r.alert, r);
   await A.clean(page);
   r = await page.evaluate(() => shownVersion());
-  ok("Android shows version 46.2", r === "46.2", r);
+  ok("Android shows version 46.2 or later", /^46\.[2-9]$/.test(r), r);
   ok("no page errors", errs.length === 0, errs);
   await browser.close(); done();
 })();

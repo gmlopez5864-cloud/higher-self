@@ -66,3 +66,8 @@ Style to match: cream line art **#F6EBD9 on a transparent background**, centred,
 
 ## Optional extra art that would help
 - `add-own.png`: a dashed “+” for the **+ Add your own…** row. Today that row is drawn with CSS (a dashed outline and a "+"), so this file is optional.
+
+## Added in 46.3
+| File | Master | Shipped | Where it shows |
+|---|---|---|---|
+| `free-time.png` | 512×512 | 128×128 | Planner block type "Free time" (dropdowns, open-time sheet) |

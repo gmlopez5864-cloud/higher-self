@@ -367,6 +367,33 @@
   .reminder-block { margin-top: 0.55rem; }
   .cap-alert { margin-top: 0.6rem; padding: 0.7rem 0.85rem; border: 1px solid var(--border); border-left: 4px solid var(--warn); border-radius: var(--radius); background: var(--panel); }
   .cap-alert p { margin: 0 0 0.5rem; }
+  .dur-wrap { margin: 0.35rem 0; }
+  .dur-step { display: inline-flex; align-items: center; gap: 0.35rem; }
+  .dur-step .step-btn { min-width: 48px; min-height: 48px; border-radius: 50%; border: 1px solid var(--border); background: var(--panel); font-size: 1.5rem; font-weight: 700; line-height: 1; touch-action: manipulation; user-select: none; -webkit-user-select: none; }
+  .dur-step .step-btn:active { background: var(--field); transform: scale(0.96); }
+  .dur-step .step-val { min-width: 7.2rem; min-height: 48px; border-radius: 12px; border: 1px dashed var(--border); background: var(--field); font-weight: 700; font-size: 1.02rem; padding: 0 0.6rem; }
+  .dur-exact { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 0.4rem; margin-top: 0.4rem; }
+  .dur-exact label.field { min-width: 0; flex: 0 1 6rem; }
+  .dur-exact .btn { min-height: 44px; }
+  .plan-blocks { list-style: none; margin: 0.2rem 0 0.6rem; padding: 0; display: grid; gap: 0.45rem; }
+  .pb-row { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 0.2rem 0.5rem; padding: 0.45rem 0.55rem; border: 1px solid var(--border); border-radius: 12px; background: var(--panel); }
+  .pb-row .pb-name { display: flex; flex-direction: column; min-width: 0; }
+  .pb-row .pb-name small { color: var(--muted); }
+  .pb-row .dur-wrap { grid-column: 1 / 2; margin: 0.1rem 0 0; }
+  .pb-row .pb-skip, .pb-row [data-plan-unskip] { min-height: 44px; }
+  .pb-row.is-skipped { opacity: 0.8; }
+  .pb-row.is-skipped b { text-decoration: line-through; }
+  .pb-row .pb-chip { justify-self: start; }
+  .gap-row { list-style: none; }
+  .gap-btn { width: 100%; display: flex; align-items: center; gap: 0.6rem; min-height: 52px; padding: 0.5rem 0.7rem; border: 1.5px dashed var(--border); border-radius: 12px; text-align: left;
+    background: repeating-linear-gradient(135deg, var(--field) 0 8px, transparent 8px 14px); color: inherit; }
+  .gap-btn .gap-what { display: flex; flex-direction: column; flex: 1; min-width: 0; }
+  .gap-btn .gap-what small { color: var(--muted); }
+  .gap-btn .gap-len { font-weight: 700; }
+  .gap-btn .gap-plus { width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; background: var(--accent); color: var(--onBtn); font-weight: 800; }
+  .gap-free-row { list-style: none; display: flex; flex-direction: column; gap: 0.2rem; margin-top: 0.3rem; }
+  .gap-free-ic { width: 22px; height: 22px; vertical-align: -5px; margin-right: 0.35rem; filter: brightness(0.25); }
+  .pl-skip-row { margin: 0.1rem 0 0.2rem; }
   .cap-sheet .cap-top { margin: 0 0 0.4rem; }
   .cap-sheet .cap-room { font-size: 0.95rem; margin: 0.5rem 0 0.3rem; }
   .cap-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.45rem; }
@@ -730,6 +757,70 @@
   .vault-screen h1 { font-family: Georgia, serif; font-weight: 500; font-size: 1.55rem; margin: 0 0 0.35rem; }
   .vault-screen .actions { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.9rem; }
   .vault-err { color: var(--warn); font-size: 0.86rem; margin: 0.45rem 0 0; }
+  .vault-welcome, .vault-or { display: none; }
+  .bio-zone { display: flex; justify-content: center; margin: 0.6rem 0 0.2rem; }
+  .bio-btn { display: inline-flex; flex-direction: column; align-items: center; gap: 0.45rem; background: none; border: 0; color: inherit; padding: 0.3rem 0.6rem; min-height: 44px; font-weight: 700; }
+  .bio-btn[hidden] { display: none; }
+  .bio-ring { width: 84px; height: 84px; border-radius: 50%; display: grid; place-items: center; border: 2px solid var(--accent); color: var(--accent); background: var(--field); }
+  .bio-ring .fp-ic { width: 48px; height: 48px; }
+  /* v46.3 Android welcome / lock screen */
+  #vaultGate.gate-pop {
+    position: fixed; inset: 0; z-index: 30; max-width: none; margin: 0; overflow-y: auto; -webkit-overflow-scrolling: touch;
+    display: flex; flex-direction: column; padding: max(1rem, env(safe-area-inset-top)) 1rem max(1.2rem, env(safe-area-inset-bottom));
+    color: #F6F0FF; color-scheme: dark;
+    --panel: rgba(255,255,255,0.08); --field: rgba(255,255,255,0.10); --border: rgba(255,255,255,0.22);
+    --text: #F6F0FF; --muted: rgba(236,226,255,0.78); --accent: #FFC86B; --onBtn: #2A1606; --warn: #FFB4A3;
+    background:
+      radial-gradient(120% 60% at 50% -5%, rgba(132,84,255,0.55) 0%, rgba(132,84,255,0) 60%),
+      radial-gradient(70% 45% at 100% 100%, rgba(18,170,180,0.42) 0%, rgba(18,170,180,0) 70%),
+      radial-gradient(70% 45% at 0% 85%, rgba(214,72,150,0.40) 0%, rgba(214,72,150,0) 70%),
+      linear-gradient(165deg, #140C33 0%, #1E1257 45%, #0B1A3A 100%);
+  }
+  #vaultGate.gate-pop[hidden] { display: none; }
+  #vaultGate.gate-pop .vault-screen {
+    margin: auto; width: 100%; max-width: 400px; text-align: center; padding: 1.6rem 1.25rem 1.5rem;
+    background: linear-gradient(180deg, rgba(255,255,255,0.12), rgba(255,255,255,0.05)); border: 1px solid rgba(255,255,255,0.18); border-radius: 26px;
+    box-shadow: 0 24px 70px rgba(4,2,20,0.55), inset 0 1px 0 rgba(255,255,255,0.16);
+    -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px);
+    animation: gateIn 0.7s cubic-bezier(.2,.8,.2,1) both;
+  }
+  #vaultGate.gate-pop .vault-brand { flex-direction: column; align-items: center; gap: 0.7rem; margin: 0 0 0.9rem !important; }
+  #vaultGate.gate-pop .vault-logo-glow { position: relative; display: inline-grid; place-items: center; }
+  #vaultGate.gate-pop .vault-logo-glow::before { content: ""; position: absolute; inset: -22px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,200,107,0.55) 0%, rgba(255,160,90,0.22) 45%, rgba(140,90,255,0) 72%); filter: blur(4px); animation: glowPulse 3.6s ease-in-out infinite alternate; }
+  #vaultGate.gate-pop .vault-brand .app-mark { position: relative; width: 96px; height: 96px; flex: 0 0 96px; border-radius: 26px;
+    box-shadow: 0 0 0 1px rgba(255,214,150,0.55), 0 10px 30px rgba(0,0,0,0.45), 0 0 36px 6px rgba(255,190,100,0.35); animation: logoIn 0.9s cubic-bezier(.2,.8,.2,1) both; }
+  #vaultGate.gate-pop .vault-name { font-size: 2rem !important; letter-spacing: 0.01em; background: linear-gradient(90deg, #FFE3A6, #FFC86B 45%, #F6A6D8); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  #vaultGate.gate-pop h1 { color: #FFF; font-size: 1.45rem; }
+  #vaultGate.gate-pop .vault-welcome { display: block; margin: -0.3rem 0 0.6rem; color: var(--muted); font-size: 0.95rem; letter-spacing: 0.06em; text-transform: uppercase; }
+  #vaultGate.gate-pop .vault-or:not([hidden]) { display: flex; align-items: center; gap: 0.6rem; margin: 0.4rem 0 0; color: var(--muted); font-size: 0.82rem; }
+  #vaultGate.gate-pop .vault-or::before, #vaultGate.gate-pop .vault-or::after { content: ""; flex: 1; height: 1px; background: rgba(255,255,255,0.22); }
+  #vaultGate.gate-pop label.field { text-align: left; color: var(--muted); }
+  #vaultGate.gate-pop input { color: #FFF; background: rgba(255,255,255,0.10); border-color: rgba(255,255,255,0.28); }
+  #vaultGate.gate-pop input:focus { border-color: #FFC86B; box-shadow: 0 0 0 3px rgba(255,200,107,0.25); outline: none; }
+  #vaultGate.gate-pop .hint { color: var(--muted); }
+  #vaultGate.gate-pop .actions { justify-content: center; }
+  #vaultGate.gate-pop .btn { color: #FFF; background: rgba(255,255,255,0.10); border-color: rgba(255,255,255,0.25); min-height: 46px; }
+  #vaultGate.gate-pop button.btn.primary { color: #2A1606; background: linear-gradient(135deg, #FFE08A, #FFB45E 55%, #FF8F6B); box-shadow: 0 8px 24px rgba(255,150,80,0.35); border-color: transparent; min-width: 8rem; }
+  #vaultGate.gate-pop .link-btn { color: #FFD9A0; }
+  #vaultGate.gate-pop .profile-tile { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.2); color: #FFF; }
+  #vaultGate.gate-pop .profile-tile.is-current { justify-content: center; }
+  #vaultGate.gate-pop .profile-tiles { grid-template-columns: repeat(auto-fit, minmax(7rem, 9rem)); justify-content: center; }
+  #vaultGate.gate-pop .profile-icons button[aria-checked="true"] { outline: 3px solid #FFC86B; outline-offset: 2px; }
+  #vaultGate.gate-pop .bio-btn { color: #FFF; font-size: 1rem; }
+  #vaultGate.gate-pop .bio-ring { width: 96px; height: 96px; border: 0; color: #FFE3A6;
+    background: radial-gradient(circle at 50% 40%, rgba(255,200,107,0.30), rgba(255,255,255,0.06) 70%);
+    box-shadow: 0 0 0 2px rgba(255,200,107,0.75), 0 0 28px 4px rgba(255,180,90,0.40), inset 0 0 18px rgba(255,220,160,0.25); }
+  #vaultGate.gate-pop .bio-ring .fp-ic { width: 56px; height: 56px; }
+  #vaultGate.gate-pop .bio-btn.is-asking .bio-ring { animation: fpPulse 1.4s ease-in-out infinite; }
+  #vaultGate.gate-pop .vault-err { color: var(--warn); }
+  @keyframes gateIn { from { opacity: 0; transform: translateY(18px) scale(0.98); } to { opacity: 1; transform: none; } }
+  @keyframes logoIn { from { opacity: 0; transform: scale(0.85); } to { opacity: 1; transform: none; } }
+  @keyframes glowPulse { from { opacity: 0.65; transform: scale(0.95); } to { opacity: 1; transform: scale(1.06); } }
+  @keyframes fpPulse { 0%, 100% { box-shadow: 0 0 0 2px rgba(255,200,107,0.75), 0 0 20px 2px rgba(255,180,90,0.35); } 50% { box-shadow: 0 0 0 3px rgba(255,220,140,0.95), 0 0 40px 10px rgba(255,180,90,0.55); } }
+  @media (prefers-reduced-motion: reduce) {
+    #vaultGate.gate-pop .vault-screen, #vaultGate.gate-pop .app-mark, #vaultGate.gate-pop .vault-logo-glow::before, #vaultGate.gate-pop .bio-ring { animation: none !important; }
+  }
   .lock-bar {
     display: flex; flex-wrap: wrap; gap: 0.4rem; align-items: center; justify-content: flex-end;
     margin-top: 0.55rem;
@@ -2386,7 +2477,24 @@
   <h3 id="planDayTitle"></h3>
   <ul class="plan-list" id="planDayList"></ul>
   <div id="planDayNoHours"></div>
+  <p class="hint">Tap an open time to fill it.</p>
   <div class="actions"><button type="button" class="btn" id="planDayAdd">Add a block</button><button type="button" class="btn primary" id="planDayDone">Done</button></div>
+</dialog>
+<dialog id="gapDialog" class="wide" aria-labelledby="gapTitle">
+  <h3 id="gapTitle">Open time</h3>
+  <p class="hint" id="gapWhen"></p>
+  <div class="row-actions"><button type="button" class="btn primary" id="gapFree"><img class="gap-free-ic" src="icons/glyphs128/placeholders/free-time.png" alt="" />Make it free time</button></div>
+  <p class="q-title" style="font-size:0.95rem;margin:0.8rem 0 0.2rem">Or use it for</p>
+  <label class="field">Block type<select id="gapArea"></select></label>
+  <label class="field" id="gapPathWrap" style="margin-top:0.4rem">Path<select id="gapPath"></select></label>
+  <label class="field" id="gapNewPathWrap" hidden>New path<input id="gapNewPath" type="text" maxlength="60" placeholder="Work, father, writer…" /></label>
+  <label class="field" style="margin-top:0.4rem">What (optional)<input id="gapTitle2" type="text" maxlength="120" placeholder="Movie, lunch, call…" /></label>
+  <label class="field" style="margin-top:0.4rem;max-width:12rem">Starts<input id="gapStart" type="time" /></label>
+  <p class="q-title" style="font-size:0.9rem;margin:0.5rem 0 0.2rem">Length</p>
+  <div id="gapStepBox"></div>
+  <p class="hint" id="gapLeft" aria-live="polite"></p>
+  <p class="short-note" id="gapErr" role="alert" hidden></p>
+  <div class="actions"><button type="button" class="btn" id="gapCancel">Cancel</button><button type="button" class="btn primary" id="gapSave">Add block</button></div>
 </dialog>
 <dialog id="planWeekDialog" class="wide" aria-labelledby="planWeekTitle">
   <h3 id="planWeekTitle">Planned week</h3>
@@ -2658,6 +2766,10 @@ const ICON_LIBRARY = [
   "icons/opp-temperance.jpg", "icons/opp-patience.jpg", "icons/opp-zeal.jpg", "icons/opp-calm.jpg", "icons/opp-ease.jpg",
   "icons/opp-belonging.jpg", "icons/opp-endurance.jpg", "icons/opp-release.jpg", "icons/opp-boundary.jpg", "icons/opp-presence.jpg"
 ];
+const FREE_AREA = "free"; // v46.3: Free time, unstructured time (a movie, lunch, a break from plans). No path. Counts toward the day.
+const FREE_COLOR = "#21A89A";
+const FREE_LABEL = "Free time";
+function noPathArea(a) { return a === "sleep" || a === FREE_AREA; }
 const SLEEP_COLOR = "#4A5C9E"; // v42: lighter so it reads next to the other areas
 const PIE_CREAM = "#FFF8EB";
 const PATH_DEFAULT_ICON = "icons/paths/custom.jpg";
@@ -3275,7 +3387,7 @@ function migrateLegacy(raw) {
       steered: (Array.isArray(l.steered) ? l.steered.filter(x => typeof x === "string" && x.trim()).map(x => x.trim()) : []).slice(0, 5),
       repsUnit: String(l.repsUnit || ""),
       minutes: Number(l.minutes) > 0 ? Number(l.minutes) : null,
-      area: (typeof l.area === "string" && AREAS.some(a => a.id === l.area)) ? l.area : "",
+      area: (typeof l.area === "string" && (AREAS.some(a => a.id === l.area) || l.area === FREE_AREA)) ? l.area : "",
       taskId: typeof l.taskId === "string" ? l.taskId : "",
       journal: String(l.journal || ""), source: l.source === "checkin" ? "checkin" : l.source === "plan" ? "plan" : "log",
       planKey: typeof l.planKey === "string" ? l.planKey : ""
@@ -3522,7 +3634,7 @@ function heavyQuiet(date, areaId) {
 function areaShort(a) { return a && a.id ? areaName(a.id) : String((a && a.name) || ""); } // v41: sentences and notes use the full area name, the same as the pie legend
 // v41: one name per area in the pie legend, the note under it, coach notes, pickers and calendar settings ("Personal development").
 // fastLabel() (Growth, Spirit…) is only for tight spots: home tiles, screen titles, chips and tags.
-function areaName(id) { const a = AREAS.find(x => x.id === id); return a ? a.name : id === "sleep" ? "Sleep" : String(id || ""); }
+function areaName(id) { const a = AREAS.find(x => x.id === id); return a ? a.name : id === "sleep" ? "Sleep" : id === FREE_AREA ? FREE_LABEL : String(id || ""); }
 function moveText(id) { return String(THIN_MOVES[id] || AREAS.find(a => a.id === id).starter).replace(/\.$/, ""); }
 function dueReevaluateAreas(date) {
   return orderedAreas().filter(a => reevaluateDue(areaGoal(a.id), date));
@@ -4493,10 +4605,11 @@ function renderPie() {
   const isWeek = timeView() === "week";
   const days = isWeek ? [0,1,2,3,4,5,6].map(i => shift(startOfWeek(date), i)) : [date];
   const hours = { career: 0, personal: 0, social: 0, spiritual: 0, time: 0 };
-  let sleepH = 0;
+  let sleepH = 0, freeH = 0;
   days.forEach(d => {
     const h = hoursFor(d); Object.keys(hours).forEach(k => { hours[k] += Number(h[k]) || 0; });
     sleepH += (data.days[d] && data.days[d].sleep) ? Number(data.days[d].sleep.hours) || 0 : 0;
+    freeH += freeHoursFor(d);
   });
   syncTimeToggle();
   const areas = orderedAreas();
@@ -4504,7 +4617,7 @@ function renderPie() {
   const legend = document.getElementById("legend");
   const note = document.getElementById("pieNote");
   const taskH = AREAS.reduce((s, a) => s + hours[a.id], 0);
-  const openH = Math.max(0, 24 * days.length - taskH - sleepH);
+  const openH = Math.max(0, 24 * days.length - taskH - sleepH - freeH);
   // Coach range math below uses weekHours (tasks only): sleep and open time stay out of it.
   const wk = weekHours(date);
   const wkTotal = AREAS.reduce((s, a) => s + wk[a.id], 0);
@@ -4516,17 +4629,17 @@ function renderPie() {
   }).join(", ") + ". No area has to be equal. The ranges are yours." : "";
   note.textContent = "Open time is hours with nothing logged. Some rest, some room." + wkLine;
   // v39: planned (not yet confirmed) time shows lighter and never counts as logged. Capped so a day never passes 24h.
-  const plan = { career: 0, personal: 0, social: 0, spiritual: 0, time: 0, sleep: 0 };
+  const plan = { career: 0, personal: 0, social: 0, spiritual: 0, time: 0, sleep: 0, free: 0 };
   days.forEach(d => { const ph = plannedHoursFor(d); Object.keys(plan).forEach(k => { plan[k] += ph[k] || 0; }); });
-  let planRoom = Math.max(0, 24 * days.length - taskH - sleepH);
-  const planSlices = areas.map(a => ({ id: a.id, name: a.name, color: a.color })).concat([{ id: "sleep", name: "Sleep", color: SLEEP_COLOR }]).map(x => {
+  let planRoom = Math.max(0, 24 * days.length - taskH - sleepH - freeH);
+  const planSlices = areas.map(a => ({ id: a.id, name: a.name, color: a.color })).concat([{ id: "sleep", name: "Sleep", color: SLEEP_COLOR }, { id: FREE_AREA, name: FREE_LABEL, color: FREE_COLOR }]).map(x => {
     const h = Math.min(plan[x.id] || 0, planRoom); planRoom -= h; return { id: x.id, name: x.name + " (planned)", label: x.name, color: x.color, hours: h, planned: true };
   }).filter(s => s.hours > 0);
   const planH = planSlices.reduce((t, s) => t + s.hours, 0);
   const planOf = id => { const p = planSlices.find(x => x.id === id); return p ? p.hours : 0; };
   const openLeft = Math.max(0, openH - planH);
   const slices = areas.map(a => ({ id: a.id, name: a.name, color: a.color, hours: hours[a.id] }))
-    .concat([{ id: "sleep", name: "Sleep", color: SLEEP_COLOR, hours: sleepH }]).concat(planSlices).concat([{ id: "open", name: "Open time", color: "url(#openStripes)", hours: openLeft }])
+    .concat([{ id: "sleep", name: "Sleep", color: SLEEP_COLOR, hours: sleepH }, { id: FREE_AREA, name: FREE_LABEL, color: FREE_COLOR, hours: freeH }]).concat(planSlices).concat([{ id: "open", name: "Open time", color: "url(#openStripes)", hours: openLeft }])
     .filter(s => s.hours > 0);
   // v42: planned slices use the area's full colour with diagonal cream stripes; every slice gets a thin cream outline.
   const planPat = sl => "planStripes-" + sl.id;
@@ -4566,6 +4679,7 @@ function renderPie() {
   const sw = (color, done, pl) => pl > 0 && !(done > 0) ? '<span class="swatch plan-swatch" style="--sw:' + color + '"></span>' : '<span class="swatch" style="background:' + color + '"></span>';
   const row = (id, name, color, done) => { const pl = planOf(id); return '<li data-area="' + esc(id) + '"' + (pl > 0 ? ' class="has-plan"' : "") + '>' + sw(color, done, pl) + '<span>' + esc(name) + '</span><span>' + rowVal(done, pl) + '</span></li>'; };
   legend.innerHTML = areas.map(a => row(a.id, a.name, a.color, hours[a.id])).join("") + row("sleep", "Sleep", SLEEP_COLOR, sleepH) +
+    ((freeH > 0 || planOf(FREE_AREA) > 0) ? row(FREE_AREA, FREE_LABEL, FREE_COLOR, freeH) : "") +
     '<li data-area="open"><span class="swatch open-swatch"></span><span>Open time</span><span>' + fmtHours(openLeft) + 'h</span></li>';
   renderPlanCard();
 }
@@ -7620,7 +7734,7 @@ function fmtMinutes(m) {
 function areaOptionsHtml(selected) {
   return '<option value="">Pick an area</option>' + orderedAreas().map(a => '<option value="' + a.id + '"' + (a.id === selected ? " selected" : "") + '>' + esc(areaName(a.id)) + '</option>').join("");
 }
-function fastLabel(id) { return { career: "Career", personal: "Growth", spiritual: "Spirit", social: "Social", time: "Hobbies" }[id] || id; }
+function fastLabel(id) { return { career: "Career", personal: "Growth", spiritual: "Spirit", social: "Social", time: "Hobbies", free: FREE_LABEL }[id] || id; }
 // ----- Steer options: selected pulls' steers/opposites first, then all visible pulls, then typed ones
 function steerOptions(selectedPulls, selectedSteers) {
   const out = [];
@@ -7803,7 +7917,7 @@ function pathFieldsHtml(pfx, l, afterDid) {
     '<label class="field">Time<span class="pf-pair"><input id="' + pfx + 'Time" data-pf="time" type="number" min="0" step="any" inputmode="decimal" value="' + (mins == null ? "" : v(asH ? mins / 60 : mins)) + '" />' +
       '<select id="' + pfx + 'TimeUnit" data-pf="unit" aria-label="Time unit"><option value="min"' + (asH ? "" : " selected") + '>min</option><option value="h"' + (asH ? " selected" : "") + '>h</option></select></span></label>' +
     '<p class="hint">How long you spent.</p>' +
-    '<label class="field">Counts toward<select id="' + pfx + 'Area" data-pf="area">' + areaOptionsHtml(l ? l.area : "") + '</select></label>' +
+    '<label class="field">Counts toward<select id="' + pfx + 'Area" data-pf="area">' + areaOptionsHtml(l ? l.area : "") + (pfx === "pl" ? '<option value="' + FREE_AREA + '"' + (l && l.area === FREE_AREA ? " selected" : "") + '>' + FREE_LABEL + '</option>' : "") + '</select></label>' +
     '<p class="hint">' + esc(PICK_ONE) + '</p>' +
     '<label class="field">Paths<select id="' + pfx + 'Paths" data-pf="paths" multiple aria-label="Paths, optional" data-isel-none="None (optional)">' +
       ((data && data.paths) || []).filter(p => p && !p.archived).map(p => '<option value="' + esc(p.id) + '"' + ((l && ((l.pathIds || []).indexOf(p.id) >= 0 || l.pathId === p.id)) ? " selected" : "") + '>' + esc(p.name) + '</option>').join("") +
@@ -7983,7 +8097,29 @@ function plBlockHtml(date, l) {
     '<option value=""' + (cur ? "" : " selected") + '>' + esc(PL_BLOCK_COPY.open) + '</option>' +
     (mine.length ? '<optgroup label="' + esc(PL_BLOCK_COPY.yours) + '">' + mine.map(opt).join("") + '</optgroup>' : "") +
     (cal.length ? '<optgroup label="' + esc(PL_BLOCK_COPY.cal) + '">' + cal.map(opt).join("") + '</optgroup>' : "") +
-    '</select></label><p class="hint" id="plBlockHint" aria-live="polite"></p></div>';
+    '</select></label><p class="hint" id="plBlockHint" aria-live="polite"></p>' +
+    '<div id="plStepWrap" hidden>' + stepperHtml("How long", 30) + '</div>' +
+    '<p class="pl-skip-row" id="plSkipRow" hidden><button type="button" class="link-btn" id="plBlockSkip">It didn\'t happen: skip this block</button></p></div>';
+}
+// v46.3: the stepper writes into the entry's Time field (minutes).
+function plTimeMins() {
+  const root = document.getElementById("plFields"); if (!root) return 30;
+  const t = root.querySelector('[data-pf="time"]'), u = root.querySelector('[data-pf="unit"]');
+  const n = Number(t && t.value); if (!(n > 0)) return 0;
+  return Math.round(u && u.value === "h" ? n * 60 : n);
+}
+function plSetTimeMins(m) {
+  const root = document.getElementById("plFields"); if (!root) return;
+  const t = root.querySelector('[data-pf="time"]'), u = root.querySelector('[data-pf="unit"]');
+  if (u && u.value !== "min") { u.value = "min"; u.dispatchEvent(new Event("change", { bubbles: true })); }
+  if (t) t.value = String(m);
+}
+function plSyncBlockExtras(date) {
+  const sel = document.getElementById("plBlock"); if (!sel) return;
+  const on = !!sel.value;
+  const sw = document.getElementById("plStepWrap"), sk = document.getElementById("plSkipRow");
+  if (sw) { sw.hidden = !on; const w = sw.querySelector("[data-dur-wrap]"); if (w && w.__stepPaint) w.__stepPaint(); }
+  if (sk) sk.hidden = !on;
 }
 function plBlockHint(date) {
   const sel = document.getElementById("plBlock"), h = document.getElementById("plBlockHint"); if (!sel || !h) return;
@@ -7997,7 +8133,8 @@ function plBlockSeed(date) {
   if (o) {
     const g = k => root.querySelector('[data-pf="' + k + '"]');
     const did = g("did"); if (did && (!did.value.trim() || did.dataset.seeded === "1")) { did.value = o.title || planLabel(o); did.dataset.seeded = "1"; }
-    const area = g("area"); if (area && AREAS.some(a => a.id === o.area)) { area.value = o.area; area.dispatchEvent(new Event("change", { bubbles: true })); }
+    const area = g("area"); if (area && (AREAS.some(a => a.id === o.area) || o.area === FREE_AREA)) { area.value = o.area; area.dispatchEvent(new Event("change", { bubbles: true })); }
+    if (o.area === FREE_AREA) { const ps = g("paths"); if (ps) { [...ps.options].forEach(op => { op.selected = false; }); ps.dispatchEvent(new Event("change", { bubbles: true })); } }
     const paths = g("paths"); if (paths && o.pathId && pathById(o.pathId)) { [...paths.options].forEach(op => { op.selected = op.value === o.pathId; }); paths.dispatchEvent(new Event("change", { bubbles: true })); }
     const t = g("time"), u = g("unit"); if (t) { t.value = "30"; if (u) { u.value = "min"; u.dispatchEvent(new Event("change", { bubbles: true })); } }
   }
@@ -8014,7 +8151,19 @@ function openPathLog(pathId, logId, again) {
   plLogDate = l ? l.date : data.selected;
   document.getElementById("plFields").innerHTML = plBlockHtml(plLogDate, l) + pathFieldsHtml("pl", l, PL_RATING_HTML);
   document.getElementById("plHow").value = l && l.how ? l.how : "";
-  { const bs = document.getElementById("plBlock"); bs.onchange = () => plBlockSeed(plLogDate); plBlockHint(plLogDate); }
+  { const bs = document.getElementById("plBlock"); bs.onchange = () => { plBlockSeed(plLogDate); plSyncBlockExtras(plLogDate); }; plBlockHint(plLogDate);
+    bindStepper(document.querySelector("#plStepWrap [data-dur-wrap]"), { get: () => plTimeMins() || 30, set: m => plSetTimeMins(m), max: () => ENTRY_MAX_H * 60 });
+    const tf = document.querySelector('#plFields [data-pf="time"]'); if (tf) tf.addEventListener("input", () => plSyncBlockExtras(plLogDate));
+    const skipB = document.getElementById("plBlockSkip");
+    if (skipB) skipB.onclick = () => {
+      const o = plBlockOccs(plLogDate).find(x => x.key === bs.value); if (!o) return;
+      skipOcc(o, true);
+      const keep = bs.value;
+      bs.querySelectorAll("option").forEach(op => { if (op.value === keep) op.remove(); });
+      bs.value = ""; bs.dispatchEvent(new Event("change", { bubbles: true }));
+      showToast(planLabel(o) + " skipped. No time counted.", { label: "Undo", fn: () => { skipOcc(o, false); } });
+    };
+    plSyncBlockExtras(plLogDate); }
   document.querySelectorAll("#plRating [data-plrate]").forEach(btn => {
     btn.onclick = () => { pathLogRating = pathLogRating === btn.dataset.plrate ? "" : btn.dataset.plrate; syncPathRating(); if (pathLogRating) document.getElementById("plNeedRating").hidden = true; };
   });
@@ -8564,7 +8713,29 @@ function iconPickHtml(current) {
     '<button type="button" role="radio" data-picon="' + esc(src) + '" aria-checked="' + (src === current ? "true" : "false") + '" aria-label="' + esc(PATH_ICON_LABELS[src] || src.split("/").pop().replace(/\.jpg$/, "").replace(/-/g, " ")) + '"><img src="' + esc(iv(src)) + '" alt="" loading="lazy" /></button>').join("") + '</div>';
 }
 function vaultHead() {
-  return '<div class="brand-mark" style="margin-bottom:0.6rem"><img class="book app-mark" src="' + iv(LOGO_SRC) + '" alt="" /><span style="font-family:Georgia,serif;font-size:1.35rem">Higher Self</span></div>';
+  return '<div class="brand-mark vault-brand" style="margin-bottom:0.6rem"><span class="vault-logo-glow"><img class="book app-mark" src="' + iv(LOGO_SRC) + '" alt="" /></span><span class="vault-name" style="font-family:Georgia,serif;font-size:1.35rem">Higher Self</span></div>';
+}
+// v46.3 (Android): the welcome / lock screen. Deep gradient, a glow around the bow, content centred on the phone,
+// and fingerprint as the quick way in. The passphrase always works. The web keeps the plain screen.
+const FP_SVG = '<svg class="fp-ic" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round">' +
+  '<path d="M12 18.5c2.6-4.6 7-7.5 12-7.5s9.4 2.9 12 7.5"/><path d="M9.5 26c0-8.3 6.5-14.5 14.5-14.5"/>' +
+  '<path d="M16 34.5c-1.3-2.4-2-5.1-2-8 0-5.8 4.5-10.5 10-10.5s10 4.7 10 10.5"/><path d="M34 26.5v1.5c0 2.6-.5 5.1-1.5 7.4"/>' +
+  '<path d="M20.5 38c-1.6-3.1-2.5-6.5-2.5-10.2 0-3.5 2.7-6.3 6-6.3s6 2.8 6 6.3"/><path d="M30 31c-.4 2.6-1.3 5-2.6 7.2"/>' +
+  '<path d="M24 27.5c0 4.4 1.2 8.4 3.4 11.6"/><path d="M38.5 21c.6 1.8 1 3.6 1 5.6"/></g></svg>';
+const BIO_PROFILE_KEY = "hs-bio-profile"; // which profile the fingerprint shortcut opens (the phone keeps one)
+const BIO_SKIP_PREFIX = "hs-bio-skip:";
+let bioAutoDone = false; // auto-prompt once each time the lock screen opens
+function gatePop() { return plannerAndroid(); }
+function bioBoundId() { try { return localStorage.getItem(BIO_PROFILE_KEY) || ""; } catch (e) { return ""; } }
+function bioBind(id) { try { if (id) localStorage.setItem(BIO_PROFILE_KEY, id); else localStorage.removeItem(BIO_PROFILE_KEY); } catch (e) {} }
+// The profile the fingerprint opens: the one it was turned on for, or the only profile (before 46.3 nothing was recorded).
+function bioProfile() {
+  const list = loadProfiles(), id = bioBoundId();
+  if (id) return list.find(p => p.id === id) || null;
+  return list.length === 1 ? list[0] : null;
+}
+function bioBtnHtml(id, label) {
+  return '<div class="bio-zone"><button type="button" class="bio-btn" id="' + id + '" hidden><span class="bio-ring">' + FP_SVG + '</span><span class="bio-label">' + esc(label) + '</span></button></div>';
 }
 function showVault(mode, err, notice) {
   document.getElementById("appRoot").hidden = true;
@@ -8576,7 +8747,9 @@ function showVault(mode, err, notice) {
   const p = currentProfile;
   let html = "";
   if (mode === "pick") {
+    const bp = bioProfile();
     html = '<div class="vault-screen">' + vaultHead() + '<h1>Who\'s here?</h1>' + noticeHtml +
+      (bp && hsBio() ? bioBtnHtml("vaultBioPick", "Open " + bp.name + " with fingerprint") : "") +
       '<div class="profile-tiles">' + profiles.map(x => '<button type="button" class="profile-tile" data-profile="' + esc(x.id) + '"><img src="' + esc(iv(profileIcon(x))) + '" alt="" /><span>' + esc(x.name) + '</span></button>').join("") + '</div>' +
       '<div class="actions"><button type="button" class="btn" id="profileAdd">Add someone</button></div></div>';
   } else if (mode === "add" || mode === "reset" || mode === "migrate") {
@@ -8608,15 +8781,26 @@ function showVault(mode, err, notice) {
       '<label class="field" style="margin-top:0.6rem">Type ' + esc(p ? p.name : "") + ' to confirm<input id="freshName" type="text" autocomplete="off" /></label>' +
       '<div class="actions"><button type="button" class="btn danger" id="freshEraseIt" disabled>Erase it</button>' +
       '<button type="button" class="btn" id="freshCancel">Cancel</button></div></div>';
+  } else if (mode === "bio-offer") {
+    html = '<div class="vault-screen bio-offer">' + vaultHead() +
+      '<h1 id="bioOfferTitle">Open faster next time?</h1>' +
+      '<p class="hint">Next time, open ' + esc(p ? p.name + "'s profile" : "your profile") + ' with your fingerprint. Your passphrase still works, and it never leaves this phone.</p>' +
+      errHtml +
+      '<div class="bio-zone"><button type="button" class="bio-btn" id="vaultBioEnable"><span class="bio-ring">' + FP_SVG + '</span><span class="bio-label">Use fingerprint</span></button></div>' +
+      '<div class="actions"><button type="button" class="btn" id="vaultBioSkip">Not now</button></div></div>';
   } else { // unlock (a profile is selected)
     html = '<div class="vault-screen">' + vaultHead() +
+      '<p class="vault-welcome">Welcome back</p>' +
       '<div class="profile-tile is-current"><img src="' + esc(iv(profileIcon(p))) + '" alt="" /><span>' + esc(p ? p.name : "") + '</span></div>' +
+      bioBtnHtml("vaultBio", "Unlock with fingerprint") +
+      '<p class="vault-or" id="vaultOr" hidden><span>or use your passphrase</span></p>' +
       '<label class="field" style="margin-top:0.7rem">' + esc((p ? p.name : "") + "'s passphrase") + '<input id="vaultPass" type="password" autocomplete="current-password" /></label>' +
       '<p style="margin:0.35rem 0 0"><button type="button" class="link-btn" id="vaultFresh">Forgot it, or want a clean start?</button></p>' +
       errHtml +
-      '<div class="actions"><button type="button" class="btn" id="vaultBio" hidden>Unlock with fingerprint</button><button type="button" class="btn primary" id="vaultUnlock">Open</button>' +
+      '<div class="actions"><button type="button" class="btn primary" id="vaultUnlock">Open</button>' +
       '<button type="button" class="btn" id="profileBack">Back</button></div></div>';
   }
+  gate.classList.toggle("gate-pop", gatePop());
   gate.innerHTML = html;
   const $ = id => document.getElementById(id);
   gate.querySelectorAll("[data-profile]").forEach(b => b.onclick = () => { const x = loadProfiles().find(y => y.id === b.dataset.profile); if (!x) return; useProfile(x); if (localStorage.getItem(KEY)) { pendingProfile = null; showVault("unlock"); } else { pendingProfile = Object.assign({}, x); showVault("reset", "", "Clean start. Pick a new passphrase."); } });
@@ -8633,18 +8817,41 @@ function showVault(mode, err, notice) {
   const setupBtn = $("vaultSetup"); if (setupBtn) setupBtn.onclick = onSetupVault;
   const unlockBtn = $("vaultUnlock"); if (unlockBtn) unlockBtn.onclick = onUnlockVault;
   const bioBtn = $("vaultBio");
+  const bioMine = () => { const bp = bioProfile(); return !bioBoundId() || (bp && p && bp.id === p.id); };
   if (bioBtn && hsBio()) {
-    hsBio().status().then(st => { bioBtn.hidden = !(st && st.enabled); }).catch(() => {});
-    bioBtn.onclick = async () => {
-      try {
-        const r = await hsBio().unlock();
-        if (r && r.passphrase && $("vaultPass")) { $("vaultPass").value = r.passphrase; await onUnlockVault(); if ($("vaultPass")) $("vaultPass").value = ""; }
-      } catch (e) {
-        const code = String((e && (e.code || e.message)) || "");
-        showVault("unlock", code.indexOf("invalidated") >= 0 ? "Fingerprint changed. Use your passphrase." : "Use your passphrase.");
-      }
-    };
+    bioBtn.onclick = () => bioUnlockNow();
+    hsBio().status().then(st => {
+      const on = !!(st && st.enabled) && bioMine();
+      bioBtn.hidden = !on; if ($("vaultOr")) $("vaultOr").hidden = !on;
+      // Auto-prompt once when the lock screen opens (not after an error or a cancel).
+      if (on && !err && !bioAutoDone && document.getElementById("vaultBio") === bioBtn) { bioAutoDone = true; bioUnlockNow(); }
+    }).catch(() => {});
   }
+  const bioPick = $("vaultBioPick");
+  if (bioPick && hsBio()) {
+    bioPick.onclick = () => bioUnlockFromPick();
+    hsBio().status().then(st => {
+      const on = !!(st && st.enabled) && !!bioProfile();
+      bioPick.hidden = !on;
+      if (on && !err && !notice && !bioAutoDone && document.getElementById("vaultBioPick") === bioPick) { bioAutoDone = true; bioUnlockFromPick(); }
+    }).catch(() => {});
+  }
+  if ($("vaultBioEnable")) $("vaultBioEnable").onclick = async () => {
+    const btn = $("vaultBioEnable"); btn.disabled = true; btn.classList.add("is-asking");
+    try {
+      await hsBio().enable({ passphrase: sessionPass });
+      bioBind(currentProfile && currentProfile.id);
+      enterApp(); showToast("Fingerprint unlock is on. Your passphrase still works.");
+    } catch (e) {
+      const code = String((e && (e.code || e.message)) || "");
+      if (code.indexOf("cancel") >= 0) { btn.disabled = false; btn.classList.remove("is-asking"); return; }
+      enterApp(); showToast("Fingerprint isn't available. Use your passphrase.");
+    }
+  };
+  if ($("vaultBioSkip")) $("vaultBioSkip").onclick = () => {
+    try { if (currentProfile) localStorage.setItem(BIO_SKIP_PREFIX + currentProfile.id, "1"); } catch (e) {}
+    enterApp();
+  };
   if ($("vaultFresh")) $("vaultFresh").onclick = () => showVault("fresh");
   if ($("freshErase")) $("freshErase").onclick = () => showVault("fresh-confirm");
   if ($("freshCancel")) $("freshCancel").onclick = () => showVault("unlock");
@@ -8660,6 +8867,49 @@ function showVault(mode, err, notice) {
   };
   if (passEl) passEl.addEventListener("keydown", e => { if (e.key === "Enter") { if (setupBtn) setupBtn.click(); else if (unlockBtn) unlockBtn.click(); } });
   const pass2 = $("vaultPass2"); if (pass2) pass2.addEventListener("keydown", e => { if (e.key === "Enter" && setupBtn) setupBtn.click(); });
+}
+// v46.3: fingerprint from the unlock screen. Cancel keeps you here with the passphrase field ready; nothing is shown as wrong.
+async function bioUnlockNow() {
+  const btn = document.getElementById("vaultBio");
+  if (btn) btn.classList.add("is-asking");
+  try {
+    const r = await hsBio().unlock();
+    if (r && r.passphrase && document.getElementById("vaultPass")) {
+      document.getElementById("vaultPass").value = r.passphrase;
+      bioJustUsed = true;
+      await onUnlockVault();
+      const pe = document.getElementById("vaultPass"); if (pe) pe.value = "";
+    }
+  } catch (e) {
+    const code = String((e && (e.code || e.message)) || "");
+    if (code.indexOf("cancel") >= 0) { if (btn) btn.classList.remove("is-asking"); const pe = document.getElementById("vaultPass"); if (pe) pe.focus(); return; }
+    if (code.indexOf("invalidated") >= 0 || code.indexOf("off") === 0) bioBind("");
+    showVault("unlock", code.indexOf("invalidated") >= 0 ? "Fingerprint changed. Use your passphrase." : code.indexOf("lockout") >= 0 ? "Too many tries. Use your passphrase." : "Use your passphrase.");
+  }
+}
+// From "Who's here?": open the profile the fingerprint belongs to.
+async function bioUnlockFromPick() {
+  const bp = bioProfile(); if (!bp) return;
+  useProfile(bp);
+  if (!localStorage.getItem(KEY)) { useProfile(null); return; }
+  pendingProfile = null;
+  bioAutoDone = true;
+  showVault("unlock");
+  await bioUnlockNow();
+}
+let bioJustUsed = false;
+// After a passphrase unlock: offer the fingerprint once, right here, if this phone can do it and it's not on yet.
+async function enterAppOrOfferBio() {
+  const used = bioJustUsed; bioJustUsed = false;
+  const B = hsBio();
+  if (!B || used || !currentProfile) return enterApp();
+  let skip = false; try { skip = !!localStorage.getItem(BIO_SKIP_PREFIX + currentProfile.id); } catch (e) {}
+  if (skip) return enterApp();
+  try {
+    const st = await (B.available ? B.available() : B.status());
+    if (!st || st.enabled || st.available === false) return enterApp();
+  } catch (e) { return enterApp(); }
+  showVault("bio-offer");
 }
 // Start fresh: the passphrase can't be recovered, so the only way past a lost one is to erase this profile's vault.
 function eraseVaultAndStartFresh() {
@@ -8719,7 +8969,7 @@ async function onUnlockVault() {
     }
     sessionPass = p;
     data = migrateLegacy(unlocked);
-    enterApp();
+    if (migrating) enterApp(); else await enterAppOrOfferBio();
   } catch (e) {
     showVault(back, migrating ? "That passphrase doesn't open this data." : "That passphrase doesn't open " + (currentProfile ? currentProfile.name : "this profile") + "'s data.");
   }
@@ -8792,6 +9042,75 @@ document.getElementById("guideOverlay").addEventListener("keydown", e => {
   else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
 });
 document.getElementById("optShowGuide").onclick = () => { document.getElementById("optionsDialog").close(); openGuide(); };
+// ===================== v46.3: duration stepper =====================
+// Big − / + around a duration. 5 min steps under 1 hour, 15 min steps from 1 hour up. Never past 24 hours.
+// Tap the value to type an exact time (hours + minutes). Hold − or + to repeat.
+function fmtDur(m) {
+  m = Math.max(0, Math.round(Number(m) || 0));
+  if (m < 60) return m + " min";
+  const h = Math.floor(m / 60), mm = m % 60;
+  return h + " h" + (mm ? " " + mm + " min" : "");
+}
+function durStep(m, dir, minM, maxM) {
+  m = Math.round(Number(m) || 0); minM = minM || 5; maxM = maxM || 1440;
+  let n;
+  if (dir > 0) n = m < 60 ? Math.min(60, Math.floor(m / 5) * 5 + 5) : Math.floor(m / 15) * 15 + 15;
+  else n = m > 60 ? Math.max(60, Math.ceil(m / 15) * 15 - 15) : Math.ceil(m / 5) * 5 - 5;
+  return Math.max(minM, Math.min(maxM, n));
+}
+function stepperHtml(label, mins) {
+  return '<div class="dur-wrap" data-dur-wrap><div class="dur-step" role="group" aria-label="' + esc(label) + '">' +
+    '<button type="button" class="step-btn" data-dur-dn aria-label="Less time">−</button>' +
+    '<button type="button" class="step-val" data-dur-val aria-label="' + esc(label + ": " + fmtDur(mins) + ". Tap to type an exact time") + '">' + esc(fmtDur(mins)) + '</button>' +
+    '<button type="button" class="step-btn" data-dur-up aria-label="More time">+</button></div>' +
+    '<div class="dur-exact" data-dur-exact hidden><label class="field">Hours<input type="number" min="0" max="24" step="1" inputmode="numeric" data-dur-h /></label>' +
+    '<label class="field">Minutes<input type="number" min="0" max="59" step="1" inputmode="numeric" data-dur-m /></label>' +
+    '<button type="button" class="btn primary" data-dur-set>Set</button></div>' +
+    '<p class="hint dur-msg" data-dur-msg hidden></p></div>';
+}
+// opts: get() -> minutes, set(m), max() (default 1440), min (default 5), commit() after a tap, a hold, or an exact time.
+function bindStepper(wrap, opts) {
+  if (!wrap) return;
+  const maxOf = () => Math.min(1440, (opts.max ? opts.max() : 1440));
+  const minM = opts.min || 5;
+  const val = wrap.querySelector("[data-dur-val]"), msg = wrap.querySelector("[data-dur-msg]");
+  const paint = () => { const m = opts.get(); val.textContent = fmtDur(m); val.setAttribute("aria-label", (val.getAttribute("aria-label") || "").split(":")[0] + ": " + fmtDur(m) + ". Tap to type an exact time"); };
+  const note = t => { msg.textContent = t || ""; msg.hidden = !t; };
+  const step = dir => {
+    const cur = opts.get(), mx = maxOf();
+    const n = durStep(cur, dir, minM, mx);
+    if (dir > 0 && cur >= mx) note(opts.maxMsg || (mx >= 1440 ? "Up to 24 hours." : "That's all the open time here."));
+    else note("");
+    if (n !== cur) { opts.set(n); paint(); }
+  };
+  const hold = (btn, dir) => {
+    let t = null, iv = null, pressed = false;
+    const stop = () => { if (!pressed) return; pressed = false; clearTimeout(t); clearInterval(iv); if (opts.commit) opts.commit(); };
+    btn.addEventListener("pointerdown", e => { if (e.button > 0) return; pressed = true; step(dir); t = setTimeout(() => { iv = setInterval(() => step(dir), 110); }, 450); });
+    ["pointerup", "pointerleave", "pointercancel"].forEach(ev => btn.addEventListener(ev, stop));
+    btn.addEventListener("contextmenu", e => e.preventDefault());
+    btn.addEventListener("click", e => { if (e.detail === 0) { step(dir); if (opts.commit) opts.commit(); } }); // keyboard
+  };
+  hold(wrap.querySelector("[data-dur-dn]"), -1);
+  hold(wrap.querySelector("[data-dur-up]"), 1);
+  const ex = wrap.querySelector("[data-dur-exact]"), hI = wrap.querySelector("[data-dur-h]"), mI = wrap.querySelector("[data-dur-m]");
+  val.onclick = () => {
+    ex.hidden = !ex.hidden;
+    if (!ex.hidden) { const m = opts.get(); hI.value = String(Math.floor(m / 60)); mI.value = String(m % 60); hI.focus(); hI.select && hI.select(); }
+  };
+  wrap.querySelector("[data-dur-set]").onclick = () => {
+    const h = Number(hI.value || 0), mm = Number(mI.value || 0);
+    if (!(h >= 0) || !(mm >= 0) || mm > 59) { note("Use whole hours and 0–59 minutes."); return; }
+    let m = Math.round(h * 60 + mm);
+    const mx = maxOf();
+    if (m > mx) { m = mx; note(opts.maxMsg || (mx >= 1440 ? "Up to 24 hours." : "That's all the open time here.")); } else note("");
+    if (m < minM) m = minM;
+    opts.set(m); paint(); ex.hidden = true; if (opts.commit) opts.commit();
+  };
+  [hI, mI].forEach(i => i.addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); wrap.querySelector("[data-dur-set]").click(); } }));
+  wrap.__stepPaint = paint;
+  paint();
+}
 // ===================== v19: 24-hour cap =====================
 const DAY_CAP = 24;
 const ENTRY_MAX_H = 24; // v46.2: no single entry can be longer than a day
@@ -9936,7 +10255,7 @@ function reportMailto() {
   const body = "What happened?\n\n\n---\nVersion " + APP_VERSION + "\nPhone and browser: " + ua;
   return "mailto:" + REPORT_EMAIL + "?subject=" + encodeURIComponent("Higher Self v" + APP_VERSION + ": a problem") + "&body=" + encodeURIComponent(body);
 }
-function shownVersion() { return plannerAndroid() ? "46.2" : APP_VERSION; }
+function shownVersion() { return plannerAndroid() ? "46.3" : APP_VERSION; }
 function versionFooterHtml() {
   return '<p class="app-version">Version ' + esc(shownVersion()) + '</p><p class="app-report"><a class="link-btn" href="' + esc(reportMailto()) + '" data-report-link>Report a problem</a></p>';
 }
@@ -9961,6 +10280,7 @@ function lockApp() {
   mediaOnLock();
   sessionPass = null;
   data = null;
+  bioAutoDone = false; // v46.3: the next lock screen may ask for the fingerprint once
   resetThemeVisuals(); // the picker never shows someone's theme or photo
   showStartScreen();
 }
@@ -10642,10 +10962,10 @@ function shrinkPhoto(file) {
   const bioOn = document.getElementById("btnBioOn"), bioOff = document.getElementById("btnBioOff");
   if (bioOn) bioOn.onclick = async () => {
     if (!sessionPass || !hsBio()) return;
-    try { await hsBio().enable({ passphrase: sessionPass }); refreshSecurity(); showToast("Fingerprint unlock is on. Your passphrase still works."); }
+    try { await hsBio().enable({ passphrase: sessionPass }); bioBind(currentProfile && currentProfile.id); refreshSecurity(); showToast("Fingerprint unlock is on. Your passphrase still works."); }
     catch (e) { showToast("Fingerprint isn't available. Use your passphrase."); }
   };
-  if (bioOff) bioOff.onclick = async () => { if (hsBio()) { try { await hsBio().disable(); } catch (e) {} } refreshSecurity(); };
+  if (bioOff) bioOff.onclick = async () => { if (hsBio()) { try { await hsBio().disable(); } catch (e) {} } bioBind(""); refreshSecurity(); };
   document.getElementById("ctPhotoBtn").onclick = () => document.getElementById("ctPhotoFile").click();
   document.getElementById("ctPhotoFile").onchange = async e => {
     const f = e.target.files && e.target.files[0]; e.target.value = ""; if (!f) return;
@@ -10755,14 +11075,14 @@ const PLAN_COPY = {
 const SLEEP_AREA = "sleep";
 const PLAN_INTERVAL_WORD = { 1: "week", 2: "2 weeks", 3: "3 weeks", 4: "4 weeks" };
 const isoRe = /^\d{4}-\d{2}-\d{2}$/, hmRe = /^([01]\d|2[0-3]):[0-5]\d$/;
-function planAreaOk(a) { return a === SLEEP_AREA || AREAS.some(x => x.id === a); }
+function planAreaOk(a) { return a === SLEEP_AREA || a === FREE_AREA || AREAS.some(x => x.id === a); }
 function migratePlans(d) {
   d.plans = Array.isArray(d.plans) ? d.plans.filter(p => p && p.id && planAreaOk(p.area) && hmRe.test(String(p.start)) && hmRe.test(String(p.end)) && isoRe.test(String(p.from || ""))).map(p => {
     const every = [0, 1, 2, 3, 4].includes(Number(p.every)) ? Number(p.every) : 1;
     const days = Array.from(new Set((Array.isArray(p.days) ? p.days : []).map(Number).filter(n => n >= 0 && n <= 6))).sort();
     const meta = (typeof HSGaps !== "undefined") ? HSGaps.migrateBlock(p) : { kind: p.kind === "drive" ? "drive" : "", listen: null, breaks: [] };
     const rec = {
-      id: String(p.id), area: p.area, pathId: p.area === SLEEP_AREA ? "" : String(p.pathId || ""), title: String(p.title || "").slice(0, 120),
+      id: String(p.id), area: p.area, pathId: noPathArea(p.area) ? "" : String(p.pathId || ""), title: String(p.title || "").slice(0, 120),
       start: p.start, end: p.end, every, days: every === 0 ? [parseISO(p.from).getDay()] : (days.length ? days : [parseISO(p.from).getDay()]),
       from: p.from, until: isoRe.test(String(p.until || "")) ? p.until : "", source: p.source === "ics" || p.source === "phone" ? p.source : "", icsUid: String(p.icsUid || "")
     };
@@ -10898,8 +11218,12 @@ function shrunkNote(o) {
   if (!taken) return "";
   return fillCopy(PLAN_COPY.shrunk, { h: fmtHours(Math.round((occHours(o) * 60 - taken) / 6) / 10), events: andList(Array.from(names)) });
 }
+function freeHoursFor(date) {
+  return (data.pathLogs || []).filter(l => l.date === date && l.area === FREE_AREA && Number(l.minutes) > 0 && !isConcurrentLog(l))
+    .reduce((s, l) => s + Number(l.minutes) / 60, 0);
+}
 function plannedHoursFor(date) {
-  const map = { career: 0, personal: 0, social: 0, spiritual: 0, time: 0, sleep: 0 };
+  const map = { career: 0, personal: 0, social: 0, spiritual: 0, time: 0, sleep: 0, free: 0 };
   // v40: a day whose sleep was logged by hand (bed/wake or "Confirm 8h") already holds that day's sleep, so planned
   // sleep on it would count the same night twice (9h logged + 9h planned = 18h). Only plan-confirmed sleep adds up.
   const sl = data.days && data.days[date] && data.days[date].sleep;
@@ -11043,7 +11367,8 @@ function confirmGapped(o) {
   const acc = HSGaps.account(o);
   const handLeft = {}; // v46.2: hand-logged minutes on this block come out of its work pieces, day by day
   const write = (p, area, pathId, title, extra) => {
-    if (!pathById(pathId) || !AREAS.some(a => a.id === area)) return;
+    const free = area === FREE_AREA;
+    if (!free && (!pathById(pathId) || !AREAS.some(a => a.id === area))) return;
     const end = p.end >= 1440 ? 1440 : p.end;
     let mins = Math.round(p.mins - overlapMins([p.start, end], realCoverRanges(o, p.date)));
     if (extra.indexOf("#w") === 0) {
@@ -11051,7 +11376,7 @@ function confirmGapped(o) {
       const take = Math.min(Math.max(0, mins), handLeft[p.date]); mins -= take; handLeft[p.date] -= take;
     }
     if (!(mins > 0)) return;
-    planLog({ pathId, date: p.date, did: title || "", minutes: mins, area, planKey: o.key + extra, gap: extra.indexOf("#g") === 0,
+    planLog({ pathId: free ? "" : pathId, general: free || undefined, date: p.date, did: title || (free ? FREE_LABEL : ""), minutes: mins, area, planKey: o.key + extra, gap: extra.indexOf("#g") === 0,
       segment: minHm(p.start) + "–" + (end >= 1440 ? "24:00" : minHm(end)) });
   };
   acc.pieces.forEach((p, i) => write(p, o.area, o.pathId, o.title, "#w" + i));
@@ -11080,6 +11405,7 @@ function confirmOcc(o) {
       d.sleep = { hours: Math.round((prev + mins / 60) * 100) / 100, source: "plan" };
       return;
     }
+    if (o.area === FREE_AREA) { planLog({ pathId: "", general: true, date: sg.date, did: o.title || FREE_LABEL, minutes: mins, area: FREE_AREA, planKey: o.key }); return; }
     if (!pathById(o.pathId)) return;
     planLog({ pathId: o.pathId, date: sg.date, did: o.title || "", minutes: mins, area: o.area, planKey: o.key });
   });
@@ -11151,6 +11477,9 @@ function openRunOver(date) {
   document.getElementById("overDialog").showModal();
 }
 document.getElementById("overCancel").onclick = () => document.getElementById("overDialog").close();
+document.getElementById("gapCancel").onclick = () => { gapEdit = null; document.getElementById("gapDialog").close(); };
+document.getElementById("gapFree").onclick = () => saveGap(true);
+document.getElementById("gapSave").onclick = () => saveGap(false);
 document.getElementById("overSave").onclick = () => {
   const r = runOver(overDate, document.getElementById("overBlock").value, document.getElementById("overEnd").value);
   const err = document.getElementById("overErr");
@@ -11244,6 +11573,14 @@ document.getElementById("monthSave").onclick = () => {
   data.monthReviews[monthOpen] = { well: v("monthWell"), slipped: v("monthSlip"), aims: v("monthAims"), savedAt: TODAY };
   save(); document.getElementById("monthDialog").close(); renderMonthBox(); renderCoachNotes(); showToast("Saved.");
 };
+// v46.3: change one day's block length (end = start + minutes; a full day ends at its start time).
+let planStepTimer = null;
+function setOccLength(key, date, mins) {
+  const o = occsTouching(date, { withSkipped: true }).find(x => x.key === key) || occsTouching(shift(date, 1), { withSkipped: true }).find(x => x.key === key);
+  if (!o) return;
+  const m = Math.max(5, Math.min(1435, Math.round(mins)));
+  data.planDays[o.key] = Object.assign({}, data.planDays[o.key] || {}, { end: minHm((hmMin(o.start) + m) % 1440) });
+}
 function skipOcc(o, on) {
   const cur = data.planDays[o.key] || {};
   if (on) data.planDays[o.key] = Object.assign({}, cur, { skip: true });
@@ -11256,10 +11593,18 @@ function renderPlanCard() {
   const date = data.selected, isWeek = timeView() === "week";
   const pend = isWeek ? [] : pendingOccs(date);
   let html = "";
+  const skippedOccs = isWeek ? [] : occsTouching(date, { withSkipped: true }).filter(o => o.skipped && !o.done);
+  const blocksHtml = (!isWeek && date <= TODAY && (pend.length || skippedOccs.length)) ? '<ul class="plan-blocks" id="planBlocks">' +
+    pend.map(o => '<li class="pb-row" data-pb="' + esc(o.key) + '"><div class="pb-name"><b>' + esc(planLabel(o)) + '</b><small>' + esc(fmtClock(o.start) + "–" + fmtClock(o.end)) + '</small></div>' +
+      stepperHtml(planLabel(o) + " length", occSpanMins(o)) +
+      '<button type="button" class="btn pb-skip" data-plan-skip="' + esc(o.key) + '">Skip</button></li>').join("") +
+    skippedOccs.map(o => '<li class="pb-row is-skipped" data-pb="' + esc(o.key) + '"><div class="pb-name"><b>' + esc(planLabel(o)) + '</b><small>' + esc(fmtClock(o.start) + "–" + fmtClock(o.end)) + '</small></div>' +
+      '<span class="planned-chip pb-chip">Skipped · no time counted</span><button type="button" class="btn" data-plan-unskip="' + esc(o.key) + '">Undo</button></li>').join("") + '</ul>' : "";
+  if (!isWeek && !pend.length && skippedOccs.length && date <= TODAY) html += '<div class="plan-confirm">' + blocksHtml + '</div>';
   if (!isWeek && pend.length && date <= TODAY) {
     const listens = pend.filter(o => o.kind === "drive" && o.listen);
     html += '<div class="plan-confirm"><p class="coach-line">' + esc(fillCopy(PLAN_COPY.ask, { day: dayWord(date) })) + '</p>' +
-      (listens.length ? '<label class="check-row"><input type="checkbox" data-plan-listen checked /> Listening: ' + esc(listens.map(o => (o.listen && o.listen.title) || "audio").join(", ")) + '</label><p class="hint">Planned listening. It is recorded only if you leave this checked.</p>' : "") +
+      blocksHtml + (listens.length ? '<label class="check-row"><input type="checkbox" data-plan-listen checked /> Listening: ' + esc(listens.map(o => (o.listen && o.listen.title) || "audio").join(", ")) + '</label><p class="hint">Planned listening. It is recorded only if you leave this checked.</p>' : "") +
       '<div class="row-actions"><button type="button" class="btn primary" data-plan-yes>' + esc(PLAN_COPY.yes) + '</button><button type="button" class="btn" data-plan-change>' + esc(PLAN_COPY.change) + '</button>' +
       '<button type="button" class="btn" data-plan-over>Work ran over</button></div></div>';
   } else if (!isWeek && pend.length) {
@@ -11275,7 +11620,7 @@ function renderPlanCard() {
     const done = occsTouching(date).filter(o => o.done && o.date === date);
     if (done.length) html += '<div class="row-actions"><button type="button" class="btn" data-plan-editlogged>Change something</button></div>';
   }
-  html += '<div class="row-actions" style="margin-top:0.5rem"><button type="button" class="btn" data-plan-week>Planned week</button><button type="button" class="btn" data-plan-add>Add a planned block</button></div>';
+  html += '<div class="row-actions" style="margin-top:0.5rem"><button type="button" class="btn" data-plan-open>Plan this day</button><button type="button" class="btn" data-plan-week>Planned week</button><button type="button" class="btn" data-plan-add>Add a planned block</button></div>';
   const paint = root => {
     if (!root) return;
     root.innerHTML = html;
@@ -11288,6 +11633,19 @@ function renderPlanCard() {
       const week = root.querySelector("[data-plan-week]"); if (week) week.id = "planWeekOpen";
     }
     const y = root.querySelector("[data-plan-yes]"); if (y) y.onclick = () => confirmDay(date, root);
+    const pdo = root.querySelector("[data-plan-open]"); if (pdo) { if (root.id === "planCard") pdo.id = "planDayOpen"; pdo.onclick = () => openPlanDay(date); }
+    const findOcc = k => occsTouching(date, { withSkipped: true }).find(o => o.key === k);
+    root.querySelectorAll("[data-plan-skip]").forEach(b => b.onclick = () => { const o = findOcc(b.dataset.planSkip); if (!o) return; skipOcc(o, true); showToast(planLabel(o) + " skipped. No time counted.", { label: "Undo", fn: () => { const x = findOcc(o.key); if (x) skipOcc(x, false); } }); });
+    root.querySelectorAll("[data-plan-unskip]").forEach(b => b.onclick = () => { const o = findOcc(b.dataset.planUnskip); if (o) skipOcc(o, false); });
+    root.querySelectorAll(".pb-row[data-pb]").forEach(li => {
+      const w = li.querySelector("[data-dur-wrap]"); if (!w) return;
+      const key = li.dataset.pb;
+      bindStepper(w, {
+        get: () => { const o = findOcc(key); return o ? occSpanMins(o) : 0; },
+        set: m => setOccLength(key, date, m), max: () => 1435, maxMsg: "Up to 24 hours.", // a block can't start and end at the same time
+        commit: () => { save(); clearTimeout(planStepTimer); planStepTimer = setTimeout(() => { renderDerived(); calPushSoon(); }, 700); }
+      });
+    });
     const c = root.querySelector("[data-plan-change]"); if (c) c.onclick = () => openPlanDay(date);
     const ov = root.querySelector("[data-plan-over]"); if (ov) ov.onclick = () => openRunOver(date);
     const w = root.querySelector("[data-plan-week]"); if (w) w.onclick = () => openPlanWeek();
@@ -11302,6 +11660,89 @@ function renderPlanCard() {
 }
 // ---- One day's plan sheet
 let planDayDate = "";
+// v46.3: open time on a day = waking time with no block. Sleep blocks cover themselves; with no planned sleep the
+// waking window is your logged bed/wake times, or 7:00 AM–11:00 PM. Gaps under 15 min are left out.
+function wakingWindow(date) {
+  if (occsTouching(date).some(o => o.area === SLEEP_AREA)) return [0, 1440];
+  const sl = data.days[date] && data.days[date].sleep;
+  if (sl && hmRe.test(String(sl.wake || "")) && hmRe.test(String(sl.bed || ""))) {
+    const w = hmMin(sl.wake), b = hmMin(sl.bed);
+    return b > w ? [w, b] : [w, 1440];
+  }
+  return [420, 1380];
+}
+function openGaps(date) {
+  const [w0, w1] = wakingWindow(date);
+  const cover = occsTouching(date).map(o => occDayRange(o, date)).filter(Boolean).map(r => [Math.max(r[0], 0), Math.min(r[1], 1440)]).sort((a, b) => a[0] - b[0]);
+  const out = []; let cur = w0;
+  cover.forEach(([a, b]) => { if (b <= cur) return; if (a > cur) out.push([cur, Math.min(a, w1)]); cur = Math.max(cur, b); });
+  if (cur < w1) out.push([cur, w1]);
+  return out.filter(([a, b]) => b - a >= 15).map(([a, b]) => ({ start: a, end: b, mins: b - a }));
+}
+function addOncePlan(date, area, pathId, title, startMin, mins) {
+  const p = { id: uid("pn"), source: "", icsUid: "", area, pathId: noPathArea(area) ? "" : pathId, title: title || "", start: minHm(startMin), end: minHm((startMin + mins) % 1440),
+    every: 0, days: [parseISO(date).getDay()], from: date, until: "", kind: "", listen: null, breaks: [] };
+  data.plans.push(p);
+  return p;
+}
+function makeDayFree(date) {
+  const gaps = openGaps(date);
+  gaps.forEach(g => addOncePlan(date, FREE_AREA, "", "", g.start, g.mins));
+  return gaps.length;
+}
+let gapEdit = null;
+function openGapSheet(date, gap) {
+  gapEdit = { date, start: gap.start, gapStart: gap.start, end: gap.end, len: gap.mins };
+  const $ = id => document.getElementById(id);
+  $("gapWhen").textContent = fmtClock(minHm(gap.start)) + "–" + fmtClock(gap.end >= 1440 ? "00:00" : minHm(gap.end)) + " · " + fmtDur(gap.mins) + " open";
+  $("gapArea").innerHTML = planAreaOptions(FREE_AREA, true);
+  $("gapPath").innerHTML = pathSelectHtml("", true);
+  $("gapNewPath").value = ""; $("gapTitle2").value = "";
+  $("gapStart").value = minHm(gap.start);
+  $("gapErr").hidden = true;
+  const sync = () => {
+    const a = $("gapArea").value, np = noPathArea(a);
+    $("gapPathWrap").hidden = np || !a; $("gapNewPathWrap").hidden = np || !a || $("gapPath").value !== "__new";
+    const left = gapEdit.end - gapEdit.start - gapEdit.len;
+    $("gapLeft").textContent = left >= 15 ? fmtDur(left) + " stays open time." : left > 0 ? "A few minutes stay open." : "Fills all of it.";
+    const w = $("gapStepBox").querySelector("[data-dur-wrap]"); if (w && w.__stepPaint) w.__stepPaint();
+  };
+  $("gapStepBox").innerHTML = stepperHtml("Length", gapEdit.len);
+  bindStepper($("gapStepBox").querySelector("[data-dur-wrap]"), { get: () => gapEdit.len, set: m => { gapEdit.len = m; sync(); }, max: () => gapEdit.end - gapEdit.start, min: 5 });
+  $("gapArea").onchange = sync; $("gapPath").onchange = sync;
+  $("gapStart").onchange = () => {
+    if (!hmRe.test($("gapStart").value)) return;
+    let st = hmMin($("gapStart").value);
+    st = Math.max(gap.start, Math.min(gap.end - 5, st));
+    gapEdit.start = st; $("gapStart").value = minHm(st);
+    gapEdit.len = Math.min(gapEdit.len, gapEdit.end - st); sync();
+  };
+  sync();
+  openSheet($("gapDialog"), $("gapFree"));
+}
+function gapErr(msg, el) { const m = document.getElementById("gapErr"); m.textContent = msg; m.hidden = false; if (el) el.focus(); }
+function saveGap(asFree) {
+  const $ = id => document.getElementById(id);
+  if (!gapEdit) return;
+  let area = asFree ? FREE_AREA : $("gapArea").value, pathId = "";
+  if (!area) return gapErr("Pick a block type.", $("gapArea"));
+  if (!noPathArea(area)) {
+    pathId = $("gapPath").value;
+    if (pathId === "__new") {
+      const name = $("gapNewPath").value.trim().slice(0, 60);
+      if (!name) return gapErr("Name the path.", $("gapNewPath"));
+      const ex = (data.paths || []).find(x => !x.archived && x.name.toLowerCase() === name.toLowerCase());
+      if (ex) pathId = ex.id; else { const np = { id: uid("pa"), name, img: PATH_DEFAULT_ICON, created: TODAY, active: true, archived: false, reminder: null }; data.paths.push(np); pathId = np.id; }
+    }
+    if (!pathById(pathId)) return gapErr("Pick a path.", $("gapPath"));
+  }
+  const start = asFree ? gapEdit.gapStart : gapEdit.start, len = asFree ? (gapEdit.end - gapEdit.gapStart) : gapEdit.len;
+  addOncePlan(gapEdit.date, area, pathId, asFree ? "" : $("gapTitle2").value.trim().slice(0, 120), start, len);
+  const date = gapEdit.date; gapEdit = null;
+  save(); $("gapDialog").close(); renderDerived(); calPushSoon();
+  if (document.getElementById("planDayDialog").open) renderPlanDay(); else openPlanDay(date);
+  showToast(asFree || area === FREE_AREA ? "Free time added." : "Block added.");
+}
 function openPlanDay(date) { planDayDate = date; renderPlanDay(); openSheet(document.getElementById("planDayDialog"), document.getElementById("planDayTitle")); }
 function renderPlanDay() {
   const dlg = document.getElementById("planDayDialog"); if (!dlg || !planDayDate || !data) return;
@@ -11309,13 +11750,26 @@ function renderPlanDay() {
   document.getElementById("planDayTitle").textContent = date === TODAY ? "Today" : prettyDate(date);
   const list = occsTouching(date, { withSkipped: true });
   const past = date <= TODAY;
-  document.getElementById("planDayList").innerHTML = list.length ? list.map(o =>
+  const gaps = openGaps(date);
+  const startOn = o => { const r = occDayRange(o, date); return r ? r[0] : 0; };
+  const gapLi = g => '<li class="gap-row"><button type="button" class="gap-btn" data-gap="' + g.start + '-' + g.end + '" aria-label="' + esc("Open time " + fmtClock(minHm(g.start)) + " to " + fmtClock(g.end >= 1440 ? "00:00" : minHm(g.end)) + ", " + fmtDur(g.mins) + ". Tap to fill it") + '">' +
+    '<span class="gap-what"><b>Open time</b><small>' + esc(fmtClock(minHm(g.start)) + "–" + fmtClock(g.end >= 1440 ? "00:00" : minHm(g.end))) + '</small></span><span class="gap-len">' + esc(fmtDur(g.mins)) + '</span><span class="gap-plus" aria-hidden="true">+</span></button></li>';
+  const blockLi = o =>
     '<li class="' + (o.skipped ? "is-skipped" : "") + '" data-occ="' + esc(o.key) + '"><span class="pl-what">' + planMarksHtml(o) + esc(planLabel(o)) + (o.done ? ' · Logged' : "") + '<small>' + esc(planSubLabel(o)) + '</small>' + (o.skipped ? "" : (n => n ? '<small class="shrunk-note">' + esc(n) + '</small>' : "")(shrunkNote(o))) + '</span><span class="row-actions" style="margin:0">' +
     (o.done ? "" : o.skipped ? '<button type="button" class="btn" data-occ-unskip="' + esc(o.key) + '">Bring back</button>' :
       (past ? '<button type="button" class="btn primary" data-occ-confirm="' + esc(o.key) + '">Confirm</button>' : "") +
       '<button type="button" class="btn" data-occ-edit="' + esc(o.key) + '">Edit</button><button type="button" class="btn" data-occ-skip="' + esc(o.key) + '">Skip</button>' +
       '<button type="button" class="btn" data-occ-ics="' + esc(o.key) + '">Add to calendar</button>') +
-    '</span></li>').join("") : '<li><span class="pl-what hint">Nothing planned.</span></li>';
+    '</span></li>';
+  const items = list.map(o => ({ at: startOn(o) + (o.date < date ? -1 : 0), html: blockLi(o) })).concat(gaps.map(g => ({ at: g.start, html: gapLi(g) }))).sort((a, b) => a.at - b.at);
+  const emptyDay = !list.some(o => !o.skipped && o.area !== SLEEP_AREA);
+  document.getElementById("planDayList").innerHTML = (items.length ? items.map(x => x.html).join("") : '<li><span class="pl-what hint">Nothing planned.</span></li>') +
+    (emptyDay && gaps.length ? '<li class="gap-free-row"><button type="button" class="btn" id="planDayFree">Make whole day free time</button><small class="hint">Fills the open waking time. Sleep stays as it is.</small></li>' : "");
+  document.getElementById("planDayList").querySelectorAll("[data-gap]").forEach(b => b.onclick = () => {
+    const [a, z] = b.dataset.gap.split("-").map(Number); openGapSheet(date, { start: a, end: z, mins: z - a });
+  });
+  const pdf = document.getElementById("planDayFree");
+  if (pdf) pdf.onclick = () => { const n = makeDayFree(date); if (!n) return; save(); renderDerived(); renderPlanDay(); calPushSoon(); showToast("The day's open time is free time now."); };
   const nhBox = document.getElementById("planDayNoHours"); if (nhBox) nhBox.innerHTML = noHoursHtml(date);
   const find = k => list.find(o => o.key === k);
   dlg.querySelectorAll("[data-occ-confirm]").forEach(b => b.onclick = () => {
@@ -11360,7 +11814,8 @@ function pathSelectHtml(sel, withPick) {
 }
 function planAreaOptions(sel, withSleep) {
   return '<option value="">Pick an area</option>' + orderedAreas().map(a => '<option value="' + a.id + '"' + (a.id === sel ? " selected" : "") + '>' + esc(areaName(a.id)) + '</option>').join("") +
-    (withSleep ? '<option value="sleep"' + (sel === SLEEP_AREA ? " selected" : "") + '>Sleep</option>' : "");
+    (withSleep ? '<option value="sleep"' + (sel === SLEEP_AREA ? " selected" : "") + '>Sleep</option>' +
+      '<option value="' + FREE_AREA + '"' + (sel === FREE_AREA ? " selected" : "") + '>' + FREE_LABEL + '</option>' : "");
 }
 function openPlanEditor(opts) {
   opts = opts || {};
@@ -11413,7 +11868,7 @@ function syncPlanForm() {
   const $ = id => document.getElementById(id);
   const mode = planEdit ? planEdit.mode : "plan";
   const rep = Number($("planRepeat").value) || 0;
-  const sleep = $("planArea").value === SLEEP_AREA;
+  const sleep = noPathArea($("planArea").value);
   $("planPathWrap").hidden = sleep;
   $("planNewPathWrap").hidden = sleep || $("planPath").value !== "__new";
   $("planTimesWrap").hidden = mode === "log";
@@ -11433,7 +11888,7 @@ function syncPlanForm() {
 function syncPlanExtras() {
   const $ = id => document.getElementById(id);
   const mode = planEdit ? planEdit.mode : "plan";
-  const sleep = $("planArea").value === SLEEP_AREA;
+  const sleep = noPathArea($("planArea").value);
   const android = plannerAndroid() && typeof HSGaps !== "undefined" && mode !== "log" && !sleep;
   const driveOn = android && !!(planEdit && planEdit.drive);
   $("planDriveWrap").hidden = !android;
@@ -11593,7 +12048,7 @@ function readPlanForm() {
   const area = $("planArea").value;
   if (!area) { planFormErr("Pick an area.", $("planArea")); return null; }
   let pathId = "";
-  if (area !== SLEEP_AREA) {
+  if (!noPathArea(area)) {
     pathId = $("planPath").value;
     if (pathId === "__new") {
       const name = $("planNewPath").value.trim().slice(0, 60);
@@ -11839,7 +12294,7 @@ function askIcsMapping(title) {
     $("icsMapAdd").onclick = () => {
       const area = $("icsMapArea").value; if (!area) return err("Pick an area.", $("icsMapArea"));
       let pathId = "";
-      if (area !== SLEEP_AREA) {
+      if (!noPathArea(area)) {
         pathId = $("icsMapPath").value;
         if (pathId === "__new") {
           const name = $("icsMapNewPath").value.trim().slice(0, 60); if (!name) return err("Name the path.", $("icsMapNewPath"));
@@ -12442,6 +12897,7 @@ function showCryptoBlocked() {
   document.getElementById("appRoot").hidden = true;
   const gate = document.getElementById("vaultGate");
   gate.hidden = false;
+  gate.classList.toggle("gate-pop", gatePop());
   gate.innerHTML =
     '<div class="vault-screen">' +
     '<h1>Your data stays on this phone, encrypted.</h1>' +
@@ -12512,7 +12968,7 @@ function accountIcon(a) {
   if (/invest|stock|broker|retire|401/.test(n)) return MG("investment");
   return PH("account-other");
 }
-function areaIconSrc(id) { if (id === "sleep" || id === SLEEP_AREA) return "icons/sleep.jpg"; const a = AREAS.find(x => x.id === id); return a ? a.img : ""; }
+function areaIconSrc(id) { if (id === "sleep" || id === SLEEP_AREA) return "icons/sleep.jpg"; if (id === FREE_AREA) return PH("free-time"); const a = AREAS.find(x => x.id === id); return a ? a.img : ""; }
 function steerBookSet() {
   const s = new Set();
   DEFAULT_PULLS.concat(EXTRA_PULLS).forEach(p => { const u = pullUpgrade(p.id), o = pullOpposite(p.id); if (u) s.add(u.label.toLowerCase()); if (o) s.add(o.label.toLowerCase()); });

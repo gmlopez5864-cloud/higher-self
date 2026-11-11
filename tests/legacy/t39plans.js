@@ -66,7 +66,7 @@ const A = require("./lib/app"); const { sleep, ok, done } = Object.assign({}, A,
   r = await page.evaluate(() => { renderDerived(); return { leg: [...document.querySelectorAll("#legend li.has-plan")].map(li => li.innerText.replace(/\s+/g, " ").trim()), centre: document.getElementById("pieCentre").textContent, slices: document.querySelectorAll("#pie .pie-planned").length, tasks: data.tasks.length, logged: hoursFor(TODAY).career, used: document.getElementById("hoursUsed").textContent, ask: (document.getElementById("planAsk") || {}).innerText }; });
   ok("today's unconfirmed block shows as a lighter 'Planned' slice (8h Career)", r.slices === 1 && r.leg.length === 1 && /Career/.test(r.leg[0]) && /8h/.test(r.leg[0]) && /Planned 8h/.test(r.centre), r);
   ok("planned time isn't logged: tasks and Hours used unchanged (2h)", r.tasks === 1 && r.logged === 2 && /Done 2h/.test(r.centre), r);
-  ok("confirm prompt: 'Did today go as planned?' with 'Confirm day' / 'Change something' (+ v42 'Work ran over')", /^Did today go as planned\?\s+Confirm day\s+Change something\s+Work ran over$/.test((r.ask || "").trim()), r.ask);
+  ok("confirm prompt: 'Did today go as planned?' with 'Confirm day' / 'Change something' (+ v42 'Work ran over'; v46.3 lists each block with a stepper and Skip)", /^Did today go as planned\?\s+(Work\s+9:00\sAM–5:00\sPM\s+−\s+8 h\s+\+\s+Skip\s+)?Confirm day\s+Change something\s+Work ran over$/.test((r.ask || "").trim()), r.ask);
   await page.evaluate(() => document.getElementById("timeCard").scrollIntoView()); await sleep(200);
   await page.screenshot({ path: A.TMP + "/v39-pie-planned.png" });
   // future days: pie can go ahead and labels them Planned
