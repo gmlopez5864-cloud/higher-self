@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Higher Self</string>
+    <string name="title_activity_main">Higher Self</string>
+    <string name="package_name">com.higherself.app</string>
+    <string name="custom_url_scheme">com.higherself.app</string>
+    <string name="bio_title">Unlock Higher Self</string>
+    <string name="bio_negative">Use passphrase</string>
+    <string name="backup_title">Save encrypted backup</string>
+</resources>
