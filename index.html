@@ -1294,6 +1294,7 @@
   .isel-pop.is-open { opacity: 1; transform: none; }
   .isel-pop.is-sheet { left: 0 !important; right: 0 !important; bottom: 0 !important; top: auto !important; width: 100% !important; max-width: 100%; border-radius: 22px 22px 0 0; border-bottom: 0; padding: 0.5rem 0.5rem max(0.6rem, env(safe-area-inset-bottom)); transform: translateY(40px); opacity: 0; }
   .isel-pop.is-sheet.is-open { transform: none; opacity: 1; }
+  .isel-pop.is-sheet { max-height: 86vh; max-height: 86dvh; }
   .isel-pop::backdrop { background: rgba(0,0,0,0); transition: background 0.2s; }
   .isel-pop.is-sheet::backdrop { background: rgba(0,0,0,0.4); }
   .isel-grab { width: 42px; height: 5px; border-radius: 3px; background: var(--border); margin: 0.15rem auto 0.4rem; flex: none; }
@@ -1321,6 +1322,9 @@
   .own-marks button { aspect-ratio: 1 / 1; padding: 0; border: 2px solid transparent; border-radius: 13px; background: none; min-height: 48px; }
   .own-marks button[aria-checked="true"] { border-color: var(--text); box-shadow: 0 0 0 2px var(--accent); }
   .own-marks img { width: 100%; height: 100%; border-radius: 11px; display: block; object-fit: contain; background: var(--icon-tile, var(--accent)); padding: 6px; }
+  .ss-legacy[hidden] { display: none !important; }
+  .own-type { margin: 0 0 0.5rem; }
+  .own-type .chip[aria-checked="true"] { background: var(--accent); color: var(--onBtn); border-color: var(--accent); }
   .own-actions { display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: flex-end; margin-top: 0.8rem; }
   .own-actions .own-left { margin-right: auto; display: flex; gap: 0.5rem; }
   /* every sheet opens and closes gently (state changes stay instant; only the paint animates) */
@@ -2436,6 +2440,7 @@
 <dialog id="ownDialog" class="own-sheet" aria-labelledby="ownTitle">
   <div class="isel-grab" aria-hidden="true"></div>
   <h3 id="ownTitle">Add your own</h3>
+  <div class="chip-row own-type" id="ownTypeRow" role="radiogroup" aria-label="What is it?" hidden><button type="button" class="chip" role="radio" data-own-type="pull" aria-checked="true">A shadow</button><button type="button" class="chip" role="radio" data-own-type="steer" aria-checked="false">A steer</button></div>
   <label class="field" id="ownNameLabel">Name it<input id="ownName" type="text" maxlength="40" autocomplete="off" autocapitalize="sentences" /></label>
   <div id="ownSecondWrap" hidden><label class="field" id="ownSecondLabel" style="margin-top:0.45rem">More<input id="ownSecond" type="text" maxlength="40" autocomplete="off" /></label></div>
   <p class="q-title" style="font-size:0.9rem;margin:0.7rem 0 0.1rem">Pick its icon</p>
@@ -7734,6 +7739,33 @@ function honorTestHtml() {
     '<ul class="honor-qs">' + HONOR_TEST.qs.map(q => '<li>' + esc(q) + '</li>').join("") + '</ul>' +
     '<p class="hint">' + esc(HONOR_TEST.hint) + '</p>' + storyLineHtml(pickStoryId("clean"), "") + '</div>';
 }
+// v46.1: shadows (the book's and your own pulls) and steers share ONE icon dropdown, grouped by type.
+const SS_COPY = { label: "Shadow & steer", aria: "Shadow and steer", sub: "Up to 5 of each", pick: "Pick one",
+  book: "Shadows · from the book", yours: "Your shadows", more: "More shadows", suggested: "Steers for your shadow", ysteers: "Your steers", msteers: "Steers" };
+function shadowSteerOptionsHtml(ps, ss, state) {
+  const o = (v, t, dis) => '<option value="' + esc(v) + '"' + (dis ? " disabled" : "") + '>' + esc(t) + '</option>';
+  const grp = (label, list) => list.length ? '<optgroup label="' + esc(label) + '">' + list.join("") + '</optgroup>' : "";
+  const pullFull = state.pulls.length >= PICK_MAX, steerFull = state.steered.length >= PICK_MAX;
+  const book = [], yours = [], more = [];
+  [...ps.children].forEach(ch => {
+    const list = ch.tagName === "OPTGROUP" ? [...ch.children] : [ch];
+    const bucket = ch.tagName !== "OPTGROUP" ? book : ch.label === "Yours" ? yours : ch.label === "More pulls" ? more : book;
+    list.forEach(op => { if (op.value && op.value !== "__add") bucket.push(o("p:" + op.value, op.textContent, pullFull)); });
+  });
+  const ups = new Set();
+  if (state.pulls.includes("addiction")) addictionSteers().forEach(v => ups.add(v.toLowerCase()));
+  state.pulls.forEach(id => { const u = pullUpgrade(id), op = pullOpposite(id); if (u) ups.add(u.label.toLowerCase()); if (op) ups.add(op.label.toLowerCase()); });
+  const sug = [], ysteer = [], msteer = [];
+  [...ss.options].forEach(op => {
+    if (!op.value || op.value === "__add") return;
+    const k = op.value.toLowerCase();
+    (ups.has(k) ? sug : ownSteerDef(op.value) ? ysteer : msteer).push(o("s:" + op.value, op.textContent, steerFull));
+  });
+  const shadows = grp(SS_COPY.book, book) + grp(SS_COPY.yours, yours) + grp(SS_COPY.more, more);
+  const steers = grp(SS_COPY.suggested, sug) + grp(SS_COPY.ysteers, ysteer) + grp(SS_COPY.msteers, msteer);
+  // once a shadow is picked, its steers come first
+  return o("", SS_COPY.pick) + (state.pulls.length ? steers + shadows : shadows + steers);
+}
 function pathFieldsHtml(pfx, l, afterDid) {
   const C = PATH_STEP_COPY;
   const mins = l && l.minutes ? Number(l.minutes) : null;
@@ -7752,8 +7784,9 @@ function pathFieldsHtml(pfx, l, afterDid) {
     '<label class="field">Paths<select id="' + pfx + 'Paths" data-pf="paths" multiple aria-label="Paths, optional" data-isel-none="None (optional)">' +
       ((data && data.paths) || []).filter(p => p && !p.archived).map(p => '<option value="' + esc(p.id) + '"' + ((l && ((l.pathIds || []).indexOf(p.id) >= 0 || l.pathId === p.id)) ? " selected" : "") + '>' + esc(p.name) + '</option>').join("") +
     '</select></label><p class="hint">Optional. Time still counts once if you pick more than one.</p>' +
-    '<div class="shadow-steer"><label class="field pf-pick">' + esc(C.pullsLabel) + '<select id="' + pfx + 'PullPick" data-pf-pullsel aria-label="Shadow" data-isel-sub="Up to 5"></select></label>' +
-    '<label class="field pf-pick">' + esc(C.steeredLabel) + '<select id="' + pfx + 'SteerPick" data-pf-steersel aria-label="Steer" data-isel-sub="Up to 5"></select></label></div>' +
+    '<label class="field pf-pick pf-ss">' + esc(SS_COPY.label) + '<select id="' + pfx + 'ShadowSteer" data-pf-shadowsteer aria-label="' + esc(SS_COPY.aria) + '" data-isel-sub="' + esc(SS_COPY.sub) + '"></select></label>' +
+    '<div class="shadow-steer ss-legacy" hidden><label class="field pf-pick">' + esc(C.pullsLabel) + '<select id="' + pfx + 'PullPick" data-pf-pullsel aria-label="Shadow"></select></label>' +
+    '<label class="field pf-pick">' + esc(C.steeredLabel) + '<select id="' + pfx + 'SteerPick" data-pf-steersel aria-label="Steer"></select></label></div>' +
     '<div class="chip-row" id="' + pfx + 'Pulls" data-pf-pulls></div>' +
     pairFormHtml(pfx) +
     '<div class="shadow-stories" data-pf-stories></div>' +
@@ -7817,11 +7850,25 @@ function bindPathFieldChips(root, state, onChange) {
     const ss = root.querySelector("[data-pf-steersel]");
     ss.innerHTML = steerSelectHtml(state.pulls, state.steered);
     ss.disabled = state.steered.length >= PICK_MAX;
+    const cs = root.querySelector("[data-pf-shadowsteer]");
+    if (cs) { cs.innerHTML = shadowSteerOptionsHtml(ps, ss, state); cs.disabled = ps.disabled && ss.disabled; }
     const addict = state.pulls.includes("addiction");
     root.querySelector("[data-pf-steerhint]").textContent = addict ? ADDICTION_STEER_PROMPT : "A shadow can suggest a steer. Nothing is recorded until you choose one.";
     root.querySelector("[data-pf-quote]").innerHTML = addict ? addictionQuoteHtml() : "";
     root.querySelector("[data-pf-addsteer]").hidden = !addict;
     root.querySelector("[data-pf-stories]").innerHTML = state.pulls.map(id => shadowStoryHtml(id)).join("");
+  };
+  const csel = root.querySelector("[data-pf-shadowsteer]");
+  if (csel) csel.onchange = e => {
+    const v = e.target.value; e.target.value = "";
+    if (!v) return;
+    let steer = /^s:/.test(v), x = v.replace(/^[ps]:/, "");
+    if (!/^[ps]:/.test(v)) steer = !allPullDefs().concat(LEGACY_PULLS).some(p => p.id === v);
+    const target = root.querySelector(steer ? "[data-pf-steersel]" : "[data-pf-pullsel]");
+    if (!steer && csel.__ownSteer) { target.__ownSteer = csel.__ownSteer; csel.__ownSteer = null; }
+    if (![...target.options].some(op => op.value === x)) { const op = document.createElement("option"); op.value = x; op.textContent = x; target.appendChild(op); }
+    target.value = x;
+    target.dispatchEvent(new Event("change", { bubbles: true }));
   };
   const pairBox = root.querySelector("[data-pf-pair]");
   const openPair = () => { pairBox.hidden = false; pairBox.querySelector('[data-pf="pairPull"]').focus(); };
@@ -9726,7 +9773,7 @@ function reportMailto() {
   const body = "What happened?\n\n\n---\nVersion " + APP_VERSION + "\nPhone and browser: " + ua;
   return "mailto:" + REPORT_EMAIL + "?subject=" + encodeURIComponent("Higher Self v" + APP_VERSION + ": a problem") + "&body=" + encodeURIComponent(body);
 }
-function shownVersion() { return plannerAndroid() ? "46" : APP_VERSION; }
+function shownVersion() { return plannerAndroid() ? "46.1" : APP_VERSION; }
 function versionFooterHtml() {
   return '<p class="app-version">Version ' + esc(shownVersion()) + '</p><p class="app-report"><a class="link-btn" href="' + esc(reportMailto()) + '" data-report-link>Report a problem</a></p>';
 }
@@ -12370,6 +12417,12 @@ const ISEL_KINDS = {
       hide: v => { const u = ownUnitDef(v); if (u) u.hidden = !u.hidden; },
       del: async v => { const u = ownUnitDef(v); if (!u || !(await askDelete("Delete " + u.name + "? Goals that use it keep the word.", "Delete"))) return false; data.goalUnitsCustom = ownList("goalUnitsCustom").filter(x => x !== u); return true; } }
   },
+  shadowsteer: {
+    icon: v => !v ? "" : /^s:/.test(v) ? steerImg(v.slice(2)) : pullImg(v.replace(/^p:/, "")),
+    own: v => /^s:/.test(v) ? !!ownSteerDef(v.slice(2)) : !!customPullDef(v.replace(/^p:/, "")),
+    hidden: v => /^s:/.test(v) ? ISEL_KINDS.steer.hidden(v.slice(2)) : isPullHidden(v.replace(/^p:/, "")),
+    add: { types: true }
+  },
   area: { icon: v => v ? areaIconSrc(v) : PH("dot") },
   repeat: { icon: v => PH(ISEL_ICON_BY_VALUE.repeat[v] || "repeat-once") },
   day: { icon: (v, o) => ({ text: v === "last" ? "L" : String(v) }) },
@@ -12387,6 +12440,7 @@ function iselKindOf(sel) {
   const id = sel.id || "", pf = sel.dataset.pf || "";
   if (sel.hasAttribute("data-pf-pullsel") || id === "recordFilter" || id === "diaryPull") return "pull";
   if (sel.hasAttribute("data-pf-steersel")) return "steer";
+  if (sel.hasAttribute("data-pf-shadowsteer")) return "shadowsteer";
   if (pf === "area" || /^(planArea|listenArea|icsMapArea)$/.test(id)) return "area";
   if (pf === "paths" || /^(planPath|listenPath|icsMapPath)$/.test(id)) return "path";
   if (/^(moneyAccount|moneyFrom|payoffFrom|debtPayFrom|progressAccount|goalAccount)$/.test(id)) return "account";
@@ -12439,6 +12493,7 @@ function iselRows(sel) {
     if (!group && K.group && o.value) group = { book: "From the book", yours: "Yours", more: "More" }[K.group(o.value)] || "";
     if (!group && own && !K.flatOwn) group = "Yours";
     const ph = o.value === "" && /^(pick|choose)/i.test(o.text);
+    if (ph && /^(pull|steer|shadowsteer)$/.test(st.kind)) return; // "Pick a shadow" is the pill's prompt, not a choice
     rows.push({ value: o.value, label: o.text, group, own, disabled: o.disabled, selected: o.selected && !(ph && !sel.multiple), ph, starred: own && iselStarred(st.kind, o.value) });
   });
   // starred own entries first inside their group
@@ -12447,6 +12502,7 @@ function iselRows(sel) {
   return order.flatMap(g => { const l = groups.get(g); return l.filter(r => r.starred).concat(l.filter(r => !r.starred)); });
 }
 function iselStarred(kind, v) {
+  if (kind === "shadowsteer") return /^s:/.test(v) ? iselStarred("steer", v.slice(2)) : iselStarred("pull", v.replace(/^p:/, ""));
   if (kind === "pull") { const c = customPullDef(v); return !!(c && c.starred); }
   if (kind === "steer") { const s = ownSteerDef(v); return !!(s && s.starred); }
   if (kind === "path") { const p = pathById(v); return !!(p && p.starred); }
@@ -12481,6 +12537,8 @@ function iselPaint(sel) {
 }
 function iselLabelText(sel) {
   const lab = sel.closest("label");
+  const pl = lab && lab.querySelector(":scope > .pick-label");
+  if (pl) { const t = [...pl.childNodes].filter(n => !(n.nodeType === 1 && n.classList.contains("pick-sub"))).map(n => n.textContent).join(" ").replace(/\s+/g, " ").trim(); if (t) return t; }
   if (lab) { const t = [...lab.childNodes].filter(n => n.nodeType === 3 || (n.nodeType === 1 && n.tagName === "SPAN" && !n.classList.contains("isel") && !n.classList.contains("pf-pair") && !n.classList.contains("pick-sub"))).map(n => n.textContent).join(" ").replace(/\s+/g, " ").trim(); if (t) return t; }
   if (sel.getAttribute("aria-label")) return sel.getAttribute("aria-label");
   const lb = sel.getAttribute("aria-labelledby"); if (lb && document.getElementById(lb)) return document.getElementById(lb).textContent.trim();
@@ -12650,7 +12708,18 @@ function ownMarksHtml(list, cur) {
     iselIconHtml(src).replace('class="isel-ico', 'class="own-mark') + '</button>').join("");
 }
 function ownSheetOpen(sel, value, kindOverride, onDone) {
-  const kind = kindOverride || (sel && sel.__isel && sel.__isel.kind);
+  const k0 = kindOverride || (sel && sel.__isel && sel.__isel.kind);
+  if (k0 === "shadowsteer") {
+    // one sheet for both: new ones start as a shadow (with its optional steer); a switch makes it a steer
+    let k = "pull", v = value || null;
+    if (v) { if (/^s:/.test(v)) { k = "steer"; v = v.slice(2); } else if (/^p:/.test(v)) v = v.slice(2); else if (!allPullDefs().some(p => p.id === v)) k = "steer"; }
+    return ownSheetOpenKind(sel, v, k, onDone, !value);
+  }
+  return ownSheetOpenKind(sel, value, k0, onDone, false);
+}
+function ownSheetOpenKind(sel, value, kind, onDone, types) {
+  document.getElementById("ownTypeRow").hidden = !types;
+  document.querySelectorAll("#ownTypeRow [data-own-type]").forEach(b => b.setAttribute("aria-checked", b.dataset.ownType === kind ? "true" : "false"));
   const K = ISEL_KINDS[kind] || (kind === "expense" ? { add: EXPENSE_OWN } : null);
   if (!K || !K.add) return;
   const A = K.add, dlg = document.getElementById("ownDialog"), $ = id => document.getElementById(id);
@@ -12669,7 +12738,7 @@ function ownSheetOpen(sel, value, kindOverride, onDone) {
   $("ownHide").textContent = cur && cur.hidden ? "Show it again" : (A.hideLabel || "Hide");
   $("ownHide").hidden = !A.hide; $("ownDelete").hidden = !A.del;
   $("ownSave").textContent = cur ? "Save" : "Save to my list";
-  dlg.showModal();
+  if (!dlg.open) dlg.showModal();
   setTimeout(() => $("ownName").focus(), 30);
 }
 function ownMarkPick(src) { if (!ownCtx) return; ownCtx.img = src; document.querySelectorAll("#ownMarks [data-mark]").forEach(b => b.setAttribute("aria-checked", b.dataset.mark === src ? "true" : "false")); }
@@ -12707,6 +12776,12 @@ const EXPENSE_OWN = {
 };
 function v46Init() {
   const $ = id => document.getElementById(id);
+  document.querySelectorAll("#ownTypeRow [data-own-type]").forEach(b => b.onclick = () => {
+    if (!ownCtx || ownCtx.value || ownCtx.kind === b.dataset.ownType) return;
+    const c = ownCtx, name = $("ownName").value, star = $("ownStar").checked;
+    ownSheetOpenKind(c.sel, null, b.dataset.ownType, c.onDone, true);
+    $("ownName").value = name; $("ownStar").checked = star;
+  });
   $("ownMarks").addEventListener("click", e => { const b = e.target.closest("[data-mark]"); if (b) ownMarkPick(b.dataset.mark); });
   $("ownMarks").addEventListener("keydown", e => {
     const bs = [...$("ownMarks").querySelectorAll("[data-mark]")]; const i = bs.indexOf(document.activeElement); if (i < 0) return;

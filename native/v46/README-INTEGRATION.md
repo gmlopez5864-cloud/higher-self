@@ -31,3 +31,12 @@ What's new in v46 (app side, all in `index.html`):
   - A new planned block no longer presets a path.
   - The end date is hidden while "Until I stop it" is chosen.
 - **Placeholder icons** for the new choices live in `icons/glyphs128/placeholders/` (128px, shipped) and `icons/glyphs/placeholders/` (512px masters, not shipped). Pablo's art replaces them by dropping in files with the same names. See `icons/glyphs/placeholders/README.md`.
+
+## 46.1.0 (versionCode 47)
+- **Shadow & steer:** the separate Shadow and Steer pickers are now one icon dropdown, Shadow & steer, grouped by type.
+  - Groups: Shadows · from the book, Your shadows, More shadows, Steers for your shadow, Your steers, Steers.
+  - After you pick a shadow, its steers come first.
+  - "+ Add your own…" asks whether it's a shadow (with an optional steer) or a steer, then saves it and shows it in the same dropdown next time.
+  - The two single pickers stay hidden underneath, so the chips, caps, Addiction and old pair logic are unchanged.
+- **Bottom-sheet lists:** these are now capped at 86% of the screen height. Before, a long list could push the sheet's title off the top of the screen.
+- **Version:** the Android footer shows 46.1.

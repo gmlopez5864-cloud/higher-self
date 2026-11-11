@@ -1,0 +1,50 @@
+// v46.1: a fresh install (no data at all) shows the one Shadow & steer dropdown, and what you add is there next time.
+const A = require("./lib/app");
+const { sleep, ok, done } = Object.assign({}, A, A.suite());
+(async () => {
+  const browser = await A.launch();
+  const { page, errs } = await A.phonePage(browser);
+  await A.fresh(page);
+  await A.setup(page, "Fresh", "fresh-pass-461");
+  let r = await page.evaluate(() => ({ paths: data.paths.length, pulls: data.customPulls.length, steers: data.customSteers.length, v46: data.migrated && data.migrated.v46 }));
+  ok("fresh profile: no paths, no custom shadows or steers", r.paths === 0 && r.pulls === 0 && r.steers === 0 && r.v46 === true, r);
+  await page.evaluate(() => { openScreen("journal"); document.getElementById("journalAdd").click(); }); await sleep(500);
+  r = await page.evaluate(() => {
+    const d = document.getElementById("pathLogDialog"), cs = document.getElementById("plShadowSteer");
+    const vis = el => !!(el && el.getClientRects().length && getComputedStyle(el).visibility !== "hidden");
+    return { open: d.open, pill: vis(cs.__isel.btn), label: cs.closest("label").querySelector(".pick-label").firstChild.textContent, legacy: vis(document.getElementById("plPullPick").__isel.btn) || vis(document.getElementById("plSteerPick").__isel.btn), shadowLabels: [...d.querySelectorAll("label")].filter(l => vis(l) && /^(Shadow|Steer)$/.test((l.querySelector(".pick-label") || l).textContent.trim())).length };
+  });
+  ok("fresh install: Add entry shows ONE Shadow & steer dropdown, no separate Shadow / Steer pickers", r.open && r.pill && r.label === "Shadow & steer" && !r.legacy && r.shadowLabels === 0, r);
+  await page.evaluate(() => document.getElementById("plShadowSteer").__isel.btn.click()); await sleep(300);
+  r = await page.evaluate(() => ({ sheet: document.querySelector(".isel-pop").classList.contains("is-sheet"), head: document.querySelector(".isel-pop .isel-head").textContent, groups: [...document.querySelectorAll(".isel-pop .isel-grp")].map(g => g.textContent), add: !!document.querySelector(".isel-pop [data-isel-add]"), fits: document.querySelector(".isel-pop").getBoundingClientRect().top >= 0 }));
+  ok("fresh list: sheet titled 'Shadow & steer', grouped by type, + Add your own…, top on screen", r.sheet && r.head === "Shadow & steer" && r.groups[0] === "Shadows · from the book" && r.groups.includes("Steers") && !r.groups.includes("Your shadows") && r.add && r.fits, r);
+  await page.evaluate(() => document.querySelector('.isel-pop .isel-opt[data-v="p:pride"]').click()); await sleep(300);
+  r = await page.evaluate(() => ({ pulls: plState.pulls.slice(), steered: plState.steered.slice(), chip: !!document.querySelector('#plPulls [data-pfpull="pride"]') }));
+  ok("picking Pride from the combined list adds the Pride chip (no steer recorded yet)", r.pulls.join() === "pride" && r.steered.length === 0 && r.chip, r);
+  await page.evaluate(() => document.getElementById("plShadowSteer").__isel.btn.click()); await sleep(300);
+  r = await page.evaluate(() => ({ g0: document.querySelector(".isel-pop .isel-grp").textContent, first: [...document.querySelectorAll(".isel-pop .isel-opt")].slice(0, 2).map(o => o.dataset.v) }));
+  ok("then Pride's steers come first (Honor, Humility)", r.g0 === "Steers for your shadow" && r.first.join() === "s:Honor,s:Humility", r);
+  await page.evaluate(() => document.querySelector('.isel-pop .isel-opt[data-v="s:Honor"]').click()); await sleep(300);
+  r = await page.evaluate(() => plState.steered.slice());
+  ok("picking a steer from the same list adds the steer chip", r.join() === "Honor", r);
+  await page.evaluate(() => document.getElementById("plShadowSteer").__isel.btn.click()); await sleep(300);
+  await page.evaluate(() => document.querySelector(".isel-pop [data-isel-add]").click()); await sleep(300);
+  await page.type("#ownName", "Doomscrolling"); await page.type("#ownSecond", "Reading");
+  await page.evaluate(() => document.getElementById("ownSave").click()); await sleep(350);
+  await A.clean(page);
+  await A.lock(page);
+  await A.unlock(page, "Fresh", "fresh-pass-461");
+  await page.evaluate(() => { openScreen("journal"); document.getElementById("journalAdd").click(); }); await sleep(500);
+  await page.evaluate(() => document.getElementById("plShadowSteer").__isel.btn.click()); await sleep(300);
+  r = await page.evaluate(() => { const out = []; let g = ""; document.querySelectorAll(".isel-pop .isel-grp, .isel-pop .isel-opt").forEach(e => { if (e.classList.contains("isel-grp")) g = e.textContent; else out.push(g + ":" + e.querySelector(".isel-lbl").textContent); }); return out; });
+  ok("next time (after lock + unlock) your shadow is under 'Your shadows' in the same dropdown", r.includes("Your shadows:Doomscrolling"), r.filter(x => /Your/.test(x)));
+  await page.keyboard.press("Escape"); await sleep(250);
+  // v45/v46 condensing kept: Journal hides the diary tag rows, filters and day nav
+  await A.clean(page);
+  await page.evaluate(() => openScreen("journal")); await sleep(300);
+  r = await page.evaluate(() => ["diaryFilter", "diaryTagArea", "diaryTagPathWrap", "diaryTagPulls", "diaryTagSteered"].map(id => getComputedStyle(document.getElementById(id)).display).concat([getComputedStyle(document.querySelector(".diary-nav")).display]));
+  ok("Journal stays condensed (diary tags, filters and day nav hidden)", r.every(x => x === "none"), r);
+  ok("no page errors", errs.length === 0, errs);
+  await browser.close();
+  done();
+})().catch(e => { console.error(e); process.exit(1); });
