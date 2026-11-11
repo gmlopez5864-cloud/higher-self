@@ -367,6 +367,18 @@
   .reminder-block { margin-top: 0.55rem; }
   .cap-alert { margin-top: 0.6rem; padding: 0.7rem 0.85rem; border: 1px solid var(--border); border-left: 4px solid var(--warn); border-radius: var(--radius); background: var(--panel); }
   .cap-alert p { margin: 0 0 0.5rem; }
+  .cap-sheet .cap-top { margin: 0 0 0.4rem; }
+  .cap-sheet .cap-room { font-size: 0.95rem; margin: 0.5rem 0 0.3rem; }
+  .cap-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.45rem; }
+  .cap-row { border: 1px solid var(--border); border-radius: var(--radius); padding: 0.45rem 0.55rem; display: grid; gap: 0.35rem; }
+  .cap-row .cap-name { display: flex; flex-direction: column; gap: 0.1rem; }
+  .cap-row .cap-name .hint { margin: 0; }
+  .cap-edit { display: flex; flex-wrap: wrap; align-items: center; gap: 0.35rem; }
+  .cap-edit .cap-h { display: inline-flex; align-items: center; gap: 0.25rem; }
+  .cap-edit input { width: 3.6rem; }
+  .cap-edit .btn { min-height: 2.5rem; padding: 0.35rem 0.7rem; }
+  .cap-sheet.floating { max-height: 78vh; overflow-y: auto; }
+  .pl-block .hint { margin-top: 0.2rem; }
   .cap-alert.floating { position: fixed; left: 50%; bottom: 1rem; transform: translateX(-50%); z-index: 50; width: min(92vw, 420px); box-shadow: var(--shadow); }
   .week-card .nudge { display: flex; gap: 0.55rem; align-items: center; }
   .nudge-icon { flex: 0 0 auto; width: 28px; height: 28px; background-color: var(--accent); -webkit-mask: var(--nudge-icon) center / contain no-repeat; mask: var(--nudge-icon) center / contain no-repeat; }
@@ -3270,11 +3282,18 @@ function migrateLegacy(raw) {
     };
     // New log fields stay only when that record already had them. Older moments are not rewritten.
     if (typeof HSGaps !== "undefined") HSGaps.keepLogMeta(row, l);
+    if (typeof l.blockKey === "string" && l.blockKey) row.blockKey = l.blockKey.slice(0, 120);
+    if (typeof l.how === "string" && l.how) row.how = l.how.slice(0, 1000);
     if (Array.isArray(l.pathIds)) row.pathIds = l.pathIds.filter(x => typeof x === "string" && x).slice(0, 8);
     if (l.general === true) row.general = true;
     if (typeof l.linkedDiary === "string" && l.linkedDiary) row.linkedDiary = l.linkedDiary;
     return row;
   }) : [];
+  // v46.2: a lesson beside a drive never has a linked task (an older record could have kept one, which added its hours).
+  {
+    const conc = new Set(d.pathLogs.filter(l => l.countsElapsed === false || l.alongside || /#listen$/.test(String(l.planKey || ""))).map(l => l.id));
+    if (conc.size) { d.tasks = d.tasks.filter(t => !(t.pathLogId && conc.has(t.pathLogId))); d.pathLogs.forEach(l => { if (conc.has(l.id)) l.taskId = ""; }); }
+  }
   // v43: "Note from now". Separate records under an entry (ref "d:<diary id>" or "pl:<path log id>"); the entry itself
   // is never touched. Notes whose entry is gone are dropped.
   {
@@ -5900,6 +5919,7 @@ function defaultTaskArea() {
 }
 function addTask(area, title, hours, notes, expand7) {
   const hrs = Number(hours);
+  if (hrs > ENTRY_MAX_H) { showCapBlocked(ENTRY_MAX_MSG, () => (document.getElementById("taskDialog").open ? document.getElementById("taskHours") : null)); return null; }
   const h = (typeof hrs === "number" && !Number.isNaN(hrs) && hrs >= 0) ? hrs : 0;
   const note = typeof notes === "string" ? notes : "";
   const baseDate = data.selected;
@@ -6299,6 +6319,7 @@ document.getElementById("taskSave").onclick = () => {
     const rem = readReminderFields("rt");
     if (rem === false) return;
     const hrs = Number(hours);
+    if (hrs > ENTRY_MAX_H) { showCapBlocked(ENTRY_MAX_MSG, () => document.getElementById("taskHours")); return; }
     const newH = (typeof hrs === "number" && !Number.isNaN(hrs) && hrs >= 0) ? hrs : 0;
     const area = chosen("taskArea");
     const dates = [t.date];
@@ -7574,9 +7595,12 @@ function removePathTask(l) {
   data.tasks = data.tasks.filter(t => !(t.id === l.taskId || (t.pathLogId && t.pathLogId === l.id)));
   l.taskId = "";
 }
+// v46.2: a lesson during a drive (or anything else marked as alongside another block) is concurrent. It is recorded
+// on its path but never adds hours: no linked task, not in the pie, not in the 24-hour total.
+function isConcurrentLog(l) { return !!l && (l.countsElapsed === false || !!l.alongside || /#listen$/.test(String(l.planKey || ""))); }
 function syncPathTask(l) {
   if (!l) return;
-  const want = l.countsElapsed !== false && Number(l.minutes) > 0 && l.area && AREAS.some(a => a.id === l.area);
+  const want = !isConcurrentLog(l) && Number(l.minutes) > 0 && l.area && AREAS.some(a => a.id === l.area);
   let t = data.tasks.find(x => x.id === l.taskId) || data.tasks.find(x => x.pathLogId === l.id) || null;
   if (!want) { removePathTask(l); return; }
   const p = pathById(l.pathId);
@@ -7934,13 +7958,51 @@ function bindPathFieldChips(root, state, onChange) {
 }
 let plState = { pulls: [], steered: [] };
 let editingPathLogId = null;
+let plLogDate = "";
 const PL_RATING_HTML = '<p class="q-title pf-title">How did it go?</p>' +
   '<div class="chip-row" id="plRating" style="margin-bottom:0.1rem">' +
   '<button type="button" class="chip" data-plrate="good" aria-pressed="false">Good</button>' +
   '<button type="button" class="chip" data-plrate="neutral" aria-pressed="false">Neutral</button>' +
   '<button type="button" class="chip" data-plrate="bad" aria-pressed="false">Bad</button></div>' +
+  '<label class="field"><span class="sr-only">How did it go? A few words</span><textarea id="plHow" rows="2" maxlength="1000" placeholder="A few words, if you like" aria-label="How did it go? A few words"></textarea></label>' +
   '<p class="hint">' + esc(NOT_WORTH) + '</p>' +
   '<p class="gate pf-need" id="plNeedRating" hidden></p>';
+// v46.2: "Which block?" Pick one of the day's blocks (yours first, then calendar events) or open time.
+// A picked block fills in the area, path and what, and starts the time at 30 min (change it right here).
+const PL_BLOCK_COPY = { label: "Which block?", open: "Open time (not in a block)", yours: "Your blocks", cal: "From your calendar",
+  openHint: "This goes into open time.", blockHint: "{block} · {start}–{end}. Starts at 30 min. Change the time below if it was longer or shorter." };
+function plBlockOccs(date) {
+  return occsTouching(date).filter(o => !o.skipped && o.area !== SLEEP_AREA && (o.date === date || hmMin(o.end) > 0));
+}
+function plBlockHtml(date, l) {
+  const occs = plBlockOccs(date);
+  const cur = l && l.blockKey ? l.blockKey : "";
+  const opt = o => '<option value="' + esc(o.key) + '"' + (o.key === cur ? " selected" : "") + '>' + esc(planLabel(o) + " · " + fmtClock(o.start) + "–" + fmtClock(o.end)) + '</option>';
+  const mine = occs.filter(o => !isRealOcc(o)), cal = occs.filter(o => isRealOcc(o));
+  return '<div class="pl-block" id="plBlockWrap"><label class="field">' + esc(PL_BLOCK_COPY.label) + '<select id="plBlock" data-isel-sub="' + esc(prettyDate(date)) + '">' +
+    '<option value=""' + (cur ? "" : " selected") + '>' + esc(PL_BLOCK_COPY.open) + '</option>' +
+    (mine.length ? '<optgroup label="' + esc(PL_BLOCK_COPY.yours) + '">' + mine.map(opt).join("") + '</optgroup>' : "") +
+    (cal.length ? '<optgroup label="' + esc(PL_BLOCK_COPY.cal) + '">' + cal.map(opt).join("") + '</optgroup>' : "") +
+    '</select></label><p class="hint" id="plBlockHint" aria-live="polite"></p></div>';
+}
+function plBlockHint(date) {
+  const sel = document.getElementById("plBlock"), h = document.getElementById("plBlockHint"); if (!sel || !h) return;
+  const o = sel.value ? plBlockOccs(date).find(x => x.key === sel.value) : null;
+  h.textContent = o ? fillCopy(PL_BLOCK_COPY.blockHint, { block: planLabel(o), start: fmtClock(o.start), end: fmtClock(o.end) }) : PL_BLOCK_COPY.openHint;
+}
+function plBlockSeed(date) {
+  const root = document.getElementById("plFields");
+  const sel = document.getElementById("plBlock"); if (!sel || !root) return;
+  const o = sel.value ? plBlockOccs(date).find(x => x.key === sel.value) : null;
+  if (o) {
+    const g = k => root.querySelector('[data-pf="' + k + '"]');
+    const did = g("did"); if (did && (!did.value.trim() || did.dataset.seeded === "1")) { did.value = o.title || planLabel(o); did.dataset.seeded = "1"; }
+    const area = g("area"); if (area && AREAS.some(a => a.id === o.area)) { area.value = o.area; area.dispatchEvent(new Event("change", { bubbles: true })); }
+    const paths = g("paths"); if (paths && o.pathId && pathById(o.pathId)) { [...paths.options].forEach(op => { op.selected = op.value === o.pathId; }); paths.dispatchEvent(new Event("change", { bubbles: true })); }
+    const t = g("time"), u = g("unit"); if (t) { t.value = "30"; if (u) { u.value = "min"; u.dispatchEvent(new Event("change", { bubbles: true })); } }
+  }
+  plBlockHint(date);
+}
 function openPathLog(pathId, logId, again) {
   const p = pathId ? pathById(pathId) : null;
   if (pathId && !p) return;
@@ -7949,7 +8011,10 @@ function openPathLog(pathId, logId, again) {
   editingPathLogId = l ? l.id : null;
   pathLogRating = l ? l.rating : "";
   document.getElementById("pathLogTitle").innerHTML = p ? '<img class="path-icon sm" src="' + esc(iv(pathIcon(p))) + '" alt="" />' + esc(p.name) : "Add entry";
-  document.getElementById("plFields").innerHTML = pathFieldsHtml("pl", l, PL_RATING_HTML);
+  plLogDate = l ? l.date : data.selected;
+  document.getElementById("plFields").innerHTML = plBlockHtml(plLogDate, l) + pathFieldsHtml("pl", l, PL_RATING_HTML);
+  document.getElementById("plHow").value = l && l.how ? l.how : "";
+  { const bs = document.getElementById("plBlock"); bs.onchange = () => plBlockSeed(plLogDate); plBlockHint(plLogDate); }
   document.querySelectorAll("#plRating [data-plrate]").forEach(btn => {
     btn.onclick = () => { pathLogRating = pathLogRating === btn.dataset.plrate ? "" : btn.dataset.plrate; syncPathRating(); if (pathLogRating) document.getElementById("plNeedRating").hidden = true; };
   });
@@ -7982,8 +8047,16 @@ document.getElementById("plSave").onclick = () => {
   const existing = editingPathLogId ? data.pathLogs.find(x => x.id === editingPathLogId) : null;
   const ids = f.pathIds && f.pathIds.length ? f.pathIds : (pathLogFor ? [pathLogFor] : []);
   const fields = Object.assign(f, { pathId: ids[0] || "", pathIds: ids, rating: pathLogRating || "", pulls: plState.pulls.slice(), steered: plState.steered.slice(), logged: true });
+  { const bs = document.getElementById("plBlock"), hw = document.getElementById("plHow");
+    fields.blockKey = bs ? bs.value : ""; fields.how = hw ? hw.value.trim().slice(0, 1000) : ""; }
+  if (fields.minutes != null && fields.minutes > ENTRY_MAX_H * 60) {
+    const m = document.getElementById("plNeedRating");
+    if (m) { m.textContent = ENTRY_MAX_MSG; m.hidden = false; }
+    const tf = document.getElementById("plFields").querySelector('[data-pf="time"]'); if (tf) tf.focus();
+    return;
+  }
   if (ids.length) delete fields.general; else fields.general = true;
-  const blank = !existing && !fields.did && !fields.minutes && !fields.journal && !fields.better && !fields.motive && !fields.rating && !fields.pulls.length && !fields.steered.length && fields.reps == null;
+  const blank = !existing && !fields.did && !fields.minutes && !fields.journal && !fields.better && !fields.motive && !fields.rating && !fields.pulls.length && !fields.steered.length && fields.reps == null && !fields.how;
   if (blank) {
     const m = document.getElementById("plNeedRating");
     if (m) { m.textContent = "Add what you did, or a time, before saving."; m.hidden = false; }
@@ -7991,11 +8064,13 @@ document.getElementById("plSave").onclick = () => {
   }
   let l = existing;
   const logDate = existing ? existing.date : data.selected;
+  if (!fields.blockKey) delete fields.blockKey;
+  if (!fields.how) delete fields.how;
   const ok = capGuard([logDate], () => document.getElementById("plFields").querySelector('[data-pf="time"]'), () => {
-    if (l) Object.assign(l, fields);
+    if (l) { Object.assign(l, fields); if (!fields.blockKey) delete l.blockKey; if (!fields.how) delete l.how; }
     else { l = Object.assign({ id: uid("pl"), date: logDate, taskId: "", source: "log" }, fields); data.pathLogs.push(l); }
     syncPathTask(l);
-  });
+  }, { retry: () => document.getElementById("plSave").click() });
   if (!ok) return;
   save();
   showToast(loggedToast(l));
@@ -8719,14 +8794,19 @@ document.getElementById("guideOverlay").addEventListener("keydown", e => {
 document.getElementById("optShowGuide").onclick = () => { document.getElementById("optionsDialog").close(); openGuide(); };
 // ===================== v19: 24-hour cap =====================
 const DAY_CAP = 24;
+const ENTRY_MAX_H = 24; // v46.2: no single entry can be longer than a day
+const ENTRY_MAX_MSG = "One entry can be up to 24 hours.";
 // Path time with no area has no linked task; it still counts toward the day.
 function unlinkedPathHours(date) {
-  return (data.pathLogs || []).filter(l => l.date === date && Number(l.minutes) > 0 && !(l.area && AREAS.some(a => a.id === l.area)))
+  return (data.pathLogs || []).filter(l => l.date === date && Number(l.minutes) > 0 && !isConcurrentLog(l) && !(l.area && AREAS.some(a => a.id === l.area)))
     .reduce((s, l) => s + Number(l.minutes) / 60, 0);
 }
 // All logged time for a calendar day: tasks (any area, incl. path-linked), unlinked path time, sleep.
+// v46.2: only real logged time counts. Planned blocks count once they are confirmed; concurrent listening never does.
+function concurrentLogIds() { return new Set((data.pathLogs || []).filter(isConcurrentLog).map(l => l.id)); }
 function dayTotal(date) {
-  const taskH = data.tasks.reduce((s, t) => s + (t.date === date ? Number(t.hours) || 0 : 0), 0);
+  const conc = concurrentLogIds();
+  const taskH = data.tasks.reduce((s, t) => s + (t.date === date && !(t.pathLogId && conc.has(t.pathLogId)) ? Number(t.hours) || 0 : 0), 0);
   const d = data.days[date];
   const sleepH = d && d.sleep ? Number(d.sleep.hours) || 0 : 0;
   return taskH + sleepH + unlinkedPathHours(date);
@@ -8741,16 +8821,17 @@ function capMessage(date, total) {
 }
 // Runs apply(); if any touched day ends over 24h (and went up), undo everything and explain.
 // focusEl() = the time field to return to when the person taps "Change the time".
-function capGuard(dates, focusEl, apply) {
+function capGuard(dates, focusEl, apply, opts) {
   const uniq = Array.from(new Set(dates.filter(Boolean)));
   const before = {}; uniq.forEach(dt => { before[dt] = dayTotal(dt); });
   const tasksArr = data.tasks.slice(), tasksVal = tasksArr.map(t => JSON.stringify(t));
   const logsArr = (data.pathLogs || []).slice(), logsVal = logsArr.map(l => JSON.stringify(l));
   const daysSnap = {}; uniq.forEach(dt => { daysSnap[dt] = data.days[dt] ? { obj: data.days[dt], val: JSON.stringify(data.days[dt]) } : null; });
+  const planSnap = JSON.stringify({ done: data.planDone || {}, days: data.planDays || {} }); // v46.2: a refused save leaves the plan as it was
   apply();
   const EPS = 1e-6;
   const bad = uniq.find(dt => { const a = dayTotal(dt); return a > DAY_CAP + EPS && a > before[dt] + EPS; });
-  if (!bad) return true;
+  if (!bad) { const old = document.getElementById("capAlert"); if (old) old.remove(); return true; }
   const total = dayTotal(bad);
   const restore = (obj, val) => { Object.keys(obj).forEach(k => delete obj[k]); Object.assign(obj, JSON.parse(val)); };
   data.tasks = tasksArr; tasksArr.forEach((t, i) => restore(t, tasksVal[i]));
@@ -8760,26 +8841,108 @@ function capGuard(dates, focusEl, apply) {
     if (!sn) delete data.days[dt];
     else { restore(sn.obj, sn.val); data.days[dt] = sn.obj; }
   });
-  showCapBlocked(capMessage(bad, total), focusEl);
+  { const ps = JSON.parse(planSnap); if (data.planDone) data.planDone = ps.done; if (data.planDays) data.planDays = ps.days; }
+  showCapBlocked(capMessage(bad, total), focusEl, Object.assign({ date: bad, total, over: total - DAY_CAP }, opts || {}));
   return false;
 }
-// Shown inside the open dialog (dialogs sit on the top layer) or at the top of the page.
-function showCapBlocked(msg, focusEl) {
+// v46.2: over 24 hours is not a dead end. The sheet offers: change this entry's time, or make room on that day by
+// changing or cancelling what is already there (logged entries, sleep, and planned blocks still waiting to be confirmed).
+// Each row can be edited or cancelled in place; "Try again" re-runs the save. Concurrent listening never counts.
+const CAP_SHEET_COPY = {
+  editThis: "Change this entry's time", room: "Or make room on {day}:", none: "Nothing else is logged on {day}.",
+  now: "{day} has {h}h logged. {left}h left.", nowOver: "{day} has {h}h logged.", tryAgain: "Try again", close: "Close",
+  save: "Save", cancelIt: "Cancel it", skipIt: "Skip this day", listen: "Listening during a drive doesn't count toward the 24 hours.",
+  planned: "Planned", logged: "Logged", badH: "Use more than 0 and up to 24 hours."
+};
+function capDayWord(date) { return date === TODAY ? "Today" : parseISO(date).toLocaleDateString(undefined, { weekday: "long", month: "short", day: "numeric" }); }
+// Everything that holds hours on a day, for the cap sheet. Linked tasks are shown once, under their entry.
+function capItems(date, withPlanned) {
+  const out = [];
+  const conc = concurrentLogIds();
+  const logs = (data.pathLogs || []).filter(l => l.date === date && Number(l.minutes) > 0 && !conc.has(l.id));
+  const logIds = new Set(logs.map(l => l.id));
+  data.tasks.filter(t => t.date === date && (Number(t.hours) || 0) > 0 && !(t.pathLogId && (logIds.has(t.pathLogId) || conc.has(t.pathLogId))))
+    .forEach(t => out.push({ kind: "task", id: t.id, label: t.title || fastLabel(t.area), sub: fastLabel(t.area), hours: Number(t.hours) || 0 }));
+  logs.forEach(l => {
+    const p = pathById(l.pathId);
+    out.push({ kind: "log", id: l.id, label: (p ? p.name : "") + (l.did ? (p ? " · " : "") + l.did : "") || "Entry", sub: l.area ? fastLabel(l.area) : "", hours: Number(l.minutes) / 60 });
+  });
+  const d = data.days[date];
+  if (d && d.sleep && Number(d.sleep.hours) > 0) out.push({ kind: "sleep", id: date, label: "Sleep", sub: "", hours: Number(d.sleep.hours) });
+  if (withPlanned) pendingOccs(date).filter(o => !o.skipped).forEach(o => {
+    const h = o.area === SLEEP_AREA && d && d.sleep && d.sleep.source !== "plan" ? 0 : occDayHours(o, date);
+    if (h > 0) out.push({ kind: "plan", id: o.key, label: planLabel(o), sub: CAP_SHEET_COPY.planned + " · " + fmtClock(o.start) + "–" + fmtClock(o.end), hours: occHours(o), dayHours: h });
+  });
+  return out;
+}
+function capApplyHours(it, h) {
+  if (it.kind === "task") { const t = data.tasks.find(x => x.id === it.id); if (t) t.hours = h; }
+  else if (it.kind === "log") { const l = (data.pathLogs || []).find(x => x.id === it.id); if (l) { l.minutes = Math.round(h * 60); syncPathTask(l); } }
+  else if (it.kind === "sleep") { const d = data.days[it.id]; if (d && d.sleep) d.sleep = Object.assign({}, d.sleep, { hours: h }); }
+  else if (it.kind === "plan") {
+    const o = pendingOccs(it.date).find(x => x.key === it.id); if (!o) return;
+    data.planDays[o.key] = Object.assign({}, data.planDays[o.key] || {}, { end: minHm((hmMin(o.start) + Math.round(h * 60)) % 1440) });
+  }
+}
+function capCancel(it) {
+  if (it.kind === "task") data.tasks = data.tasks.filter(x => x.id !== it.id);
+  else if (it.kind === "log") { const l = (data.pathLogs || []).find(x => x.id === it.id); if (l) { removePathTask(l); data.pathLogs = data.pathLogs.filter(x => x !== l); dropLookBacks("pl:" + l.id); } }
+  else if (it.kind === "sleep") { const d = data.days[it.id]; if (d) delete d.sleep; }
+  else if (it.kind === "plan") data.planDays[it.id] = Object.assign({}, data.planDays[it.id] || {}, { skip: true });
+}
+// Shown inside the open dialog (dialogs sit on the top layer) or floating over the page.
+function showCapBlocked(msg, focusEl, ctx) {
+  ctx = ctx || {};
   window.__hsLastCap = msg;
   const old = document.getElementById("capAlert"); if (old) old.remove();
   const host = document.querySelector("dialog[open]") || document.body;
   const box = document.createElement("div");
-  box.id = "capAlert"; box.className = "cap-alert"; box.setAttribute("role", "alert");
-  box.innerHTML = '<p>' + esc(msg) + '</p><button type="button" class="btn primary" id="capChange">' + esc(CAP_COPY.change) + '</button>';
+  box.id = "capAlert"; box.className = "cap-alert cap-sheet"; box.setAttribute("role", "alert"); box.setAttribute("data-cap-blocked", "");
   if (host === document.body) box.classList.add("floating");
   host.appendChild(box);
-  const btn = box.querySelector("#capChange");
-  btn.onclick = () => {
-    box.remove();
-    let el = null; try { el = typeof focusEl === "function" ? focusEl() : null; } catch (e) {}
-    if (el && el.isConnected) { el.focus(); if (el.select && el.type !== "button") { try { el.select(); } catch (e) {} } }
+  const date = ctx.date || "";
+  const canFocus = typeof focusEl === "function" && (() => { try { const el = focusEl(); return !!(el && el.isConnected); } catch (e) { return false; } })();
+  const paint = (note) => {
+    const items = date ? capItems(date, !!ctx.planned) : [];
+    items.forEach(it => { it.date = date; });
+    const tot = date ? dayTotal(date) : 0;
+    const dw = capDayWord(date);
+    const status = date ? (tot > DAY_CAP + 1e-6 ? fillCopy(CAP_SHEET_COPY.nowOver, { day: dw, h: fmtHours(tot) }) : fillCopy(CAP_SHEET_COPY.now, { day: dw, h: fmtHours(tot), left: fmtHours(Math.round((DAY_CAP - tot) * 100) / 100) })) : "";
+    box.innerHTML = '<p class="cap-msg">' + esc(msg) + '</p>' +
+      '<div class="row-actions cap-top">' + (canFocus ? '<button type="button" class="btn primary" id="capChange">' + esc(CAP_SHEET_COPY.editThis) + '</button>' : "") +
+        (ctx.retry ? '<button type="button" class="btn' + (canFocus ? "" : " primary") + '" id="capRetry">' + esc(CAP_SHEET_COPY.tryAgain) + '</button>' : "") +
+        '<button type="button" class="btn" id="capClose">' + esc(CAP_SHEET_COPY.close) + '</button></div>' +
+      (date ? '<p class="q-title cap-room">' + esc(fillCopy(CAP_SHEET_COPY.room, { day: date === TODAY ? "today" : dw })) + '</p>' +
+        (items.length ? '<ul class="cap-list">' + items.map((it, i) =>
+          '<li class="cap-row" data-cap-kind="' + it.kind + '" data-cap-id="' + esc(it.id) + '"><div class="cap-name"><b>' + esc(it.label) + '</b>' +
+            '<span class="hint">' + esc([it.kind === "plan" ? "" : CAP_SHEET_COPY.logged, it.sub].filter(Boolean).join(" · ")) + '</span></div>' +
+            '<div class="cap-edit"><label class="cap-h"><span class="sr-only">Hours for ' + esc(it.label) + '</span><input type="number" min="0.25" max="24" step="0.25" inputmode="decimal" data-cap-h="' + i + '" value="' + esc(String(Math.round(it.hours * 100) / 100)) + '" />h</label>' +
+            '<button type="button" class="btn" data-cap-save="' + i + '">' + esc(CAP_SHEET_COPY.save) + '</button>' +
+            '<button type="button" class="btn" data-cap-cancel="' + i + '">' + esc(it.kind === "plan" ? CAP_SHEET_COPY.skipIt : CAP_SHEET_COPY.cancelIt) + '</button></div></li>').join("") + '</ul>'
+          : '<p class="hint">' + esc(fillCopy(CAP_SHEET_COPY.none, { day: date === TODAY ? "today" : dw })) + '</p>') +
+        '<p class="hint cap-status" aria-live="polite">' + esc(note ? note + " " + status : status) + '</p>' +
+        '<p class="hint cap-listen">' + esc(CAP_SHEET_COPY.listen) + '</p>' : "");
+    const btn = box.querySelector("#capChange");
+    if (btn) btn.onclick = () => {
+      box.remove();
+      let el = null; try { el = typeof focusEl === "function" ? focusEl() : null; } catch (e) {}
+      if (el && el.isConnected) { el.focus(); if (el.select && el.type !== "button") { try { el.select(); } catch (e) {} } }
+    };
+    const rt = box.querySelector("#capRetry"); if (rt) rt.onclick = () => { box.remove(); ctx.retry(); };
+    box.querySelector("#capClose").onclick = () => box.remove();
+    const after = () => { save(); try { renderDerived(); } catch (e) {} try { renderCheckin(); } catch (e) {} };
+    box.querySelectorAll("[data-cap-save]").forEach(b => b.onclick = () => {
+      const it = items[Number(b.dataset.capSave)]; const inp = box.querySelector('[data-cap-h="' + b.dataset.capSave + '"]');
+      const h = Number(inp && inp.value);
+      if (!(h > 0) || h > ENTRY_MAX_H) { paint(CAP_SHEET_COPY.badH); return; }
+      capApplyHours(it, Math.round(h * 100) / 100); after(); paint();
+    });
+    box.querySelectorAll("[data-cap-cancel]").forEach(b => b.onclick = () => { capCancel(items[Number(b.dataset.capCancel)]); after(); paint(); });
+    const first = box.querySelector("#capChange") || box.querySelector("#capRetry") || box.querySelector("#capClose");
+    if (first && !note) first.focus();
   };
-  btn.focus();
+  paint();
+  try { box.scrollIntoView({ block: "nearest" }); } catch (e) {}
 }
 function overCapDays() { return Object.keys(dateSetAll()).filter(dt => dayTotal(dt) > DAY_CAP + 1e-6).sort(); }
 function dateSetAll() {
@@ -9773,7 +9936,7 @@ function reportMailto() {
   const body = "What happened?\n\n\n---\nVersion " + APP_VERSION + "\nPhone and browser: " + ua;
   return "mailto:" + REPORT_EMAIL + "?subject=" + encodeURIComponent("Higher Self v" + APP_VERSION + ": a problem") + "&body=" + encodeURIComponent(body);
 }
-function shownVersion() { return plannerAndroid() ? "46.1" : APP_VERSION; }
+function shownVersion() { return plannerAndroid() ? "46.2" : APP_VERSION; }
 function versionFooterHtml() {
   return '<p class="app-version">Version ' + esc(shownVersion()) + '</p><p class="app-report"><a class="link-btn" href="' + esc(reportMailto()) + '" data-report-link>Report a problem</a></p>';
 }
@@ -10723,10 +10886,10 @@ function takenMins(o, date) {
 function occDayHours(o, date) {
   if (typeof HSGaps !== "undefined" && HSGaps.usesBreaks(o)) {
     const span = HSGaps.account(o).pieces.filter(p => p.date === date).reduce((t, p) => t + p.mins, 0);
-    return Math.max(0, span - takenMins(o, date)) / 60;
+    return Math.max(0, span - takenMins(o, date) - blockLoggedMins(o, date)) / 60;
   }
   const r = occDayRange(o, date);
-  return r ? Math.max(0, r[1] - r[0] - takenMins(o, date)) / 60 : 0;
+  return r ? Math.max(0, r[1] - r[0] - takenMins(o, date) - (o.area === SLEEP_AREA ? 0 : blockLoggedMins(o, date))) / 60 : 0;
 }
 function shrunkNote(o) {
   if (isRealOcc(o)) return "";
@@ -10878,10 +11041,15 @@ function confirmListen(o) {
 }
 function confirmGapped(o) {
   const acc = HSGaps.account(o);
+  const handLeft = {}; // v46.2: hand-logged minutes on this block come out of its work pieces, day by day
   const write = (p, area, pathId, title, extra) => {
     if (!pathById(pathId) || !AREAS.some(a => a.id === area)) return;
     const end = p.end >= 1440 ? 1440 : p.end;
-    const mins = Math.round(p.mins - overlapMins([p.start, end], realCoverRanges(o, p.date)));
+    let mins = Math.round(p.mins - overlapMins([p.start, end], realCoverRanges(o, p.date)));
+    if (extra.indexOf("#w") === 0) {
+      if (handLeft[p.date] == null) handLeft[p.date] = blockLoggedMins(o, p.date);
+      const take = Math.min(Math.max(0, mins), handLeft[p.date]); mins -= take; handLeft[p.date] -= take;
+    }
     if (!(mins > 0)) return;
     planLog({ pathId, date: p.date, did: title || "", minutes: mins, area, planKey: o.key + extra, gap: extra.indexOf("#g") === 0,
       segment: minHm(p.start) + "–" + (end >= 1440 ? "24:00" : minHm(end)) });
@@ -10889,11 +11057,18 @@ function confirmGapped(o) {
   acc.pieces.forEach((p, i) => write(p, o.area, o.pathId, o.title, "#w" + i));
   acc.activities.forEach((p, i) => write(p, p.area, p.pathId, p.title, "#g" + i));
 }
+// v46.2: minutes logged by hand against a planned block ("Which block?" in an entry), by calendar day.
+function blockLoggedMins(o, date) {
+  if (!o || !o.key) return 0;
+  return (data.pathLogs || []).filter(l => l.blockKey === o.key && l.source !== "plan" && !isConcurrentLog(l) && (!date || l.date === date))
+    .reduce((s, l) => s + (Number(l.minutes) > 0 ? Number(l.minutes) : 0), 0);
+}
 function confirmOcc(o) {
   if (o.done) return;
   if (typeof HSGaps !== "undefined" && HSGaps.usesBreaks(o)) confirmGapped(o);
   else occSegments(o).forEach(sg => {
-    const mins = Math.round(sg.hours * 60 - takenMins(o, sg.date)); // v42: a planned block logs only what real events left it
+    // v42: a planned block logs only what real events left it. v46.2: and only what you have not already logged on it.
+    const mins = Math.round(sg.hours * 60 - takenMins(o, sg.date) - (o.area === SLEEP_AREA ? 0 : blockLoggedMins(o, sg.date)));
     if (!(mins > 0)) return;
     if (o.area === SLEEP_AREA) {
       const d = day(sg.date);
@@ -10911,16 +11086,18 @@ function confirmOcc(o) {
   confirmListen(o);
   data.planDone[o.key] = TODAY;
 }
-function confirmDay(date, root) {
+function confirmDay(date, root, listenOn) {
   const list = pendingOccs(date);
+  const planDaysSnap = JSON.stringify(data.planDays || {}); // v46.2: a refused confirm leaves "skip listening" unchanged too
   const listenBox = root && root.querySelector ? root.querySelector("[data-plan-listen]") : document.querySelector("[data-plan-listen]");
-  if (listenBox && !listenBox.checked) {
+  const keepListen = typeof listenOn === "boolean" ? listenOn : !(listenBox && !listenBox.checked);
+  if (!keepListen) {
     list.forEach(o => { if (o.listen) data.planDays[o.key] = Object.assign({}, data.planDays[o.key] || {}, { skipListen: true }); });
   }
   const dates = []; list.forEach(o => occSegments(o).forEach(sg => dates.push(sg.date)));
   const doneSnap = Object.assign({}, data.planDone);
-  const ok = capGuard(dates, () => null, () => list.forEach(confirmOcc));
-  if (!ok) { data.planDone = doneSnap; renderPlanCard(); return false; } // over 24h: nothing was logged, keep it planned
+  const ok = capGuard(dates, () => null, () => list.forEach(confirmOcc), { planned: true, retry: () => confirmDay(date, root && root.isConnected ? root : document.getElementById("planCard"), keepListen) });
+  if (!ok) { data.planDone = doneSnap; data.planDays = JSON.parse(planDaysSnap); renderPlanCard(); return false; } // over 24h: nothing was logged, keep it planned
   save(); renderCheckin(); renderDerived();
   showToast("Logged.");
   return true;
@@ -12433,6 +12610,7 @@ const ISEL_KINDS = {
   goal: { icon: v => v ? "icons/glyphs128/home/goals.png" : PH("repeat-never") },
   theme: { icon: (v, o, sel) => sel && /Art/.test(sel.id) ? PH("theme-pictures") : sel && /[Ii]con/.test(sel.id) ? PH("icon-style") : PH("theme") },
   calendar: { icon: v => PH("calendar") },
+  block: { icon: v => { if (!v) return PH("dot"); const o = plBlockOccs(plLogDate || data.selected).find(x => x.key === v); if (!o) return PH("calendar"); const p = o.pathId && pathById(o.pathId); return p ? pathIcon(p) : (areaIconSrc(o.area) || PH("calendar")); } },
   mixed: { icon: v => { if (!v) return PH("dot"); if (AREAS.some(a => a.id === v)) return areaIconSrc(v); const p = pathById(v); if (p) return pathIcon(p); if (allPullDefs().some(x => x.id === v) || LEGACY_PULLS.some(x => x.id === v)) return pullImg(v); return PH("dot"); } },
   generic: { icon: v => PH("dot") }
 };
@@ -12455,6 +12633,7 @@ function iselKindOf(sel) {
   if (id === "moneyGoal") return "goal";
   if (/^(ctStartFrom|ctArt|ctIcons|iconStyleSel)$/.test(id)) return "theme";
   if (id === "overBlock" || id === "calWriteSel") return "calendar";
+  if (id === "plBlock") return "block";
   if (id === "diaryFilterSub") return "mixed";
   return "generic";
 }

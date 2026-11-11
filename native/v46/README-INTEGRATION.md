@@ -40,3 +40,21 @@ What's new in v46 (app side, all in `index.html`):
   - The two single pickers stay hidden underneath, so the chips, caps, Addiction and old pair logic are unchanged.
 - **Bottom-sheet lists:** these are now capped at 86% of the screen height. Before, a long list could push the sheet's title off the top of the screen.
 - **Version:** the Android footer shows 46.1.
+
+## 46.2.0 (versionCode 48)
+- **24-hour cap on Confirm day:** "That would put today at 24.8 hours" happened when an entry you had already logged by hand (Hobbies 3h) was the same time as a planned block (Hobbies 18:00–21:00). Confirm day then logged that block again on top of it. The cap now compares only real logged plus confirmed hours for that calendar day:
+  - An entry tied to a block takes its minutes out of that block when the day is confirmed. The planned pie drops by the same amount.
+  - Concurrent listening never counts. `dayTotal` itself now leaves out every concurrent log (`countsElapsed: false`, `alongside`, or a `#listen` plan key), including one with no area and any stray linked task. On unlock, a task left linked to a listen is dropped.
+  - Overnight blocks still split at midnight. Hand-logged sleep is never stacked with planned sleep.
+  - A refused save or confirm now also restores `planDone` and `planDays`, including "skip listening".
+- **Entry flow ("Add entry"):**
+  - "Which block?" lists the day's blocks, your own first and then calendar events, with "Open time (not in a block)" as the default.
+  - Picking a block fills in what, area and path, and starts the time at 30 min. You can edit it in the same sheet.
+  - A "How did it go?" note box sits under Good / Neutral / Bad. It is stored as `how`, and the block link is stored as `blockKey`.
+- **24h max per entry:** "One entry can be up to 24 hours." This applies to entries and tasks.
+- **Over-24h options sheet:** this replaces the lone "Change the time" button.
+  - "Change this entry's time" is shown when there's an entry.
+  - The sheet lists everything on that day: logged entries, tasks, sleep and the planned blocks waiting to be confirmed. Each one can be edited (hours) or cancelled / skipped for the day in place.
+  - It shows how much of the day is left, and "Try again" re-runs the save.
+- **Version:** the Android footer shows 46.2.
+- **Tests:** `tests/legacy/t462cap.js` (36 checks). `HS_REPRO_ONLY=1 HS_ORIGIN=<46.1 page>` reproduces the 24.8h message on 46.1.
