@@ -72,7 +72,7 @@ const mockBio = () => {
   r = await page.evaluate(async () => {
     const bp = bioProfile(); return { bp: bp && bp.name, shown: shownVersion() };
   });
-  ok("Android shows version 46.3; the shortcut is tied to Guillermo", r.shown === "46.3" && r.bp === "Guillermo", r);
+  ok("Android shows version 46.3 or later; the shortcut is tied to Guillermo", /^46\.[3-9]$/.test(r.shown) && r.bp === "Guillermo", r);
   // "Not now" is remembered
   await page.evaluate(async () => { await hsBio().disable(); bioBind(""); }); await A.lock(page);
   await page.click("[data-profile]"); await sleep(400); await page.type("#vaultPass", "gui-pass-1"); await page.click("#vaultUnlock"); await sleep(600);

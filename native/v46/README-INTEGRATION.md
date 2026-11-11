@@ -82,3 +82,26 @@ What's new in v46 (app side, all in `index.html`):
   - "Make whole day free time" shows on a day with no non-sleep blocks. It fills only open waking time, so it never overlaps blocks or sleep.
 - **Version:** the Android footer shows 46.3.
 - **Tests:** `tests/legacy/t463.js` (46 checks).
+
+## 46.4.0 (versionCode 50)
+- **Write about a block (Android only; the web is unchanged):**
+  - Tap any block's name in the day planner (planned, free time, sleep, logged or skipped) or on the Confirm day card. The journal composer opens on that block with the cursor in "Write about this".
+  - A small pen marks the tap. Once a block has entries, it shows a journal count.
+- **Composer (`#jeDialog`):**
+  - The header shows the block's type, time, length, date and status (Planned / Logged / Skipped · no time counted).
+  - "How did it go?", "What happened?" and "What would you change?" are optional starters. Tapping one adds the question to the text.
+  - Voice note and Add photo use the diary's existing recorder and picker. "Turn into text" works on saved voice notes as before.
+  - The Path dropdown starts on the block's own path. A block with no path starts on "No path", and you can pick any path.
+  - "This block" keeps the same stepper, Skip / Bring back and Edit block. A logged block has no stepper.
+  - Earlier entries for the block are listed with the "How did it go?" notes from logging. Those notes are shown, not changed.
+  - A block can have any number of entries.
+- **Data:** an entry is a normal `data.diary` entry with `path: [pathId]` (or `[]`), `area: [area]` for the five areas, and `block: { key: "planId|YYYY-MM-DD", plan, date, label, area, start, end }`.
+  - The snapshot keeps the chip working if the block is deleted later ("Not in your plan anymore").
+  - The vault loader now keeps `block`.
+- **Where entries show:**
+  - In the Journal feed, under the path's chip in "Your road", in the Journal day list and in the path card (a "N journal entries" button plus the entries in its history).
+  - Each entry has a chip such as "Work · 9:00 AM–12:00 PM" that opens the block again.
+- **No time:** diary entries don't count toward hours. Totals, planned hours, the stepper, Skip, the 24h cap and the over-24h sheet are unchanged.
+- **"New entry" in the Journal** opens the same composer with no block, a date and an optional path. The Journal page's own composer and Save still work.
+- **Version:** the Android footer shows 46.4.
+- **Tests:** `tests/legacy/t464.js` (50 checks).

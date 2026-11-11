@@ -384,6 +384,34 @@
   .pb-row.is-skipped { opacity: 0.8; }
   .pb-row.is-skipped b { text-decoration: line-through; }
   .pb-row .pb-chip { justify-self: start; }
+  /* v46.4: write about a block */
+  .je-tap { cursor: pointer; border-radius: 10px; -webkit-tap-highlight-color: transparent; }
+  .je-tap:active { background: color-mix(in srgb, var(--accent) 10%, transparent); }
+  .je-tap:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .je-pen { display: inline-block; width: 15px; height: 15px; margin-left: 0.35rem; vertical-align: -2px; background: var(--accent); opacity: 0.8;
+    -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z'/></svg>") center / contain no-repeat;
+    mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z'/></svg>") center / contain no-repeat; }
+  .je-badge { display: inline-flex; align-items: center; gap: 0.2rem; margin-left: 0.35rem; padding: 0.05rem 0.45rem; border-radius: 999px; border: 1px solid var(--border); font-size: 0.78rem; font-weight: 700; vertical-align: middle; width: max-content; }
+  .je-badge img { width: 14px; height: 14px; border-radius: 3px; object-fit: cover; }
+  .pb-row .pb-name.je-tap { padding: 0.15rem 0.2rem; margin: -0.15rem -0.2rem; }
+  .je-head { display: flex; gap: 0.7rem; align-items: center; margin-bottom: 0.5rem; }
+  .je-head img { width: 48px; height: 48px; border-radius: 12px; object-fit: cover; flex: none; }
+  .je-head h3 { margin: 0; }
+  .je-head .hint { margin: 0.15rem 0 0; }
+  .je-status { margin-left: 0.25rem; }
+  .je-write-k { font-weight: 700; }
+  #jeText { min-height: 8.5rem; }
+  .je-hints { margin-top: 0.4rem; }
+  .je-hints .chip { min-height: 40px; font-size: 0.85rem; }
+  .je-sec { font-size: 0.95rem; margin: 0.9rem 0 0.25rem; }
+  .je-prev .entry-meta { display: block; }
+  .je-chip { display: inline-flex; align-items: center; gap: 0.35rem; max-width: 100%; margin: 0.3rem 0; padding: 0.2rem 0.65rem; min-height: 34px; border: 1px solid var(--border); border-radius: 999px; background: transparent; color: inherit; font: inherit; font-size: 0.8rem; cursor: pointer; }
+  .je-chip span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .je-chip img { width: 18px; height: 18px; border-radius: 4px; object-fit: cover; flex: none; }
+  .path-journal { padding: 0.4rem 0; border-top: 1px dashed var(--border); }
+  .path-journal .pj-k { display: flex; align-items: center; gap: 0.3rem; font-weight: 700; font-size: 0.85rem; }
+  .path-journal .pj-k img { width: 16px; height: 16px; border-radius: 3px; }
+
   .gap-row { list-style: none; }
   .gap-btn { width: 100%; display: flex; align-items: center; gap: 0.6rem; min-height: 52px; padding: 0.5rem 0.7rem; border: 1.5px dashed var(--border); border-radius: 12px; text-align: left;
     background: repeating-linear-gradient(135deg, var(--field) 0 8px, transparent 8px 14px); color: inherit; }
@@ -1582,7 +1610,7 @@
       <span>Diary</span>
     </div>
     <p class="hint">What happened, what pulled at you, and what you steered toward. Not a score.</p>
-    <div class="row-actions"><button type="button" class="btn primary" id="journalAdd">Add entry</button></div>
+    <div class="row-actions"><button type="button" class="btn primary" id="journalAdd">Add entry</button><button type="button" class="btn" id="journalNew" hidden>New entry</button></div>
     <div class="time-row diary-nav">
       <label class="field">Go to a day<input id="diaryGoto" type="date" /></label>
       <button type="button" class="btn" id="diaryToday">Today</button>
@@ -2480,6 +2508,26 @@
   <p class="hint">Tap an open time to fill it.</p>
   <div class="actions"><button type="button" class="btn" id="planDayAdd">Add a block</button><button type="button" class="btn primary" id="planDayDone">Done</button></div>
 </dialog>
+<dialog id="jeDialog" class="wide" aria-labelledby="jeTitle">
+  <div class="je-head"><img id="jeIcon" alt="" src="icons/diary.jpg" /><div><h3 id="jeTitle">New entry</h3><p class="hint" id="jeSub"></p></div></div>
+  <label class="field je-write"><span class="je-write-k">Write about this</span><textarea id="jeText" rows="6" maxlength="4000" placeholder="Anything you want to remember."></textarea></label>
+  <div class="chip-row je-hints" id="jeHints" role="group" aria-label="Ideas to start with (optional)"></div>
+  <div class="row-actions diary-media-row">
+    <button type="button" class="btn media-btn" id="jeVoice" aria-pressed="false"><img class="chip-icon glyph" data-gv="diary/voice-note.png" alt="" /><span id="jeVoiceText">Voice note</span></button>
+    <button type="button" class="btn media-btn" id="jePhoto"><img class="chip-icon glyph" data-gv="diary/add-photo.png" alt="" /><span>Add photo</span></button>
+    <span class="hint rec-time" id="jeRecTime" aria-live="polite" hidden></span>
+  </div>
+  <input type="file" id="jePhotoFile" accept="image/*" hidden />
+  <ul class="media-pending" id="jePending"></ul>
+  <p class="short-note" id="jeMediaErr" hidden></p>
+  <label class="field" id="jeDateWrap" hidden style="max-width:12rem">Date<input id="jeDate" type="date" /></label>
+  <label class="field" id="jePathWrap">Path<select id="jePath"></select></label>
+  <p class="hint" id="jePathHint"></p>
+  <div id="jeBlockBox"></div>
+  <div id="jePrev"></div>
+  <p class="short-note" id="jeErr" hidden></p>
+  <div class="actions"><button type="button" class="btn" id="jeCancel">Cancel</button><button type="button" class="btn primary" id="jeSave">Save entry</button></div>
+</dialog>
 <dialog id="gapDialog" class="wide" aria-labelledby="gapTitle">
   <h3 id="gapTitle">Open time</h3>
   <p class="hint" id="gapWhen"></p>
@@ -3318,12 +3366,20 @@ function migrateLegacy(raw) {
   if (!Array.isArray(d.notes)) d.notes = [];
   if (!Array.isArray(d.diary)) d.diary = [];
   const strArr = v => Array.isArray(v) ? v.filter(x => typeof x === "string" && x.trim()) : [];
+  // v46.4: a journal entry can be tied to a block: { key: "planId|YYYY-MM-DD", plan, date, label, area, start, end }.
+  const cleanBlk = b => {
+    if (!b || typeof b !== "object" || typeof b.key !== "string") return null;
+    const m = /^(.{1,80})\|(\d{4}-\d{2}-\d{2})$/.exec(b.key); if (!m) return null;
+    const hm = v => /^([01]\d|2[0-3]):[0-5]\d$/.test(String(v || "")) ? String(v) : "";
+    return { key: b.key, plan: m[1], date: m[2], label: String(b.label || "").slice(0, 120), area: String(b.area || "").slice(0, 20), start: hm(b.start), end: hm(b.end) };
+  };
   d.diary = d.diary.filter(e => e && typeof e.date === "string").map(e => ({
     id: e.id || uid("d"), date: e.date, note: String(e.note || ""), offered: String(e.offered || ""), full: !!e.full,
     area: strArr(e.area).filter(a => AREAS.some(x => x.id === a)),
     path: strArr(e.path),
     pulls: (Array.isArray(e.pulls) ? strArr(e.pulls) : (e.pull ? [String(e.pull)] : [])).slice(0, 5),
     steered: strArr(e.steered).slice(0, 5),
+    block: cleanBlk(e.block),
     // v42: voice notes and photos (the files live encrypted in IndexedDB; these are just the pointers).
     media: (Array.isArray(e.media) ? e.media : []).filter(m => m && typeof m.id === "string" && (m.kind === "audio" || m.kind === "photo")).slice(0, 12).map(m => {
       const o = { id: m.id, kind: m.kind, type: String(m.type || ""), bytes: +m.bytes || 0, at: String(m.at || "") };
@@ -3332,7 +3388,7 @@ function migrateLegacy(raw) {
       if (typeof m.text === "string" && m.text) { o.text = m.text; o.textAt = String(m.textAt || ""); o.textHow = String(m.textHow || ""); }
       return o;
     })
-  })).map(e => { if (!e.media.length) delete e.media; return e; });
+  })).map(e => { if (!e.media.length) delete e.media; if (!e.block) delete e.block; return e; });
   Object.keys(d.days).forEach(k => {
     const x = d.days[k];
     if (!x || typeof x !== "object") { delete d.days[k]; return; }
@@ -4582,6 +4638,7 @@ function renderDiary() {
   document.getElementById("diaryDayLabel").textContent = prettyDate(date);
   syncDiaryFilterUI();
   renderDiaryTags();
+  { const jn = document.getElementById("journalNew"); if (jn) jn.hidden = !jeOn(); }
   const rows = diaryFeed(date);
   list.innerHTML = rows.length
     ? rows.map(feedItemHtml).join("")
@@ -6541,6 +6598,7 @@ document.getElementById("replAdd").onclick = () => {
   save(); renderReplacements();
 };
 document.getElementById("journalAdd").onclick = () => openPathLog("", null);
+document.getElementById("journalNew").onclick = () => openFreeJournal(diaryDay || data.selected);
 document.getElementById("diaryAdd").onclick = () => {
   const date = document.getElementById("diaryDate").value || data.selected;
   const noteText = document.getElementById("diaryNote").value.trim();
@@ -6572,6 +6630,10 @@ const MEDIA_COPY = { voice: "Voice note", recording: "Recording… tap to stop",
   micOff: "The microphone is off for Higher Self. Turn it on in your phone's settings to record.", noMic: "This browser can't record voice notes.",
   capped: "Voice notes stop at 3 minutes.", photoFail: "Couldn't add that photo. Try another one.", listening: "Turning into text…", textFail: "Couldn't turn this into text on this phone." };
 let dMedia = [], diaryRec = null, mediaDbP = null;
+// v46.4: the block journal composer has its own voice/photo buttons. While it is open, dMedia holds its files and the
+// Journal page's pending files wait in dStash.
+let dStash = null, mediaCtx = "diary";
+function mEl(name) { return document.getElementById((mediaCtx === "je" ? "je" : "diary") + name); }
 const mediaKeys = new Map(), mediaUrls = new Map();
 function voiceMaxSecs() { return Number(window.HS_VOICE_MAX_SECS) > 0 ? Number(window.HS_VOICE_MAX_SECS) : VOICE_MAX_SECS; }
 function mediaDb() {
@@ -6626,7 +6688,7 @@ function allEntryMedia() { const out = []; (data.diary || []).forEach(e => (e.me
 // Drop files no entry points to (e.g. recorded and then the app was closed before "Add entry").
 async function sweepMedia() {
   if (!data) return;
-  const keep = new Set(allEntryMedia().concat(dMedia).map(m => mediaKeyFor(KEY, m.id)));
+  const keep = new Set(allEntryMedia().concat(dMedia, dStash || []).map(m => mediaKeyFor(KEY, m.id)));
   const keys = await idbKeys(KEY);
   const drop = keys.filter(k => !keep.has(k));
   if (drop.length) await idbDo("readwrite", st => { drop.forEach(k => st.delete(k)); });
@@ -6654,6 +6716,9 @@ function mediaOnLock() {
   try { sayStop(); feedStopAudio(); const fl = document.getElementById("feedList"); if (fl) fl.innerHTML = ""; const fo = document.getElementById("feedOtd"); if (fo) fo.innerHTML = ""; } catch (e) {}
   if (diaryRec) { diaryRec.discard = true; try { diaryRec.mr.stop(); } catch (e) {} }
   if (dMedia.length) { const ids = dMedia.map(m => m.id); dMedia = []; deleteMedia(ids); }
+  if (dStash && dStash.length) deleteMedia(dStash.map(m => m.id));
+  dStash = null; mediaCtx = "diary"; jeCtx = null;
+  { const jd = document.getElementById("jeDialog"); if (jd && jd.open) { try { jd.close(); } catch (e) {} } const jp = document.getElementById("jePending"); if (jp) jp.innerHTML = ""; }
   mediaUrls.forEach(u => URL.revokeObjectURL(u)); mediaUrls.clear(); mediaKeys.clear();
   const p = document.getElementById("diaryPending"); if (p) p.innerHTML = "";
 }
@@ -6675,11 +6740,11 @@ function renderBackupSize() {
   el.textContent = "Your backup is about " + fmtBytes(b.total) + (parts.length ? ", with " + parts.join(" and ") + "." : ".");
 }
 function paintMediaIcons() { document.querySelectorAll("img[data-gv]").forEach(i => { const want = gv(i.dataset.gv); if (i.getAttribute("src") !== want) i.src = want; }); }
-function showMediaErr(msg) { const el = document.getElementById("diaryMediaErr"); el.textContent = msg || ""; el.hidden = !msg; }
+function showMediaErr(msg) { const el = mEl("MediaErr"); if (!el) return; el.textContent = msg || ""; el.hidden = !msg; }
 function paintVoiceBtn() {
-  const b = document.getElementById("diaryVoice"), t = document.getElementById("diaryRecTime");
+  const b = mEl("Voice"), t = mEl("RecTime"); if (!b || !t) return;
   b.setAttribute("aria-pressed", diaryRec ? "true" : "false"); b.classList.toggle("recording", !!diaryRec);
-  document.getElementById("diaryVoiceText").textContent = diaryRec ? MEDIA_COPY.recording : MEDIA_COPY.voice;
+  mEl("VoiceText").textContent = diaryRec ? MEDIA_COPY.recording : MEDIA_COPY.voice;
   t.hidden = !diaryRec;
   t.textContent = diaryRec ? fmtSecs((Date.now() - diaryRec.t0) / 1000) + " of " + fmtSecs(voiceMaxSecs()) : "";
 }
@@ -6738,13 +6803,13 @@ async function addPhoto() {
     } catch (e) { if (!/cancel/i.test(String(e && e.message))) showMediaErr(MEDIA_COPY.photoFail); }
     return;
   }
-  document.getElementById("diaryPhotoFile").click();
+  mEl("PhotoFile").click();
 }
 document.getElementById("diaryVoice").onclick = () => toggleVoice();
 document.getElementById("diaryPhoto").onclick = () => addPhoto();
 document.getElementById("diaryPhotoFile").onchange = async e => { const f = e.target.files && e.target.files[0]; e.target.value = ""; if (f) await addPhotoBlob(f); };
 function renderPendingMedia() {
-  const ul = document.getElementById("diaryPending"); if (!ul) return;
+  const ul = mEl("Pending"); if (!ul) return;
   ul.innerHTML = dMedia.map(m => '<li data-pending="' + esc(m.id) + '">' + (m.kind === "photo" ? '<img class="pending-photo" data-media-src="' + esc(m.id) + '" alt="Photo to add" />' : '<span class="pending-voice">' + esc(MEDIA_COPY.voice + " · " + fmtSecs(m.secs || 0)) + '</span>') +
     '<button type="button" class="tiny" data-pending-rm="' + esc(m.id) + '">Remove</button></li>').join("");
   ul.querySelectorAll("[data-pending-rm]").forEach(b => b.onclick = () => { const id = b.dataset.pendingRm; dMedia = dMedia.filter(m => m.id !== id); deleteMedia([id]); renderPendingMedia(); });
@@ -6969,7 +7034,7 @@ let dTagArea = [], dTagPath = [], dTagPulls = [], dTagSteered = [];
 function diaryFeed(date, excludeId) {
   const items = [];
   data.diary.filter(e => e.date === date && e.id !== excludeId).forEach(e => items.push({
-    kind: "note", id: e.id, text: e.note || "", areas: e.area || [], paths: e.path || [], pulls: e.pulls || [], steered: e.steered || [], offered: e.offered || "", media: Array.isArray(e.media) ? e.media : []
+    kind: "note", id: e.id, text: e.note || "", areas: e.area || [], paths: e.path || [], pulls: e.pulls || [], steered: e.steered || [], offered: e.offered || "", media: Array.isArray(e.media) ? e.media : [], block: e.block || null
   }));
   (data.pathLogs || []).filter(l => l.date === date && (String(l.journal || "").trim() || String(l.motive || "").trim() || l.clean)).forEach(l => items.push({
     kind: "path", id: l.id, text: l.journal, areas: l.area ? [l.area] : [], paths: [l.pathId], pulls: l.pulls || [], steered: l.steered || [], motive: !!(l.motive || l.clean)
@@ -7003,7 +7068,7 @@ function feedItemHtml(it) {
   const media = hasMedia ? diaryMediaHtml(it.id, it.media) : "";
   const say = it.text && (it.kind === "note" || it.kind === "path") ? '<span class="diary-say">' + sayBtn(it.text) + '</span>' : "";
   const back = it.kind === "note" ? lookBacksHtml("d:" + it.id, "", false) : it.kind === "path" ? lookBacksHtml("pl:" + it.id, "", false) : "";
-  return '<li data-feed-kind="' + it.kind + '"><div class="note-body">' + tagLine + '<span class="feed-text">' + text + '</span>' + say + media + reason + offer + back + '</div>' +
+  return '<li data-feed-kind="' + it.kind + '"><div class="note-body">' + tagLine + (it.block ? jeChip(it.block) : "") + '<span class="feed-text">' + text + '</span>' + say + media + reason + offer + back + '</div>' +
     (it.kind === "note" ? '<button type="button" class="tiny" data-del-diary="' + esc(it.id) + '">Remove</button>' : "") + '</li>';
 }
 function syncDiaryFilterUI() {
@@ -7336,7 +7401,7 @@ function feedCardHtml(it) {
     (String(m.text || "").trim() ? '<p class="rf-transcript">' + esc(m.text) + '</p><div class="rf-acts">' + sayBtn(m.text) + '</div>' : "") + '</div>').join("");
   return '<li class="rf-card" data-rf-item="' + esc(it.ref) + '" data-rf-kind="' + it.kind + '">' +
     '<div class="rf-main" role="button" tabindex="0" data-rf-open="' + esc(it.ref) + '">' + feedPic(it) +
-    '<div class="rf-body"><p class="rf-meta"><span class="rf-path">' + esc(feedLabel(it)) + '</span><time datetime="' + esc(it.date) + '">' + esc(feedWhen(it)) + '</time></p>' + text +
+    '<div class="rf-body"><p class="rf-meta"><span class="rf-path">' + esc(feedLabel(it)) + '</span><time datetime="' + esc(it.date) + '">' + esc(feedWhen(it)) + '</time></p>' + (it.e && it.e.block ? jeChip(it.e.block) : "") + text +
     (tags ? '<p class="rf-tags">' + feedShadowIcons(it) + '</p>' : "") + '</div></div>' +
     (it.text ? '<div class="rf-acts">' + sayBtn(it.text) + '</div>' : "") + extra + voice + lookBacksHtml(it.ref, it.date, true) + '</li>';
 }
@@ -7474,7 +7539,7 @@ function renderFeedEntry() {
       '<div class="row-actions"><button type="button" class="btn primary" id="feedEntrySave">' + esc(FEED_COPY.save) + '</button><button type="button" class="btn" id="feedEntryCancel">' + esc(FEED_COPY.cancel) + '</button></div>'
     : (it.text ? '<p class="rf-full-text">' + esc(it.text) + '</p><div class="rf-acts">' + sayBtn(it.text) + '</div>' : "");
   body.innerHTML = '<div class="rf-entry-head">' + feedPic(Object.assign({}, it, { media: [] })) + '<div><h3 id="feedEntryTitle">' + esc(feedLabel(it)) + '</h3><p class="rf-meta"><time datetime="' + esc(it.date) + '">' + esc(feedDayLabel(it.date) + (it.t ? " · " + new Date(it.t).toLocaleTimeString(undefined, { hour: "numeric", minute: "2-digit" }) : "")) + '</time></p></div></div>' +
-    text + (it.media.length ? diaryMediaHtml(e.id, it.media) : "") + (tags ? '<p class="rf-tags">' + esc(tags) + '</p>' : "") + (e.offered ? '<p class="rf-tags">Next move: ' + esc(e.offered) + '</p>' : "") +
+    (e.block ? jeChip(e.block) : "") + text + (it.media.length ? diaryMediaHtml(e.id, it.media) : "") + (tags ? '<p class="rf-tags">' + esc(tags) + '</p>' : "") + (e.offered ? '<p class="rf-tags">Next move: ' + esc(e.offered) + '</p>' : "") +
     lookBacksHtml(it.ref, it.date, true);
   bindDiaryMedia(body);
   document.getElementById("feedEntryEdit").hidden = feedEntryEditing;
@@ -8284,15 +8349,16 @@ function renderPaths() {
   root.innerHTML = archivedHtml ? "" : "";
   root.innerHTML = paths.map(p => {
     const logs = pathLogsFor(p.id);
-    const dates = logs.map(l => l.date).sort();
+    const jn = jeOn() ? (data.diary || []).filter(e => (e.path || []).includes(p.id)) : [];
+    const dates = logs.map(l => l.date).concat(jn.map(e => e.date)).sort();
     let hist = "";
     if (dates.length) {
       const last = dates[dates.length - 1] > TODAY ? dates[dates.length - 1] : TODAY;
       const rows = [];
       for (let k = last; k >= dates[0] && rows.length < 30; k = shift(k, -1)) {
-        const dayLogs = logs.filter(l => l.date === k && l.logged !== false);
+        const dayLogs = logs.filter(l => l.date === k && l.logged !== false), dayJn = jn.filter(e => e.date === k);
         rows.push('<div class="path-day"><div class="pd-h"><img class="path-icon sm" src="' + esc(iv(pathIcon(p))) + '" alt="" />' + esc(prettyDate(k)) + '</div>' +
-          (dayLogs.length ? dayLogs.map(pathLogLine).join("") : '<div class="empty">No progress logged yet.</div>') + '</div>');
+          (dayLogs.length ? dayLogs.map(pathLogLine).join("") : dayJn.length ? "" : '<div class="empty">No progress logged yet.</div>') + dayJn.map(pathJournalLine).join("") + '</div>');
       }
       hist = rows.join("");
     } else {
@@ -8301,6 +8367,7 @@ function renderPaths() {
     return '<article class="path-card" data-path-id="' + esc(p.id) + '"><div class="ph"><img class="path-icon" src="' + esc(iv(pathIcon(p))) + '" alt="" /><strong>' + esc(p.name) + '</strong>' +
       '<button type="button" class="tiny" data-path-edit="' + esc(p.id) + '">Edit</button></div>' +
       '<p class="meta" data-path-tally="' + esc(p.id) + '">' + esc(pathTally(p.id)) + '</p><p class="hint">' + esc(NOT_WORTH) + '</p>' +
+      (jn.length ? '<p class="meta je-path-count"><button type="button" class="tiny" data-je-path="' + esc(p.id) + '">' + esc(jn.length === 1 ? "1 journal entry" : jn.length + " journal entries") + '</button></p>' : "") +
       '<div class="row-actions" style="margin-top:0.35rem"><button type="button" class="btn" data-path-log="' + esc(p.id) + '">' + (pathMomentsFor(p.id, data.selected).length ? esc(PATH_STEP_COPY.logAnother) : "Log a moment") + '</button>' +
       (pathMomentsFor(p.id, data.selected).length ? '<span class="meta">' + esc(momentsCountText(pathMomentsFor(p.id, data.selected).length)) + '</span>' : "") + '</div>' +
       '<details class="path-history" data-path-hist="' + esc(p.id) + '"' + (pathHistoryOpen.has(p.id) ? " open" : "") + '><summary><img class="path-icon sm" src="' + esc(iv(pathIcon(p))) + '" alt="" />' + esc(p.name + " history") + '</summary>' +
@@ -8309,6 +8376,7 @@ function renderPaths() {
   root.querySelectorAll("[data-path-restore]").forEach(b => { b.onclick = () => restorePath(b.dataset.pathRestore); });
   root.querySelectorAll("[data-path-edit]").forEach(btn => { btn.onclick = () => openPathDialog(btn.dataset.pathEdit); });
   root.querySelectorAll("[data-path-log]").forEach(btn => { btn.onclick = () => openPathLog(btn.dataset.pathLog); });
+  root.querySelectorAll("[data-je-path]").forEach(btn => { btn.onclick = () => { feedSel = btn.dataset.jePath; feedSub = "all"; openScreen("feed"); renderFeed(); const fp = document.getElementById("feedPanel"); if (fp) fp.scrollIntoView({ block: "start" }); }; });
   root.querySelectorAll("[data-pl-edit]").forEach(btn => {
     btn.onclick = () => { const l = data.pathLogs.find(x => x.id === btn.dataset.plEdit); if (l) openPathLog(l.pathId, l.id); };
   });
@@ -10255,7 +10323,7 @@ function reportMailto() {
   const body = "What happened?\n\n\n---\nVersion " + APP_VERSION + "\nPhone and browser: " + ua;
   return "mailto:" + REPORT_EMAIL + "?subject=" + encodeURIComponent("Higher Self v" + APP_VERSION + ": a problem") + "&body=" + encodeURIComponent(body);
 }
-function shownVersion() { return plannerAndroid() ? "46.3" : APP_VERSION; }
+function shownVersion() { return plannerAndroid() ? "46.4" : APP_VERSION; }
 function versionFooterHtml() {
   return '<p class="app-version">Version ' + esc(shownVersion()) + '</p><p class="app-report"><a class="link-btn" href="' + esc(reportMailto()) + '" data-report-link>Report a problem</a></p>';
 }
@@ -11595,10 +11663,10 @@ function renderPlanCard() {
   let html = "";
   const skippedOccs = isWeek ? [] : occsTouching(date, { withSkipped: true }).filter(o => o.skipped && !o.done);
   const blocksHtml = (!isWeek && date <= TODAY && (pend.length || skippedOccs.length)) ? '<ul class="plan-blocks" id="planBlocks">' +
-    pend.map(o => '<li class="pb-row" data-pb="' + esc(o.key) + '"><div class="pb-name"><b>' + esc(planLabel(o)) + '</b><small>' + esc(fmtClock(o.start) + "–" + fmtClock(o.end)) + '</small></div>' +
+    pend.map(o => '<li class="pb-row" data-pb="' + esc(o.key) + '"><div class="pb-name' + (jeOn() ? " je-tap" : "") + '"' + jeTapAttrs(o) + '><b>' + esc(planLabel(o)) + jePen() + '</b><small>' + esc(fmtClock(o.start) + "–" + fmtClock(o.end)) + '</small>' + jeBadge(o.key) + '</div>' +
       stepperHtml(planLabel(o) + " length", occSpanMins(o)) +
       '<button type="button" class="btn pb-skip" data-plan-skip="' + esc(o.key) + '">Skip</button></li>').join("") +
-    skippedOccs.map(o => '<li class="pb-row is-skipped" data-pb="' + esc(o.key) + '"><div class="pb-name"><b>' + esc(planLabel(o)) + '</b><small>' + esc(fmtClock(o.start) + "–" + fmtClock(o.end)) + '</small></div>' +
+    skippedOccs.map(o => '<li class="pb-row is-skipped" data-pb="' + esc(o.key) + '"><div class="pb-name' + (jeOn() ? " je-tap" : "") + '"' + jeTapAttrs(o) + '><b>' + esc(planLabel(o)) + jePen() + '</b><small>' + esc(fmtClock(o.start) + "–" + fmtClock(o.end)) + '</small>' + jeBadge(o.key) + '</div>' +
       '<span class="planned-chip pb-chip">Skipped · no time counted</span><button type="button" class="btn" data-plan-unskip="' + esc(o.key) + '">Undo</button></li>').join("") + '</ul>' : "";
   if (!isWeek && !pend.length && skippedOccs.length && date <= TODAY) html += '<div class="plan-confirm">' + blocksHtml + '</div>';
   if (!isWeek && pend.length && date <= TODAY) {
@@ -11646,6 +11714,7 @@ function renderPlanCard() {
         commit: () => { save(); clearTimeout(planStepTimer); planStepTimer = setTimeout(() => { renderDerived(); calPushSoon(); }, 700); }
       });
     });
+    bindJeTaps(root, date, "");
     const c = root.querySelector("[data-plan-change]"); if (c) c.onclick = () => openPlanDay(date);
     const ov = root.querySelector("[data-plan-over]"); if (ov) ov.onclick = () => openRunOver(date);
     const w = root.querySelector("[data-plan-week]"); if (w) w.onclick = () => openPlanWeek();
@@ -11755,7 +11824,7 @@ function renderPlanDay() {
   const gapLi = g => '<li class="gap-row"><button type="button" class="gap-btn" data-gap="' + g.start + '-' + g.end + '" aria-label="' + esc("Open time " + fmtClock(minHm(g.start)) + " to " + fmtClock(g.end >= 1440 ? "00:00" : minHm(g.end)) + ", " + fmtDur(g.mins) + ". Tap to fill it") + '">' +
     '<span class="gap-what"><b>Open time</b><small>' + esc(fmtClock(minHm(g.start)) + "–" + fmtClock(g.end >= 1440 ? "00:00" : minHm(g.end))) + '</small></span><span class="gap-len">' + esc(fmtDur(g.mins)) + '</span><span class="gap-plus" aria-hidden="true">+</span></button></li>';
   const blockLi = o =>
-    '<li class="' + (o.skipped ? "is-skipped" : "") + '" data-occ="' + esc(o.key) + '"><span class="pl-what">' + planMarksHtml(o) + esc(planLabel(o)) + (o.done ? ' · Logged' : "") + '<small>' + esc(planSubLabel(o)) + '</small>' + (o.skipped ? "" : (n => n ? '<small class="shrunk-note">' + esc(n) + '</small>' : "")(shrunkNote(o))) + '</span><span class="row-actions" style="margin:0">' +
+    '<li class="' + (o.skipped ? "is-skipped" : "") + '" data-occ="' + esc(o.key) + '"><span class="pl-what' + (jeOn() ? " je-tap" : "") + '"' + jeTapAttrs(o) + '>' + planMarksHtml(o) + esc(planLabel(o)) + (o.done ? ' · Logged' : "") + jePen() + jeBadge(o.key) + '<small>' + esc(planSubLabel(o)) + '</small>' + (o.skipped ? "" : (n => n ? '<small class="shrunk-note">' + esc(n) + '</small>' : "")(shrunkNote(o))) + '</span><span class="row-actions" style="margin:0">' +
     (o.done ? "" : o.skipped ? '<button type="button" class="btn" data-occ-unskip="' + esc(o.key) + '">Bring back</button>' :
       (past ? '<button type="button" class="btn primary" data-occ-confirm="' + esc(o.key) + '">Confirm</button>' : "") +
       '<button type="button" class="btn" data-occ-edit="' + esc(o.key) + '">Edit</button><button type="button" class="btn" data-occ-skip="' + esc(o.key) + '">Skip</button>' +
@@ -11789,7 +11858,222 @@ function renderPlanDay() {
     if (v === "a") openPlanEditor({ occ: o }); else if (v === "b") openPlanEditor({ plan: o.plan });
   });
   document.getElementById("planDayAdd").onclick = () => openPlanEditor({ date });
+  bindJeTaps(document.getElementById("planDayList"), date, "planDay");
 }
+
+// ---------- v46.4 (Android): write about a block. Tap a block (planned, logged or skipped) and the journal composer
+// opens on it. The entry is a diary entry with the block's key (plan id + date) and the block's path. It adds no time:
+// hour totals, the stepper, Skip, the 24h cap and the over-24h sheet don't read diary entries.
+const JE_HINTS = ["How did it go?", "What happened?", "What would you change?"];
+let jeCtx = null; // { key, date, back, backDate } for a block, or { free: true, date }
+const jeDrafts = {};
+function jeOn() { return plannerAndroid(); }
+function occByKey(key) {
+  const m = /^(.+)\|(\d{4}-\d{2}-\d{2})$/.exec(String(key || "")); if (!m || !data) return null;
+  const p = (data.plans || []).find(x => x.id === m[1]); return p ? planOcc(p, m[2], true) : null;
+}
+function blockEntries(key) { return ((data && data.diary) || []).filter(e => e.block && e.block.key === key); }
+function blockHowNotes(key) { return ((data && data.pathLogs) || []).filter(l => l.blockKey === key && String(l.how || "").trim()); }
+function jeBlockSnap(key) { const e = blockEntries(key).slice(-1)[0]; return e ? e.block : null; }
+function jePen() { return jeOn() ? '<span class="je-pen" aria-hidden="true"></span>' : ""; }
+function jeBadge(key) {
+  if (!jeOn()) return "";
+  const n = blockEntries(key).length;
+  return n ? '<span class="je-badge" data-je-count="' + n + '"><img src="' + esc(iv("icons/diary.jpg")) + '" alt="" />' + n + '<span class="sr-only">' + (n === 1 ? " journal entry" : " journal entries") + '</span></span>' : "";
+}
+function jeTapAttrs(o) {
+  if (!jeOn()) return "";
+  const n = blockEntries(o.key).length;
+  return ' data-je="' + esc(o.key) + '" role="button" tabindex="0" aria-label="' + esc("Write about " + planLabel(o) + (n ? ". " + n + (n === 1 ? " journal entry" : " journal entries") : "")) + '"';
+}
+function bindJeTaps(root, date, back) {
+  if (!root || !jeOn()) return;
+  root.querySelectorAll("[data-je]").forEach(el => {
+    el.onclick = e => { if (e.target.closest("button, a, input, select, textarea")) return; openBlockJournal(el.dataset.je, { back, date }); };
+    el.onkeydown = e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openBlockJournal(el.dataset.je, { back, date }); } };
+  });
+}
+function jeBlockText(b) {
+  const t = b.start && b.end ? fmtClock(b.start) + "–" + fmtClock(b.end) : "";
+  return [b.label || areaName(b.area) || "Block", t].filter(Boolean).join(" · ");
+}
+function jeChip(b) {
+  if (!b || !jeOn()) return "";
+  const o = occByKey(b.key), label = o ? planLabel(o) : b.label, st = o ? o.start : b.start, en = o ? o.end : b.end;
+  return '<button type="button" class="je-chip" data-je-open="' + esc(b.key) + '" aria-label="' + esc("Open the block: " + jeBlockText({ label, start: st, end: en, area: b.area })) + '"><img src="' + esc(iv(areaIconSrc(o ? o.area : b.area))) + '" alt="" /><span>' + esc(jeBlockText({ label, start: st, end: en, area: b.area })) + '</span></button>';
+}
+function pathJournalLine(e) {
+  const media = (e.media || []), ph = media.filter(m => m.kind === "photo").length, vo = media.filter(m => m.kind === "audio").length;
+  const bits = []; if (vo) bits.push(vo === 1 ? "Voice note" : vo + " voice notes"); if (ph) bits.push(ph === 1 ? "Photo" : ph + " photos");
+  return '<div class="path-journal" data-pj="' + esc(e.id) + '"><div class="pj-k"><img src="' + esc(iv("icons/diary.jpg")) + '" alt="" />Journal</div>' +
+    (String(e.note || "").trim() ? '<div class="meta" style="white-space:pre-wrap">' + esc(e.note) + '</div>' : "") + (bits.length ? '<div class="meta">' + esc(bits.join(" · ")) + '</div>' : "") + (e.block ? jeChip(e.block) : "") + '</div>';
+}
+function jeBegin(ctx) {
+  if (diaryRec) { diaryRec.discard = true; try { diaryRec.mr.stop(); } catch (e) {} }
+  if (!jeCtx) { dStash = dMedia; dMedia = []; }
+  else if (dMedia.length) { deleteMedia(dMedia.map(m => m.id)); dMedia = []; }
+  mediaCtx = "je"; jeCtx = ctx;
+}
+function jeFinish(saved, noBack) {
+  const ctx = jeCtx; if (!ctx) return;
+  if (!saved && noBack && !ctx.free) { const t = document.getElementById("jeText").value; if (t.trim()) jeDrafts[ctx.key] = t; }
+  if (saved && !ctx.free) delete jeDrafts[ctx.key];
+  if (diaryRec) { diaryRec.discard = true; try { diaryRec.mr.stop(); } catch (e) {} }
+  if (!saved && dMedia.length) deleteMedia(dMedia.map(m => m.id));
+  jeCtx = null;
+  dMedia = dStash || []; dStash = null; mediaCtx = "diary";
+  const jp = document.getElementById("jePending"); if (jp) jp.innerHTML = "";
+  try { renderPendingMedia(); paintVoiceBtn(); showMediaErr(""); } catch (e) {}
+  const d = document.getElementById("jeDialog"); if (d.open) d.close();
+  if (!noBack && ctx.back === "planDay" && ctx.backDate) openPlanDay(ctx.backDate);
+}
+function jePathOptions(sel) {
+  const list = activePaths().slice(); const p = sel ? pathById(sel) : null;
+  if (p && !list.includes(p)) list.push(p);
+  return '<option value="">No path</option>' + list.map(x => '<option value="' + esc(x.id) + '"' + (x.id === sel ? " selected" : "") + '>' + esc(x.name) + '</option>').join("");
+}
+function jeErr(msg, el) { const m = document.getElementById("jeErr"); m.textContent = msg || ""; m.hidden = !msg; if (el) el.focus(); }
+function jeSyncPathHint() {
+  const ctx = jeCtx; if (!ctx) return;
+  const sel = document.getElementById("jePath").value, p = sel ? pathById(sel) : null, h = document.getElementById("jePathHint");
+  if (ctx.free) h.textContent = p ? "Goes into your journal and under " + p.name + "." : "Goes into your journal. Pick a path if you like.";
+  else h.textContent = p ? "Goes into your journal and under " + p.name + "." : "This goes into your journal. Pick a path if it belongs to one.";
+}
+function renderJeHead() {
+  const ctx = jeCtx; if (!ctx) return;
+  const $ = id => document.getElementById(id);
+  if (ctx.free) {
+    $("jeIcon").src = iv("icons/diary.jpg"); $("jeTitle").textContent = "New entry";
+    $("jeSub").textContent = "Not tied to a block."; return;
+  }
+  const o = occByKey(ctx.key), b = o ? null : jeBlockSnap(ctx.key);
+  const area = o ? o.area : b.area, label = o ? planLabel(o) : (b.label || "Block");
+  const st = o ? o.start : b.start, en = o ? o.end : b.end;
+  const sp = st && en ? spanMins(st, en) : null;
+  const type = area === SLEEP_AREA ? "Sleep" : areaName(area);
+  const status = !o ? "Not in your plan anymore" : o.skipped ? "Skipped · no time counted" : o.done ? "Logged" : "Planned";
+  $("jeIcon").src = iv(areaIconSrc(area)); $("jeTitle").textContent = label;
+  $("jeSub").innerHTML = esc([type, st && en ? fmtClock(st) + "–" + fmtClock(en) : "", sp ? fmtDur(sp.mins) : ""].filter(Boolean).join(" · ")) + '<br>' + esc(prettyDate(ctx.date)) + ' <span class="planned-chip je-status">' + esc(status) + '</span>';
+}
+function renderJeBlockBox() {
+  const ctx = jeCtx, box = document.getElementById("jeBlockBox"); if (!ctx || !box) return;
+  const o = ctx.free ? null : occByKey(ctx.key);
+  if (!o) { box.innerHTML = ""; return; }
+  let html = '<p class="q-title je-sec">This block</p>';
+  if (o.skipped) html += '<div class="row-actions"><button type="button" class="btn" data-je-unskip>Bring back</button></div>';
+  else if (o.done) html += '<p class="hint">Logged. Its time is already counted. Change it from the day\'s "Change something".</p>';
+  else html += stepperHtml(planLabel(o) + " length", occSpanMins(o)) + '<div class="row-actions"><button type="button" class="btn" data-je-skip>Skip</button><button type="button" class="btn" data-je-edit>Edit block</button></div>';
+  box.innerHTML = html;
+  const w = box.querySelector("[data-dur-wrap]");
+  if (w) bindStepper(w, {
+    get: () => { const x = occByKey(ctx.key); return x ? occSpanMins(x) : 0; },
+    set: m => { setOccLength(ctx.key, o.date, m); renderJeHead(); }, max: () => 1435, maxMsg: "Up to 24 hours.",
+    commit: () => { save(); clearTimeout(planStepTimer); planStepTimer = setTimeout(() => { renderDerived(); calPushSoon(); }, 700); }
+  });
+  const sk = box.querySelector("[data-je-skip]");
+  if (sk) sk.onclick = () => {
+    const x = occByKey(ctx.key); if (!x) return; skipOcc(x, true); renderJeHead(); renderJeBlockBox();
+    showToast(planLabel(x) + " skipped. No time counted.", { label: "Undo", fn: () => { const y = occByKey(x.key); if (y) skipOcc(y, false); if (jeCtx && jeCtx.key === x.key) { renderJeHead(); renderJeBlockBox(); } } });
+  };
+  const us = box.querySelector("[data-je-unskip]");
+  if (us) us.onclick = () => { const x = occByKey(ctx.key); if (x) skipOcc(x, false); renderJeHead(); renderJeBlockBox(); };
+  const ed = box.querySelector("[data-je-edit]");
+  if (ed) ed.onclick = async () => {
+    const x = occByKey(ctx.key); if (!x) return;
+    jeFinish(false, true);
+    if (x.plan.every === 0) return openPlanEditor({ plan: x.plan });
+    const v = await askChoice(fillCopy(PLAN_COPY.editWhich, { interval: PLAN_INTERVAL_WORD[x.plan.every] }), PLAN_COPY.thisDay, PLAN_COPY.everyTime, "a");
+    if (v === "a") openPlanEditor({ occ: x }); else if (v === "b") openPlanEditor({ plan: x.plan });
+  };
+}
+function jeEntryTime(e) { const t = idTime(e.id, "d"); return t ? new Date(t).toLocaleString(undefined, { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" }) : shortDate(e.date); }
+function renderJePrev() {
+  const ctx = jeCtx, box = document.getElementById("jePrev"); if (!ctx || !box) return;
+  if (ctx.free) { box.innerHTML = ""; return; }
+  const list = blockEntries(ctx.key).slice().reverse(), how = blockHowNotes(ctx.key);
+  if (!list.length && !how.length) { box.innerHTML = ""; return; }
+  box.innerHTML = '<p class="q-title je-sec">' + esc(list.length ? (list.length === 1 ? "1 entry about this block" : list.length + " entries about this block") : "From logging") + '</p><ul class="entry-list je-prev">' +
+    list.map(e => { const p = (e.path || []).map(pathById).find(Boolean);
+      return '<li data-je-entry="' + esc(e.id) + '"><div class="note-body"><span class="entry-meta">' + esc(jeEntryTime(e) + (p ? " · " + p.name : "")) + '</span>' + (String(e.note || "").trim() ? '<span class="feed-text">' + esc(e.note) + '</span>' : "") + ((e.media || []).length ? diaryMediaHtml(e.id, e.media) : "") + '</div></li>'; }).join("") +
+    how.map(l => '<li class="je-how"><div class="note-body"><span class="entry-meta">From logging · How did it go?</span><span class="feed-text">' + esc(l.how) + '</span></div></li>').join("") + '</ul>';
+  bindDiaryMedia(box);
+}
+function renderJe(first) {
+  const ctx = jeCtx; if (!ctx) return;
+  const $ = id => document.getElementById(id);
+  renderJeHead(); renderJeBlockBox(); renderJePrev();
+  if (first) {
+    jeErr("");
+    let pre = "";
+    if (!ctx.free) { const o = occByKey(ctx.key), b = o ? null : jeBlockSnap(ctx.key); pre = o ? (o.pathId || "") : ""; if (!o && b) { const last = blockEntries(ctx.key).slice(-1)[0]; pre = last && last.path && last.path[0] || ""; } }
+    if (pre && !pathById(pre)) pre = "";
+    $("jePath").innerHTML = jePathOptions(pre); $("jePath").value = pre;
+    $("jeText").value = (!ctx.free && jeDrafts[ctx.key]) || "";
+    $("jeDateWrap").hidden = !ctx.free; if (ctx.free) $("jeDate").value = ctx.date;
+    $("jeHints").innerHTML = JE_HINTS.map(h => '<button type="button" class="chip" data-je-hint="' + esc(h) + '">' + esc(h) + '</button>').join("");
+    $("jeHints").querySelectorAll("[data-je-hint]").forEach(b => b.onclick = () => {
+      const ta = $("jeText"), v = ta.value.replace(/\s+$/, "");
+      ta.value = (v ? v + "\n\n" : "") + b.dataset.jeHint + " ";
+      ta.focus(); ta.setSelectionRange(ta.value.length, ta.value.length);
+    });
+    renderPendingMedia(); paintVoiceBtn(); showMediaErr(""); paintMediaIcons();
+  }
+  jeSyncPathHint();
+}
+function jeShow() {
+  const d = document.getElementById("jeDialog");
+  if (d.open) d.scrollTop = 0; else openSheet(d);
+  const ta = document.getElementById("jeText"); ta.focus({ preventScroll: true }); ta.setSelectionRange(ta.value.length, ta.value.length);
+}
+function openBlockJournal(key, opts) {
+  if (!data || !jeOn()) return;
+  opts = opts || {};
+  const o = occByKey(key), b = o ? null : jeBlockSnap(key);
+  if (!o && !b) { showToast("That block isn't in your plan anymore."); return; }
+  jeBegin({ key, date: o ? o.date : b.date, back: opts.back || "", backDate: opts.date || "" });
+  renderJe(true); jeShow();
+}
+function openFreeJournal(date) {
+  if (!data) return;
+  jeBegin({ free: true, date: /^\d{4}-\d{2}-\d{2}$/.test(String(date || "")) ? date : TODAY });
+  renderJe(true); jeShow();
+}
+function saveJe() {
+  const ctx = jeCtx; if (!ctx) return;
+  const $ = id => document.getElementById(id);
+  if (diaryRec) return jeErr("Stop the recording first.");
+  const text = $("jeText").value.trim().slice(0, 4000), media = dMedia.slice();
+  if (!text && !media.length) return jeErr("Write something, or add a voice note or photo.", $("jeText"));
+  let pid = $("jePath").value; if (pid && !pathById(pid)) pid = "";
+  const e = { id: uid("d"), date: ctx.date, note: text, offered: "", full: false, area: [], path: pid ? [pid] : [], pulls: [], steered: [] };
+  if (ctx.free) { const dv = $("jeDate").value; e.date = /^\d{4}-\d{2}-\d{2}$/.test(dv) ? dv : ctx.date; }
+  else {
+    const o = occByKey(ctx.key), b = o ? null : jeBlockSnap(ctx.key);
+    const area = o ? o.area : b.area;
+    if (AREAS.some(a => a.id === area)) e.area = [area];
+    e.block = o ? { key: o.key, plan: o.plan.id, date: o.date, label: planLabel(o), area: o.area, start: o.start, end: o.end } : Object.assign({}, b);
+  }
+  if (media.length) e.media = media;
+  data.diary.push(e); dMedia = [];
+  save();
+  const p = pid ? pathById(pid) : null;
+  renderDerived(); renderPlanCard();
+  jeFinish(true);
+  showToast(p ? "Saved to your journal and " + p.name + "." : "Saved to your journal.");
+}
+document.getElementById("jeSave").onclick = () => saveJe();
+document.getElementById("jeCancel").onclick = () => jeFinish(false);
+document.getElementById("jePath").onchange = () => jeSyncPathHint();
+document.getElementById("jeText").addEventListener("input", () => { if (!document.getElementById("jeErr").hidden) jeErr(""); });
+document.getElementById("jeVoice").onclick = () => toggleVoice();
+document.getElementById("jePhoto").onclick = () => addPhoto();
+document.getElementById("jePhotoFile").onchange = async e => { const f = e.target.files && e.target.files[0]; e.target.value = ""; if (f) await addPhotoBlob(f); };
+// Android back / Escape closes the sheet: same as Cancel.
+document.getElementById("jeDialog").addEventListener("close", () => { const d = document.getElementById("jeDialog"); if (!d.open && jeCtx) jeFinish(false); });
+document.addEventListener("click", e => {
+  const b = e.target.closest && e.target.closest("[data-je-open]"); if (!b || !data) return;
+  e.preventDefault(); openBlockJournal(b.dataset.jeOpen, {});
+});
 function occAsPlan(o) { return { id: o.key.replace("|", "-"), area: o.area, pathId: o.pathId, title: o.title, start: o.start, end: o.end, every: 0, days: [parseISO(o.date).getDay()], from: o.date, until: "", kind: o.kind || "", listen: o.listen || null, breaks: o.breaks || [] }; }
 // ---- Planned week sheet: repeats, their cost, calendar files, what the calendar shows
 function openPlanWeek() { renderPlanWeek(); openSheet(document.getElementById("planWeekDialog"), document.getElementById("planWeekTitle")); }
