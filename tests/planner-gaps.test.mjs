@@ -381,8 +381,11 @@ test("the shared page keeps web version 43 and wires the Android planner copy", 
 });
 
 test("shipped icon bytes and the web cache are unchanged from main", () => {
-  const diff = execSync("git diff --name-only main -- icons sw.js manifest.webmanifest", { cwd: root, encoding: "utf8" }).trim();
+  // v46 may only ADD the placeholder glyphs (Android dropdowns); nothing that exists on main changes.
+  const diff = execSync("git diff --name-only --diff-filter=MDRT main -- icons sw.js manifest.webmanifest", { cwd: root, encoding: "utf8" }).trim();
   assert.equal(diff, "");
+  const added = execSync("git diff --name-only --diff-filter=A main -- icons sw.js manifest.webmanifest", { cwd: root, encoding: "utf8" }).trim().split("\n").filter(Boolean);
+  assert.deepEqual(added.filter(f => !/^icons\/glyphs(128)?\/placeholders\//.test(f)), []);
   const files = [
     "icons/glyphs128-dog/feed/on-this-day.png",
     "icons/glyphs128-cat/feed/on-this-day.png",

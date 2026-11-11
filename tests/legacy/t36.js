@@ -72,8 +72,11 @@ const clean = p => p.evaluate(() => { const g = document.getElementById("guideOv
   await page.evaluate(() => { setCurrency("USD"); openSettings(); }); await sleep(400);
   r = await page.evaluate(() => ({ label: document.getElementById("curTitle").innerText, hint: document.getElementById("curHint").innerText, n: document.querySelectorAll("#curList option").length, first: document.querySelector("#curList option").textContent }));
   ok("Settings: 'Currency' with the hint, list shows symbol + name ('$ US dollar')", r.label === "Currency" && /^Pick the money you use\. Amounts will show in it everywhere\./.test(r.hint) && /convert/.test(r.hint) && r.n >= 30 && r.first === "$ US dollar", r);
-  await page.type("#curSearch", "guarani"); await sleep(150);
-  r = await page.evaluate(() => [...document.querySelectorAll("#curList option")].map(o => o.textContent));
+  // v46: Currency is one inline dropdown; its sheet has the search (accents ignored).
+  await page.evaluate(() => document.getElementById("curList").__isel.btn.click()); await sleep(350);
+  await page.type(".isel-pop .isel-filter", "guarani"); await sleep(150);
+  r = await page.evaluate(() => [...document.querySelectorAll(".isel-pop .isel-opt:not([data-isel-add]) .isel-lbl")].map(o => o.textContent));
+  await page.keyboard.press("Escape"); await sleep(250);
   ok("search 'guarani' (no accent) finds '₲ Paraguayan guaraní'", r.length === 1 && r[0] === "₲ Paraguayan guaraní", r);
   await page.evaluate(() => { document.getElementById("curSearch").value = ""; renderCurrencyList(); document.getElementById("curSearch").value = "guar"; renderCurrencyList(); }); await sleep(100);
   await page.evaluate(() => { const l = document.getElementById("curList"); l.value = "PYG"; l.dispatchEvent(new Event("change")); }); await sleep(200);
